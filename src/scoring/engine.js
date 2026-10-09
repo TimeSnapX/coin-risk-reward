@@ -23,7 +23,7 @@ export function score(d, cfg = CONFIG, rules = { HARD_FAILS, RISK_RULES, TEAM_EX
   const hardUnknown = hard.filter((x) => x.score === null);
   for (const x of hardUnknown) x.points = cfg.hardFailUnknownPoints;
   for (const x of risk) x.points = x.score === null ? x.weight * cfg.unknownRiskFactor : x.score;
-  for (const x of caps) x.points = x.score === null ? x.weight * cfg.unknownRiskFactor : (x.points || 0); // unknown = half the dev/insider points; yellow sniper exit = +2
+  for (const x of caps) x.points = x.score === null ? (x.points ?? x.weight * cfg.unknownRiskFactor) : (x.points || 0); // unknown = half the dev/insider points; yellow sniper exit = +2
   const riskRaw = risk.reduce((s, x) => s + x.points, 0) + caps.reduce((s, x) => s + x.points, 0) + hardUnknown.length * cfg.hardFailUnknownPoints;
   const riskScore = hardFailed.length ? 100 : Math.min(100, Math.round(riskRaw));
   const grade = hardFailed.length ? cfg.grades[cfg.grades.length - 1] : gradeFor(riskScore);
@@ -92,27 +92,30 @@ export function breakEven(d, cfg = CONFIG, sizeUsd = cfg.costs.defaultTestSizeUs
   return { pct: r2(pct), sizeUsd, feePct: f * 100, taxPct: t * 100, impactPct: r2(i * 100), prioPct: r2(prio * 100), impactSource: src, exitCost: { 50: c50, 500: c500 }, taxKnown: !u(d.extensions?.transferFeeBps), solKnown: !u(d.solUsd) };
 }
 
-// WORKED.md v1.2 ruling 5: show BOTH the R:R at the current price and the "plan" R:R from a retest entry
-// (price -cfg.rr.planDipPct, or halfway to the stop if that is closer), each to TP1 (nearest chart high above
-// price) and TP2 (chart peak, when it is >10% above TP1). Gating (1.5:1 grade A, 2:1 otherwise) uses TP1 at the
-// plan entry; the headline warns when the current-price TP1 R:R is under 1:1.
+// WORKED.md v1.3 ruling G (levels) + v1.2 ruling 5 (show both R:R numbers; gate on plan-entry TP1, warn when R:R now < 1:1).
+//   stop = 3% under the latest swing low (min low of the last ~2 h of candles), else -18% from the plan entry
+//   TP1  = midpoint of the highest-volume price node between price and the peak (prior consolidation / broken floor), else +30%
+//   TP2  = 95% of the peak (when above TP1)
+//   plan entry = swing low + 15-20% (retest zone; midpoint 17.5% used), never above the current price
 export function riskReward(d, grade, cfg = CONFIG) {
-  const c = d.chart, p = d.market?.priceUsd ?? c?.lastClose;
+  const c = d.chart, p = d.market?.priceUsd ?? c?.lastClose, R = cfg.rr;
   if (!c || u(p)) return { known: false, text: "R:R unknown (no chart)." };
-  const drop = (p - c.swingLowUsd) / p;
-  const stop = drop >= 0.03 && drop <= 0.4 ? c.swingLowUsd : p * (1 - cfg.rr.stopFallbackPct / 100);
-  const stopSrc = stop === c.swingLowUsd ? "recent swing low" : `-${cfg.rr.stopFallbackPct}% fallback`;
-  const min = grade === "A" ? cfg.rr.minGreen : cfg.rr.minAmber;
-  if (u(c.recentHighUsd)) return { known: false, stop, stopSrc, min, text: `No resistance above price in the chart window; stop ${fmtUsd(stop)} (${stopSrc}).` };
-  const tp1 = c.recentHighUsd, tp2 = !u(c.athUsd) && c.athUsd > tp1 * 1.1 ? c.athUsd : undefined;
-  const planEntry = Math.max(p * (1 - cfg.rr.planDipPct / 100), (p + stop) / 2);
-  const ratio = (e, t) => (u(t) ? undefined : r2((t - e) / (e - stop)));
-  const cur = { entry: p, tp1: ratio(p, tp1), tp2: ratio(p, tp2) }, plan = { entry: planEntry, tp1: ratio(planEntry, tp1), tp2: ratio(planEntry, tp2) };
-  const meets = plan.tp1 >= min, warnCurrent = cur.tp1 < 1;
+  const sl = c.swingLow2hUsd, hasSwing = sl > 0 && sl < p;
+  const zone = hasSwing ? [Math.min(p, sl * (1 + R.planZonePct[0] / 100)), Math.min(p, sl * (1 + R.planZonePct[1] / 100))] : [p, p];
+  const planEntry = hasSwing ? Math.min(p, sl * (1 + (R.planZonePct[0] + R.planZonePct[1]) / 200)) : p;
+  const stop = hasSwing ? sl * (1 - R.stopUnderSwingPct / 100) : planEntry * (1 - R.stopFallbackPct / 100);
+  const stopSrc = hasSwing ? `${R.stopUnderSwingPct}% under the 2 h swing low ${fmtUsd(sl)}` : `-${R.stopFallbackPct}% from the plan entry (no swing low)`;
+  const peak = c.peakUsd ?? c.athUsd, node = c.volNode && c.volNode.mid > p ? c.volNode : undefined;
+  const tp1 = node ? node.mid : p * (1 + R.tp1FallbackPct / 100), tp1Src = node ? `midpoint of the volume node ${fmtUsd(node.lo)}-${fmtUsd(node.hi)}` : `+${R.tp1FallbackPct}% (no volume node above price)`;
+  const tp2 = peak * R.tp2PeakShare > tp1 ? peak * R.tp2PeakShare : undefined;
+  const min = grade === "A" ? R.minGreen : R.minAmber;
+  const ratio = (e, t) => (u(t) || e <= stop ? undefined : r2((t - e) / (e - stop)));
+  const cur = { entry: p, tp1: ratio(p, tp1), tp2: ratio(p, tp2) }, plan = { entry: planEntry, zone, tp1: ratio(planEntry, tp1), tp2: ratio(planEntry, tp2) };
+  const meets = plan.tp1 >= min, warnCurrent = !(cur.tp1 >= 1);
   const f = (x) => (u(x) ? "n/a" : `${x.toFixed(1)}:1`);
   const text = `At the current price ${fmtUsd(p)}: TP1 ${f(cur.tp1)}${tp2 ? `, TP2 ${f(cur.tp2)}` : ""}${warnCurrent ? " (under 1:1: poor entry now)" : ""}. ` +
-    `Plan entry ${fmtUsd(planEntry)} (retest, -${fmtPct((1 - planEntry / p) * 100, 0)}): TP1 ${f(plan.tp1)}${tp2 ? `, TP2 ${f(plan.tp2)}` : ""}. ` +
-    `Stop ${fmtUsd(stop)} (${stopSrc}); TP1 ${fmtUsd(tp1)} (nearest chart high)${tp2 ? `; TP2 ${fmtUsd(tp2)} (chart peak)` : ""}. Gate: plan TP1 needs ${min}:1 for grade ${grade}.`;
+    `Plan entry ${fmtUsd(planEntry)}${hasSwing ? ` (retest zone ${fmtUsd(zone[0])}-${fmtUsd(zone[1])})` : " (= price; no swing low)"}: TP1 ${f(plan.tp1)}${tp2 ? `, TP2 ${f(plan.tp2)}` : ""}. ` +
+    `Stop ${fmtUsd(stop)} (${stopSrc}); TP1 ${fmtUsd(tp1)} (${tp1Src})${tp2 ? `; TP2 ${fmtUsd(tp2)} (95% of the peak ${fmtUsd(peak)})` : ""}. Gate: plan TP1 needs ${min}:1 for grade ${grade}.`;
   return { known: true, rr: cur.tp1, current: cur, plan, target: tp1, target2: tp2, stop, stopSrc, min, meets, warnCurrent, text };
 }
 

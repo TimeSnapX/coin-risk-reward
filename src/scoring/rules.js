@@ -34,6 +34,31 @@ const costTxt = (c) => (u(c.outPct) ? `${fmtPct(c.fieldPct, 2)}` : `${fmtPct(c.w
 // Bonding-curve coins have no pool: their "liquidity" is the real SOL in the pump.fun curve. Always say so.
 export const liqWord = (d) => (d.pool?.onCurve ? "Curve liquidity (pump.fun bonding curve, not a pool)" : "Liquidity");
 const short = (a) => (a ? `${a.slice(0, 4)}…${a.slice(-4)}` : "");
+// Own vs someone else's links: an X/Twitter link to a single tweet (/status/) is a caller's post, not an account; a website
+// whose URL contains the mint is a platform/launchpad token page, not the project's own site.
+export function linkKinds(d) {
+  const m = d.market || {}, mint = d.address || d.token?.address, own = [], other = [];
+  for (const w of m.websites || []) (mint && w.includes(mint) ? other.push({ url: w, why: `platform page ${hostOf(w)}` }) : own.push({ url: w, kind: "site" }));
+  for (const x of m.socials || []) { const isX = /(^|\.)(x|twitter)\.com$/i.test(hostOf(x.url)) || ["twitter", "x"].includes(x.type);
+    if (isX && /\/status\//.test(x.url)) other.push({ url: x.url, why: "a tweet by another account" });
+    else own.push({ url: x.url, kind: isX ? "X" : x.type || "social" }); }
+  return { own, other };
+}
+const hostOf = (url) => { try { return new URL(url).host.replace(/^www\./, ""); } catch { return ""; } };
+
+// ============================================================ v1.3 pools (WORKED.md ruling A + depth formula)
+// Every pool >= cfg.lp.minPoolUsd: RugCheck markets (lock % per pool) with DexScreener's USD liquidity where the same pool is
+// listed there; DexScreener pools RugCheck doesn't list count as withdrawable. A pool's LP is locked only if burned/locked.
+export function poolLocks(d, cfg = CONFIG) {
+  const mk = d.pool?.markets; if (!mk) return undefined;
+  const ds = new Map((d.market?.pools || []).map((x) => [x.address, x]));
+  const pools = mk.filter((m) => m.type !== "pump_fun").map((m) => { const dx = ds.get(m.address); const usd = !u(dx?.liqUsd) ? dx.liqUsd : m.usd;
+    const lockedPct = u(m.lockedPct) ? 0 : m.lockedPct; return { type: m.type, address: m.address, usd, usdFrom: !u(dx?.liqUsd) ? "DexScreener" : "RugCheck", lockedPct, locked: lockedPct > 0 }; });
+  for (const [a, x] of ds) if (!pools.some((y) => y.address === a) && !u(x.liqUsd) && x.dex !== "pumpfun") pools.push({ type: x.dex, address: a, usd: x.liqUsd, usdFrom: "DexScreener", lockedPct: 0, locked: false });
+  const big = pools.filter((x) => x.usd >= cfg.lp.minPoolUsd).sort((a, b) => b.usd - a.usd);
+  const totalUsd = sumv(big.map((x) => x.usd)), lockedUsd = sumv(big.map((x) => (x.usd * x.lockedPct) / 100));
+  return { pools: big, totalUsd, lockedUsd, unlockedUsd: totalUsd - lockedUsd, sharePct: totalUsd ? (lockedUsd / totalUsd) * 100 : undefined };
+}
 
 // ============================================================ HARD FAILS (Argus) => risk 100
 // ---------------- v1.2 dev assessment (WORKED.md rulings 1 + 2 and the locked-dev rule)
@@ -148,12 +173,13 @@ export const HARD_FAILS = [
 
 // ============================================================ WEIGHTED RISK POINTS (Argus), sum capped at 100
 export const RISK_RULES = [
-  { id: "lp", label: "LP lock / burn", category: "risk", type: "points", weight: W.lp, sources: ["rugcheck"],
-    evaluate(d) { const p = d.pool || {};
+  { id: "lp", label: "LP lock / burn (all pools)", category: "risk", type: "points", weight: W.lp, sources: ["rugcheck", "dexscreener"],
+    evaluate(d, cfg) { const p = d.pool || {};
       if (p.onCurve) return { score: Math.min(W.lp, 8), flag: "amber", reason: `Still on the pump.fun bonding curve (not graduated${u(p.curveTokensSoldPct) ? "" : `, ${fmtPct(p.curveTokensSoldPct, 0)} of sellable tokens sold`}${u(p.curveSolPct) ? "" : `, ~${fmtPct(p.curveSolPct, 0)} of the graduation SOL`}). LP is burned only on graduation.` };
-      if (u(p.lpLockedPct)) return unknown(p.clOnly ? "only concentrated-liquidity pools (no LP token to lock), check by hand" : "RugCheck LP data failed");
-      const v = p.lpLockedPct, s = v >= 90 ? 0 : v >= 50 ? 10 : 20;
-      return pts(s, W.lp, `${fmtPct(v, 0)} of the main pool's LP (${p.mainMarketType || "?"}) is burned/locked${s === 20 ? ": the pool can be pulled" : ""}.`); } },
+      const pl = poolLocks(d, cfg); if (!pl) return unknown("RugCheck pool/LP data failed");
+      if (!pl.totalUsd) return unknown(`no pool of ${fmtUsd(cfg.lp.minPoolUsd)} or more`);
+      const v = pl.sharePct, s = v >= 90 ? 0 : v >= 50 ? 10 : 20;
+      return pts(s, W.lp, `${fmtPct(v, 1)} of liquidity is locked/burned: ${fmtUsd(pl.lockedUsd)} of ${fmtUsd(pl.totalUsd)} across ${pl.pools.length} pool(s) >= ${fmtUsd(cfg.lp.minPoolUsd)} (${pl.pools.map((x) => `${x.type} ${fmtUsd(x.usd)} ${x.locked ? `${fmtPct(x.lockedPct, 0)} locked` : "withdrawable"}`).join(", ")}).${s === 20 ? " Most of it can be pulled." : ""}`); } },
   { id: "holders", label: "Holder concentration (top 10 ex-pools)", category: "risk", type: "points", weight: W.holders, sources: ["rugcheck", "jupiter"],
     evaluate(d) { const h = d.holders || {}; let t = h.top10PctExPools, src = "RugCheck";
       if (u(t) && !u(h.jupTop10Pct)) { t = h.jupTop10Pct; src = "Jupiter"; }
@@ -165,7 +191,10 @@ export const RISK_RULES = [
     evaluate(d) { const i = d.insiders; if (!i || u(i.holdingPct)) return unknown("RugCheck insider graph failed");
       let s = i.holdingPct <= 2 ? 0 : i.holdingPct <= 8 ? 6 : i.holdingPct <= 20 ? 11 : 15;
       if (i.linkedGroups > 0) s += 4;
-      return pts(s, W.insiders, i.networks ? `${i.detected} insider wallets in ${i.networks} linked group(s) hold ${fmtPct(i.holdingPct)}${i.linkedGroups ? " (+4 linked groups)" : ""}.` : "RugCheck found no insider networks."); } },
+      // v1.3 ruling D: +2 when no funder trace of the top 10 was done. The app does not trace who funded the top 10, and
+      // RugCheck's insider graph is not that trace (WORKED.md applies the +2 to QI and z0s, both with a RugCheck graph result).
+      const noTrace = true; s += 2;
+      return pts(s, W.insiders, `${i.networks ? `${i.detected} insider wallets in ${i.networks} linked group(s) hold ${fmtPct(i.holdingPct)}${i.linkedGroups ? " (+4 linked groups)" : ""}.` : "RugCheck found no insider networks."}${noTrace ? " Top-10 funder trace not done (the app does not trace who funded the top 10) (+2)." : ""}`); } },
   { id: "dev", label: "Deployer / dev", category: "risk", type: "points", weight: W.dev, sources: ["solana-rpc", "rugcheck", "jupiter"],
     evaluate(d, cfg) { if (!d.launch && !d.dev?.address) return unknown("no launch data and no creator wallet");
       const a = devAssess(d, cfg);
@@ -175,12 +204,15 @@ export const RISK_RULES = [
       const r = !u(M) && M > 0 ? L / M : undefined;
       const s = L < 5000 ? 10 : (r < 0.05 || L < 15000) ? 8 : (r < 0.10 || L < 40000) ? 4 : 0;
       return pts(s, W.liquidity, `${liqWord(d)} ${fmtUsd(L)}${u(r) ? "" : ` = ${fmtPct(r * 100)} of mcap`} (${d.market.liquiditySource || "dexscreener"}).`); } },
-  { id: "priceAction", label: "Price action vs peak", category: "risk", type: "points", weight: W.priceAction, sources: ["geckoterminal"],
+  { id: "priceAction", label: "Price action vs peak", category: "risk", type: "points", weight: W.priceAction, sources: ["geckoterminal", "dexscreener"],
     evaluate(d) { const c = d.chart; if (!c) return unknown("GeckoTerminal OHLCV failed");
-      let s = c.drawdownPct < 40 ? 0 : c.drawdownPct <= 75 ? 3 : c.falling ? 8 : 3;
+      // v1.3 ruling B: base = the highest of the OHLCV peak since pair creation and DexScreener's ATH. DexScreener's API has no
+      // ATH field, so only the candle peak is available; flagged when the candles start after the pair was created.
+      const dd = u(c.ddFromPeakPct) ? c.drawdownPct : c.ddFromPeakPct;
+      let s = dd < 40 ? 0 : dd <= 75 ? 3 : c.falling ? 8 : 3;
       const t = d.trades; let extra = "";
       if (t && t.last5mSellUsd > 2 * t.last5mBuyUsd && t.last5mSellUsd > 0) { s += 2; extra = `; last 5m sells ${fmtUsd(t.last5mSellUsd)} vs buys ${fmtUsd(t.last5mBuyUsd)} (+2)`; }
-      return pts(s, W.priceAction, `${fmtPct(c.drawdownPct, 0)} below the ${c.tf}-chart peak${c.falling ? ", still falling" : ""}${extra}.`); } },
+      return pts(s, W.priceAction, `${fmtPct(dd, 0)} below the peak ${fmtUsd(c.peakUsd ?? c.athUsd)} (${c.tf} candles since ${c.historyShort ? "after pair creation: peak may be understated" : "pair creation"}; DexScreener ATH not available from its API)${c.falling ? ", still falling" : ""}${extra}.`); } },
   { id: "organic", label: "Organic activity", category: "risk", type: "points", weight: W.organic, sources: ["jupiter", "geckoterminal"],
     evaluate(d) { const ch = d.holders?.change1hPct, t = d.trades;
       if (t && t.topWalletShare > 0.25) return pts(6, W.organic, `One wallet made ${fmtPct(t.topWalletShare * 100, 0)} of the last ${t.n} trades (bot inflating activity).`);
@@ -189,9 +221,14 @@ export const RISK_RULES = [
       return pts(s, W.organic, `Holders ${ch >= 0 ? "+" : ""}${ch.toFixed(2)}% in the last hour (${s === 0 ? "rising" : s === 6 ? "falling" : "flat"}).`); } },
   { id: "socials", label: "Socials / verification", category: "risk", type: "points", weight: W.socials, sources: ["dexscreener", "jupiter", "geckoterminal"],
     evaluate(d) { const m = d.market || {}; if (u(m.hasProfile) && !d.sources?.dexscreener?.ok) return unknown("DexScreener failed");
-      const links = [...(m.websites || []), ...(m.socials || []).map((s) => s.url)];
-      const verified = d.verification?.jupiterVerified || !!d.verification?.coingeckoId;
-      let s = !links.length ? 6 : verified ? 0 : 3; const why = !links.length ? "No website or socials listed." : verified ? `${links.length} link(s); verified (${d.verification?.coingeckoId ? "CoinGecko-listed" : "Jupiter verified"}).` : `${links.length} link(s), unverified: check the X/site age and engagement by hand.`;
+      // v1.3 ruling C: own site/X with age + engagement = 0 (the app can't read X: Jupiter-verified / CoinGecko-listed stands in);
+      // thin/new own links OR only links to someone else's tweet / a platform page = 3; none = 6; paid boosts +2
+      const L = linkKinds(d), verified = d.verification?.jupiterVerified || !!d.verification?.coingeckoId;
+      let s, why;
+      if (!L.own.length && !L.other.length) { s = 6; why = "No website or socials listed."; }
+      else if (!L.own.length) { s = 3; why = `Only links to someone else's page (${L.other.map((x) => x.why).join(", ")}): no own site/X.`; }
+      else if (verified) { s = 0; why = `${L.own.map((x) => x.kind).join(" + ")}; verified (${d.verification?.coingeckoId ? "CoinGecko-listed" : "Jupiter verified"}).`; }
+      else { s = 3; why = `Own ${L.own.map((x) => x.kind).join(" + ")}, unverified: check the X/site age and engagement by hand.`; }
       if (m.boostsActive > 0) s += 2;
       return pts(s, W.socials, why + (m.boostsActive > 0 ? ` Paid DexScreener boosts active (+2).` : "")); } },
   { id: "age", label: "Pair age", category: "risk", type: "points", weight: W.age, sources: ["dexscreener"],
@@ -220,7 +257,10 @@ export const TEAM_EXIT = [
   { id: "te_dev", label: "Dev did not sell", category: "risk", type: "cap", weight: W.dev, sources: ["solana-rpc", "geckoterminal"],
     evaluate(d, cfg) { const a = devAssess(d, cfg);
       if (a.cap) return { score: 1, flag: "red", reason: `Dev (${a.cap.role}): ${a.cap.text}. Verdict capped at Skip.` };
-      if (a.unknown) return unknown(`early dev sell data missing (launch history ${d.sources?.["solana-rpc"]?.calls?.find((c) => c.part === "launch snipers" && !c.ok)?.error || "n/a"}; creator history ${d.sources?.["solana-rpc"]?.calls?.find((c) => c.part === "creator history" && !c.ok)?.error || "not covered"}; trade tape does not reach launch).`);
+      // v1.3 ruling F: one +7.5 for "signer unknown" and "unknown team exit" together (the max, never the sum): the deployer
+      // line already carries the signer-unknown 7.5, so this unknown adds 0
+      const covered = a.wallets.some((x) => x.unknown && x.points >= W.dev * cfg.unknownRiskFactor);
+      if (a.unknown) return { ...unknown(`${covered ? "(+0: already counted as \"signer unknown\" +7.5 in Deployer / dev) " : ""}early dev sell data missing (launch history ${d.sources?.["solana-rpc"]?.calls?.find((c) => c.part === "launch snipers" && !c.ok)?.error || "n/a"}; creator history ${d.sources?.["solana-rpc"]?.calls?.find((c) => c.part === "creator history" && !c.ok)?.error || "not covered"}; trade tape does not reach launch).`), ...(covered ? { points: 0 } : {}) };
       const lk = a.wallets.find((x) => x.locked);
       return { score: 0, flag: lk ? "amber" : "green", reason: `${a.wallets.map((x) => `${x.role}: ${x.text}`).join(". ")}.` }; } },
   { id: "te_cluster", label: "No big sniper / cluster dump (>=25%)", category: "risk", type: "cap", weight: W.insiders, sources: ["solana-rpc", "rugcheck"],
@@ -273,66 +313,66 @@ const sig = (score, reason) => ({ score: Math.round(clamp(score)), flag: score >
 // v1.2 ruling 3: caps for young (< 30 min) or bonding-curve coins
 export const youngOrCurve = (d) => d.pool?.onCurve === true || (!u(d.pairAgeMin) && d.pairAgeMin < 30);
 const capYC = (d, max, r, label = "young/curve coin") => (r.score !== null && youngOrCurve(d) && r.score > max ? { ...sig(max, `${r.reason} Capped at ${max} (${label}).`) } : r);
+// v1.3: Mnemosyne's reward formulas (WORKED.md "REWARD signal formulas"), as written.
 export const REWARD_RULES = [
-  { id: "liquidityDepth", label: "Liquidity depth", category: "reward", type: "signal", weight: RW.liquidityDepth, sources: ["dexscreener", "jupiter"],
-    evaluate(d) {
+  { id: "liquidityDepth", label: "Liquidity depth", category: "reward", type: "signal", weight: RW.liquidityDepth, sources: ["dexscreener", "rugcheck", "jupiter"],
+    evaluate(d, cfg) {
       if (d.pool?.onCurve) { // v1.2 ruling 3: curve depth from the $50 sell-quote cost, max 40
         const c = quoteCost(d.sellQuote?.[50], d.solUsd); if (d.sellQuote?.noRoute) return sig(0, "Bonding curve: no sell route."); if (!c) return unknown("No $50 sell quote");
         const s = c.worstPct <= 0.5 ? 40 : c.worstPct <= 2 ? 30 : c.worstPct <= 5 ? 15 : 0;
         return sig(s, `Bonding curve: $50 exit cost ${fmtPct(c.worstPct, 2)} (Jupiter) → ${s} (curve depth max 40).`); }
-      const L = d.market?.liquidityUsd; if (u(L)) return unknown("No data");
-      const s = L < 15000 ? 0 : lerp(L, [[15000, 30], [50000, 60], [100000, 80], [250000, 100]]);
-      const q = d.sellQuote || {}; const imp = (usd) => { const c = quoteCost(q[usd], d.solUsd); return c ? `${fmtPct(c.worstPct, 2)} (Jupiter)` : `~${fmtPct((usd / (L / 2 + usd)) * 100, 2)} (est.)`; };
-      return sig(s, `${fmtUsd(L)} ${d.pool?.onCurve ? "curve liquidity (bonding curve, not a pool)" : "liquidity"}${L < 15000 ? ": can't exit" : ""}. Exit impact $50: ${imp(50)}, $500: ${imp(500)}.`); } },
-  { id: "volumeQuality", label: "Volume quality (24h vol / liquidity)", category: "reward", type: "signal", weight: RW.volumeQuality, sources: ["dexscreener"],
-    evaluate(d) { const V = d.market?.volumeUsd?.h24, L = d.market?.liquidityUsd; if (u(V) || u(L) || L <= 0) return unknown("No data");
-      const r = V / L, tx = d.market?.txns?.h24, even = tx && tx.sells > 0 && tx.buys / tx.sells >= 0.8 && tx.buys / tx.sells <= 1.25;
-      let s, why;
-      if (r < 1) { s = 30 * r; why = "dead (<1x)"; }
-      else if (r < 2) { s = 30 + 35 * (r - 1); why = "thin (1-2x)"; }
-      else if (r <= 15) { s = 100; why = "healthy (2-15x)"; }
-      else if (r <= 30) { s = 100 - ((r - 15) / 15) * 40; why = "hot (15-30x)"; }
-      else { s = even ? 30 : 50; why = even ? "bot churn (>30x with even buys/sells, capped)" : "very high (>30x)"; }
-      return capYC(d, 60, sig(s, `24h volume ${fmtUsd(V)} = ${r.toFixed(1)}x liquidity: ${why}.`)); } },
+      // locked liquidity counts 100%, unlocked pools 50%; <=15k = 0, 50k = 50, 100k = 75, 250k+ = 90, linear between
+      const pl = poolLocks(d, cfg); let eff, how;
+      if (pl && pl.totalUsd) { eff = pl.lockedUsd + 0.5 * pl.unlockedUsd; how = `${fmtUsd(pl.lockedUsd)} locked + 50% of ${fmtUsd(pl.unlockedUsd)} withdrawable`; }
+      else { const L = d.market?.liquidityUsd; if (u(L)) return unknown("No data"); eff = 0.5 * L; how = `lock status unknown: 50% of ${fmtUsd(L)}`; }
+      const s = eff <= 15000 ? 0 : lerp(eff, [[15000, 0], [50000, 50], [100000, 75], [250000, 90]]);
+      const q = d.sellQuote || {}; const imp = (usd) => { const c = quoteCost(q[usd], d.solUsd); return c ? `${fmtPct(c.worstPct, 2)} (Jupiter)` : "n/a"; };
+      return sig(s, `Effective depth ${fmtUsd(eff)} (${how})${eff <= 15000 ? ": can't exit" : ""}. Exit impact $50: ${imp(50)}, $500: ${imp(500)}.`); } },
+  { id: "volumeQuality", label: "Volume quality (main pool 24h vol / liquidity)", category: "reward", type: "signal", weight: RW.volumeQuality, sources: ["dexscreener"],
+    evaluate(d) { const m = d.market || {}, main = !u(m.mainVolumeH24) && m.mainLiquidityUsd > 0;
+      const V = main ? m.mainVolumeH24 : m.volumeUsd?.h24, L = main ? m.mainLiquidityUsd : m.liquidityUsd; if (u(V) || u(L) || L <= 0) return unknown("No data");
+      // <1x = 10; ramp to 60 at 2x; to 100 at 5-10x; 15x = 80; 55 at 30x; >30x capped 55 (churn); young cap 60
+      const r = V / L, s = r < 1 ? 10 : lerp(r, [[1, 10], [2, 60], [5, 100], [10, 100], [15, 80], [30, 55]]);
+      const why = r < 1 ? "dead (<1x)" : r < 2 ? "thin (1-2x)" : r <= 10 ? "healthy" : r <= 30 ? "hot" : "churn (>30x, capped 55)";
+      return capYC(d, 60, sig(s, `${main ? "Main pool" : "All pools"} 24h volume ${fmtUsd(V)} = ${r.toFixed(1)}x ${d.pool?.onCurve ? "curve liquidity" : "its liquidity"}: ${why}.`)); } },
   { id: "buySell", label: "Buy/sell pressure (by USD)", category: "reward", type: "signal", weight: RW.buySell, sources: ["geckoterminal", "jupiter", "dexscreener"],
     evaluate(d) { let b, s, src;
       if (d.trades && d.trades.buyUsd + d.trades.sellUsd > 0) { b = d.trades.buyUsd; s = d.trades.sellUsd; src = `last ${d.trades.n} trades, GeckoTerminal`; }
       else if (d.flow1h && d.flow1h.buyUsd + d.flow1h.sellUsd > 0) { b = d.flow1h.buyUsd; s = d.flow1h.sellUsd; src = "last 1h, Jupiter"; }
       else if (d.market?.txns?.h1 && d.market.txns.h1.buys + d.market.txns.h1.sells > 0) { b = d.market.txns.h1.buys; s = d.market.txns.h1.sells; src = "1h COUNTS only, DexScreener (lower quality)"; }
       else return unknown("No data");
-      const share = b / (b + s);
-      return sig(((share - 0.3) / 0.4) * 100, `Buys ${src.includes("COUNTS") ? b : fmtUsd(b)} vs sells ${src.includes("COUNTS") ? s : fmtUsd(s)} = ${fmtPct(share * 100, 0)} buy share (${src}).`); } },
+      // r = buy / sell; clamp(50 + 30 (r - 1)); -5 if the 1h price change < -20%
+      const r = s > 0 ? b / s : Infinity, h1 = d.market?.priceChangePct?.h1, pen = h1 < -20 ? 5 : 0;
+      const c = (x) => (src.includes("COUNTS") ? x : fmtUsd(x));
+      return sig(50 + 30 * (Math.min(r, 10) - 1) - pen, `Buys ${c(b)} vs sells ${c(s)} = ${Number.isFinite(r) ? r.toFixed(2) : "∞"}x (${src})${pen ? `; 1h ${h1}% (-5)` : ""}.`); } },
   { id: "trend", label: "Trend / structure", category: "reward", type: "signal", weight: RW.trend, sources: ["geckoterminal", "dexscreener"],
     evaluate(d) { const c = d.chart; if (!c) return unknown("No data");
-      const pc = d.market?.priceChangePct || {}; let s = 50; const why = [];
-      if (c.drawdownPct < 25) { s += 20; why.push(`near peak (${fmtPct(c.drawdownPct, 0)} off, +20)`); } else if (c.drawdownPct > 50) { s -= 20; why.push(`${fmtPct(c.drawdownPct, 0)} below peak (-20)`); } else why.push(`${fmtPct(c.drawdownPct, 0)} below peak (0)`);
-      if (!u(pc.h1)) { s += pc.h1 > 0 ? 10 : -10; why.push(`1h ${pc.h1 > 0 ? "+" : ""}${pc.h1}% (${pc.h1 > 0 ? "+" : "-"}10)`); }
-      if (!u(pc.h6)) { s += pc.h6 > 0 ? 10 : -10; why.push(`6h ${pc.h6 > 0 ? "+" : ""}${pc.h6}% (${pc.h6 > 0 ? "+" : "-"}10)`); }
-      if (c.higherLows) { s += 15; why.push("higher lows (+15)"); }
-      if (c.drawdownPct > 50 && !c.bounced) { s = Math.min(s, 10); why.push("no bounce off the low: capped at 10"); }
+      // 100 - drawdown% from the peak; -15 if the support floor broke in the last 2 h; +5 on a bounce with rising holders; young cap 60
+      const dd = u(c.ddFromPeakPct) ? c.drawdownPct : c.ddFromPeakPct; let s = 100 - dd; const why = [`${fmtPct(dd, 0)} below the peak (${(100 - dd).toFixed(0)})`];
+      if (c.floorBroken) { s -= 15; why.push(`support ${fmtUsd(c.floorBroken.lo)}-${fmtUsd(c.floorBroken.hi)} broke in the last 2 h (-15)`); }
+      if (c.bouncedFromSwing && d.holders?.change1hPct > 0) { s += 5; why.push(`bounced >= 10% off the 2 h low ${fmtUsd(c.swingLow2hUsd)} with holders rising (+5)`); }
       const r = sig(s, why.join("; ") + ".");
       return !u(d.pairAgeMin) && d.pairAgeMin < 30 && r.score > 60 ? sig(60, `${r.reason} Capped at 60 (under 30 min old: no history).`) : r; } },
   { id: "holderGrowth", label: "Holder growth & distribution", category: "reward", type: "signal", weight: RW.holderGrowth, sources: ["jupiter", "rugcheck"],
     evaluate(d) { const h = d.holders || {}, ch = h.change1hPct, t = !u(h.top10PctExPools) ? h.top10PctExPools : h.jupTop10Pct;
-      if (u(ch) && u(t)) return unknown("No data");
-      let s = 50; const why = [];
-      if (!u(ch)) { const a = ch > 5 ? 25 : ch > 0 ? 10 : ch < 0 ? -20 : 0; s += a; why.push(`holders ${ch >= 0 ? "+" : ""}${ch.toFixed(2)}%/h (${a >= 0 ? "+" : ""}${a})`); }
-      if (!u(t)) { const a = t <= 15 ? 25 : t <= 25 ? 10 : t <= 40 ? -10 : -25; s += a; why.push(`top10 ${fmtPct(t)} (${a >= 0 ? "+" : ""}${a})`); }
-      if (ch > 0 && d.market?.priceChangePct?.h1 < 0) { s += 10; why.push("holders rising while price falls (+10)"); }
-      const tp = h.top10Pcts || []; if (tp.length >= 8) { const med = [...tp].sort((a, b) => a - b)[Math.floor(tp.length / 2)]; const same = tp.filter((x) => Math.abs(x - med) <= med * 0.05).length; if (same >= 6) { s -= 20; why.push(`${same} top wallets uniformly sized (bundle split?) (-20)`); } }
+      if (u(t)) return unknown("No data (no holder list)");
+      // top10 ex-pool <=15% = 80; 15-25% = 65; 25-40% = 40; >40% = 15; +10 holders rising; -10 falling; young max 80
+      let s = t <= 15 ? 80 : t <= 25 ? 65 : t <= 40 ? 40 : 15; const why = [`top10 ${fmtPct(t)} (${s})`];
+      if (!u(ch) && ch > 0) { s += 10; why.push(`holders +${ch.toFixed(2)}%/h (+10)`); } else if (!u(ch) && ch < 0) { s -= 10; why.push(`holders ${ch.toFixed(2)}%/h (-10)`); } else if (u(ch)) why.push("holder trend unknown");
       return capYC(d, 80, sig(s, why.join("; ") + ".")); } },
   { id: "narrative", label: "Narrative / social traction", category: "reward", type: "signal", weight: RW.narrative, sources: ["dexscreener", "manual"],
     evaluate(d, cfg) { const man = d.manual?.narrative;
       if (!u(man)) return youngOrCurve(d) && man > 60 ? sig(60, `Manual input ${man}, capped at 60 (young/curve coin: official site + X with real engagement = up to 60).`) : sig(man, `Manual input: ${man}/100 (your read of X engagement / catalyst).`);
-      const m = d.market || {}; if (!d.sources?.dexscreener?.ok) return unknown("No data");
-      const soc = (m.socials || []).map((s) => s.type); let s = 0; const have = [];
-      if ((m.websites || []).length) { s += 15; have.push("site"); } if (soc.includes("twitter") || soc.includes("x")) { s += 15; have.push("X"); } if (soc.includes("telegram")) { s += 10; have.push("Telegram"); }
-      if (d.verification?.coingeckoId || d.verification?.jupiterVerified) { s += 10; have.push("verified"); }
-      if (youngOrCurve(d) && s < 20) return sig(20, `${have.length ? have.join(", ") : "No own socials"}: 20 (young/curve coin, no own socials/evidence). A viral caller tweet = up to 35: rate it manually.`);
-      return sig(Math.min(s, cfg.narrativeAutoCap), `${have.length ? have.join(", ") : "No links"}. Capped at ${cfg.narrativeAutoCap} until you rate real X engagement (manual).`); } },
+      if (!d.sources?.dexscreener?.ok) return unknown("No data");
+      // no own socials = 20; caller tweet / someone else's page only = 25-35 by reach (reach unknown: 25); own site or X = 30;
+      // own site + X = 35; hard cap 40 without real reach (rate engagement manually for more)
+      const L = linkKinds(d), kinds = new Set(L.own.map((x) => x.kind)), site = kinds.has("site"), x = kinds.has("X");
+      const [s, why] = site && x ? [35, "own site + X, engagement not rated"] : site || x || L.own.length ? [30, `own ${[...kinds].join(" + ")} only, engagement not rated`] : L.other.length ? [25, `only ${L.other.map((y) => y.why).join(", ")} (reach unknown: 25 of 25-35)`] : [20, "no own socials"];
+      return sig(Math.min(s, cfg.narrativeAutoCap), `${why}: ${s}. Rate X engagement manually for more (auto max ${cfg.narrativeAutoCap}).`); } },
   { id: "room", label: "Room to run (mcap)", category: "reward", type: "signal", weight: RW.room, sources: ["dexscreener"],
     evaluate(d) { const M = d.market?.mcapUsd; if (u(M) || M <= 0) return unknown("No data");
-      const s = lerp(Math.log10(M), [[5, 100], [6, 50], [7, 20], [8, 5]]);
+      // <=100k = 70; 300k = 45; 1M = 30; 3M = 15; log-linear between (held at 15 above 3M); young max 80
+      const s = M <= 1e5 ? 70 : lerp(Math.log10(M), [[5, 70], [Math.log10(3e5), 45], [6, 30], [Math.log10(3e6), 15]]);
       return capYC(d, 80, sig(s, `Mcap ${fmtUsd(M)}: ${M <= 1e5 ? "most room, most risk" : M < 1e6 ? "some room" : "less upside"}.`)); } },
 ];
 

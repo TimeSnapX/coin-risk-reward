@@ -13,11 +13,13 @@ CoinData = {
   extensions:  { onchain /* read from the mint via RPC */, present[], transferFeeBps, transferFeeAuthority, transferHookProgram, permanentDelegate },
   market: { priceUsd, mcapUsd, fdvUsd, liquidityUsd, liquiditySource, pairAddress, dexId, url, pairCount, pairCreatedAt,
             volumeUsd: { m5, h1, h6, h24 }, txns: { m5|h1|h6|h24: { buys, sells } }, priceChangePct: { m5, h1, h6, h24 },
-            boostsActive, websites[], socials[{ type, url }], hasProfile, gtTopPool, jupPriceUsd, jupLiquidityUsd },
+            boostsActive, websites[], socials[{ type, url }], hasProfile, gtTopPool, jupPriceUsd, jupLiquidityUsd,
+            mainLiquidityUsd, mainVolumeH24 /* main pair only (v1.3 volume) */, pools[{ address, dex, labels, liqUsd }] /* every DexScreener pair */ },
   pool:   { mainMarketType, lpLockedPct, mainMarketLiqUsd, clOnly, marketCount, onCurve, graduated,
-            curveRealSol, curveRealSolUsd, curveTokensSoldPct, curveSolPct },
+            curveRealSol, curveRealSolUsd, curveTokensSoldPct, curveSolPct,
+            markets[{ type, address, usd, lockedPct, hasLpToken }], mainMarketAddress /* RugCheck markets, v1.3 LP over pools >= $5k */ },
   holders:  { count, top10PctExPools, largestPctExPools, top10Pcts[], change1hPct, jupTop10Pct },
-  insiders: { detected, networks, linkedGroups, holdingPct, dumpedPct, receivedPct /* RugCheck, % of supply */,
+  insiders: { graphChecked /* RugCheck graph result present (informational; not a funder trace) */, detected, networks, linkedGroups, holdingPct, dumpedPct, receivedPct /* RugCheck, % of supply */,
               graphWallets[] /* RugCheck /insiders/graph */, onchainPct, onchainWallets, onchainAt /* RPC, now */ },
   dev:      { address, holdsPct, holdsPctJup, priorTokens, launches /* Jupiter lifetime devMints */, migrations, launchesWallet /* Jupiter's dev = launch wallet */ },
   launch:   { source, curve, curveTx, slot, at, blockTx, launchSupply /* minted in the create tx */, supplyNow, launchSupplyFrom,
@@ -32,7 +34,9 @@ CoinData = {
   flow1h:  { buyUsd, sellUsd, buys, sells, traders },            // Jupiter
   trades:  { n, spanMin, newest, oldest, buyUsd, sellUsd, uniqueBuyers, uniqueSellers, last5mBuyUsd, last5mSellUsd, last5mCount,
              topWalletShare, creatorSells[{ t, tokens }], early?: { wallets, boughtPct, exitShare } },   // GeckoTerminal tape
-  chart:   { tf, athUsd, drawdownPct, swingLowUsd, recentHighUsd, higherLows, falling, bounced, lastClose },
+  chart:   { tf, athUsd, drawdownPct, swingLowUsd, recentHighUsd, higherLows, falling, bounced, lastClose,
+             // v1.3: peakUsd (since pair creation), priceRef, ddFromPeakPct, historyShort, historyFrom, swingLow2hUsd (last 2 h, launch 15 min left out),
+             // floorBroken { lo, hi, at }, volNode { lo, hi, mid, volume } (12 log bins, price x1.02 .. peak), bouncedFromSwing },
   sellQuote: { 50: { impactPct, outUsd, outSol, notionalUsd /* swapUsdValue */, route, routeHops }, 500: {...}, noRoute? },  // Jupiter; exit cost = worse of impact and output vs notional
   solUsd,                                                          // CoinGecko
   launchAt /* min(pairCreatedAt, rugcheck.detectedAt) */, pairAgeMin,

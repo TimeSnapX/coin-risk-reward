@@ -32,7 +32,8 @@ paste CA -> detect chain (Solana only; EVM shown as "coming later")
   | Age | 4 |
 
   A check with no data adds **half** its maximum. The total is capped at 100.
-- **Team exit (v1.1, section 6)**: no points when the data is known. When the data is unknown it adds half the dev points (7.5) and half the insider points (7.5).
+- **Team exit (v1.1, section 6)**: no points when the data is known. When the data is unknown it adds half the dev points (7.5) and half the insider points (7.5). v1.3 ruling F: the dev half is **not** added when the deployer line already carries "signer unknown" +7.5.
+- **v1.3 (section 6b)**: LP over every pool ≥ $5k; price action from the peak since pair creation; socials own/someone else's/none; insiders +2 without a top-10 funder trace.
 - **Grade**:
 
   | Grade | Risk score | Multiplier |
@@ -56,7 +57,7 @@ reward = Σ signal(0-100, rounded) × weight. The weights are:
 | Narrative | 15% |
 | Room | 10% |
 
-A signal with no data counts as 0 and lowers confidence. Narrative is capped at 40 until you enter a manual read.
+A signal with no data counts as 0 and lowers confidence. Narrative is capped at 40 until you enter a manual read. The signal formulas are WORKED.md v1.3's (section 6b).
 
 ## 4. Verdict
 
@@ -203,9 +204,9 @@ The creator bought 6.63% in the create tx and sold 4.97% 19 s later → `te_dev`
 - The serial gate uses Jupiter's lifetime `devMints` for the launch wallet. SPEC says "10+ launches in 2 weeks". v1.2: a launchpad launcher (dust buy held, fees to another wallet; QI's 40-mint `2sRs…`) is exempt and gets +3; a dev-acting signer (Yana's 3,101-mint `8inT…`) still trips it.
 - SOL-paired pool (SPEC line 73) is not scored yet.
 
-## 6a. WORKED.md v1.2 rulings: what the app does, and app vs WORKED.md (not tuned)
+## 6a. WORKED.md v1.2 rulings: what the app does, and app vs WORKED.md (not tuned; superseded by 6b where 6b says so)
 
-Source: `/workspace/coin-checker/WORKED.md` (Mnemosyne, 9 Oct 2026). Numbers live in `src/config.js` (`devPoints`, `gates.curveMaxExitPct`, `teamExit.lockMinCliffDays`, `rr.planDipPct`). Sections 6 and 7 above/below show v1.1 numbers where marked; the tables here are current.
+Source: `/workspace/coin-checker/WORKED.md` (Mnemosyne, 9 Oct 2026). Numbers live in `src/config.js` (`devPoints`, `gates.curveMaxExitPct`, `teamExit.lockMinCliffDays`; `rr.planDipPct` was replaced in v1.3, see 6b). Sections 6 and 7 above/below show v1.1 numbers where marked; the tables here are current.
 
 | Ruling | App |
 |---|---|
@@ -313,9 +314,91 @@ R:R (calculator, WORKED levels): at $21.1k, stop $15k, TP1 $26k = **0.8:1**, TP2
 
 Fux, WILLY and Alias lose their Avoid only because Argus didn't save a Jupiter quote on 7 Oct; live, the curve quote decides.
 
+## 6b. WORKED.md v1.3 rulings + reward formulas: what the app does, and app vs WORKED.md (not tuned)
+
+Source: `/workspace/coin-checker/WORKED.md` v1.3 (Mnemosyne, 10 Oct 2026). These tables are current; 6a and 7 show older numbers where marked. Config: `lp.minPoolUsd` 5000; `rr.stopUnderSwingPct` 3, `stopFallbackPct` 18, `tp1FallbackPct` 30, `tp2PeakShare` 0.95, `planZonePct` [15, 20].
+
+| Ruling | App |
+|---|---|
+| A. LP = locked ÷ total over pools ≥ $5k | Pools = RugCheck's markets (lock % per pool; the pump.fun curve is skipped) with DexScreener's USD liquidity where DexScreener lists the same pool address, plus DexScreener pools RugCheck doesn't list (counted withdrawable). ≥ 90% → 0, 50-90% → 10, < 50% → 20, curve 8. The **g_lp gate** still reads the main pool's lock % (the ruling only changes the points). |
+| B. Price base = max(OHLCV peak since pair creation, DexScreener ATH) | DexScreener's public API has **no ATH field**, so the base is the minute/15-min candle peak since pair creation. "Peak may be understated" is shown when the candles start after the pair was created. |
+| C. Socials | Own site/X verified (Jupiter) = 0; own but unverified, or only someone else's page / a single tweet = 3; none = 6; paid boosts +2. A website whose URL contains the mint is a platform page; an X `/status/` link is someone else's tweet. |
+| D. Insiders +2 without a top-10 funder trace | The app has no funder trace of its own and RugCheck's insider graph is not one, so **+2 on every coin** with insider data (QI 4 + 2 = 6, z0s 0 + 2 = 2, as in WORKED.md). |
+| E. Organic | Holders rising = 0. |
+| F. Signer unknown: no stacking | The deployer line keeps the single +7.5; the team-exit dev check adds **+0** when that +7.5 is already on the deployer line ("already counted"). CRAWL: v1.2 49.5 − 7.5 = **42** under the v1.2 LP rule (62 + 2 insiders = 64 with ruling A + D, see below). The team-exit *cluster* unknown (+7.5, launch-block sniper data missing) is a different check and stays. |
+| G. R:R levels | Swing low = min low of the last 2 h of candles, **leaving out candles from the first 15 min after pair creation** (launch prints are not a retest level). Stop = 3% under it, else −18% from the plan entry. Plan entry = swing low × 1.175 (zone +15-20%), never above price (no swing low → plan = price). TP1 = midpoint of the highest-volume node (12 log bins) between price × 1.02 and the peak, **only when the peak is ≥ 30% above price**, else +30%. TP2 = 95% of the peak when above TP1. Card shows R:R now and at the plan entry, the zone, and the levels; gate on plan TP1 (1.5:1 grade A, 2:1 otherwise). |
+
+Reward formulas (WORKED.md): depth = locked + 50% unlocked over the same pools (≤15k 0, 50k 50, 100k 75, 250k+ 90; curve max 40 from the $50 quote: ≤0.5% 40, ≤2% 30, ≤5% 15); volume = **main pool** 24h vol ÷ its liquidity (curve: all pools ÷ curve liquidity); buy/sell = clamp(50 + 30(r − 1)) − 5 if 1h < −20%; structure = 100 − dd − 15 (floor broke in 2 h: a last-2h candle closed below the prior hour's min low and price is still below) + 5 (price ≥ 1.1 × the 2 h swing low and holders rising); holders bands ±10; narrative auto: none 20, someone else's page/tweet 25, own site or X 30, own site + X 35, cap 40 (manual input for more); room log-linear (held at 15 above 3M). Young/curve caps as in 6a.
+
+### QI, app vs WORKED.md v1.3 (35 B, ~53.6, ~43 Skip, 4.3 HIGH)
+
+App: **risk 44 (C ×0.6), reward 56 (56.2), 34 Skip, 3.4/10 HIGH.** Differs by more than 2 → per-signal deltas:
+
+| Risk rule | WORKED | App | Δ | Why |
+|---|---|---|---|---|
+| LP | 10 (52.8%) | 20 (48.5%) | **+10** | Data: RugCheck lists **three** pools ≥ $5k: PumpSwap $99.4k burned, Meteora DLMM $85.1k and a second Meteora DLMM **$20.3k**, both withdrawable → $99.4k ÷ $204.8k = 48.5% (< 50%). WORKED's 52.8% = $99.4k ÷ $188.4k (PumpSwap + an $89k Meteora pool, no $20.3k pool). |
+| Holders | 6 | 6 | 0 | |
+| Insiders | 6 (4 + 2) | 6 (4 + 2) | 0 | |
+| Deployer | 3 | 3 | 0 | launchpad launcher |
+| Depth | 4 | 4 | 0 | |
+| Price action | 3 (41% below ATH) | 0 (33.2% below the candle peak $0.00157) | **−3** | No DexScreener ATH in the API; candles cover the whole pair life (not understated). |
+| Organic / socials / age | 0 / 3 / 0 | 0 / 3 / 0 | 0 | socials: only a pqc.market platform page |
+| Sniper exit (te_cluster) | not listed | +2 | **+2** | finished sniper exit below 25% (11.36% DL11…PLv4), per SPEC v1.1 |
+| **Total / grade** | **35 B** | **44 C** | **+9** | grade C ×0.6 instead of B ×0.8 |
+
+| Reward signal (weight) | WORKED | App | Weighted Δ | Why |
+|---|---|---|---|---|
+| Depth (20%) | 79 | 80 | +0.2 | $152.1k effective ($99.4k + 50% of $105.4k) |
+| Volume (15%) | 55 | 55 | 0 | main pool 32.3x → churn 55 |
+| Buy/sell (15%) | 58 | 61 | +0.45 | GT last 300 trades $11.5k / $7.5k = 1.53x, −5 (1h −24.8%) |
+| Structure (15%) | 44 | 57 | **+1.95** | 100 − 33 (not 41) − 15 (floor $0.00113-$0.00130 broke) + 5 (bounced from the $0.000806 low with holders +2.3%/h; WORKED doesn't apply it) |
+| Holders (10%) | 75 | 75 | 0 | |
+| Narrative (15%) | 25 | 25 | 0 | |
+| Room (10%) | 30 | 30 | 0 | |
+| **Reward** | **53.6** | **56.2** | **+2.6** | |
+
+Verdict **34 vs 43 (−9)**, Skip = Skip, rating **3.4 vs 4.3 (−0.9)**. All of the gap is the grade (C vs B), which comes from the extra $20.3k pool (LP +10). With LP 10 the app would give 34 B → 56 × 0.8 = 45 Skip, 4.5.
+
+R:R (ruling G): stop **$0.000782** (3% under $0.000806), plan entry **$0.000948** (zone $0.000927-$0.000968), TP1 **$0.001275** (node $0.00125-$0.00130), TP2 **$0.001491** (95% of $0.00157). Now 0.85:1 / 1.67:1 (warned); plan **1.98:1 / 3.29:1**. WORKED: 0.00078, 0.00092-0.00098, 0.00122-0.00128, ~0.0015; now 0.75, plan 1.8 / 3.3. Grade C needs 2:1 on plan TP1, so 1.98 shows ✗ (it would pass the 1.5:1 B-grade minimum).
+
+### z0s, app vs WORKED.md v1.3 (35 B, ~54, 43 Skip, 4.3 LOW)
+
+App: **risk 37 (B), reward 52 (52.0), 42 Skip, 4.2/10 LOW**: within 2 on every headline number.
+
+| Risk rule | WORKED | App | Δ |
+|---|---|---|---|
+| LP/curve 8, holders 6, insiders 2, deployer 4 (verified lock), depth 8, price 0, organic 0, socials 3, age 4 | 35 | 35 | 0 |
+| Sniper exit (te_cluster) | not listed | +2 | **+2** (7 launch snipers sold, largest 10.22%) |
+| **Total** | **35 B** | **37 B** | **+2** |
+
+| Reward signal | WORKED | App | Weighted Δ | Why |
+|---|---|---|---|---|
+| Depth (20%) | 30 | 15 | **−3.0** | Data: the fixture's Jupiter quote was captured live at 23:46 ($50 exit 2.03% → the ≤5% band); 23:08 quote not saved |
+| Volume (15%) | 55 | 60 | +0.75 | 4.4x → 92 by the formula, young cap 60 |
+| Buy/sell 75, structure 60, holders 75, narrative 35, room 70 | | same | 0 | |
+| **Reward** | **~54 (54.25)** | **52.0** | **−2.25** | |
+
+R:R: 4.3 min old, so there is no swing low outside the launch candles, and the peak is only 11% above price → −18% stop ($0.0000195), +30% TP1 ($0.0000308): 1.67:1 now and at plan (= price). WORKED's own levels ($21.1k / $15k / $26k / $35k) still work in the calculator: 0.8:1 and 2.3:1.
+
+### Yana, app vs WORKED.md v1.3 (Avoid 1.0)
+
+App: **Avoid 1.0/10 LOW** (g_serial: dev-acting signer 8inT…3Eeh, 3,101 mints) **= WORKED.** Without the gate: risk 55 C (insiders 10 + 2 no funder trace; sniper exit +2), reward 52 (51.65: depth 40, volume 60, buy/sell 51, structure 60, holders 80, narrative 20, room 70), 31 Skip (capped), 3.1.
+
+### Other cases under v1.3
+
+| Case | v1.2 | v1.3 | Why |
+|---|---|---|---|
+| CRAWL | 50 C, 31 Skip, 3.1 | 64 D, 20 Skip, 2.0 | no stacking −7.5 (→ 42); LP 0 → 20 (39.9% locked: $193.4k of $484.6k across 5 pools ≥ $5k); insiders +2; reward 50.65 (volume 64.8x → 55, structure 19: 66% below the peak −15 floor broke, room 17 at $2.5M) |
+| Fux | 66 D, 15 Skip, 1.5 | 60 D, 14 Skip, 1.4 | no stacking −7.5, insiders +2 |
+| WILLY | 76 D, 14 Skip, 1.4 | 70 D, 13 Skip, 1.3 | same |
+| Alias | 79 D, 11 Skip, 1.1 | 81 D, 15 Skip (capped), 1.5 | insiders +2; reward 37 (formulas: volume 55, buy/sell 39, structure 31) |
+| SYNCLEAN | 0 A, 78 Watch, 7.8 | 2 A, 71 Watch, 7.1 | insiders +2; formulas (buy/sell 1.5x → 65, room $2M → 21) |
+| SYNLOT | 26 B, 52 Lottery, 5.2 | 28 B, 43 Skip, 4.3 | formulas (depth 21, buy/sell 65, structure 83, room 21) |
+| SYNRUG | 15 A, Skip (capped), 4.9 | 17 A, Skip (capped), 4.9 | insiders +2 |
+
 ## 7. Worked examples, every case
 
-(v1.1 numbers below; the v1.2 numbers are in section 6a.)
+(v1.1 numbers below; v1.2 numbers are in section 6a and the current v1.3 numbers in section 6b.)
 
 Format: risk points | hard-fail unknowns (+10 each) | team exit → raw → score (grade); reward = Σ signal × weight. QI and Yana are in section 6.
 

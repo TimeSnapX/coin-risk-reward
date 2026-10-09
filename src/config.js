@@ -34,6 +34,7 @@ export const CONFIG = {
   },
   // A hard-fail check whose data source failed adds these points (spec gives no number; review with Hades).
   hardFailUnknownPoints: 10,
+  lp: { minPoolUsd: 5000 },  // v1.3 ruling A: LP lock share = locked / total liquidity over pools >= $5k
   // Weighted risk rules: weight = the spec's points for the rule (bonuses can exceed it where the spec has no cap).
   riskWeights: { lp: 20, holders: 20, insiders: 15, dev: 15, liquidity: 10, priceAction: 8, organic: 6, socials: 6, age: 4 },
   unknownRiskFactor: 0.5,     // failed source => HALF the rule's points
@@ -85,7 +86,7 @@ export const CONFIG = {
   // ---- costs, sizing, ranges (education only) ----
   costs: { swapFeePct: 1, priorityFeeSol: 0.0002, defaultTestSizeUsd: 50, quoteSizesUsd: [50, 500] },
   sizing: { watch: 5, lottery: 2, lotteryLow: 1 }, // % of bankroll you could LOSE; never an amount to buy
-  rr: { stopFallbackPct: 15, minGreen: 1.5, minAmber: 2, planDipPct: 10 }, // plan entry = retest 10% below price (WORKED.md v1.2: QI $0.00105 -> $0.00095, z0s $21.1k -> $19k)
+  rr: { minGreen: 1.5, minAmber: 2, stopUnderSwingPct: 3, stopFallbackPct: 18, tp1FallbackPct: 30, tp2PeakShare: 0.95, planZonePct: [15, 20] }, // WORKED.md v1.3 ruling G
   ranges: { multiples: [2, 5, 10], typicalPeakMcapUsd: 1000000, subCapUsd: 100000, stopZone: [-50, -90] },
   pumpCurve: { totalSupply: 1e9, sellableTokens: 793.1e6, virtualTokens: 1073e6, virtualSol: 30, graduationSol: 85 },
 };

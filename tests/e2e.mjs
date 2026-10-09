@@ -65,7 +65,7 @@ await shot("03-evm-coming-later");
 
 // ---- 4. Argus cases one by one, hand-checked numbers (FORMULA.md)
 // v1.2: no launch data -> deployer "signer unknown" +7.5; curve coins without a saved Jupiter quote -> curve liquidity gate unknown (no Avoid)
-const EXP = { CRAWL: ["50", "51", "31", "Skip", "MED", "+2.23%", "3.1"], Fux: ["66", "37", "15", "Skip", "LOW", "+5.94%", "1.5"], WILLY: ["76", "34", "14", "Skip", "LOW", "+5.73%", "1.4"], Alias: ["79", "28", "11", "Skip", "LOW", "+146.28%", "1.1"] };
+const EXP = { CRAWL: ["64", "51", "20", "Skip", "MED", "+2.23%", "2.0"], Fux: ["60", "35", "14", "Skip", "LOW", "+5.94%", "1.4"], WILLY: ["70", "33", "13", "Skip", "LOW", "+5.73%", "1.3"], Alias: ["81", "37", "15", "Skip", "LOW", "+146.28%", "1.5"] };
 for (const [name, [risk, reward, vs, verdict, conf, be, rating]] of Object.entries(EXP)) {
   await checkCoin(C[name]);
   const got = [await txt('[data-k="risk"]'), await txt('[data-k="reward"]'), await txt('[data-k="vscore"]'), await txt('[data-k="verdict"]'), (await txt(".conf")).split(" ")[0], await txt('[data-k="breakeven"]')];
@@ -74,17 +74,17 @@ for (const [name, [risk, reward, vs, verdict, conf, be, rating]] of Object.entri
   ok(await page.$('[data-k="sources"] [data-src="jupiter"] em') && (await txt('[data-src="jupiter"] em')) === "unknown", `${name}: Jupiter (not saved by Argus) shows unknown`);
   ok((await txt('[data-k="rating10"]')) === rating && (await txt(".ratingbar .conf")) === conf, `${name}: rating ${rating}/10 shown with ${conf}`, await txt(".ratingbar"));
   if (name === "Alias") ok(/Capped at Skip.*3\.99% of supply 1\.3 min after launch/.test(await txt('[data-k="capped"]')) && (await txt('[data-rule="te_dev"] [data-val]')) === "SKIP CAP", "Alias: clean RugCheck 1 but the dev exit (1.3 min) trips the team-exit cap", await txt('[data-k="capped"]'));
-  if (name === "CRAWL") ok((await txt('[data-rule="te_dev"] [data-val]')) === "+7.5" && /unknown/.test(await txt('[data-rule="te_dev"]')), "CRAWL: early dev data missing -> unknown +7.5", await txt('[data-rule="te_dev"]'));
+  if (name === "CRAWL") ok((await txt('[data-rule="te_dev"] [data-val]')) === "+0" && /already counted as "signer unknown" \+7\.5/.test(await txt('[data-rule="te_dev"]')), "CRAWL: early dev data missing -> unknown, +0 (v1.3 ruling F: not stacked on the deployer's signer-unknown 7.5)", await txt('[data-rule="te_dev"]'));
   await shot(`04-${name}-detail`);
 }
 await page.evaluate(() => window.scrollTo(0, 99999)); await shot("04-Alias-checks-bottom");
 // QI worked example (fixture: Argus 22:33 data + live-captured launch history / Jupiter; see tests/fixtures/8TiMkg…/QI_CAPTURE.md)
 await checkCoin(C.QI);
 { const got = [await txt('[data-k="risk"]'), await txt('[data-k="reward"]'), await txt('[data-k="vscore"]'), await txt('[data-k="verdict"]'), (await txt(".conf")).split(" ")[0], await txt('[data-k="breakeven"]'), await txt('[data-k="rating10"]')];
-  ok(JSON.stringify(got) === JSON.stringify(["22", "60", "60", "Speculative lottery ticket", "HIGH", "+2.12%", "6.0"]), "QI (v1.2): risk 22 A · reward 60 · 60 Lottery · HIGH · BE +2.12% · 6.0/10 (WORKED.md 4.3 Skip; delta in FORMULA.md)", JSON.stringify(got));
+  ok(JSON.stringify(got) === JSON.stringify(["44", "56", "34", "Skip", "HIGH", "+2.12%", "3.4"]), "QI (v1.3): risk 44 C · reward 56 · 34 Skip · HIGH · BE +2.12% · 3.4/10 (WORKED.md 35 / ~54 / 43 Skip / 4.3; deltas in FORMULA.md 6b)", JSON.stringify(got));
   ok((await txt('[data-rule="te_cluster"] [data-val]')) === "+2" && /largest sniper 11\.36%.*exit completed: Y after 6 s/.test(await txt('[data-rule="te_cluster"]')), "QI: 11.36% sniper exit = yellow +2, no cap", await txt('[data-rule="te_cluster"]'));
   ok(/2sRs…wdR8/.test(await txt('[data-rule="g_serial"]')) && /acts as a launchpad launcher.*not a gate, \+3 deployer points/.test(await txt('[data-rule="g_serial"]')), "QI: launch wallet 2sRs… is a launchpad relayer -> no serial gate", await txt('[data-rule="g_serial"]'));
-  ok(/R:R now 2\.2:1.*plan entry .*: 4\.6:1/.test(await txt('[data-k="rr"]')), "QI: R:R at current price and at the plan entry", await txt('[data-k="rr"]'));
+  ok(/R:R now 0\.8:1 \/ TP2 1\.7:1 ⚠ under 1:1.*plan entry \$0\.000948 \(zone \$0\.000927-\$0\.000968\): 2\.0:1 \/ TP2 3\.3:1 \(needs 2:1 ✗\).*Stop \$0\.000782 \(3% under the 2 h swing low \$0\.000806\) · TP1 \$0\.00127 · TP2 \$0\.00149/.test(await txt('[data-k="rr"]')), "QI: R:R now and at the plan entry, zone, stop/TP1/TP2 (ruling G)", await txt('[data-k="rr"]'));
   ok((await txt('[data-k="liqkind"]')) === "pool", "QI: graduated coin's liquidity shown as a pool");
   await shot("04-QI-detail"); await page.$eval('[data-rule="te_cluster"]', (e) => e.scrollIntoView({ block: "center" })); await shot("04-QI-team-exit"); }
 await page.goto(BASE + `#/coin/${C.CRAWL.mint}`); await page.waitForSelector("[data-coin-detail]"); await shot("04-CRAWL-full", true);
@@ -92,11 +92,11 @@ await page.goto(BASE + `#/coin/${C.CRAWL.mint}`); await page.waitForSelector("[d
 // Yana: bonding-curve coin, 6.8 min old (fixture: Argus 22:57 data + live-captured launch/candles/Jupiter; YANA_CAPTURE.md)
 await checkCoin(C.Yana);
 { const got = [await txt('[data-k="risk"]'), await txt('[data-k="reward"]'), await txt('[data-k="vscore"]'), await txt('[data-k="verdict"]'), (await txt(".conf")).split(" ")[0], await txt('[data-k="rating10"]'), await txt(".ratingbar .conf")];
-  ok(JSON.stringify(got) === JSON.stringify(["53", "53", "—", "Avoid", "LOW", "1.0", "LOW"]), "Yana (v1.2): risk 53 C · reward 53 · Avoid · LOW badge · 1.0/10 LOW", JSON.stringify(got));
+  ok(JSON.stringify(got) === JSON.stringify(["55", "52", "—", "Avoid", "LOW", "1.0", "LOW"]), "Yana (v1.3): risk 55 C · reward 52 · Avoid · LOW badge · 1.0/10 LOW (WORKED.md Avoid 1.0)", JSON.stringify(got));
   ok((await txt('[data-k="liqkind"]')) === "curve" && /real SOL in the pump\.fun bonding curve, not a pool/.test(await txt('[data-k="liq"]')), "Yana: liquidity shown as 'curve', not a pool", await txt('[data-k="liq"]'));
   ok(/pair only 7 min old/.test(await txt(".coin .small.muted")), "Yana: LOW confidence explained by age < 30 min");
   ok(/8inT…3Eeh bought 8\.25% at launch and SOLD 8\.25% 1 s after launch/.test(await txt('[data-rule="te_dev"]')), "Yana: launch signer's 1 s dump shown in team-exit checks", await txt('[data-rule="te_dev"]'));
-  ok(/under 1:1 at the current price/.test(await txt('[data-k="rr"]')), "Yana: current-price R:R under 1:1 warned", await txt('[data-k="rr"]'));
+  ok(/-18% from the plan entry \(no swing low\).*TP1 \$0\.0000419/.test(await txt('[data-k="rr"]')), "Yana (7 min old): no swing low yet -> -18% stop / +30% TP1 fallbacks shown", await txt('[data-k="rr"]'));
   await shot("04-Yana-detail");
   // reward-to-risk calculator with Mnemosyne's levels (market cap $)
   const setRR = async (k, v) => { await page.fill(`[data-rr="${k}"]`, String(v)); };
@@ -112,7 +112,7 @@ await checkCoin(C.Yana);
 // z0s: dev's launch buy moved into a Streamflow time-lock 43 s after launch (fixture: Argus 23:08 + live capture; Z0S_CAPTURE.md)
 await checkCoin(C.z0s);
 { const got = [await txt('[data-k="risk"]'), await txt('[data-k="reward"]'), await txt('[data-k="vscore"]'), await txt('[data-k="verdict"]'), (await txt(".conf")).split(" ")[0], await txt('[data-k="rating10"]')];
-  ok(JSON.stringify(got) === JSON.stringify(["35", "55", "44", "Skip", "LOW", "4.4"]), "z0s: risk 35 B · reward 55 · 44 Skip · LOW · 4.4/10 (WORKED.md 39 / ~47 / 38 / 3.8)", JSON.stringify(got));
+  ok(JSON.stringify(got) === JSON.stringify(["37", "52", "42", "Skip", "LOW", "4.2"]), "z0s: risk 37 B · reward 52 · 42 Skip · LOW · 4.2/10 (WORKED.md v1.3 35 / ~54 / 43 / 4.3)", JSON.stringify(got));
   ok(/verified Streamflow lock FmTC…WeMm/.test(await txt('[data-rule="dev"]')) && (await txt('[data-rule="dev"] [data-val]')).startsWith("4"), "z0s: deployer 4 with the verified Streamflow lock", await txt('[data-rule="dev"]'));
   ok(/verified on-chain.*Streamflow FmTC…, cliff 2027-04-07, 0 withdrawn/.test(await txt('[data-k="devlock"]')), "z0s: lock shown as verified on-chain (no manual input needed)", await txt('[data-k="devlock"]'));
   ok(await page.$("#devlock") === null, "z0s: manual lock box hidden when the lock is verified on-chain");
@@ -140,15 +140,15 @@ await page.click("#check"); await page.waitForFunction(() => document.querySelec
 const rows = await page.$$eval(".watch li", (l) => l.map((x) => x.textContent.replace(/\s+/g, " ").trim()));
 ok(rows.length === 12, "watchlist holds 12 coins", rows.length);
 const row = (n) => rows.find((r) => r.startsWith(n)) || "";
-ok(/Watch closely.*Risk 0 \(A\).*Reward 78.*Score 78.*7\.8\/10 HIGH/.test(row("SYNCL")), "SYNCLEAN row: Watch closely, risk 0 A, reward 78, score 78, 7.8/10 HIGH", row("SYNCL"));
+ok(/Watch closely.*Risk 2 \(A\).*Reward 71.*Score 71.*7\.1\/10 HIGH/.test(row("SYNCL")), "SYNCLEAN row: Watch closely, risk 2 A, reward 71, score 71, 7.1/10 HIGH", row("SYNCL"));
 ok(/Avoid.*Risk 100 \(D\).*1\.0\/10/.test(row("SYNHA")), "SYNHARD row: Avoid, risk 100 D, 1.0/10", row("SYNHA"));
-ok(/Skip.*Risk 68 \(D\).*Reward 36.*Score 14/.test(row("SYNMI")), "SYNMID row: Skip, 68 D, 36, 14", row("SYNMI"));
-ok(/Speculative lottery ticket.*Risk 26 \(B\).*Reward 65.*Score 52/.test(row("SYNLO")), "SYNLOT row: lottery, 26 B, 65, 52", row("SYNLO"));
-ok(/Skip.*Risk 15 \(A\).*Reward 78.*Score 78.*4\.9\/10 HIGH/.test(row("SYNRU")), "SYNRUG row: Skip (capped) despite score 78, 4.9/10 (dev sold: deployer 15)", row("SYNRU"));
+ok(/Skip.*Risk 70 \(D\).*Reward 34.*Score 14/.test(row("SYNMI")), "SYNMID row: Skip, 70 D, 34, 14", row("SYNMI"));
+ok(/Skip.*Risk 28 \(B\).*Reward 54.*Score 43/.test(row("SYNLO")), "SYNLOT row: Skip, 28 B, 54, 43", row("SYNLO"));
+ok(/Skip.*Risk 17 \(A\).*Reward 71.*Score 71.*4\.9\/10 HIGH/.test(row("SYNRU")), "SYNRUG row: Skip (capped) despite score 71, 4.9/10 (dev sold: deployer 15)", row("SYNRU"));
 const dots = await page.$$eval("[data-dot]", (d) => d.length); ok(dots === 12, "quadrant shows 12 dots", dots);
 const pos = await page.$eval(`[data-dot="${C.SYNCLEAN.mint}"] circle:nth-of-type(2)`, (c) => [+c.getAttribute("cx"), +c.getAttribute("cy")]);
 // x = 34 + risk/100*316 ; y = 12 + 258 - score/100*258  => risk 0, score 78 -> (34, 68.76)
-ok(Math.abs(pos[0] - 34) < 0.01 && Math.abs(pos[1] - 68.76) < 0.01, "SYNCLEAN dot at risk 0 / score 78 -> (34, 68.76)", pos);
+ok(Math.abs(pos[0] - 40.32) < 0.01 && Math.abs(pos[1] - 86.82) < 0.01, "SYNCLEAN dot at risk 2 / score 71 -> (40.32, 86.82)", pos);
 await page.$eval(".quad", (e) => e.scrollIntoView()); await shot("05-quadrant-watchlist");
 await shot("05-home-full", true);
 
@@ -156,10 +156,10 @@ await shot("05-home-full", true);
 await page.tap(`[data-dot="${C.SYNLOT.mint}"] circle:nth-of-type(2)`);
 await page.waitForSelector(`[data-coin-detail="${C.SYNLOT.mint}"]`);
 ok(page.url().endsWith(`#/coin/${C.SYNLOT.mint}`), "tapping a dot opens that coin");
-ok((await txt('[data-k="verdict"]')) === "Speculative lottery ticket", "SYNLOT detail: lottery verdict");
-// ---- 7. manual narrative -> reward 72, score 58; bankroll -> amount you can lose
+ok((await txt('[data-k="verdict"]')) === "Skip", "SYNLOT detail: Skip (43) before the manual narrative");
+// ---- 7. manual narrative -> reward 62, score 50 (lottery); bankroll -> amount you can lose
 await page.selectOption("#narrative", "90"); await page.waitForTimeout(200);
-ok((await txt('[data-k="reward"]')) === "72" && (await txt('[data-k="vscore"]')) === "58", "manual narrative 90: reward 72, score 58", (await txt('[data-k="reward"]')) + "/" + (await txt('[data-k="vscore"]')));
+ok((await txt('[data-k="reward"]')) === "62" && (await txt('[data-k="vscore"]')) === "50" && (await txt('[data-k="verdict"]')) === "Speculative lottery ticket", "manual narrative 90: reward 62, score 50, lottery", (await txt('[data-k="reward"]')) + "/" + (await txt('[data-k="vscore"]')));
 await page.goto(BASE + "#/"); await page.click("details.card summary"); await page.fill("#bankroll", "1000"); await page.press("#bankroll", "Tab");
 await page.goto(BASE + `#/coin/${C.SYNLOT.mint}`); await page.waitForSelector("[data-coin-detail]");
 ok(/up to \$20 of \$1,000/.test(await txt('[data-k="lose"] + small')), "lose at most 1-2% = up to $20 of $1000", await txt('[data-k="lose"] + small'));
@@ -170,17 +170,17 @@ await shot("07-hardfail-detail");
 await page.goto(BASE + `#/coin/${C.SYNRUG.mint}`); await page.waitForSelector("[data-coin-detail]");
 ok(/Capped at Skip \(would have been Watch closely \/ small flip\).*bought 6\.00% at launch and moved \(unlocked\) 6\.00% 4\.0 min after launch/.test(await txt('[data-k="capped"]')) && (await txt('[data-k="rating10"]')) === "4.9" && (await txt('[data-k="lose"]')) === "$0",
   "SYNRUG: capped at Skip (would be Watch), rating 4.9, lose $0", await txt('[data-k="capped"]'));
-ok(/78 \/ 10 = 7\.8; SKIP \(team-exit cap\) caps at 4\.9/.test(await txt('[data-k="ratingwhy"]')), "rating explains 78/10 = 7.8 -> Skip cap 4.9", await txt('[data-k="ratingwhy"]'));
+ok(/71 \/ 10 = 7\.1; SKIP \(team-exit cap\) caps at 4\.9/.test(await txt('[data-k="ratingwhy"]')), "rating explains 71/10 = 7.1 -> Skip cap 4.9", await txt('[data-k="ratingwhy"]'));
 await shot("07-teamexit-capped");
 
 // ---- 7b. tracker: add SYNLOT as found by Hades, edit status + notes, /10 ratings
 await page.goto(BASE + `#/coin/${C.SYNLOT.mint}`); await page.waitForSelector("[data-coin-detail]");
-ok((await txt('[data-k="rating10"]')) === "5.8" && (await txt(".ratingbar .conf")) === "HIGH", "detail shows rating 5.8/10 HIGH (score 58 / 10)", await txt(".ratingbar"));
+ok((await txt('[data-k="rating10"]')) === "5.0" && (await txt(".ratingbar .conf")) === "HIGH", "detail shows rating 5.0/10 HIGH (score 50 / 10)", await txt(".ratingbar"));
 await page.selectOption("#tr-foundBy", "Hades"); await page.fill("#tr-foundAt", "2026-10-09T11:30"); await page.fill("#tr-notes", "Hades flagged on the 1h chart");
 await page.click("[data-track-add]"); await page.waitForSelector(".trk [data-untrack]");
 await page.goto(BASE + "#/"); await page.waitForSelector(`[data-track="${C.SYNLOT.mint}"]`);
 const tr = await txt(`[data-track="${C.SYNLOT.mint}"]`);
-ok(/Found by Hades/.test(tr) && /5\.8\/10 HIGH/.test(tr) && /Speculative lottery ticket/.test(tr) && /data as of/.test(tr), "tracker row: Hades, verdict, 5.8/10 HIGH, data as of", tr.replace(/\s+/g, " "));
+ok(/Found by Hades/.test(tr) && /5\.0\/10 HIGH/.test(tr) && /Speculative lottery ticket/.test(tr) && /data as of/.test(tr), "tracker row: Hades, verdict, 5.0/10 HIGH, data as of", tr.replace(/\s+/g, " "));
 await page.selectOption(`[data-track="${C.SYNLOT.mint}"] [data-tr="status"]`, "skipped");
 await page.fill(`[data-track="${C.SYNLOT.mint}"] [data-tr="notes"]`, "Skipped: liquidity too thin"); await page.press(`[data-track="${C.SYNLOT.mint}"] [data-tr="notes"]`, "Tab");
 await page.reload(); await page.waitForSelector(`[data-track="${C.SYNLOT.mint}"]`);
@@ -223,7 +223,7 @@ ok(/Not a Coin Risk vs Reward export/.test(await txt("#msg")), "bad import rejec
 await page.reload(); await page.clock.setFixedTime(new Date(C.CRAWL.now + 1)); await solFor(C.CRAWL); state.fail = new Set(["api.rugcheck.xyz"]);
 await page.goto(BASE + "#/"); await page.fill("#ca", C.CRAWL.mint); await page.click("#check"); await page.waitForSelector(`[data-coin-detail="${C.CRAWL.mint}"]`);
 state.fail = new Set();
-ok((await txt('[data-k="risk"]')) === "83", "CRAWL with RugCheck down: risk 42 -> 83", await txt('[data-k="risk"]'));
+ok((await txt('[data-k="risk"]')) === "76", "CRAWL with RugCheck down: risk 64 -> 76", await txt('[data-k="risk"]'));
 ok((await txt('[data-rule="lp"] [data-val]')) === "+10/20" && /unknown/.test(await txt('[data-rule="lp"]')), "LP check shows 'unknown' and +10 (half of 20)");
 ok((await txt('[data-src="rugcheck"] em')) === "unknown", "RugCheck source shows unknown");
 await page.$eval('[data-rule="lp"]', (e) => e.scrollIntoView({ block: "center" })); await shot("10-rugcheck-down");

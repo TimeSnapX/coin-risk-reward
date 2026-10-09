@@ -176,7 +176,7 @@ function devLockInput(d, entry, a) {
 function rrLine(r) {
   const x = r.rr; if (!x?.known) return `<p class="small" data-k="rr">R:R: ${esc(x?.text || "unknown")}</p>`;
   const f = (v) => (v == null ? "n/a" : `${v.toFixed(1)}:1`);
-  return `<p class="small${x.warnCurrent ? " warn" : ""}" data-k="rr">R:R now <b data-k="rrnow">${f(x.current.tp1)}</b>${x.target2 ? ` / TP2 ${f(x.current.tp2)}` : ""}${x.warnCurrent ? " ⚠ under 1:1 at the current price" : ""} · plan entry ${fmtUsd(x.plan.entry)}: <b data-k="rrplan">${f(x.plan.tp1)}</b>${x.target2 ? ` / TP2 ${f(x.plan.tp2)}` : ""} (needs ${x.min}:1 ${x.meets ? "✓" : "✗"}).</p>`;
+  return `<p class="small${x.warnCurrent ? " warn" : ""}" data-k="rr">R:R now <b data-k="rrnow">${f(x.current.tp1)}</b>${x.target2 ? ` / TP2 ${f(x.current.tp2)}` : ""}${x.warnCurrent ? " ⚠ under 1:1 at the current price" : ""} · plan entry ${fmtUsd(x.plan.entry)}${x.plan.zone && x.plan.zone[0] !== x.plan.zone[1] ? ` (zone ${fmtUsd(x.plan.zone[0])}-${fmtUsd(x.plan.zone[1])})` : ""}: <b data-k="rrplan">${f(x.plan.tp1)}</b>${x.target2 ? ` / TP2 ${f(x.plan.tp2)}` : ""} (needs ${x.min}:1 ${x.meets ? "✓" : "✗"}).<br><span data-k="rrlevels">Stop ${fmtUsd(x.stop)} (${esc(x.stopSrc || "")}) · TP1 ${fmtUsd(x.target)}${x.target2 ? ` · TP2 ${fmtUsd(x.target2)}` : ""}</span></p>`;
 }
 function detailHTML(entry) {
   const d = entry.data, r = rescore(entry), m = d.market || {}, p = d.pool || {}, a = entry.address;

@@ -68,7 +68,7 @@ export const rugcheck = {
     const holders = (r.topHolders || []).filter((h) => !poolish.has(h.owner) && !poolish.has(h.address));
     const top10 = holders.slice(0, 10).map((h) => num(h.pct) || 0);
     const pc = CONFIG.pumpCurve;
-    let poolPatch = { mainMarketType: main?.type, lpLockedPct: main && main !== curve ? main.lockedPct : undefined, mainMarketLiqUsd: main ? main.quoteUsd + main.baseUsd : undefined,
+    let poolPatch = { markets: markets.map((m) => ({ type: m.type, address: m.pubkey, usd: m.quoteUsd + m.baseUsd, lockedPct: m.lockedPct, hasLpToken: m.hasLpToken })), mainMarketAddress: main?.pubkey, mainMarketType: main?.type, lpLockedPct: main && main !== curve ? main.lockedPct : undefined, mainMarketLiqUsd: main ? main.quoteUsd + main.baseUsd : undefined,
       clOnly: !main && markets.length > 0 ? true : undefined, marketCount: markets.length };
     if (curve && main === curve) {
       const curveTokens = num(r.topHolders?.find((h) => h.owner === curve.pubkey)?.uiAmount) ?? curve.base;
@@ -87,7 +87,7 @@ export const rugcheck = {
       extensions: { transferFeeBps: tfBps, transferHookProgram: ext.transferHook ? (ext.transferHook.programId ?? ext.transferHook.program_id ?? null) : (r.token_extensions ? null : undefined), permanentDelegate: r.token_extensions ? (ext.permanentDelegate?.delegate ?? null) : undefined },
       pool: poolPatch,
       holders: { count: num(r.totalHolders), top10PctExPools: holders.length ? sum(top10) : undefined, largestPctExPools: holders.length ? top10[0] : undefined, top10Pcts: holders.length ? top10 : undefined },
-      insiders: { detected: num(r.graphInsidersDetected) ?? 0, networks: nets.length, linkedGroups: nets.filter((n) => (n.size || 0) >= 2).length,
+      insiders: { graphChecked: num(r.graphInsidersDetected) !== undefined, detected: num(r.graphInsidersDetected) ?? 0, networks: nets.length, linkedGroups: nets.filter((n) => (n.size || 0) >= 2).length,
         holdingPct: pctOfSupply(sum(nets.map((n) => num(n.currentHolding) || 0))) ?? (nets.length ? undefined : 0),
         dumpedPct: pctOfSupply(sum(nets.map((n) => Math.max(0, (num(n.tokenAmount) || 0) - (num(n.currentHolding) || 0))))) ?? (nets.length ? undefined : 0),
         receivedPct: pctOfSupply(sum(nets.map((n) => num(n.tokenAmount) || 0))) ?? (nets.length ? undefined : 0),
@@ -118,6 +118,9 @@ export const dexscreener = {
       market: {
         priceUsd: num(p.priceUsd), mcapUsd: num(p.marketCap), fdvUsd: num(p.fdv),
         liquidityUsd: liqs.length ? sum(liqs) : undefined, liquiditySource: liqs.length ? "dexscreener" : undefined,
+        // v1.3: main pool's own liquidity / 24h volume (volume quality) and every pool (LP lock share across pools)
+        mainLiquidityUsd: num(p.liquidity?.usd), mainVolumeH24: num(p.volume?.h24),
+        pools: pairs.map((x) => ({ address: x.pairAddress, dex: x.dexId, labels: x.labels || [], liqUsd: num(x.liquidity?.usd) })),
         pairAddress: p.pairAddress, dexId: p.dexId, url: p.url, pairCount: pairs.length,
         pairCreatedAt: created.length ? Math.min(...created) : undefined,
         volumeUsd: { m5: num(p.volume?.m5), h1: num(p.volume?.h1), h6: num(p.volume?.h6), h24: pairs.some((x) => x.volume?.h24 !== undefined) ? sum(pairs.map((x) => num(x.volume?.h24) || 0)) : undefined },
@@ -270,7 +273,7 @@ export function teamExitFromTrades(list, ctx) {
   return out;
 }
 
-export function chartStats(candles, tf) {
+export function chartStats(candles, tf, opt = {}) {
   // candles: [[t,o,h,l,c,v]] any order -> ascending
   const c = candles.map((x) => x.map(Number)).filter((x) => x.every(Number.isFinite)).sort((a, b) => a[0] - b[0]);
   if (c.length < 3) throw new SourceError("not enough candles");
@@ -289,7 +292,42 @@ export function chartStats(candles, tf) {
   const prevIdx = Math.max(0, closes.length - 7);
   return { tf, candles: c.length, from: c[0][0] * 1000, athUsd: ath, lowAfterAthUsd: lowAfterAth, lastClose,
     drawdownPct: (1 - lastClose / ath) * 100, swingLowUsd: swingLow, recentHighUsd: halfHighs.length ? Math.min(...halfHighs) : undefined,
-    higherLows: k >= 2 && mins[0] < mins[1] && mins[1] < mins[2], falling: lastClose < closes[prevIdx], bounced: lastClose > lowAfterAth * 1.1 };
+    higherLows: k >= 2 && mins[0] < mins[1] && mins[1] < mins[2], falling: lastClose < closes[prevIdx], bounced: lastClose > lowAfterAth * 1.1,
+    ...levelsV13(c, tf, opt, ath) };
+}
+// WORKED.md v1.3 (rulings B and G) levels from the same candles. "now" = the case/as-of time; price = DexScreener price
+// (falls back to the last close). Times are candle open times (s).
+const TF_S = { minute: 60, hour: 3600, day: 86400 };
+export function levelsV13(c, tf, { now, pairCreatedAt, priceUsd } = {}, peak) {
+  const step = TF_S[tf] || (c.length > 1 ? c[1][0] - c[0][0] : 60), nowS = now ? now / 1000 : c[c.length - 1][0] + step;
+  const price = priceUsd > 0 ? priceUsd : c[c.length - 1][4];
+  // B: peak since pair creation; flag when the candles start after the pair was created (peak may be understated)
+  const historyShort = pairCreatedAt ? c[0][0] > pairCreatedAt / 1000 + step : undefined;
+  // G: latest swing low = min low of the last ~2 h of candles
+  const last2h = c.filter((x) => x[0] + step > nowS - 7200);
+  // launch prints in the first 15 min after pair creation are not a retest level: left out of the swing low
+  const settled = last2h.filter((x) => !pairCreatedAt || x[0] >= pairCreatedAt / 1000 + 900);
+  const swingLow2h = settled.length ? Math.min(...settled.map((x) => x[3])) : undefined;
+  // structure: support floor broken in the last 2 h = a candle in the last 2 h closed below the lowest low of the hour
+  // before it, and price is still below that level now
+  let floor;
+  for (const x of last2h) {
+    const prior = c.filter((y) => y[0] < x[0] && y[0] >= x[0] - 3600);
+    if (prior.length < 2) continue; const lo = Math.min(...prior.map((y) => y[3])), hiC = Math.max(...prior.map((y) => Math.max(y[1], y[4])));
+    if (x[4] < lo && price < lo && (!floor || lo > floor.lo)) floor = { lo, hi: hiC, at: x[0] * 1000 };
+  }
+  // TP1 candidate: highest-volume price node between price and the peak (volume profile, 12 log bins; each candle's
+  // volume spread over its low-high range). Zone = that bin; TP1 = its midpoint.
+  let volNode;
+  if (peak >= price * 1.3) { // a node needs room: with the peak < 30% above price the +30% fallback applies
+    const lo = Math.log(price * 1.02), hi = Math.log(peak), n = 12, w = (hi - lo) / n, bins = new Array(n).fill(0);
+    for (const x of c) { const a = Math.log(Math.max(x[3], 1e-30)), b = Math.log(Math.max(x[2], 1e-30)), span = Math.max(b - a, 1e-12);
+      for (let i = 0; i < n; i++) { const l = lo + i * w, h = l + w, ov = Math.min(b, h) - Math.max(a, l); if (ov > 0) bins[i] += x[5] * (b > a ? ov / span : 1); } }
+    const i = bins.indexOf(Math.max(...bins));
+    if (bins[i] > 0) volNode = { lo: Math.exp(lo + i * w), hi: Math.exp(lo + (i + 1) * w), mid: Math.exp(lo + (i + 0.5) * w), volume: bins[i] };
+  }
+  return { peakUsd: peak, priceRef: price, ddFromPeakPct: (1 - price / peak) * 100, historyShort, historyFrom: c[0][0] * 1000,
+    swingLow2hUsd: swingLow2h, floorBroken: floor, volNode, bouncedFromSwing: swingLow2h > 0 && price >= swingLow2h * 1.1 };
 }
 export function ohlcvTimeframe(pairCreatedAt, now) {
   const ageH = pairCreatedAt ? (now - pairCreatedAt) / 3600000 : Infinity;
@@ -301,7 +339,7 @@ export const geckoOhlcv = {
   id: "geckoterminal", sub: "ohlcv", label: "GeckoTerminal OHLCV", phase: 3,
   url: (ctx) => `https://api.geckoterminal.com/api/v2/networks/solana/pools/${poolOf(ctx.data)}/ohlcv/${ohlcvTimeframe(ctx.data.market?.pairCreatedAt, ctx.now).path}&currency=usd`,
   run(ctx) { if (!poolOf(ctx.data)) throw new SourceError("no pool address known"); return gtGet(ctx, geckoOhlcv.url(ctx)); },
-  normalize(raw, ctx) { return { chart: chartStats(raw?.data?.attributes?.ohlcv_list || [], ohlcvTimeframe(ctx.data.market?.pairCreatedAt, ctx.now).tf) }; },
+  normalize(raw, ctx) { return { chart: chartStats(raw?.data?.attributes?.ohlcv_list || [], ohlcvTimeframe(ctx.data.market?.pairCreatedAt, ctx.now).tf, { now: ctx.now, pairCreatedAt: ctx.data.market?.pairCreatedAt, priceUsd: ctx.data.market?.priceUsd }) }; },
 };
 
 // ------------------------------------------------------------------ Jupiter sell quotes $50 / $500 (phase 2)
