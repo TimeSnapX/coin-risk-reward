@@ -38,15 +38,19 @@ eq(extractCandidates("https://pump.fun/coin/5s81GzJuCFsk4H8vJWxFfCM8n11qVSmVNBFK
   eq(hit, 10, "derived ATA = RugCheck's token account for Alias's top 10 holders (Token-2022)"); }
 
 // ---------------- scoring maths, hand-checked (see FORMULA.md)
+// v1.2 (WORKED.md rulings): the 5-7 Oct Argus fixtures have no launch-block data, so the deployer line is "signer unknown" +7.5
+// (ruling 2); Alias's creator moved 3.99% unlocked 1.3 min after launch -> deployer 15 + cap. Fux/WILLY/Alias are bonding-curve
+// coins with no saved Jupiter quote: the $15k pool gate no longer applies (ruling 4) and the curve sell-quote test is
+// unknown -> no Avoid; curve depth unknown; young/curve caps volume 60, room 80, narrative floor 20 (ruling 3).
 const EXPECT = {
-  CRAWL: { pts: { lp: 0, holders: 0, insiders: 4, dev: 0, liquidity: 4, priceAction: 3, organic: 3, socials: 3, age: 0 }, riskRaw: 42, risk: 42, grade: "C", caps: { te_dev: null, te_cluster: null }, rating: 3.1,
+  CRAWL: { pts: { lp: 0, holders: 0, insiders: 4, dev: 7.5, liquidity: 4, priceAction: 3, organic: 3, socials: 3, age: 0 }, riskRaw: 49.5, risk: 50, grade: "C", caps: { te_dev: null, te_cluster: null }, rating: 3.1,
     sig: { liquidityDepth: 92, volumeQuality: 30, buySell: 49, trend: 30, holderGrowth: 75, narrative: 30, room: 38 }, rewardRaw: 50.55, reward: 51, vscore: 31, verdict: "skip", conf: "MED", gates: [], hf: [], be: 2.23 },
-  Fux: { pts: { lp: 8, holders: 0, insiders: 0, dev: 0, liquidity: 8, priceAction: 4, organic: 3, socials: 6, age: 4 }, riskRaw: 58, risk: 58, grade: "D", caps: { te_dev: null, te_cluster: null }, rating: 1.0,
-    sig: { liquidityDepth: 0, volumeQuality: 100, buySell: 61, trend: null, holderGrowth: 75, narrative: 0, room: 100 }, rewardRaw: 41.65, reward: 42, vscore: 17, verdict: "avoid", conf: "LOW", gates: ["g_liq"], hf: [], be: 5.94 },
-  WILLY: { pts: { lp: 8, holders: 6, insiders: 4, dev: 0, liquidity: 8, priceAction: 4, organic: 3, socials: 6, age: 4 }, riskRaw: 68, risk: 68, grade: "D", caps: { te_dev: null, te_cluster: null }, rating: 1.0,
-    sig: { liquidityDepth: 0, volumeQuality: 100, buySell: 52, trend: null, holderGrowth: 60, narrative: 0, room: 100 }, rewardRaw: 38.8, reward: 39, vscore: 16, verdict: "avoid", conf: "LOW", gates: ["g_liq"], hf: [], be: 5.73 },
-  Alias: { pts: { lp: 8, holders: 0, insiders: 10, dev: 0, liquidity: 10, priceAction: 5, organic: 3, socials: 6, age: 4 }, riskRaw: 63.5, risk: 64, grade: "D", caps: { te_dev: 1, te_cluster: null }, rating: 1.0,
-    sig: { liquidityDepth: 0, volumeQuality: 30, buySell: 22, trend: 10, holderGrowth: 75, narrative: 0, room: 100 }, rewardRaw: 26.8, reward: 27, vscore: 11, verdict: "avoid", conf: "LOW", gates: ["g_liq"], hf: [], be: 146.28 },
+  Fux: { pts: { lp: 8, holders: 0, insiders: 0, dev: 7.5, liquidity: 8, priceAction: 4, organic: 3, socials: 6, age: 4 }, riskRaw: 65.5, risk: 66, grade: "D", caps: { te_dev: null, te_cluster: null }, rating: 1.5,
+    sig: { liquidityDepth: null, volumeQuality: 60, buySell: 61, trend: null, holderGrowth: 75, narrative: 20, room: 80 }, rewardRaw: 36.65, reward: 37, vscore: 15, verdict: "skip", conf: "LOW", gates: [], hf: [], be: 5.94 },
+  WILLY: { pts: { lp: 8, holders: 6, insiders: 4, dev: 7.5, liquidity: 8, priceAction: 4, organic: 3, socials: 6, age: 4 }, riskRaw: 75.5, risk: 76, grade: "D", caps: { te_dev: null, te_cluster: null }, rating: 1.4,
+    sig: { liquidityDepth: null, volumeQuality: 60, buySell: 52, trend: null, holderGrowth: 60, narrative: 20, room: 80 }, rewardRaw: 33.8, reward: 34, vscore: 14, verdict: "skip", conf: "LOW", gates: [], hf: [], be: 5.73 },
+  Alias: { pts: { lp: 8, holders: 0, insiders: 10, dev: 15, liquidity: 10, priceAction: 5, organic: 3, socials: 6, age: 4 }, riskRaw: 78.5, risk: 79, grade: "D", caps: { te_dev: 1, te_cluster: null }, rating: 1.1,
+    sig: { liquidityDepth: null, volumeQuality: 30, buySell: 22, trend: 10, holderGrowth: 75, narrative: 20, room: 80 }, rewardRaw: 27.8, reward: 28, vscore: 11, verdict: "skip", conf: "LOW", gates: [], hf: [], be: 146.28 },
   SYNCLEAN: { pts: { lp: 0, holders: 0, insiders: 0, dev: 0, liquidity: 0, priceAction: 0, organic: 0, socials: 0, age: 0 }, riskRaw: 0, risk: 0, grade: "A", caps: { te_dev: 0, te_cluster: 0 }, rating: 7.8,
     sig: { liquidityDepth: 93, volumeQuality: 100, buySell: 75, trend: 100, holderGrowth: 85, narrative: 40, room: 41 }, rewardRaw: 78.45, reward: 78, vscore: 78, verdict: "watch", conf: "HIGH", gates: [], hf: [], be: 2.35 },
   SYNHARD: { riskRaw: 0, risk: 100, grade: "D", caps: { te_dev: 0, te_cluster: 0 }, rating: 1.0, rewardRaw: 78.45, reward: 78, vscore: 31, verdict: "avoid", conf: "HIGH", gates: [], hf: ["hf_mint", "hf_token2022"], be: 13.4 },
@@ -54,15 +58,19 @@ const EXPECT = {
     sig: { liquidityDepth: 43, volumeQuality: 87, buySell: 0, trend: 10, holderGrowth: 20, narrative: 40, room: 52 }, rewardRaw: 36.35, reward: 36, vscore: 14, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 3.18 },
   SYNLOT: { pts: { lp: 0, holders: 13, insiders: 0, dev: 5, liquidity: 8, priceAction: 0, organic: 0, socials: 0, age: 0 }, riskRaw: 26, risk: 26, grade: "B", caps: { te_dev: 0, te_cluster: 0 }, rating: 5.2,
     sig: { liquidityDepth: 43, volumeQuality: 100, buySell: 75, trend: 100, holderGrowth: 50, narrative: 40, room: 41 }, rewardRaw: 64.95, reward: 65, vscore: 52, verdict: "lottery", conf: "HIGH", gates: [], hf: [], be: 2.35 },
-  SYNRUG: { pts: { lp: 0, holders: 0, insiders: 0, dev: 0, liquidity: 0, priceAction: 0, organic: 0, socials: 0, age: 0 }, riskRaw: 0, risk: 0, grade: "A", caps: { te_dev: 1, te_cluster: 0 }, rating: 4.9,
+  SYNRUG: { pts: { lp: 0, holders: 0, insiders: 0, dev: 15, liquidity: 0, priceAction: 0, organic: 0, socials: 0, age: 0 }, riskRaw: 15, risk: 15, grade: "A", caps: { te_dev: 1, te_cluster: 0 }, rating: 4.9,
     sig: { liquidityDepth: 93, volumeQuality: 100, buySell: 75, trend: 100, holderGrowth: 85, narrative: 40, room: 41 }, rewardRaw: 78.45, reward: 78, vscore: 78, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 2.35 },
   // QI fixture (Argus 22:33 data + live-captured launch history/Jupiter, see fixtures/8TiMkg…/QI_CAPTURE.md). These are the APP'S numbers;
   // Mnemosyne's hand calculation differs (compared in the QI block below and in FORMULA.md), nothing here is tuned to match.
-  QI: { pts: { lp: 0, holders: 6, insiders: 4, dev: 8, liquidity: 4, priceAction: 0, organic: 0, socials: 3, age: 0 }, riskRaw: 27, risk: 27, grade: "B", caps: { te_dev: 0, te_cluster: 0 }, rating: 1.0,
-    sig: { liquidityDepth: 80, volumeQuality: 50, buySell: 76, trend: 65, holderGrowth: 80, narrative: 15, room: 50 }, rewardRaw: 59.9, reward: 60, vscore: 48, verdict: "avoid", conf: "HIGH", gates: ["g_serial"], hf: [], be: 2.12 },
+  QI: { pts: { lp: 0, holders: 6, insiders: 4, dev: 3, liquidity: 4, priceAction: 0, organic: 0, socials: 3, age: 0 }, riskRaw: 22, risk: 22, grade: "A", caps: { te_dev: 0, te_cluster: 0 }, rating: 6.0,
+    sig: { liquidityDepth: 80, volumeQuality: 50, buySell: 76, trend: 65, holderGrowth: 80, narrative: 15, room: 50 }, rewardRaw: 59.9, reward: 60, vscore: 60, verdict: "lottery", conf: "HIGH", gates: [], hf: [], be: 2.12 },
   // Yana fixture (bonding curve, 6.8 min old): Argus 22:57 data + live-captured launch history / candles / Jupiter (YANA_CAPTURE.md). App's numbers, not tuned.
-  Yana: { pts: { lp: 8, holders: 0, insiders: 10, dev: 8, liquidity: 8, priceAction: 0, organic: 0, socials: 6, age: 4 }, riskRaw: 46, risk: 46, grade: "C", caps: { te_dev: 1, te_cluster: 0 }, rating: 1.0,
-    sig: { liquidityDepth: 0, volumeQuality: 100, buySell: 52, trend: 100, holderGrowth: 100, narrative: 0, room: 100 }, rewardRaw: 57.8, reward: 58, vscore: 35, verdict: "avoid", conf: "LOW", gates: ["g_serial", "g_liq"], hf: [], be: 2.85 },
+  Yana: { pts: { lp: 8, holders: 0, insiders: 10, dev: 15, liquidity: 8, priceAction: 0, organic: 0, socials: 6, age: 4 }, riskRaw: 53, risk: 53, grade: "C", caps: { te_dev: 1, te_cluster: 0 }, rating: 1.0,
+    sig: { liquidityDepth: 40, volumeQuality: 60, buySell: 52, trend: 60, holderGrowth: 80, narrative: 20, room: 80 }, rewardRaw: 52.8, reward: 53, vscore: 32, verdict: "avoid", conf: "LOW", gates: ["g_serial"], hf: [], be: 2.85 },
+  // z0s fixture (bonding curve, 4.3 min old): Argus 23:08 data + live-captured launch history, dev trace, Streamflow lock
+  // contract + escrow, candles, Jupiter (Z0S_CAPTURE.md). App's numbers, not tuned (WORKED.md: risk 39 B, reward ~47, 38, 3.8).
+  z0s: { pts: { lp: 8, holders: 6, insiders: 0, dev: 4, liquidity: 8, priceAction: 0, organic: 0, socials: 3, age: 4 }, riskRaw: 35, risk: 35, grade: "B", caps: { te_dev: 0, te_cluster: 0 }, rating: 4.4,
+    sig: { liquidityDepth: 15, volumeQuality: 60, buySell: 87, trend: 60, holderGrowth: 80, narrative: 30, room: 80 }, rewardRaw: 54.55, reward: 55, vscore: 44, verdict: "skip", conf: "LOW", gates: [], hf: [], be: 6.4 },
 };
 async function run(c, opts = {}) {
   clearCache(); _resetSolCache(); _resetGt(); state.fail = new Set(opts.fail || []);
@@ -94,14 +102,17 @@ for (const c of CASES) {
   eq(d.rugcheck.score, 1, "RugCheck score is 1 (clean contract)");
   ok(/3\.99% of supply 1\.3 min after launch/.test(r.checks.caps[0].reason), "dev exit seen 1.3 min after launch (18:23:39 transfer)", r.checks.caps[0].reason);
   ok(/unknown: launch-block sniper data missing.*4\.81% → 0\.00% on-chain; 5 wallets 2\.70% → 0\.00% on-chain/.test(r.checks.caps[1].reason), "clusters (4.81% + 2.70%, both now 0 on-chain) are below 25% so no cap; launch-block data not saved -> unknown +7.5", r.checks.caps[1].reason);
-  eq(r.verdict, "avoid", "liquidity gate also trips -> AVOID (spec: or AVOID if a gate also trips)");
-  const relaxed = { ...CONFIG, gates: { ...CONFIG.gates, liquidityMinUsd: 0 } }; const r2 = score(d, relaxed);
-  eq(r2.verdict, "skip", "without the liquidity gate the team-exit cap still holds it at Skip"); eq(r2.capsHit.join(","), "te_dev", "the dev check trips (clusters are below the 25% cap)");
+  // v1.2 ruling 4: the $15k pool gate no longer applies on the bonding curve; the curve sell-quote test is unknown (no saved Jupiter quote)
+  eq(r.checks.gates.find((x) => x.id === "g_liq").score, null, "curve coin: liquidity gate = $50 sell-quote test, unknown without a saved Jupiter quote");
+  eq(r.verdict, "skip", "the team-exit cap holds it at Skip"); eq(r.capsHit.join(","), "te_dev", "the dev check trips (clusters are below the 25% cap)");
+  eq(r.checks.risk.find((x) => x.id === "dev").points, 15, "v1.2 ruling 2: creator moved tokens unlocked early -> deployer 15 (the worse side)");
   // GT trade path alone: drop the RPC creator history -> the 18:34:31 creator sell (12.2 min) still trips te_dev (<= 15 min)
   const d3 = structuredClone(d); delete d3.devExit; const r3 = score(d3); ok(/12\.2 min after launch \(GeckoTerminal/.test(r3.checks.caps[0].reason), "trade tape alone: dev sold 12.2 min after launch", r3.checks.caps[0].reason);
-  // no data at all for the rule -> unknown + half of dev (15) + insider (15) = +15
+  // no data at all for the rule -> team-exit unknown (+7.5) and deployer "signer unknown" (half of 15 = 7.5, v1.2 ruling 2)
   const d4 = structuredClone(d); delete d4.devExit; delete d4.trades; delete d4.insiders.onchainPct; const r4 = score(d4);
-  eq(r4.checks.caps.map((x) => x.score).join(","), ",", "both team-exit checks unknown without on-chain/trade data"); near(r4.riskRaw - r.riskRaw, 7.5 + (r4.checks.risk.find((x) => x.id === "priceAction").points - r.checks.risk.find((x) => x.id === "priceAction").points) + (r4.checks.risk.find((x) => x.id === "organic").points - r.checks.risk.find((x) => x.id === "organic").points), "dev check unknown adds 7.5 (cluster check was already unknown)"); }
+  eq(r4.checks.caps.map((x) => x.score).join(","), ",", "both team-exit checks unknown without on-chain/trade data");
+  eq(r4.checks.caps.find((x) => x.id === "te_dev").points, 7.5, "team-exit dev check unknown: +7.5");
+  ok(r4.checks.risk.find((x) => x.id === "dev").points === 7.5 && /signer unknown/.test(r4.checks.risk.find((x) => x.id === "dev").reason), "deployer: signer unknown, half points 7.5", r4.checks.risk.find((x) => x.id === "dev").reason); }
 { const { rpcDevHistory } = await import("../src/data/fetchers.js");
   const tb = (ui) => [{ owner: "DEV", mint: "MINT", uiTokenAmount: { uiAmountString: String(ui) } }];
   const mk = (prog) => ({ meta: { preTokenBalances: tb(100), postTokenBalances: tb(0), innerInstructions: [] }, transaction: { message: { instructions: [{ programId: prog }] } } });
@@ -117,15 +128,17 @@ for (const c of CASES) {
   eq(d.launch.largest.firstExitSec, 6, "sniper's first sale 6 s after launch"); eq(d.launch.largest.exitShare, 1, "sniper exit completed (holds 0 now)");
   eq(cl.score, 0, "11.36% < 25%: no Skip cap"); eq(cl.points, 2, "finished sniper exit below 25% = yellow +2 risk points"); eq(cl.flag, "amber", "yellow flag");
   ok(/largest sniper 11\.36% \(DL11…PLv4\), exit completed: Y/.test(cl.reason) && /launch wallets still hold 0\.037%/.test(cl.reason), "records largest sniper %, exit completed Y/N and % still held by launch wallets", cl.reason);
-  ok(dv.score === 0 && /6uj1…iTZg bought 0\.04% at launch and still holds 0\.04%/.test(dv.reason), "dev (buyer in the create tx) bought ~0.01 SOL = 0.04% and did not sell", dv.reason);
+  ok(dv.score === 0 && /signer 2sRs…wdR8 \/ buyer 6uj1…iTZg: launchpad launcher \(dust buy 0\.04% ≈ 0\.010 SOL, held/.test(dv.reason), "create tx: launchpad relayer 2sRs… signs, buyer 6uj1… bought ~0.01 SOL = 0.04% and did not sell", dv.reason);
+  const dp = r.checks.risk.find((x) => x.id === "dev"); eq(dp.points, 3, "v1.2 ruling 1: launchpad relayer, not a dev -> deployer +3 (no serial gate)");
+  eq(r.checks.gates.find((x) => x.id === "g_serial").score, 0, "g_serial not tripped by the relayer's launch count");
   const hp = r.checks.hard.find((x) => x.id === "hf_honeypot");
   ok(/single route \(Pump\.fun Amm\)/.test(hp.reason) && /\$500: 0\.79% \(impact 0\.79%, output vs notional 0\.00%\)/.test(hp.reason), "Jupiter sells on a single route; exit cost shows both impact and output-vs-notional, worst used", hp.reason);
   eq(r.rr.known && r.rr.rr, 2.16, "R:R from the 15-min chart: target $0.00157 (20:45 high) vs stop $0.000806 swing low");
-  // The serial-launcher gate is the only thing between this and Mnemosyne's Skip. Same data without it:
-  const r2 = score(d, { ...CONFIG, gates: { ...CONFIG.gates, serialLaunches: Infinity } });
-  eq(`${r2.riskScore} ${r2.grade} ${r2.rewardScore} ${r2.verdictScore} ${r2.verdict} ${r2.rating10} ${r2.confidence}`, "27 B 60 48 skip 4.8 HIGH", "without g_serial: risk 27 B, reward 60, 60x0.8=48 Skip, 4.8/10 HIGH");
+  const r2 = r; eq(`${r2.riskScore} ${r2.grade} ${r2.rewardScore} ${r2.verdictScore} ${r2.verdict} ${r2.rating10} ${r2.confidence}`, "22 A 60 60 lottery 6 HIGH", "v1.2: risk 22 A, reward 60, 60x1.0=60 Lottery, 6.0/10 HIGH (WORKED.md: 34 B, ~53, ~43 Skip, 4.3; see FORMULA.md table)");
   const M = { risk: 34, reward: 53, vscore: 43, rating: 4.3 };
-  console.log(`  info  vs Mnemosyne (risk 34 B, reward ~53, 43 Skip, ~4.3 HIGH): risk ${r2.riskScore - M.risk}, reward ${r2.rewardScore - M.reward}, score ${r2.verdictScore - M.vscore}, rating ${(r2.rating10 - M.rating).toFixed(1)}; the app also trips g_serial -> AVOID 1.0`);
+  console.log(`  info  vs WORKED.md (risk 34 B, reward ~53, 43 Skip, ~4.3 HIGH): risk ${r2.riskScore - M.risk}, reward ${r2.rewardScore - M.reward}, score ${r2.verdictScore - M.vscore}, rating ${(r2.rating10 - M.rating).toFixed(1)} (LP -6, price action -3, socials -3; grade A not B)`);
+  // R:R ruling 5: both numbers; gate on plan-entry TP1
+  ok(r.rr.current.tp1 === 2.16 && r.rr.plan.entry < d.market.priceUsd && r.rr.plan.tp1 > r.rr.current.tp1 && r.rr.meets === true && r.rr.warnCurrent === false, "R:R shown at the current price and at the plan entry (gate on plan TP1)", r.rr.text);
   // threshold check on the same coin: a 26% launch wallet that dumped -> Skip cap
   const d5 = structuredClone(d); Object.assign(d5.launch.wallets.find((w) => w.wallet === d5.launch.largest.wallet), { boughtPct: 26 }); d5.launch.largest.boughtPct = 26;
   const r5 = score(d5, { ...CONFIG, gates: { ...CONFIG.gates, serialLaunches: Infinity } });
@@ -138,14 +151,45 @@ for (const c of CASES) {
   eq(r.checks.gates.find((x) => x.id === "g_lp").score, 0, "LP gate exempt on the curve");
   eq(r.confidence, "LOW", "LOW confidence"); ok(/6\/6 sources answered/.test(r.confidenceWhy) && /pair only 7 min old/.test(r.confidenceWhy), "LOW comes from age < 30 min, not from missing sources", r.confidenceWhy);
   const dv = r.checks.caps.find((x) => x.id === "te_dev");
-  ok(dv.score === 1 && /8inT…3Eeh sold\/moved 8\.25% of supply 1 s after launch \(bought 8\.25% in the create tx\)/.test(dv.reason), "launch signer 8inT…3Eeh (not RugCheck creator 9AJG…) bought 8.25% in the create tx and sold it 1 s later -> Skip cap", dv.reason);
+  ok(dv.score === 1 && /signer 8inT…3Eeh bought 8\.25% at launch and SOLD 8\.25% 1 s after launch \(\+3\.216 SOL back\)/.test(dv.reason), "launch signer 8inT…3Eeh (not RugCheck creator 9AJG…) bought 8.25% in the create tx and sold it 1 s later -> Skip cap", dv.reason);
+  eq(r.checks.risk.find((x) => x.id === "dev").points, 15, "v1.2 ruling 2: deployer points = worse of signer (sold: 15) and creator");
+  ok(r.checks.gates.find((x) => x.id === "g_liq").score === 0 && /\$50 sell quote works/.test(r.checks.gates.find((x) => x.id === "g_liq").reason), "v1.2 ruling 4: curve coin passes the liquidity gate on the $50 sell quote", r.checks.gates.find((x) => x.id === "g_liq").reason);
+  ok(r.rr.warnCurrent === true && r.rr.current.tp1 < 1, "current-price R:R under 1:1 -> warning", r.rr.text);
   eq(d.dev.address, "9AJGnixEBQgqXTfRPTBNHPWjh5vSRTruFkG3KS9KgUxH", "RugCheck's creator is the fee wallet 9AJG… (holds 0%)");
-  const rel = { ...CONFIG, gates: { ...CONFIG.gates, serialLaunches: Infinity, liquidityMinUsd: 0 } }, r2 = score(d, rel);
-  eq(`${r2.riskScore} ${r2.grade} ${r2.rewardScore} ${r2.verdictScore} ${r2.verdict} ${r2.rating10} ${r2.confidence}`, "46 C 58 35 skip 3.5 LOW", "without the two gates: risk 46 C, reward 58, 58x0.6=35, Skip (and capped), 3.5/10 LOW");
-  console.log(`  info  vs Mnemosyne (risk 40 B, reward 47.5, 38 Skip, ~3.8 LOW, no cap): risk +6 (dev +4: 8 vs 4; sniper exit +2), grade C not B, reward ${r2.rewardRaw} vs 47.5, score -3, rating -0.3; the app also trips te_dev, g_serial and g_liq -> AVOID 1.0`);
+  eq(`${r.verdict} ${r.rating10} ${r.gatesHit.join(",")}`, "avoid 1 g_serial", "WORKED.md v1.2: Avoid 1.0 (serial gate on the dev-acting signer + dev-sold cap)");
+  const rel = { ...CONFIG, gates: { ...CONFIG.gates, serialLaunches: Infinity } }, r2 = score(d, rel);
+  eq(`${r2.riskScore} ${r2.grade} ${r2.rewardScore} ${r2.verdictScore} ${r2.verdict} ${r2.rating10} ${r2.confidence}`, "53 C 53 32 skip 3.2 LOW", "without g_serial: risk 53 C, reward 53, 53x0.6=32, Skip (and capped), 3.2/10 LOW");
+  console.log(`  info  vs WORKED.md (risk 51 C, Avoid 1.0): risk +2 (finished sniper exit +2; the 3.13% sniper is not in RugCheck's insider graph), reward ${r2.rewardRaw}`);
   // LOW confidence never displays above 6.0: every case, forced young
   let worst = 0; for (const k of CASES) { const { d: dk } = await run(k); dk.pairAgeMin = 5; const rk = score(dk, { ...CONFIG, gates: { ...CONFIG.gates, serialLaunches: Infinity, liquidityMinUsd: 0 } }); worst = Math.max(worst, rk.rating10); ok(rk.confidence === "LOW" && rk.rating10 <= 6.0, `${k.name} at 5 min old: LOW, rating ${rk.rating10} <= 6.0`); }
 }
+{ const c = CASES.find((x) => x.name === "z0s"); const { r, d } = await run(c);
+  console.log("\n— z0s: locked-dev rule (dev's launch buy moved 43 s after launch into a Streamflow time-lock)");
+  const L = d.devLocks?.[0];
+  eq(`${L?.contract} ${L?.escrow}`, "FmTCSsmBhB5FvqZghHhYy5kysL5mPegvBhRzutpKWeMm 4MKhVSxx6Ass4GgzpTNtVfrfs4MWURDKmp9CHtcjjV3J", "Streamflow contract + escrow decoded from the lock tx accounts");
+  near(L.deposited, 43781094.527363, "net deposited 43,781,094.53 tokens (44M minus Streamflow's fee)"); eq(L.withdrawn, 0, "0 withdrawn");
+  eq(new Date(L.cliff).toISOString(), "2027-04-07T13:04:52.000Z", "cliff 7 Apr 2027 23:04:52 AEST (180 days)"); eq(L.cancelableBySender, false, "not cancellable by the sender"); eq(L.verified, true, "lock verified");
+  eq(d.launch.dev.wallet, "Cobh71dEPrqCeVxnFy3znpHomepYzpQ6RpZsxXsRaPcC", "dev Cobh… is the create-tx signer/buyer"); near(d.launch.dev.boughtPct, 4.4, "dev bought 4.40% at launch");
+  const dp = r.checks.risk.find((x) => x.id === "dev"), dv = r.checks.caps.find((x) => x.id === "te_dev");
+  ok(dp.points === 4 && /verified Streamflow lock FmTC…WeMm/.test(dp.reason), "AFTER (verified lock): deployer 4, not an exit", dp.reason); eq(dv.score, 0, "no dev-sold cap with a verified lock");
+  eq(`${r.riskScore} ${r.grade} ${r.rewardScore} ${r.verdictScore} ${r.verdict} ${r.rating10} ${r.confidence}`, "35 B 55 44 skip 4.4 LOW", "z0s: risk 35 B, reward 55, 55x0.8=44 Skip, 4.4/10 LOW");
+  console.log(`  info  vs WORKED.md (risk 39 B, reward ~47, 38 Skip, 3.8 LOW): risk ${r.riskScore - 39} (insiders 0+2 vs 3, organic 0 vs 3), reward ${r.rewardScore - 47}, score ${r.verdictScore - 38}, rating ${(r.rating10 - 3.8).toFixed(1)}`);
+  // BEFORE: no lock data -> the launch buy moved out within a minute is an unresolved dev exit
+  const d2 = structuredClone(d); delete d2.devLocks; const r2 = score(d2), dp2 = r2.checks.risk.find((x) => x.id === "dev");
+  ok(dp2.points === 10 && /unresolved dev exit/.test(dp2.reason) && r2.checks.caps.find((x) => x.id === "te_dev").score === 1, "BEFORE (lock not verified): deployer 10 + dev-sold cap", dp2.reason);
+  eq(`${r2.riskScore} ${r2.grade} ${r2.verdict}`, "41 C skip", "before: risk 41 C, capped Skip");
+  // a lock that fails verification (sender can cancel) is still unresolved
+  const d3 = structuredClone(d); Object.assign(d3.devLocks[0], { verified: false, why: ["the sender can cancel it"] }); const dp3 = score(d3).checks.risk.find((x) => x.id === "dev");
+  ok(dp3.points === 10 && /lock NOT verified \(the sender can cancel it\)/.test(dp3.reason), "unverified lock (cancellable) -> unresolved +10", dp3.reason);
+  // manual fallback: labelled, same effect as a verified lock
+  d2.manual = { devLockVerified: true }; const dp4 = score(d2).checks.risk.find((x) => x.id === "dev");
+  ok(dp4.points === 4 && /MANUAL input/.test(dp4.reason), "manual 'dev lock verified' (no lock data) -> 4, labelled MANUAL", dp4.reason);
+  // R:R ruling 5 on the live chart levels
+  ok(r.rr.warnCurrent === true && r.rr.plan.entry < d.market.priceUsd, "current-price R:R under 1:1 -> warning; plan entry below price", r.rr.text);
+  const { rrCalc } = await import("../src/scoring/engine.js");
+  const z1 = rrCalc("21.1k", "15k", ["26k", "35k"]), z2 = rrCalc("19k", "15k", ["26k", "35k"]);
+  eq(`${z1.tps[0].ratio} ${z1.tps[1].ratio}`, "0.8 2.3", "WORKED.md at $21.1k: TP1 $26k 0.8:1, TP2 $35k 2.3:1 (hand: 4.9/6.1 = 0.80, 13.9/6.1 = 2.28)");
+  eq(`${z2.tps[0].ratio} ${z2.tps[1].ratio}`, "1.8 4", "plan entry $19k: TP1 7/4 = 1.75 -> 1.8 (WORKED.md says 1.7), TP2 16/4 = 4.0"); }
 { const { rrCalc } = await import("../src/scoring/engine.js");
   console.log("\n— reward-to-risk calculator (Mnemosyne's Yana levels: stop $22k, TP1 $36k, TP2 = graduation zone $45-48k, mid $46.5k)");
   const a1 = rrCalc("32k", "22k", ["36k"]); eq(a1.tps[0].ratio, 0.4, "entry $32k (chasing): TP1 $36k = 0.4 to 1");
@@ -159,7 +203,7 @@ for (const c of CASES) {
 { const c = CASES.find((x) => x.name === "SYNCLEAN"); const { r, d } = await run(c);
   const d2 = structuredClone(d); d2.pairAgeMin = 10; const r2 = score(d2);
   console.log("\n— rating caps");
-  eq(r2.confidence, "LOW", "pair 10 min old -> LOW confidence"); eq(r2.verdict, "watch", "verdict unchanged (Watch 78)"); eq(r2.rating10, 6.0, "LOW confidence: 7.8 shown as 6.0");
+  eq(r2.confidence, "LOW", "pair 10 min old -> LOW confidence"); eq(`${r2.rewardScore} ${r2.verdict}`, "66 lottery", "v1.2 young-coin caps (trend 60, volume 60, holder growth 80) take reward 78 -> 66 (Lottery)"); eq(r2.rating10, 6.0, "LOW confidence: 6.6 shown as 6.0");
   eq(r.rating10, 7.8, "same coin at HIGH confidence = 7.8"); }
 { const c = CASES.find((x) => x.name === "SYNLOT"); const { r } = await run(c, { manual: { narrative: 90 } }); eq(r.rating10, 5.8, "SYNLOT with narrative 90: 58/10 = 5.8"); }
 

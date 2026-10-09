@@ -11,7 +11,7 @@ const BASE = process.env.BASE || PAGES, SHOTS = process.env.SHOTS || new URL("..
 await mkdir(SHOTS, { recursive: true });
 let fresh = null;
 try { const prof = await (await fetch("https://api.dexscreener.com/token-profiles/latest/v1")).json(); fresh = prof.find((p) => p.chainId === "solana" && /pump$/.test(p.tokenAddress))?.tokenAddress || prof.find((p) => p.chainId === "solana")?.tokenAddress; } catch {}
-const COINS = [["BONK", "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263"], ["CRAWL", "BXoHJddsWJLHtAopeiSbKUSELsu8hSFMs8baGMDkpump"], ["WILLY", "26dXHm8KfbvS79jhgJj3g2jYPwfXyw9fEo8H3cUApump"], ["Alias", "FDVoukvB7QKDdPPjpktm3FHXyN3C6oeQS2Uw27F7pump"], ...(fresh ? [["newest DexScreener profile", fresh]] : [])];
+const COINS = [["BONK", "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263"], ["CRAWL", "BXoHJddsWJLHtAopeiSbKUSELsu8hSFMs8baGMDkpump"], ["WILLY", "26dXHm8KfbvS79jhgJj3g2jYPwfXyw9fEo8H3cUApump"], ["Alias", "FDVoukvB7QKDdPPjpktm3FHXyN3C6oeQS2Uw27F7pump"], ["QI", "8TiMkgvsrat9tM2esko8zVTt99LZLpefUM4SnZaziXaQ"], ["Yana", "CcRxve6DzVLYCKWTDL8bPMV5CHrQpHj1qbUNQr6mPmTL"], ["z0s", "64UkLhB4vkPVBjvDr5GAgAvwSB895LLBeH2WpBEgpump"], ...(fresh ? [["newest DexScreener profile", fresh]] : [])];
 const browser = await chromium.launch({ executablePath: "/usr/bin/google-chrome" });
 const ctx = await browser.newContext({ viewport: { width: 412, height: 915 }, deviceScaleFactor: 2.625, isMobile: true, hasTouch: true });
 if (!process.env.BASE) await simulatePages(ctx);
@@ -42,8 +42,12 @@ const evm = (await page.textContent("#msg")).trim(); await page.screenshot({ pat
 await page.fill("#ca", ""); await page.goto(BASE + "#/"); await page.$eval(".quad", (e) => e.scrollIntoView()).catch(() => {}); await page.screenshot({ path: `${SHOTS}/live-quadrant.png` });
 // api.mainnet-beta refuses datacenter IPs (403) for the creator-history call; that is the network, not the app
 const envErr = (e) => /Failed to load resource: the server responded with a status of 403/.test(e) && /api\.mainnet-beta\.solana\.com/.test(e);
-const appErrors = errors.filter((e) => !envErr(e)), envErrors = errors.filter(envErr);
-const report = { base: BASE, origin: new URL(BASE).origin, ranAt: new Date().toString(), results, evm, apiHosts: Object.fromEntries([...hosts].map(([k, v]) => [k, { ok: v.ok, fail: v.fail, codes: [...v.codes] }])), consoleErrors: appErrors, environmentErrors: envErrors };
+// Known API answers the app handles and shows (README "Limits"), listed separately rather than hidden:
+// Jupiter quote 400 = TOKEN_NOT_TRADABLE / no route (scored as a failed sell quote); GeckoTerminal 429 arrives without a CORS
+// header, so the browser logs it as a CORS error (the app pauses GT for 60 s and shows those checks as unknown).
+const knownApi = (e) => (/status of 400/.test(e) && /lite-api\.jup\.ag\/swap\/v1\/quote/.test(e)) || /api\.geckoterminal\.com/.test(e) && /CORS policy|net::ERR_FAILED/.test(e);
+const appErrors = errors.filter((e) => !envErr(e) && !knownApi(e)), envErrors = errors.filter(envErr), knownApiErrors = errors.filter((e) => !envErr(e) && knownApi(e));
+const report = { base: BASE, origin: new URL(BASE).origin, ranAt: new Date().toString(), results, evm, apiHosts: Object.fromEntries([...hosts].map(([k, v]) => [k, { ok: v.ok, fail: v.fail, codes: [...v.codes] }])), consoleErrors: appErrors, knownApiErrors, environmentErrors: envErrors };
 await writeFile(`${SHOTS}/live-report.json`, JSON.stringify(report, null, 2));
 console.log(JSON.stringify(report, null, 2));
 await browser.close();

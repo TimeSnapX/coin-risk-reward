@@ -92,6 +92,10 @@ export function breakEven(d, cfg = CONFIG, sizeUsd = cfg.costs.defaultTestSizeUs
   return { pct: r2(pct), sizeUsd, feePct: f * 100, taxPct: t * 100, impactPct: r2(i * 100), prioPct: r2(prio * 100), impactSource: src, exitCost: { 50: c50, 500: c500 }, taxKnown: !u(d.extensions?.transferFeeBps), solKnown: !u(d.solUsd) };
 }
 
+// WORKED.md v1.2 ruling 5: show BOTH the R:R at the current price and the "plan" R:R from a retest entry
+// (price -cfg.rr.planDipPct, or halfway to the stop if that is closer), each to TP1 (nearest chart high above
+// price) and TP2 (chart peak, when it is >10% above TP1). Gating (1.5:1 grade A, 2:1 otherwise) uses TP1 at the
+// plan entry; the headline warns when the current-price TP1 R:R is under 1:1.
 export function riskReward(d, grade, cfg = CONFIG) {
   const c = d.chart, p = d.market?.priceUsd ?? c?.lastClose;
   if (!c || u(p)) return { known: false, text: "R:R unknown (no chart)." };
@@ -100,9 +104,16 @@ export function riskReward(d, grade, cfg = CONFIG) {
   const stopSrc = stop === c.swingLowUsd ? "recent swing low" : `-${cfg.rr.stopFallbackPct}% fallback`;
   const min = grade === "A" ? cfg.rr.minGreen : cfg.rr.minAmber;
   if (u(c.recentHighUsd)) return { known: false, stop, stopSrc, min, text: `No resistance above price in the chart window; stop ${fmtUsd(stop)} (${stopSrc}).` };
-  const rr = (c.recentHighUsd - p) / (p - stop);
-  return { known: true, rr: r2(rr), target: c.recentHighUsd, stop, stopSrc, min, meets: rr >= min,
-    text: `Target ${fmtUsd(c.recentHighUsd)} (+${fmtPct((c.recentHighUsd / p - 1) * 100, 0)}) vs stop ${fmtUsd(stop)} (-${fmtPct((1 - stop / p) * 100, 0)}, ${stopSrc}) = ${rr.toFixed(2)}:1; needs ${min}:1 for grade ${grade}.` };
+  const tp1 = c.recentHighUsd, tp2 = !u(c.athUsd) && c.athUsd > tp1 * 1.1 ? c.athUsd : undefined;
+  const planEntry = Math.max(p * (1 - cfg.rr.planDipPct / 100), (p + stop) / 2);
+  const ratio = (e, t) => (u(t) ? undefined : r2((t - e) / (e - stop)));
+  const cur = { entry: p, tp1: ratio(p, tp1), tp2: ratio(p, tp2) }, plan = { entry: planEntry, tp1: ratio(planEntry, tp1), tp2: ratio(planEntry, tp2) };
+  const meets = plan.tp1 >= min, warnCurrent = cur.tp1 < 1;
+  const f = (x) => (u(x) ? "n/a" : `${x.toFixed(1)}:1`);
+  const text = `At the current price ${fmtUsd(p)}: TP1 ${f(cur.tp1)}${tp2 ? `, TP2 ${f(cur.tp2)}` : ""}${warnCurrent ? " (under 1:1: poor entry now)" : ""}. ` +
+    `Plan entry ${fmtUsd(planEntry)} (retest, -${fmtPct((1 - planEntry / p) * 100, 0)}): TP1 ${f(plan.tp1)}${tp2 ? `, TP2 ${f(plan.tp2)}` : ""}. ` +
+    `Stop ${fmtUsd(stop)} (${stopSrc}); TP1 ${fmtUsd(tp1)} (nearest chart high)${tp2 ? `; TP2 ${fmtUsd(tp2)} (chart peak)` : ""}. Gate: plan TP1 needs ${min}:1 for grade ${grade}.`;
+  return { known: true, rr: cur.tp1, current: cur, plan, target: tp1, target2: tp2, stop, stopSrc, min, meets, warnCurrent, text };
 }
 
 function outputs(d, res, cfg) {
@@ -148,7 +159,7 @@ function outputs(d, res, cfg) {
   const upside = u(m.mcapUsd) ? [] : cfg.ranges.multiples.map((x) => ({ multiple: x, impliedMcap: m.mcapUsd * x, aboveTypical: m.mcapUsd * x > cfg.ranges.typicalPeakMcapUsd,
     probability: x === 2 && res.rewardScore >= 60 && ["A", "B"].includes(res.grade) && !res.avoid ? "med" : "low" }));
 
-  const flipNote = res.avoid ? "Flip: no. A gate failed." : res.capsHit.length ? "Flip: no. The team already sold early (clean-RugCheck rule caps this at Skip)." : rr.known ? `Flip: ${rr.text}${rr.meets ? "" : " R:R is below the minimum, so wait for a better entry."}` : `Flip: ${rr.text}`;
+  const flipNote = res.avoid ? "Flip: no. A gate failed." : res.capsHit.length ? "Flip: no. The team already sold early (clean-RugCheck rule caps this at Skip)." : rr.known ? `Flip: ${rr.text}${rr.meets ? "" : " Plan R:R is below the minimum: no trade at these levels."}` : `Flip: ${rr.text}`;
   const holdNote = res.avoid || res.capsHit.length ? "Hold: no." : d.pool?.onCurve ? "Hold: only while the curve keeps filling and holders keep rising. pump.fun burns the LP on graduation; re-check then." : `Hold: only while the LP stays burned/locked, dev and insiders don't sell, and liquidity stays above ${fmtUsd(Math.max(cfg.gates.liquidityMinUsd, (L || 0) * 0.7))}.`;
 
   return { positives: pick(pos), redFlags: pick(neg), breakEven: be, rr, invalidation: inval, loseAmount: lose, ranges: { downside, upside, sub, sizeUsd: size }, flipNote, holdNote };

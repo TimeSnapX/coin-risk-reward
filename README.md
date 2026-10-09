@@ -66,7 +66,7 @@ All are keyless and called from the browser. CORS was tested from https://timesn
 ## Tests
 
 ```
-node tests/unit.mjs     # 441 checks: hand-checked maths incl. QI + Yana worked examples (FORMULA.md), R:R calculator, failures, cache, ATA
+node tests/unit.mjs     # 502 checks: hand-checked maths incl. QI, Yana and z0s worked examples (FORMULA.md 6a), locked-dev rule, R:R, failures, cache, ATA
 node tests/e2e.mjs      # 412x915, every API mocked; screenshots -> test-results/e2e-*.png
 node tests/cors.mjs     # every source from a page on https://timesnapx.github.io (simulated)
 node tests/live.mjs     # real APIs through the UI; test-results/live-report.json + live-*.png
@@ -84,7 +84,9 @@ node /workspace/pwa-check/check.mjs <url>
 - **Insider balances** read only each wallet's associated token account. Tokens parked elsewhere are missed: 1 of CRAWL's top 10 holders uses a non-ATA account.
 - **Not available from free sources:** X engagement (enter it manually), creator fee claims, and 2-week launch windows. Jupiter's lifetime `devMints` stands in for the serial-launcher test, so big old coins like BONK trip it (devMints 10).
 - **Launch-block snipers** are read for pump.fun coins only, and only while the bonding curve has ≤ 10,000 signatures (busy coins are walked back 10 pages at most; beyond that the check is unknown, +7.5).
-- **Launchpad / bot launcher wallets** trip the serial-launcher gate (Jupiter lifetime devMints: QI's launcher 40, Yana's 3,101).
+- **Serial-launcher gate (v1.2)**: applies to the wallet acting as dev. A launchpad launcher (dust buy held, fees to another wallet; QI's 40-mint `2sRs…`) gets +3 instead; a signer that bought and sold (Yana's 3,101-mint `8inT…`) still trips it.
+- **Dev locks (v1.2)**: only Streamflow contracts are decoded. Other lock programs (Jupiter Lock) show "lock not verified" → unresolved dev exit (+10, cap) unless you tick the labelled MANUAL "Dev lock verified" box.
+- **Curve coins (v1.2)**: the $15k liquidity gate is for graduated pools only; on the curve the $50 Jupiter sell quote decides (fail or > 5% cost = Avoid). If Jupiter can't be reached the gate is unknown.
 - **Not scored yet (SPEC v1.1 line 73):** SOL-paired pool.
-- **Fixtures**: QI and Yana mix Argus's saved data with live-captured parts (launch history, Jupiter); each fixture folder has a `*_CAPTURE.md` saying which is which.
+- **Fixtures**: QI, Yana and z0s mix Argus's saved data with live-captured parts (launch history, Jupiter); each fixture folder has a `*_CAPTURE.md` saying which is which.
 - **pump.fun API is CORS-blocked.** The curve fill comes from RugCheck instead.

@@ -7,7 +7,7 @@
 // Rules NEVER see raw API JSON, only CoinData; a field a source cannot answer stays undefined.
 import { CONFIG } from "../config.js";
 
-import { associatedTokenAddress, findProgramAddress, b58decode, TOKEN_PROGRAM, TOKEN_2022 } from "./solana.js";
+import { associatedTokenAddress, findProgramAddress, b58decode, b58encode, TOKEN_PROGRAM, TOKEN_2022 } from "./solana.js";
 const SOL_MINT = "So11111111111111111111111111111111111111112";
 const num = (v) => { if (v === null || v === undefined || v === "") return undefined; const n = Number(v); return Number.isFinite(n) ? n : undefined; };
 const sum = (a) => a.reduce((s, x) => s + x, 0);
@@ -336,10 +336,10 @@ export const jupiterQuote = {
 // On-chain RPC first (authorities/extensions/supply), then RugCheck, DexScreener, Jupiter, GeckoTerminal.
 // ------------------------------------------------------------------ SPEC v1.1 clean-RugCheck rule inputs
 // PublicNode answers 403 "Request blocked" for getMultipleAccounts with more than 10 keys: read in chunks.
-async function multipleAccounts(ctx, endpoints, keys) {
+async function multipleAccounts(ctx, endpoints, keys, encoding = "jsonParsed") {
   const out = [], n = ctx.cfg.rpcMaxKeys || 10;
   for (let i = 0; i < keys.length; i += n) {
-    const r = await rpcCall(ctx, endpoints, "getMultipleAccounts", [keys.slice(i, i + n), { encoding: "jsonParsed", commitment: "confirmed" }]);
+    const r = await rpcCall(ctx, endpoints, "getMultipleAccounts", [keys.slice(i, i + n), { encoding, commitment: "confirmed" }]);
     if (!Array.isArray(r?.value)) throw new SourceError("bad getMultipleAccounts reply");
     out.push(...r.value);
   }
@@ -413,6 +413,13 @@ export const rpcHoldings = {
 // in the first teamExit.launchSlots slots, how much, whether the dev and the big snipers sold (their own
 // wallet history) and what the launch wallets hold now (associated token accounts, one getMultipleAccounts).
 const isPump = (d, address) => /pump$/.test(address) || /^pump_fun/.test(d.pool?.mainMarketType || "") || d.pool?.onCurve === true || /pump/i.test(d.rugcheck?.launchpad || "") || (d.rugcheck?.marketTypes || []).some((t) => /^pump_fun/.test(t));
+const allIx = (tx) => [...(tx?.transaction?.message?.instructions || []), ...(tx?.meta?.innerInstructions || []).flatMap((y) => y.instructions || [])];
+// The instruction of a lock/vesting program in this tx (its accounts hold the lock contract), if any.
+function lockIx(tx, lockPrograms) { const ix = allIx(tx).find((i) => lockPrograms.includes(i.programId)); return ix ? { program: ix.programId, accounts: ix.accounts || [] } : null; }
+// SOL change of one wallet in a tx (> 0 = SOL came back, i.e. a sale rather than a move).
+function solDelta(tx, wallet) { const keys = (tx?.transaction?.message?.accountKeys || []).map((k) => k.pubkey || k); const i = keys.indexOf(wallet); return i < 0 || !tx?.meta ? undefined : (tx.meta.postBalances[i] - tx.meta.preBalances[i]) / 1e9; }
+// pump.fun launch-curve price: SOL paid for T tokens from virtual reserves 30 SOL / 1,073,000,191 tokens (no fees).
+export const pumpBuySol = (tokens) => (tokens > 0 && tokens < 1073000191 ? (30 * tokens) / (1073000191 - tokens) : undefined);
 function mintDeltas(tx, mint) {
   const m = new Map();
   for (const [k, sign] of [["preTokenBalances", -1], ["postTokenBalances", 1]]) for (const b of tx?.meta?.[k] || []) if (b.mint === mint) m.set(b.owner, (m.get(b.owner) || 0) + sign * (num(b.uiTokenAmount?.uiAmountString ?? b.uiTokenAmount?.uiAmount) || 0));
@@ -454,6 +461,10 @@ export const launchSnipers = {
     const supply = ctx.data.token.supply, pct = (v) => (v / supply) * 100;
     const createTx = txs.find((t) => t.x.signature === oldest.signature)?.tx;
     const minted = sum((createTx?.meta?.postTokenBalances || []).filter((b) => b.mint === mint).map((b) => num(b.uiTokenAmount?.uiAmountString ?? b.uiTokenAmount?.uiAmount) || 0));
+    // The oldest curve signature must BE the create tx (no balance of this mint before it). Otherwise the RPC's history
+    // doesn't reach launch (PublicNode keeps ~20 h) and the "launch block" would be some later trade: unknown, never pass.
+    if (!createTx || (createTx.meta?.preTokenBalances || []).some((b) => b.mint === mint) || !(minted > 0)) throw new SourceError(`${new URL(ep).host} curve history does not reach the create tx`);
+    const signer = (createTx.transaction?.message?.accountKeys || []).filter((k) => k.signer).map((k) => k.pubkey || k).find((k) => k !== mint);
     const launchSupply = minted > 0 ? minted : supply, lpct = (v) => (v / launchSupply) * 100;
     const wallets = [...bought.entries()].map(([w, v]) => ({ wallet: w, boughtTokens: v, boughtPct: lpct(v) })).sort((a, b) => b.boughtPct - a.boughtPct);
     const prog = ctx.data.token?.program === "token-2022" ? TOKEN_2022 : TOKEN_PROGRAM;
@@ -466,24 +477,25 @@ export const launchSnipers = {
     for (const w of toTrace) {
       try {
         const hs = await call("getSignaturesForAddress", [w.wallet, { limit: 1000 }]) || [];
-        const win = hs.filter((x) => !x.err && x.blockTime >= launchS && x.blockTime <= launchS + te.traceMin * 60).sort((a, b) => a.blockTime - b.blockTime).slice(0, te.maxTraceTx);
+        const win = hs.filter((x, i) => !x.err && x.blockTime >= launchS && x.blockTime <= launchS + te.traceMin * 60 && hs.findIndex((y) => y.signature === x.signature) === i).sort((a, b) => a.blockTime - b.blockTime).slice(0, te.maxTraceTx);
         w.traceCovered = hs.length > 0 && (hs.length < 1000 || Math.min(...hs.map((x) => x.blockTime)) <= launchS);
         for (const x of win) {
           const tx = await call("getTransaction", [x.signature, { encoding: "jsonParsed", maxSupportedTransactionVersion: 1, commitment: "confirmed" }]);
           const d = mintDeltas(tx, mint).get(w.wallet) || 0;
           const progs = [...(tx?.transaction?.message?.instructions || []), ...(tx?.meta?.innerInstructions || []).flatMap((y) => y.instructions || [])].map((i) => i.programId);
-          if (d < 0 && !progs.some((p) => te.lockPrograms.includes(p))) { w.firstExitSec = x.blockTime - launchS; w.firstExitPct = lpct(-d); break; }
+          if (d < 0 && progs.some((p) => te.lockPrograms.includes(p))) { (w.locks ||= []).push({ t: x.blockTime * 1000, sig: x.signature, tokens: -d, pct: lpct(-d), ...lockIx(tx, te.lockPrograms) }); continue; }
+          if (d < 0) { w.firstExitSec = x.blockTime - launchS; w.firstExitPct = lpct(-d); w.firstExitSol = solDelta(tx, w.wallet); break; }
         }
       } catch (e) { w.traceError = e.message; }
     }
-    return { endpoint: ep, curve, curveTx: sigs.length, launchSlot, launchAt: launchS * 1000, blockTx: block.length, launchSupply, supplyNow: supply, launchSupplyFrom: minted > 0 ? "create tx" : "current supply", wallets: ws, dev, totalWallets: wallets.length };
+    return { endpoint: ep, curve, curveTx: sigs.length, launchSlot, launchAt: launchS * 1000, blockTx: block.length, launchSupply, supplyNow: supply, launchSupplyFrom: minted > 0 ? "create tx" : "current supply", wallets: ws, dev, signer, totalWallets: wallets.length };
   },
   normalize(raw) {
     const w = raw.wallets, dev = w.find((x) => x.wallet === raw.dev);
     const largest = w.filter((x) => x.wallet !== raw.dev)[0];
     return { launch: { source: new URL(raw.endpoint).host, curve: raw.curve, curveTx: raw.curveTx, slot: raw.launchSlot, at: raw.launchAt, blockTx: raw.blockTx, launchSupply: raw.launchSupply, supplyNow: raw.supplyNow, launchSupplyFrom: raw.launchSupplyFrom,
       wallets: w, walletCount: raw.totalWallets, boughtPct: sum(w.map((x) => x.boughtPct)), stillHeldPct: sum(w.map((x) => x.heldNowPct || 0)),
-      dev: dev ? { ...dev } : null, largest: largest ? { ...largest } : null } };
+      signer: raw.signer, dev: dev ? { ...dev, buySolEst: pumpBuySol(dev.boughtTokens) } : null, largest: largest ? { ...largest } : null } };
   },
 };
 
@@ -521,12 +533,62 @@ export const rpcDevHistory = {
       if (!tx?.meta) { missing++; continue; }
       const delta = bal(tx.meta.postTokenBalances) - bal(tx.meta.preTokenBalances);
       const progs = [...(tx.transaction?.message?.instructions || []), ...(tx.meta.innerInstructions || []).flatMap((x) => x.instructions || [])].map((i) => i.programId);
-      if (delta < 0 && progs.some((p) => ctx.cfg.teamExit.lockPrograms.includes(p))) { locked.push({ t, sig, tokens: -delta }); continue; }
-      if (delta < 0) events.push({ t, sig, tokens: -delta, pct: supply ? (-delta / supply) * 100 : undefined });
+      if (delta < 0 && progs.some((p) => ctx.cfg.teamExit.lockPrograms.includes(p))) { locked.push({ t, sig, tokens: -delta, pct: supply ? (-delta / supply) * 100 : undefined, ...lockIx(tx, ctx.cfg.teamExit.lockPrograms) }); continue; }
+      if (delta < 0) events.push({ t, sig, tokens: -delta, pct: supply ? (-delta / supply) * 100 : undefined, sol: solDelta(tx, creator) });
     }
     return { devExit: { covered: raw.covered && missing === 0 && raw.txs.length === raw.windowTx, windowTx: raw.windowTx, checkedTx: raw.txs.length - missing, events, locked, source: new URL(raw.endpoint).host } };
   },
 };
 
-export const FETCHERS = [solanaRpc, rugcheck, dexscreener, jupiterToken, geckoterminal, coingecko, pumpfun, rugcheckGraph, rpcDevHistory, launchSnipers, geckoTrades, geckoOhlcv, jupiterQuote, rpcHoldings];
+// Dev lock verification (v1.2 locked-dev rule). A dev transfer into a lock program is only "not an exit" when the
+// lock itself is verified on-chain: Streamflow contract account (owner strm…) decoded from its raw bytes. Layout
+// checked against z0s's lock FmTCSs… (mint, escrow, 43.78M net, cliff 7 Apr 2027): see FORMULA.md.
+export const STREAMFLOW = "strmRqUCoQUgGUan5YhzUZa6KqdzwX5L6FpUxfmKg5m";
+export function decodeStreamflow(bytes) {
+  if (!bytes || bytes.length < 470) return null;
+  const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength), u64 = (o) => Number(dv.getBigUint64(o, true)), pk = (o) => b58encode(bytes.subarray(o, o + 32));
+  return { createdAt: u64(9), withdrawnRaw: u64(17), canceledAt: u64(25), endTime: u64(33), sender: pk(49), recipient: pk(113), mint: pk(177), escrow: pk(209),
+    start: u64(409), depositedRaw: u64(417), period: u64(425), perPeriodRaw: u64(433), cliff: u64(441), cliffRaw: u64(449),
+    cancelableBySender: bytes[457] === 1, cancelableByRecipient: bytes[458] === 1, transferableBySender: bytes[460] === 1 };
+}
+const b64bytes = (s) => { const bin = atob(s); const a = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i); return a; };
+export const devLocks = {
+  id: "solana-rpc", sub: "dev locks", label: "Solana RPC dev lock contracts", phase: 3,
+  when: (ctx) => devLockEvents(ctx.data).some((e) => e.program === STREAMFLOW),
+  url: (ctx) => ctx.cfg.solanaRpc[0],
+  async run(ctx) {
+    const ev = devLockEvents(ctx.data).filter((e) => e.program === STREAMFLOW);
+    const cands = [...new Set(ev.flatMap((e) => e.accounts))].filter((k) => !/^(11111111111111111111111111111111|Sysvar|Token|ATok|strm)/.test(k) && k !== ctx.address).slice(0, 30);
+    const accs = (await multipleAccounts(ctx, ctx.cfg.solanaRpc, cands, "base64")).value;
+    const contracts = [];
+    cands.forEach((k, i) => { const a = accs[i]; if (a?.owner === STREAMFLOW) { const c = decodeStreamflow(b64bytes(a.data[0])); if (c && c.mint === ctx.address) contracts.push({ contract: k, ...c }); } });
+    const esc = contracts.length ? (await multipleAccounts(ctx, ctx.cfg.solanaRpc, contracts.map((c) => c.escrow))).value : [];
+    contracts.forEach((c, i) => { c.escrowNow = num(esc[i]?.data?.parsed?.info?.tokenAmount?.uiAmountString); });
+    return { contracts, events: ev };
+  },
+  normalize(raw, ctx) {
+    const dec = ctx.data.token?.decimals ?? 6, sc = 10 ** dec, now = ctx.now / 1000, minCliff = ctx.cfg.teamExit.lockMinCliffDays * 86400;
+    const locks = raw.contracts.map((c) => {
+      const deposited = c.depositedRaw / sc, withdrawn = c.withdrawnRaw / sc, why = [];
+      if (c.canceledAt) why.push("cancelled"); if (withdrawn > 0) why.push(`${withdrawn.toLocaleString("en-US")} withdrawn`);
+      if (c.cliff - now < minCliff) why.push(`cliff ${new Date(c.cliff * 1000).toISOString().slice(0, 10)} is less than ${ctx.cfg.teamExit.lockMinCliffDays} days away`);
+      if (c.cancelableBySender) why.push("the sender can cancel it"); if (c.transferableBySender) why.push("the sender can transfer it");
+      if (Number.isFinite(c.escrowNow) && c.escrowNow < deposited * 0.99) why.push("escrow holds less than deposited");
+      // "no SOL back": the lock tx must not pay the dev (a lock that returns SOL is a disguised sale)
+      const back = raw.events.filter((e) => e.accounts?.includes(c.contract) && e.sol > 0.01);
+      if (back.length) why.push(`the lock transaction paid the wallet ${back[0].sol.toFixed(2)} SOL`);
+      if (!raw.events.some((e) => e.accounts?.includes(c.contract))) why.push("lock transaction not found in the dev trace");
+      return { program: "Streamflow", contract: c.contract, escrow: c.escrow, sender: c.sender, recipient: c.recipient, deposited, withdrawn, escrowNow: c.escrowNow,
+        start: c.start * 1000, cliff: c.cliff * 1000, end: c.endTime * 1000, cancelableBySender: c.cancelableBySender, verified: why.length === 0, why };
+    });
+    return { devLocks: locks };
+  },
+};
+// Lock transfers by the dev wallets (create-tx buyer traced in the launch check, creator traced in creator history).
+export function devLockEvents(d) {
+  const devs = new Set([d.launch?.dev?.wallet, d.launch?.signer, d.dev?.address].filter(Boolean));
+  return [...(d.launch?.wallets || []).filter((w) => devs.has(w.wallet)).flatMap((w) => (w.locks || []).map((l) => ({ ...l, wallet: w.wallet }))), ...(d.devExit?.locked || []).map((l) => ({ ...l, wallet: d.dev?.address }))];
+}
+
+export const FETCHERS = [solanaRpc, rugcheck, dexscreener, jupiterToken, geckoterminal, coingecko, pumpfun, rugcheckGraph, rpcDevHistory, launchSnipers, geckoTrades, geckoOhlcv, jupiterQuote, rpcHoldings, devLocks];
 export const SOURCE_IDS = ["solana-rpc", "rugcheck", "dexscreener", "jupiter", "geckoterminal", "coingecko", "pumpfun"];

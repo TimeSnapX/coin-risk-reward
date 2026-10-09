@@ -1,0 +1,71 @@
+{
+ "pairs": [
+  {
+   "chainId": "solana",
+   "dexId": "pumpfun",
+   "url": "https://dexscreener.com/solana/bfgtstgd4xtcetsuyjw7vahoumpqwcorckhh9uajemas",
+   "pairAddress": "BFgtStgd4xtCEtSuYjw7VAhouMpQwCoRckhH9UaJEMAs",
+   "baseToken": {
+    "address": "64UkLhB4vkPVBjvDr5GAgAvwSB895LLBeH2WpBEgpump",
+    "name": "z0s",
+    "symbol": "z0s"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.0000002150",
+   "priceUsd": "0.00002373",
+   "txns": {
+    "m5": {
+     "buys": 213,
+     "sells": 159
+    },
+    "h1": {
+     "buys": 213,
+     "sells": 159
+    },
+    "h6": {
+     "buys": 213,
+     "sells": 159
+    },
+    "h24": {
+     "buys": 213,
+     "sells": 159
+    }
+   },
+   "volume": {
+    "h24": 23655.22,
+    "h6": 23655.22,
+    "h1": 23655.22,
+    "m5": 23655.22
+   },
+   "priceChange": {
+    "m5": 607,
+    "h1": 607,
+    "h6": 607,
+    "h24": 607
+   },
+   "fdv": 23731.79,
+   "marketCap": 23731.79,
+   "pairCreatedAt": 1791551049000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/0cWVClGjQu_f_b5d?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/cJrV6Gvi2u6lEDun?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/64UkLhB4vkPVBjvDr5GAgAvwSB895LLBeH2WpBEgpump?timestamp=1791551100000",
+    "websites": [
+     {
+      "url": "https://z0s.app/",
+      "label": "Website"
+     }
+    ],
+    "socials": [
+     {
+      "url": "https://x.com/usez0s",
+      "type": "twitter"
+     }
+    ]
+   }
+  }
+ ]
+}

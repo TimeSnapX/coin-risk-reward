@@ -43,7 +43,11 @@ export function respond(url, method = "GET", body) {
       const req = typeof body === "string" ? JSON.parse(body) : body, a0 = req?.params?.[0], rpcOk = (result) => ({ status: 200, json: { jsonrpc: "2.0", id: 1, result } });
       switch (req?.method) {
         case "getAccountInfo": { const r = a0 && load(a0, "rpc.json"); return r ? { status: 200, json: r } : rpcOk({ context: { slot: 1 }, value: null }); }
-        case "getMultipleAccounts": { const keys = a0 || []; if (!keys.every((k) => ataBal.has(k))) return nf; // not saved => source failure
+        case "getMultipleAccounts": { const keys = a0 || [], enc = req.params?.[1]?.encoding || "jsonParsed";
+          if (enc === "base64" && state.fail.has("rpc:base64")) return { status: 500, json: { error: "mock outage" } }; // lock-contract read fails
+          // raw accounts captured live (e.g. a Streamflow lock contract + its escrow), per encoding
+          const acc = rawAccounts(); if (keys.length && keys.every((k) => acc[k] && enc in acc[k])) return rpcOk({ context: { slot: 1 }, value: keys.map((k) => acc[k][enc]) });
+          if (!keys.every((k) => ataBal.has(k))) return nf; // not saved => source failure
           return rpcOk({ context: { slot: 1 }, value: keys.map((k) => { const b = ataBal.get(k); return b.v ? { owner: "token", data: { parsed: { info: { mint: b.mint, owner: b.owner, tokenAmount: { uiAmountString: String(b.v) } } } } } : null; }) }); }
         case "getTokenAccountsByOwner": return { status: 403, json: { jsonrpc: "2.0", error: { code: -32602, message: "Indexed requests require a personal token" } } };
         case "getSignaturesForAddress": { const h = sigsOf.get(a0);
@@ -70,6 +74,7 @@ export function respond(url, method = "GET", body) {
   }
   return null; // unknown host
 }
+let accCache = null; function rawAccounts() { if (!accCache) { accCache = {}; for (const c of CASES) Object.assign(accCache, load(c.mint, "rpc_accounts.json") || {}); } return accCache; }
 let currentSol = null; export function setSol(usd) { currentSol = usd ? { solana: { usd } } : null; }
 export async function mockFetch(url, init = {}) {
   const r = respond(url, init.method || "GET", init.body);

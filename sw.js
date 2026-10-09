@@ -5,7 +5,7 @@
  * - Network first: online behaviour is unchanged; the cache is only an offline fallback for the app's own files.
  * Bump VERSION to drop old caches.
  */
-const VERSION = "v2";
+const VERSION = "v3";
 const CACHE = `coin-risk-reward-${VERSION}`;
 const SCOPE = new URL(self.registration.scope);
 const SHELL = [

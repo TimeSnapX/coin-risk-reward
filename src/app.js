@@ -3,6 +3,7 @@ import { CONFIG } from "./config.js";
 import { detectChain, extractCandidates, secretReason } from "./chain.js";
 import { collect } from "./data/collect.js";
 import { score, rrCalc } from "./scoring/engine.js";
+import { devLockEvents } from "./data/fetchers.js";
 import { fmtUsd, fmtPct } from "./scoring/rules.js";
 import * as store from "./store.js";
 import { quadrant } from "./ui/chart.js";
@@ -150,9 +151,9 @@ function liqLine(d) {
 // Prefilled with the current mcap and the app's stop/target from the chart; it only does the arithmetic.
 function rrCalcHTML(d, r) {
   const m = d.market || {}, price = m.priceUsd, mc = m.mcapUsd, toMc = (px) => (price > 0 && mc > 0 && px > 0 ? Math.round((px / price) * mc) : "");
-  const v = { entry: mc ? Math.round(mc) : "", stop: r.rr?.stop ? toMc(r.rr.stop) : "", tp1: r.rr?.target ? toMc(r.rr.target) : "", tp2: "" };
+  const v = { entry: mc ? Math.round(mc) : "", stop: r.rr?.stop ? toMc(r.rr.stop) : "", tp1: r.rr?.target ? toMc(r.rr.target) : "", tp2: r.rr?.target2 ? toMc(r.rr.target2) : "" };
   return `<h3>Reward-to-risk calculator</h3><div class="rrcalc" data-k="rrcalc">
-    <p class="small muted">Your levels in market cap $ (or all in price). Prefilled: entry = mcap now; stop / TP1 from the chart (${esc(r.rr?.stopSrc || "no chart")}). Arithmetic only, not advice.</p>
+    <p class="small muted">Your levels in market cap $ (or all in price). Prefilled: entry = mcap now; stop / TP1 / TP2 from the chart (${esc(r.rr?.stopSrc || "no chart")}). Arithmetic only, not advice.</p>
     <div class="rrgrid">${[["entry", "Entry"], ["stop", "Stop"], ["tp1", "TP1"], ["tp2", "TP2"]].map(([k, l]) => `<label>${l}<input inputmode="decimal" data-rr="${k}" value="${v[k]}" placeholder="${k === "tp2" ? "optional" : ""}"></label>`).join("")}</div>
     <output data-k="rrout">${rrOutText(v)}</output></div>`;
 }
@@ -160,6 +161,22 @@ function rrOutText(v) {
   const c = rrCalc(v.entry, v.stop, [v.tp1, v.tp2]);
   if (!c.ok) return esc(c.error);
   return `Risk ${c.downPct.toFixed(1)}% to the stop. ` + (c.tps.map((t, i) => (t.error ? `TP${i + 1}: ${t.error}` : `TP${i + 1}: <b data-rr-ratio="${i + 1}">${t.ratio.toFixed(1)} to 1</b> (+${t.upPct.toFixed(1)}%)`)).join(" · ") || "Add a TP.");
+}
+// Dev lock (WORKED.md v1.2 / locked-dev rule): a launch buy moved into a time-lock only lowers the dev score when the
+// lock is verified on-chain (0 withdrawn, cliff months away, no SOL back). When the app can't verify it, you may tick
+// this after checking the lock yourself; it is labelled MANUAL everywhere it is used.
+function devLockInput(d, entry, a) {
+  const evs = devLockEvents(d);
+  if (!evs.length) return "";
+  const onChain = (d.devLocks || []).some((l) => l.verified);
+  if (onChain) return `<p class="small" data-k="devlock">Dev lock: <b>verified on-chain</b> (${esc((d.devLocks || []).filter((l) => l.verified).map((l) => `${l.program} ${l.contract.slice(0, 4)}…, cliff ${new Date(l.cliff).toISOString().slice(0, 10)}, ${l.withdrawn} withdrawn`).join("; "))}).</p>`;
+  return `<label class="manual"><span><input type="checkbox" id="devlock" data-addr="${esc(a)}" ${entry.manual?.devLockVerified ? "checked" : ""}> Dev lock verified (MANUAL input)</span>
+    <small class="muted">The dev moved its launch buy into a lock program, but the app could not verify the lock on-chain${(d.devLocks || []).length ? ` (${esc(d.devLocks.flatMap((l) => l.why).join(", "))})` : ""}. Tick only after checking it yourself (withdrawn 0, cliff months away, no SOL back). Unticked = unresolved dev exit.</small></label>`;
+}
+function rrLine(r) {
+  const x = r.rr; if (!x?.known) return `<p class="small" data-k="rr">R:R: ${esc(x?.text || "unknown")}</p>`;
+  const f = (v) => (v == null ? "n/a" : `${v.toFixed(1)}:1`);
+  return `<p class="small${x.warnCurrent ? " warn" : ""}" data-k="rr">R:R now <b data-k="rrnow">${f(x.current.tp1)}</b>${x.target2 ? ` / TP2 ${f(x.current.tp2)}` : ""}${x.warnCurrent ? " ⚠ under 1:1 at the current price" : ""} · plan entry ${fmtUsd(x.plan.entry)}: <b data-k="rrplan">${f(x.plan.tp1)}</b>${x.target2 ? ` / TP2 ${f(x.plan.tp2)}` : ""} (needs ${x.min}:1 ${x.meets ? "✓" : "✗"}).</p>`;
 }
 function detailHTML(entry) {
   const d = entry.data, r = rescore(entry), m = d.market || {}, p = d.pool || {}, a = entry.address;
@@ -178,6 +195,7 @@ function detailHTML(entry) {
       <div class="tile v-${r.verdict}"><span>Verdict</span><b data-k="vscore">${r.avoid ? "—" : r.verdictScore}</b><small data-k="verdict">${esc(r.verdictLabel)}</small></div>
     </div>
     <p class="small" data-k="liq">${liqLine(d)}</p>
+    ${rrLine(r)}
     <div class="ratingbar"><span>Risk vs reward rating</span>${rate(r)}<small data-k="ratingwhy">${esc(r.ratingWhy)}</small></div>
     ${r.capsHit.length ? `<p class="gate" data-k="capped">${r.avoid ? "Team exit (also)" : `Capped at Skip${r.verdictCapped ? ` (would have been ${esc(CONFIG.verdicts.find((v) => v.key === r.uncappedVerdict).label)})` : ""}`}: ${esc(r.checks.caps.filter((x) => x.score === 1).map((x) => x.reason).join(" "))} A clean RugCheck score never lifts a coin on its own.</p>` : ""}
     ${r.avoid ? `<p class="gate">Gate failed: ${esc([...r.checks.hard.filter((x) => x.score === 100), ...r.checks.gates.filter((x) => x.score === 1)].map((x) => x.reason).join(" "))} Any gate = Avoid, whatever the reward.</p>` : ""}
@@ -194,8 +212,9 @@ function detailHTML(entry) {
     <p class="small">Downside for $${r.ranges.sizeUsd} (${r.ranges.sub ? "typical stop zone for sub-$100k coins" : "stop -15..-20%"}): ${r.ranges.downside.map((x) => `${x.movePct}% → get back ~$${x.backUsd}`).join(" · ")}.</p>
     ${r.ranges.upside.length ? `<p class="small">Upside scenarios: ${r.ranges.upside.map((x) => `${x.multiple}x = ${fmtUsd(x.impliedMcap)} mcap (${x.probability})${x.aboveTypical ? " ⚠ above typical peak for similar launches" : ""}`).join(" · ")}.</p>` : ""}
     ${p.onCurve ? `<p class="small">pump.fun bonding curve: ${fmtPct(p.curveTokensSoldPct, 0)} of sellable tokens sold; ~${p.curveRealSol?.toFixed?.(1) ?? "?"} SOL of ~${CONFIG.pumpCurve.graduationSol} SOL to graduate (${fmtPct(p.curveSolPct, 0)}).</p>` : ""}
+    ${devLockInput(d, entry, a)}
     <label class="manual">Narrative / X traction (manual, your read)
-      <select id="narrative" data-addr="${esc(a)}"><option value="">Auto (links only, capped at ${CONFIG.narrativeAutoCap})</option>${[[10, "None / clone"], [40, "Some engagement"], [70, "Real traction"], [90, "Strong catalyst"]].map(([v, l]) => `<option value="${v}" ${+man === v ? "selected" : ""}>${l} (${v})</option>`).join("")}</select></label>
+      <select id="narrative" data-addr="${esc(a)}"><option value="">Auto (links only, capped at ${CONFIG.narrativeAutoCap})</option>${[[10, "None / clone"], [35, "Viral caller tweet only"], [40, "Some engagement"], [70, "Real traction"], [90, "Strong catalyst"]].map(([v, l]) => `<option value="${v}" ${+man === v ? "selected" : ""}>${l} (${v})</option>`).join("")}</select></label>
     ${trackerForm(entry)}
     <div class="row wrap"><button class="btn primary" data-refresh="${esc(a)}" data-busy>Refresh</button>
       ${m.url ? `<a class="btn" href="${esc(m.url)}" target="_blank" rel="noopener noreferrer">DexScreener</a>` : ""}
@@ -261,6 +280,7 @@ view.addEventListener("change", async (ev) => {
   const t = ev.target;
   if (t.id === "import" && t.files?.[0]) { try { const r = store.importJSON(await t.files[0].text()); render(); notice(`Imported: ${r.added} new, ${r.updated} updated, ${r.skipped} skipped.`, "ok"); } catch (e) { notice(esc(e.message), "bad"); } }
   if (t.dataset.tr) { const li = t.closest("[data-track]"); store.setTracker(li.dataset.track, { [t.dataset.tr]: t.value }); if (t.dataset.tr !== "notes") render(); return; }
+  if (t.id === "devlock") { store.setManual(t.dataset.addr, { devLockVerified: t.checked || undefined }); render(); }
   if (t.id === "narrative") { store.setManual(t.dataset.addr, { narrative: t.value === "" ? undefined : +t.value }); render(); }
   if (t.id === "bankroll" || t.id === "testsize") { const s = store.loadSettings(); const v = parseFloat(t.value); if (t.id === "bankroll") s.bankrollUsd = v > 0 ? v : null; else s.testSizeUsd = v > 0 ? v : 50; store.saveSettings(s); }
 });

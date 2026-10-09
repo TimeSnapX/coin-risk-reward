@@ -6,7 +6,7 @@
 
 ```js
 CoinData = {
-  address, chain: "solana", fetchedAt /* ms, shown as "data as of" */, manual: { narrative?, bankrollUsd?, testSizeUsd? },
+  address, chain: "solana", fetchedAt /* ms, shown as "data as of" */, manual: { narrative?, devLockVerified? /* MANUAL 'dev lock verified' box */, bankrollUsd?, testSizeUsd? },
   sources: { [id]: { label, ok, skipped?, calls: [{ part, ok, ms, error?, url }] } }, sourcesOk, sourcesTried,
   token:       { name, symbol, decimals, supply /* UI units */, program: "spl-token"|"token-2022", imageUrl },
   authorities: { mint: string|null, freeze: string|null, source, jupMintDisabled, jupFreezeDisabled },
@@ -21,9 +21,12 @@ CoinData = {
               graphWallets[] /* RugCheck /insiders/graph */, onchainPct, onchainWallets, onchainAt /* RPC, now */ },
   dev:      { address, holdsPct, holdsPctJup, priorTokens, launches /* Jupiter lifetime devMints */, migrations, launchesWallet /* Jupiter's dev = launch wallet */ },
   launch:   { source, curve, curveTx, slot, at, blockTx, launchSupply /* minted in the create tx */, supplyNow, launchSupplyFrom,
-              wallets[{ wallet, boughtTokens, boughtPct /* of launch supply */, heldNowPct /* of supply now */, exitShare, firstExitSec, firstExitPct, traceCovered }],
-              walletCount, boughtPct, stillHeldPct, dev /* create-tx buyer */, largest /* biggest non-dev */ },   // Solana RPC, pump.fun coins
-  devExit:  { covered, windowTx, checkedTx, events[{ t, sig, tokens, pct }], locked[{ t, sig, tokens }], source /* RPC host */ },
+              signer /* create-tx signer (v1.2) */, wallets[{ wallet, boughtTokens, boughtPct /* of launch supply */, heldNowPct /* of supply now */, exitShare, firstExitSec, firstExitPct, firstExitSol,
+                       traceCovered, locks[{ t, sig, tokens, pct, program, accounts }] /* transfers into a lock program */ }],
+              walletCount, boughtPct, stillHeldPct, dev /* create-tx buyer, + buySolEst */, largest /* biggest non-dev */ },   // Solana RPC, pump.fun coins
+  devLocks: [{ program: "Streamflow", contract, escrow, sender, recipient, deposited, withdrawn, escrowNow, start, cliff, end, cancelableBySender,
+              verified, why[] /* reasons it is NOT verified */ }],   // Solana RPC "dev locks" (phase 3): lock contracts read on-chain
+  devExit:  { covered, windowTx, checkedTx, events[{ t, sig, tokens, pct }], locked[{ t, sig, tokens, pct, program, accounts }], source /* RPC host */ },
   rugcheck: { detectedAt, score, scoreNormalised, risks[], copycat, rugged, launchpad },
   verification: { jupiterVerified, organicScore, jupTags[], coingeckoId },
   flow1h:  { buyUsd, sellUsd, buys, sells, traders },            // Jupiter

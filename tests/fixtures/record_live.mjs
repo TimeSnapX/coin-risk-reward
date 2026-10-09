@@ -10,7 +10,7 @@ import { mockFetch, CASES } from "../mock.mjs";
 const C = CASES.find((x) => x.name === process.argv[2]); if (!C) throw new Error("usage: record_live.mjs <case name>");
 const M = C.mint, DIR = new URL(`./${M}/`, import.meta.url).pathname, liveOhlcv = !existsSync(DIR + "gt_ohlcv.json");
 CONFIG.gtSpacingMs = 3000; CONFIG.teamExit.maxCurvePages = 60; // recording only: reach the (immutable) launch block of a coin that has kept trading since the as-of time
-const sigs = {}, txs = {}, jq = []; let jsearch, ohlcv;
+const sigs = {}, txs = {}, jq = [], accounts = {}; let jsearch, ohlcv;
 async function rec(url, init = {}) {
   const u = new URL(url), host = u.host;
   if (liveOhlcv && host === "api.geckoterminal.com" && u.pathname.includes("/ohlcv/")) {
@@ -26,8 +26,9 @@ async function rec(url, init = {}) {
   if (host === "lite-api.jup.ag") { if (url.includes("/search")) jsearch = body; else jq.push({ amount: BigInt(u.searchParams.get("amount")), body }); }
   else if (host === "solana-rpc.publicnode.com" && res.ok && body?.result !== undefined) {
     const req = JSON.parse(init.body);
-    if (req.method === "getSignaturesForAddress") (sigs[req.params[0]] ||= []).push(...(body.result || []));
+    if (req.method === "getSignaturesForAddress") { const a = (sigs[req.params[0]] ||= []); for (const x of body.result || []) if (!a.some((y) => y.signature === x.signature)) a.push(x); }
     if (req.method === "getTransaction" && body.result) txs[req.params[0]] = body.result;
+    if (req.method === "getMultipleAccounts" && body.result?.value && C.recordAccounts) req.params[0].forEach((k, i) => { (accounts[k] ||= {})[req.params[1]?.encoding || "jsonParsed"] = body.result.value[i]; });
   }
   return res;
 }
@@ -44,6 +45,9 @@ writeFileSync(DIR + "rpc_txs.json", JSON.stringify(Object.fromEntries(Object.ent
 if (jsearch) writeFileSync(DIR + "jup_search.json", JSON.stringify(jsearch));
 if (jq.length === 2) { jq.sort((a, b) => (a.amount < b.amount ? -1 : 1)); writeFileSync(DIR + "jup_quote.json", JSON.stringify({ 50: jq[0].body, 500: jq[1].body })); }
 if (ohlcv) writeFileSync(DIR + "gt_ohlcv.json", JSON.stringify(ohlcv));
+// lock contracts (base64) and their escrow balances (jsonParsed) read by the devLocks check
+for (const l of d.devLocks || []) { const e = accounts[l.escrow]; if (!e) console.error("escrow read not captured"); }
+if (Object.keys(accounts).length) writeFileSync(DIR + "rpc_accounts.json", JSON.stringify(accounts));
 const big = L?.largest, asOf = new Date(C.now).toString();
 const md = `# ${C.name} fixture: what is saved data and what is a live capture
 

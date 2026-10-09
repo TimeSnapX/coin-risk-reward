@@ -111,6 +111,22 @@ write(m, "rugcheck.json", rc); write(m, "dexscreener.json", {"pairs": [pair]}); 
 write(m, "rc_graph.json", load("raw2254/yana_graph.json")); write(m, "rpc.json", rpc_from_rc(rc)); write(m, "coingecko.json", {"solana": {"usd": 110.15}})
 cases.append({"mint": m, "name": "Yana", "now": iso2ms("2026-10-09T12:57:06Z"), "argus": "4/10 speculative scalp, bonding curve (scan-2026-10-09-2254.md); Mnemosyne: risk 40 B, reward 47.5, 38 Skip, ~3.8/10 LOW", "expected": "skip", "history": "publicnode"})
 
+# z0s (Argus fast scan Fri 9 Oct 23:06 AEST, scan-2026-10-09-2306.md; WORKED.md v1.2 third case: the locked-dev rule).
+# Pump.fun BONDING-CURVE coin, created 23:04:10 AEST, ~4.3 min old at the 23:08:27 data timestamp. The dev bought 44M at
+# launch and moved them 43 s later into a Streamflow time-lock (contract FmTCSs..., escrow 4MKhVS...).
+# FIXTURE from Argus's saved data: RugCheck rc_c3 (23:08), DexScreener pair rebuilt from chk_c3 (23:08:27, curve "pair",
+# no liquidity field), GeckoTerminal trades_z0s_c1 (283 trades to 23:07:04), SOL price from those trades' own SOL leg.
+# LIVE-CAPTURED (record_live.mjs z0s, see Z0S_CAPTURE.md): launch-block history, dev wallet history, Streamflow contract +
+# escrow accounts, GeckoTerminal minute candles trimmed to <= 23:08:27, Jupiter search + quotes (moved on since 23:08).
+m = "64UkLhB4vkPVBjvDr5GAgAvwSB895LLBeH2WpBEgpump"; rc = load("raw2306/rc_c3_64UkLh.json"); c = load("raw2306/chk_c3.json")[m]
+zt = load("raw2306/trades_z0s_c1.json"); zsol = round(sorted(float(x["price_from_in_usd"]) for x in zt if x["kind"] == "buy")[len([1 for x in zt if x["kind"] == "buy"]) // 2], 2)
+pair = {"chainId": "solana", "dexId": c["dex"], "url": "https://dexscreener.com/solana/bfgtstgd4xtcetsuyjw7vahoumpqwcorckhh9uajemas", "pairAddress": "BFgtStgd4xtCEtSuYjw7VAhouMpQwCoRckhH9UaJEMAs",
+        "baseToken": {"address": m, "name": "z0s", "symbol": c["sym"]}, "quoteToken": {"address": "So11111111111111111111111111111111111111112", "symbol": "SOL"},
+        "priceNative": c["pn"], "priceUsd": c["price"], "txns": c["tx"], "volume": c["vol"], "priceChange": c["ch"], "fdv": c["mc"], "marketCap": c["mc"], "pairCreatedAt": c["created"], "info": c["info"]}
+write(m, "rugcheck.json", rc); write(m, "dexscreener.json", {"pairs": [pair]}); write(m, "gt_trades.json", wrap_trades(zt))
+write(m, "rpc.json", rpc_from_rc(rc)); write(m, "coingecko.json", {"solana": {"usd": zsol}})
+cases.append({"mint": m, "name": "z0s", "now": iso2ms("2026-10-09T13:08:27Z"), "argus": "watch only, dev stash suspected (scan-2026-10-09-2306.md); WORKED.md v1.2: risk 39 B, reward ~47, 3.8/10 Skip LOW with the verified lock", "expected": "skip", "history": "publicnode", "recordAccounts": True})
+
 # ---------------- synthetic, every source answering, numbers chosen for an easy hand-check
 NOW = iso2ms("2026-10-09T02:00:00Z")
 def syn(name, mint, *, mintAuth=None, freeze=None, fee_bps=0, top=None, insiders=None, creatorPct=0.0, lp=100, liq=200000, mcap=2000000, price=0.002, vol24=1000000,

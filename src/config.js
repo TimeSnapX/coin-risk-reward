@@ -51,7 +51,7 @@ export const CONFIG = {
   narrativeAutoCap: 40,       // without real-reach engagement (manual input) narrative is capped at 40
 
   // ---- combined verdict ----
-  gates: { liquidityMinUsd: 15000, insiderDumpedPct: 15, serialLaunches: 10, lpLockedMinPct: 50 },
+  gates: { liquidityMinUsd: 15000, insiderDumpedPct: 15, serialLaunches: 10, lpLockedMinPct: 50, curveMaxExitPct: 5 },
   verdicts: [
     { min: 70, key: "watch", label: "Watch closely / small flip", colour: "green" },
     { min: 50, key: "lottery", label: "Speculative lottery ticket", colour: "amber" },
@@ -65,7 +65,9 @@ export const CONFIG = {
   //  - te_cluster: ONE wallet or ONE linked cluster took >= sniperCapPct of supply in the launch block(s) and dumped >= dumpShare of it
   //    (QI clarification, SPEC v1.1). A finished exit below that (stake >= sniperYellowPct) = yellow flag, +sniperYellowPoints risk, no cap.
   // Missing data => "unknown" + half the dev / insider points.
-  teamExit: { devExitWithinMin: 15, sniperCapPct: 25, dumpShare: 0.75, sniperYellowPct: 2, sniperYellowPoints: 2,
+  // v1.2 dev rulings (WORKED.md): "the dev" = create-tx signer/buyer AND the RugCheck creator/fee wallet; points = the worse.
+  devPoints: { soldOrMovedUnlocked: 15, unresolvedLock: 10, lockedVerified: 4, launchpadRelayer: 3, repeatLauncher: 8, relayerMaxSol: 0.05 },
+  teamExit: { lockMinCliffDays: 30, devExitWithinMin: 15, sniperCapPct: 25, dumpShare: 0.75, sniperYellowPct: 2, sniperYellowPoints: 2,
     launchSlots: 3, traceMin: 60, maxCurvePages: 10, maxLaunchTx: 30, maxTraceWallets: 6, maxTraceTx: 12, maxDevTx: 15, maxWallets: 60,
     pumpProgram: "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P",
     // moving tokens INTO a lock/vesting program is not an exit (Streamflow, Jupiter Lock)
@@ -83,7 +85,7 @@ export const CONFIG = {
   // ---- costs, sizing, ranges (education only) ----
   costs: { swapFeePct: 1, priorityFeeSol: 0.0002, defaultTestSizeUsd: 50, quoteSizesUsd: [50, 500] },
   sizing: { watch: 5, lottery: 2, lotteryLow: 1 }, // % of bankroll you could LOSE; never an amount to buy
-  rr: { stopFallbackPct: 15, minGreen: 1.5, minAmber: 2 },
+  rr: { stopFallbackPct: 15, minGreen: 1.5, minAmber: 2, planDipPct: 10 }, // plan entry = retest 10% below price (WORKED.md v1.2: QI $0.00105 -> $0.00095, z0s $21.1k -> $19k)
   ranges: { multiples: [2, 5, 10], typicalPeakMcapUsd: 1000000, subCapUsd: 100000, stopZone: [-50, -90] },
   pumpCurve: { totalSupply: 1e9, sellableTokens: 793.1e6, virtualTokens: 1073e6, virtualSol: 30, graduationSol: 85 },
 };

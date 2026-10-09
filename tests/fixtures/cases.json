@@ -45,6 +45,15 @@
   "history": "publicnode"
  },
  {
+  "mint": "64UkLhB4vkPVBjvDr5GAgAvwSB895LLBeH2WpBEgpump",
+  "name": "z0s",
+  "now": 1791551307000,
+  "argus": "watch only, dev stash suspected (scan-2026-10-09-2306.md); WORKED.md v1.2: risk 39 B, reward ~47, 3.8/10 Skip LOW with the verified lock",
+  "expected": "skip",
+  "history": "publicnode",
+  "recordAccounts": true
+ },
+ {
   "mint": "28FBZsi7BsbVCdVk9i45xEZTfUc2tXrn2xCgkheV7QDL",
   "name": "SYNCLEAN",
   "now": 1791511200000,

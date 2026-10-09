@@ -36,6 +36,79 @@ export const liqWord = (d) => (d.pool?.onCurve ? "Curve liquidity (pump.fun bond
 const short = (a) => (a ? `${a.slice(0, 4)}…${a.slice(-4)}` : "");
 
 // ============================================================ HARD FAILS (Argus) => risk 100
+// ---------------- v1.2 dev assessment (WORKED.md rulings 1 + 2 and the locked-dev rule)
+// "The dev" = the create-tx signer (and the wallet that bought in the create tx) AND the RugCheck creator / fee wallet.
+// Deployer points = the WORSE of them. The dev-sold cap fires if EITHER sold or moved tokens unlocked. A transfer into a
+// lock program counts as unlocked until the lock is verified (Streamflow contract read on-chain, or the labelled manual
+// "dev lock verified" input). No launch data => "signer unknown" + half the deployer points.
+const STREAMFLOW_ID = "strmRqUCoQUgGUan5YhzUZa6KqdzwX5L6FpUxfmKg5m";
+const band = (h) => (h <= 3 ? 0 : h <= 10 ? 5 : h <= 20 ? 10 : 15);
+const day = (ms) => new Date(ms).toISOString().slice(0, 10);
+export function devAssess(d, cfg = CONFIG) {
+  const P = cfg.devPoints, te = cfg.teamExit, L = d.launch, win = te.devExitWithinMin * 60, Wd = cfg.riskWeights.dev;
+  const manualLock = d.manual?.devLockVerified === true, locks = d.devLocks || [];
+  const lockState = (e) => {
+    const c = locks.find((k) => (e.accounts || []).includes(k.contract));
+    if (c?.verified) return { verified: true, how: `verified Streamflow lock ${short(c.contract)}: ${Math.round(c.deposited).toLocaleString("en-US")} tokens, cliff ${day(c.cliff)}, ${c.withdrawn} withdrawn, not cancellable by the sender` };
+    if (manualLock) return { verified: true, how: "dev lock verified (MANUAL input, not checked on-chain)" };
+    return { verified: false, how: c ? `lock NOT verified (${c.why.join(", ")})` : `lock not verified (${e.program === STREAMFLOW_ID ? "Streamflow contract not read" : "lock program not decoded"})` };
+  };
+  const out = { wallets: [], cap: null, relayer: false, unknown: false };
+  const launches = d.dev?.launches, lw = d.dev?.launchesWallet, creator = d.dev?.address;
+  if (!L) {
+    out.wallets.push({ role: "create-tx signer", points: Wd * 0.5, unknown: true, text: "signer unknown (launch history not available): +half the deployer points" });
+  } else {
+    const dv = L.dev, signer = L.signer, w = dv?.wallet || signer;
+    const heldTok = dv ? (dv.heldNowPct * (L.supplyNow || 0)) / 100 : 0;
+    const lockEv = dv?.locks || [], st = lockEv.map((e) => ({ e, ...lockState(e) }));
+    const verifiedTok = sumv(st.filter((x) => x.verified).map((x) => x.e.tokens)), unresolved = st.filter((x) => !x.verified);
+    const exitShare = dv?.boughtTokens > 0 ? Math.max(0, 1 - (heldTok + verifiedTok) / dv.boughtTokens) : 0;
+    const who = `${signer && dv && signer !== dv.wallet ? `signer ${short(signer)} / buyer ${short(dv.wallet)}` : `signer ${short(w)}`}`;
+    const rec = { role: "create-tx signer", wallet: w, signer, points: 0, text: "" };
+    if (!dv) { rec.text = `${who} bought nothing in the create tx`; }
+    else if (!u(dv.firstExitSec) && (dv.firstExitSec <= win || exitShare >= te.dumpShare)) {
+      const sold = dv.firstExitSol > 0;
+      Object.assign(rec, { points: P.soldOrMovedUnlocked, cap: true, text: `${who} bought ${fmtPct(dv.boughtPct, 2)} at launch and ${sold ? "SOLD" : "moved (unlocked)"} ${fmtPct(dv.firstExitPct, 2)} ${secs(dv.firstExitSec)} after launch${sold ? ` (+${dv.firstExitSol.toFixed(3)} SOL back)` : ""}` });
+    } else if (unresolved.length) {
+      const x = unresolved[0];
+      Object.assign(rec, { points: P.unresolvedLock, cap: true, text: `${who} moved ${fmtPct(x.e.pct, 2)} into a lock program ${secs(Math.round((x.e.t - L.at) / 1000))} after launch; ${x.how}: unresolved dev exit` });
+    } else if (exitShare >= te.dumpShare) {
+      Object.assign(rec, { points: P.soldOrMovedUnlocked, cap: true, text: `${who} bought ${fmtPct(dv.boughtPct, 2)} at launch and now holds ${fmtPct(dv.heldNowPct, 3)} (${fmtPct(exitShare * 100, 0)} gone, not into a verified lock)` });
+    } else if (st.length) {
+      Object.assign(rec, { points: P.lockedVerified + band(dv.heldNowPct), locked: true, text: `${who} moved its launch buy (${fmtPct(sumv(st.map((x) => x.e.pct)), 2)}) into a lock ${secs(Math.round((st[0].e.t - L.at) / 1000))} after launch: ${st[0].how}. Not an exit (+${P.lockedVerified})` });
+    } else if (creator && signer && creator !== signer && creator !== dv.wallet && !(dv.buySolEst > P.relayerMaxSol)) {
+      Object.assign(rec, { points: P.launchpadRelayer, relayer: true, text: `${who}: launchpad launcher (dust buy ${fmtPct(dv.boughtPct, 2)} ≈ ${(dv.buySolEst ?? 0).toFixed(3)} SOL, held; fees go to creator ${short(creator)}) (+${P.launchpadRelayer})` });
+      out.relayer = true;
+    } else {
+      const rep = launches >= 3 && (!lw || lw === signer || lw === dv.wallet);
+      Object.assign(rec, { points: band(dv.heldNowPct) + (rep ? P.repeatLauncher : 0), text: `${who} bought ${fmtPct(dv.boughtPct, 2)} at launch, holds ${fmtPct(dv.heldNowPct, 2)}${rep ? `; repeat launcher (${launches} mints, +${P.repeatLauncher})` : ""}` });
+    }
+    out.wallets.push(rec);
+  }
+  // RugCheck creator / fee wallet, when it is a different wallet
+  if (creator && !out.wallets.some((x) => x.wallet === creator)) {
+    const h = !u(d.dev.holdsPct) ? d.dev.holdsPct : d.dev.holdsPctJup, Lt = (L?.at || d.launchAt), x = d.devExit, t = d.trades;
+    const rec = { role: "creator / fee wallet", wallet: creator, points: u(h) ? 0 : band(h), text: `creator ${short(creator)} holds ${fmtPct(h, 2)}` };
+    const ev = Lt ? (x?.events || []).find((e) => e.t - Lt <= win * 1000) : undefined, gt = Lt ? (t?.creatorSells || []).filter((e) => e.t - Lt <= win * 1000).sort((a, b) => a.t - b.t)[0] : undefined;
+    const lk = (x?.locked || []).map((e) => ({ e, ...lockState(e) })), unl = lk.filter((y) => !y.verified);
+    if (ev) Object.assign(rec, { points: P.soldOrMovedUnlocked, cap: true, text: `creator ${short(creator)} ${ev.sol > 0 ? "SOLD" : "moved (unlocked)"} ${u(ev.pct) ? "" : fmtPct(ev.pct, 2) + " of supply "}${mins(ev.t - Lt)} after launch (Solana RPC)` });
+    else if (gt) Object.assign(rec, { points: P.soldOrMovedUnlocked, cap: true, text: `creator ${short(creator)} sold${u(gt.tokens) || !d.token?.supply ? "" : ` ${fmtPct((gt.tokens / d.token.supply) * 100, 2)} of supply`} ${mins(gt.t - Lt)} after launch (GeckoTerminal trades)` });
+    else if (unl.length) Object.assign(rec, { points: P.unresolvedLock, cap: true, text: `creator ${short(creator)} moved tokens into a lock program; ${unl[0].how}: unresolved dev exit` });
+    else if (lk.length) Object.assign(rec, { points: P.lockedVerified + rec.points, locked: true, text: `creator ${short(creator)}: ${lk[0].how}. Not an exit (+${P.lockedVerified})` });
+    else {
+      const covered = x?.covered || (t && Lt && t.oldest <= Lt + 60000 && t.newest >= Lt + win * 1000);
+      rec.exitUnknown = !covered; rec.text += covered ? "; no sells/transfers out early" : "; its early history was not checked";
+      if (!L && launches >= 3 && (!lw || lw === creator)) { rec.points += P.repeatLauncher; rec.text += `; repeat launcher (${launches} mints, +${P.repeatLauncher})`; }
+    }
+    if (u(h) && !rec.cap) rec.unknownHold = true;
+    out.wallets.push(rec);
+  }
+  out.points = Math.min(Wd, Math.max(0, ...out.wallets.map((x) => x.points)));
+  out.cap = out.wallets.find((x) => x.cap) || null;
+  out.unknown = !L && (!creator || out.wallets.every((x) => x.unknown || x.exitUnknown));
+  return out;
+}
+
 export const HARD_FAILS = [
   { id: "hf_mint", label: "Mint authority revoked", category: "risk", type: "hardfail", weight: 0, sources: ["solana-rpc", "rugcheck"],
     evaluate(d) { const a = d.authorities?.mint; if (a === undefined) return unknown("on-chain mint info failed (RPC + RugCheck)");
@@ -93,14 +166,10 @@ export const RISK_RULES = [
       let s = i.holdingPct <= 2 ? 0 : i.holdingPct <= 8 ? 6 : i.holdingPct <= 20 ? 11 : 15;
       if (i.linkedGroups > 0) s += 4;
       return pts(s, W.insiders, i.networks ? `${i.detected} insider wallets in ${i.networks} linked group(s) hold ${fmtPct(i.holdingPct)}${i.linkedGroups ? " (+4 linked groups)" : ""}.` : "RugCheck found no insider networks."); } },
-  { id: "dev", label: "Deployer / dev", category: "risk", type: "points", weight: W.dev, sources: ["rugcheck", "jupiter"],
-    evaluate(d) { const v = d.dev || {}; const h = !u(v.holdsPct) ? v.holdsPct : v.holdsPctJup;
-      if (u(h)) return unknown("dev balance unknown");
-      let s = h <= 3 ? 0 : h <= 10 ? 5 : h <= 20 ? 10 : 15; let extra = "";
-      if (v.launches >= 3) { s += 8; extra = `; repeat launcher (${v.launchesWallet && v.launchesWallet !== v.address ? `launch wallet ${short(v.launchesWallet)} ` : ""}${v.launches} tokens minted, +8)`; }
-      else if (u(v.launches)) extra = "; launch history unknown";
-      else extra = `; ${v.launches} token(s) minted by this dev`;
-      return pts(s, W.dev, `Dev ${short(v.address)} holds ${fmtPct(h, 2)}${extra}. Early dev selling is judged by the team-exit check below.`); } },
+  { id: "dev", label: "Deployer / dev", category: "risk", type: "points", weight: W.dev, sources: ["solana-rpc", "rugcheck", "jupiter"],
+    evaluate(d, cfg) { if (!d.launch && !d.dev?.address) return unknown("no launch data and no creator wallet");
+      const a = devAssess(d, cfg);
+      return pts(a.points, W.dev, `Worse of: ${a.wallets.map((x) => `${x.text} (${x.points})`).join("; ")}.`); } },
   { id: "liquidity", label: "Liquidity vs mcap & depth", category: "risk", type: "points", weight: W.liquidity, sources: ["dexscreener", "rugcheck"],
     evaluate(d) { const L = d.market?.liquidityUsd, M = d.market?.mcapUsd; if (u(L)) return unknown("no liquidity figure");
       const r = !u(M) && M > 0 ? L / M : undefined;
@@ -149,23 +218,11 @@ const sumv = (a) => a.reduce((s, x) => s + x, 0);
 const secs = (s) => (s < 120 ? `${s} s` : `${(s / 60).toFixed(1)} min`);
 export const TEAM_EXIT = [
   { id: "te_dev", label: "Dev did not sell", category: "risk", type: "cap", weight: W.dev, sources: ["solana-rpc", "geckoterminal"],
-    evaluate(d, cfg) { const te = cfg.teamExit, L = d.launch?.at || d.launchAt, win = te.devExitWithinMin * 60000, dv = d.launch?.dev;
-      if (dv) { // the wallet that bought in the create transaction
-        if (!u(dv.firstExitSec) && dv.firstExitSec * 1000 <= win) return { score: 1, flag: "red", reason: `Dev wallet ${short(dv.wallet)} sold/moved ${fmtPct(dv.firstExitPct, 2)} of supply ${secs(dv.firstExitSec)} after launch (bought ${fmtPct(dv.boughtPct, 2)} in the create tx). Verdict capped at Skip.` };
-        if (dv.exitShare >= te.dumpShare) return { score: 1, flag: "red", reason: `Dev wallet ${short(dv.wallet)} bought ${fmtPct(dv.boughtPct, 2)} at launch and now holds ${fmtPct(dv.heldNowPct, 3)} (${fmtPct(dv.exitShare * 100, 0)} gone). Verdict capped at Skip.` };
-        return { score: 0, flag: "green", reason: `Dev wallet ${short(dv.wallet)} bought ${fmtPct(dv.boughtPct, 2)} at launch and still holds ${fmtPct(dv.heldNowPct, 2)}${u(dv.firstExitSec) ? (dv.traceCovered ? `; no sells in the first ${te.traceMin} min` : "") : `; first sale ${secs(dv.firstExitSec)} after launch`} (${d.launch.source}).` };
-      }
-      if (!d.dev?.address) return unknown("creator wallet unknown (RugCheck failed)");
-      if (!L) return unknown("launch time unknown");
-      const x = d.devExit, t = d.trades;
-      const rpcHit = (x?.events || []).find((e) => e.t - L <= win);
-      if (rpcHit) return { score: 1, flag: "red", reason: `Dev wallet moved/sold ${u(rpcHit.pct) ? "" : fmtPct(rpcHit.pct, 2) + " of supply "}${mins(rpcHit.t - L)} after launch (Solana RPC). Verdict capped at Skip.` };
-      const gtHit = (t?.creatorSells || []).filter((e) => e.t - L <= win).sort((a, b) => a.t - b.t)[0];
-      if (gtHit) return { score: 1, flag: "red", reason: `Dev wallet sold${u(gtHit.tokens) || !d.token?.supply ? "" : ` ${fmtPct((gtHit.tokens / d.token.supply) * 100, 2)} of supply`} ${mins(gtHit.t - L)} after launch (GeckoTerminal trades). Verdict capped at Skip.` };
-      if (x?.covered) return { score: 0, flag: "green", reason: `Creator history checked (${x.checkedTx} tx in the first ${te.devExitWithinMin} min): no sells or transfers out${x.locked?.length ? ` (${x.locked.length} transfer(s) into a lock program, not counted)` : ""}.` };
-      if (t && t.oldest <= L + 60000 && t.newest >= L + win) return { score: 0, flag: "green", reason: `No dev sells in the trade tape for the first ${te.devExitWithinMin} min (GeckoTerminal; transfers out are not visible there).` };
-      const later = (t?.creatorSells || []).length ? ` Dev sold later in the tape (first seen ${mins(Math.min(...t.creatorSells.map((e) => e.t)) - L)} after launch).` : "";
-      return unknown(`early dev sell data missing (creator history ${d.sources?.["solana-rpc"]?.calls?.find((c) => c.part === "creator history" && !c.ok)?.error || "not covered"}; launch history ${d.sources?.["solana-rpc"]?.calls?.find((c) => c.part === "launch snipers" && !c.ok)?.error || "n/a"}; trade tape does not reach launch).${later}`); } },
+    evaluate(d, cfg) { const a = devAssess(d, cfg);
+      if (a.cap) return { score: 1, flag: "red", reason: `Dev (${a.cap.role}): ${a.cap.text}. Verdict capped at Skip.` };
+      if (a.unknown) return unknown(`early dev sell data missing (launch history ${d.sources?.["solana-rpc"]?.calls?.find((c) => c.part === "launch snipers" && !c.ok)?.error || "n/a"}; creator history ${d.sources?.["solana-rpc"]?.calls?.find((c) => c.part === "creator history" && !c.ok)?.error || "not covered"}; trade tape does not reach launch).`);
+      const lk = a.wallets.find((x) => x.locked);
+      return { score: 0, flag: lk ? "amber" : "green", reason: `${a.wallets.map((x) => `${x.role}: ${x.text}`).join(". ")}.` }; } },
   { id: "te_cluster", label: "No big sniper / cluster dump (>=25%)", category: "risk", type: "cap", weight: W.insiders, sources: ["solana-rpc", "rugcheck"],
     evaluate(d, cfg) { const te = cfg.teamExit, ln = d.launch, cl = d.insiders?.clusters ? clusterExits(d) : undefined;
       const dumped = (pctv, share) => pctv >= te.sniperCapPct && share >= te.dumpShare;
@@ -196,17 +253,34 @@ export const GATES = [
       return v > cfg.gates.insiderDumpedPct ? { score: 1, flag: "red", reason: `Linked insider wallets already sold ${fmtPct(v)} of supply.` } : { score: 0, flag: "green", reason: `Insider clusters sold ${fmtPct(v)} of supply.` }; } },
   { id: "g_serial", label: "Not a serial launcher", category: "risk", type: "gate", weight: 0,
     evaluate(d, cfg) { const n = d.dev?.launches; if (u(n)) return unknown("launch history missing");
+      // v1.2 ruling 1: the gate is for the wallet acting as dev, not a pure launchpad relayer (dust buy held, fees to another wallet)
+      const a = devAssess(d, cfg), rel = a.wallets.find((x) => x.relayer);
+      if (rel && n >= cfg.gates.serialLaunches && (!d.dev.launchesWallet || d.dev.launchesWallet === rel.signer || d.dev.launchesWallet === rel.wallet)) return { score: 0, flag: "amber", reason: `Launch wallet ${short(d.dev.launchesWallet || rel.signer)} has minted ${n} tokens but acts as a launchpad launcher (dust buy held, fees to ${short(d.dev.address)}): not a gate, +${cfg.devPoints.launchpadRelayer} deployer points instead.` };
       return n >= cfg.gates.serialLaunches ? { score: 1, flag: "red", reason: `${d.dev.launchesWallet ? `Launch wallet ${short(d.dev.launchesWallet)}` : "Dev"} has minted ${n} tokens${u(d.dev.migrations) ? "" : ` (${d.dev.migrations} graduated)`}: Jupiter lifetime count; spec: 10+ launches in 2 weeks. Launchpad/platform wallets count too: check by hand.` } : { score: 0, flag: "green", reason: `Dev minted ${n} token(s).` }; } },
-  { id: "g_liq", label: "Liquidity at least $15k", category: "risk", type: "gate", weight: 0,
-    evaluate(d, cfg) { const L = d.market?.liquidityUsd; if (u(L)) return unknown("liquidity missing");
+  { id: "g_liq", label: "Liquidity at least $15k (curve: $50 sell quote works, impact <= 5%)", category: "risk", type: "gate", weight: 0,
+    evaluate(d, cfg) {
+      if (d.pool?.onCurve) { // v1.2 ruling 4: the $15k gate is for graduated pools; curve coins use the sell-quote test
+        const q = d.sellQuote; if (!q) return unknown("no Jupiter sell quote for the curve");
+        if (q.noRoute) return { score: 1, flag: "red", reason: "Bonding curve: Jupiter has no route to sell $50: you may not be able to exit." };
+        const c = quoteCost(q[50], d.solUsd, cfg); if (!c) return unknown("no $50 sell quote");
+        return c.worstPct > cfg.gates.curveMaxExitPct ? { score: 1, flag: "red", reason: `Bonding curve: $50 exit costs ${fmtPct(c.worstPct, 2)} (> ${cfg.gates.curveMaxExitPct}%).` } : { score: 0, flag: "green", reason: `Bonding curve (the $15k pool gate doesn't apply): $50 sell quote works, exit cost ${fmtPct(c.worstPct, 2)} (<= ${cfg.gates.curveMaxExitPct}%).` }; }
+      const L = d.market?.liquidityUsd; if (u(L)) return unknown("liquidity missing");
       return L < cfg.gates.liquidityMinUsd ? { score: 1, flag: "red", reason: `${liqWord(d)} ${fmtUsd(L)} < ${fmtUsd(cfg.gates.liquidityMinUsd)}: you may not be able to exit.` } : { score: 0, flag: "green", reason: `${liqWord(d)} ${fmtUsd(L)}.` }; } },
 ];
 
 // ============================================================ REWARD SIGNALS (Hades), each 0-100, weighted
 const sig = (score, reason) => ({ score: Math.round(clamp(score)), flag: score >= 60 ? "green" : score >= 40 ? "amber" : "red", reason });
+// v1.2 ruling 3: caps for young (< 30 min) or bonding-curve coins
+export const youngOrCurve = (d) => d.pool?.onCurve === true || (!u(d.pairAgeMin) && d.pairAgeMin < 30);
+const capYC = (d, max, r, label = "young/curve coin") => (r.score !== null && youngOrCurve(d) && r.score > max ? { ...sig(max, `${r.reason} Capped at ${max} (${label}).`) } : r);
 export const REWARD_RULES = [
   { id: "liquidityDepth", label: "Liquidity depth", category: "reward", type: "signal", weight: RW.liquidityDepth, sources: ["dexscreener", "jupiter"],
-    evaluate(d) { const L = d.market?.liquidityUsd; if (u(L)) return unknown("No data");
+    evaluate(d) {
+      if (d.pool?.onCurve) { // v1.2 ruling 3: curve depth from the $50 sell-quote cost, max 40
+        const c = quoteCost(d.sellQuote?.[50], d.solUsd); if (d.sellQuote?.noRoute) return sig(0, "Bonding curve: no sell route."); if (!c) return unknown("No $50 sell quote");
+        const s = c.worstPct <= 0.5 ? 40 : c.worstPct <= 2 ? 30 : c.worstPct <= 5 ? 15 : 0;
+        return sig(s, `Bonding curve: $50 exit cost ${fmtPct(c.worstPct, 2)} (Jupiter) → ${s} (curve depth max 40).`); }
+      const L = d.market?.liquidityUsd; if (u(L)) return unknown("No data");
       const s = L < 15000 ? 0 : lerp(L, [[15000, 30], [50000, 60], [100000, 80], [250000, 100]]);
       const q = d.sellQuote || {}; const imp = (usd) => { const c = quoteCost(q[usd], d.solUsd); return c ? `${fmtPct(c.worstPct, 2)} (Jupiter)` : `~${fmtPct((usd / (L / 2 + usd)) * 100, 2)} (est.)`; };
       return sig(s, `${fmtUsd(L)} ${d.pool?.onCurve ? "curve liquidity (bonding curve, not a pool)" : "liquidity"}${L < 15000 ? ": can't exit" : ""}. Exit impact $50: ${imp(50)}, $500: ${imp(500)}.`); } },
@@ -219,7 +293,7 @@ export const REWARD_RULES = [
       else if (r <= 15) { s = 100; why = "healthy (2-15x)"; }
       else if (r <= 30) { s = 100 - ((r - 15) / 15) * 40; why = "hot (15-30x)"; }
       else { s = even ? 30 : 50; why = even ? "bot churn (>30x with even buys/sells, capped)" : "very high (>30x)"; }
-      return sig(s, `24h volume ${fmtUsd(V)} = ${r.toFixed(1)}x liquidity: ${why}.`); } },
+      return capYC(d, 60, sig(s, `24h volume ${fmtUsd(V)} = ${r.toFixed(1)}x liquidity: ${why}.`)); } },
   { id: "buySell", label: "Buy/sell pressure (by USD)", category: "reward", type: "signal", weight: RW.buySell, sources: ["geckoterminal", "jupiter", "dexscreener"],
     evaluate(d) { let b, s, src;
       if (d.trades && d.trades.buyUsd + d.trades.sellUsd > 0) { b = d.trades.buyUsd; s = d.trades.sellUsd; src = `last ${d.trades.n} trades, GeckoTerminal`; }
@@ -236,7 +310,8 @@ export const REWARD_RULES = [
       if (!u(pc.h6)) { s += pc.h6 > 0 ? 10 : -10; why.push(`6h ${pc.h6 > 0 ? "+" : ""}${pc.h6}% (${pc.h6 > 0 ? "+" : "-"}10)`); }
       if (c.higherLows) { s += 15; why.push("higher lows (+15)"); }
       if (c.drawdownPct > 50 && !c.bounced) { s = Math.min(s, 10); why.push("no bounce off the low: capped at 10"); }
-      return sig(s, why.join("; ") + "."); } },
+      const r = sig(s, why.join("; ") + ".");
+      return !u(d.pairAgeMin) && d.pairAgeMin < 30 && r.score > 60 ? sig(60, `${r.reason} Capped at 60 (under 30 min old: no history).`) : r; } },
   { id: "holderGrowth", label: "Holder growth & distribution", category: "reward", type: "signal", weight: RW.holderGrowth, sources: ["jupiter", "rugcheck"],
     evaluate(d) { const h = d.holders || {}, ch = h.change1hPct, t = !u(h.top10PctExPools) ? h.top10PctExPools : h.jupTop10Pct;
       if (u(ch) && u(t)) return unknown("No data");
@@ -245,19 +320,20 @@ export const REWARD_RULES = [
       if (!u(t)) { const a = t <= 15 ? 25 : t <= 25 ? 10 : t <= 40 ? -10 : -25; s += a; why.push(`top10 ${fmtPct(t)} (${a >= 0 ? "+" : ""}${a})`); }
       if (ch > 0 && d.market?.priceChangePct?.h1 < 0) { s += 10; why.push("holders rising while price falls (+10)"); }
       const tp = h.top10Pcts || []; if (tp.length >= 8) { const med = [...tp].sort((a, b) => a - b)[Math.floor(tp.length / 2)]; const same = tp.filter((x) => Math.abs(x - med) <= med * 0.05).length; if (same >= 6) { s -= 20; why.push(`${same} top wallets uniformly sized (bundle split?) (-20)`); } }
-      return sig(s, why.join("; ") + "."); } },
+      return capYC(d, 80, sig(s, why.join("; ") + ".")); } },
   { id: "narrative", label: "Narrative / social traction", category: "reward", type: "signal", weight: RW.narrative, sources: ["dexscreener", "manual"],
     evaluate(d, cfg) { const man = d.manual?.narrative;
-      if (!u(man)) return sig(man, `Manual input: ${man}/100 (your read of X engagement / catalyst).`);
+      if (!u(man)) return youngOrCurve(d) && man > 60 ? sig(60, `Manual input ${man}, capped at 60 (young/curve coin: official site + X with real engagement = up to 60).`) : sig(man, `Manual input: ${man}/100 (your read of X engagement / catalyst).`);
       const m = d.market || {}; if (!d.sources?.dexscreener?.ok) return unknown("No data");
       const soc = (m.socials || []).map((s) => s.type); let s = 0; const have = [];
       if ((m.websites || []).length) { s += 15; have.push("site"); } if (soc.includes("twitter") || soc.includes("x")) { s += 15; have.push("X"); } if (soc.includes("telegram")) { s += 10; have.push("Telegram"); }
       if (d.verification?.coingeckoId || d.verification?.jupiterVerified) { s += 10; have.push("verified"); }
+      if (youngOrCurve(d) && s < 20) return sig(20, `${have.length ? have.join(", ") : "No own socials"}: 20 (young/curve coin, no own socials/evidence). A viral caller tweet = up to 35: rate it manually.`);
       return sig(Math.min(s, cfg.narrativeAutoCap), `${have.length ? have.join(", ") : "No links"}. Capped at ${cfg.narrativeAutoCap} until you rate real X engagement (manual).`); } },
   { id: "room", label: "Room to run (mcap)", category: "reward", type: "signal", weight: RW.room, sources: ["dexscreener"],
     evaluate(d) { const M = d.market?.mcapUsd; if (u(M) || M <= 0) return unknown("No data");
       const s = lerp(Math.log10(M), [[5, 100], [6, 50], [7, 20], [8, 5]]);
-      return sig(s, `Mcap ${fmtUsd(M)}: ${M <= 1e5 ? "most room, most risk" : M < 1e6 ? "some room" : "less upside"}.`); } },
+      return capYC(d, 80, sig(s, `Mcap ${fmtUsd(M)}: ${M <= 1e5 ? "most room, most risk" : M < 1e6 ? "some room" : "less upside"}.`)); } },
 ];
 
 export const ALL_RULES = [...HARD_FAILS, ...RISK_RULES, ...TEAM_EXIT, ...GATES, ...REWARD_RULES];

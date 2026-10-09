@@ -1,7 +1,7 @@
 # Coin Risk vs Reward: formula and worked examples
 
-Source of truth: `/workspace/coin-checker/SPEC.md` (v1 plus the v1.1 additions agreed on 9 Oct 2026).
-All numbers live in `src/config.js`. The examples below are checked by `tests/unit.mjs`, which has 336 checks and recomputes every line from the mocked API responses.
+Source of truth: `/workspace/coin-checker/SPEC.md` (v1 plus the v1.1 additions agreed on 9 Oct 2026) and the v1.2 rulings in `/workspace/coin-checker/WORKED.md` (section 6a).
+All numbers live in `src/config.js`. The examples below are checked by `tests/unit.mjs`, which has 502 checks and recomputes every line from the mocked API responses.
 
 Reviewers: **Hades** (reward side and the clean-RugCheck rule), **Argus** (risk side), **Mnemosyne** (SPEC owner).
 
@@ -120,7 +120,7 @@ A clean RugCheck score (e.g. 1) never lifts a coin on its own. Either check trip
 
 **Exit cost** (SPEC line 76): for the $50 and $500 Jupiter sell quotes, cost = the worse of `priceImpactPct` and `1 − (outAmount × SOL price) / swapUsdValue`; a gap over 1 point is noted ("they disagree, using the worse"). It feeds the honeypot check, liquidity depth and break-even.
 
-### QI "Quantum Inu" (8TiMkg…ziXaQ, Argus 9 Oct 22:33 AEST): the sniper-exit worked example
+### QI "Quantum Inu" (8TiMkg…ziXaQ, Argus 9 Oct 22:33 AEST): the sniper-exit worked example (v1.1 numbers; v1.2 in 6a)
 
 What is fixture and what is live is listed in `tests/fixtures/8TiMkg…/QI_CAPTURE.md`: RugCheck, DexScreener, GeckoTerminal trades + 15-min candles and SOL $110.5 are Argus's saved 22:33 data. Launch history (immutable), launch wallets' balances and Jupiter search + quotes were captured live at 23:00 AEST.
 
@@ -147,7 +147,7 @@ What is fixture and what is live is listed in `tests/fixtures/8TiMkg…/QI_CAPTU
 | Sniper | 11.36%, +2, no cap | 11.36%, +2, no cap | same (after fixing the denominator to the launch supply; it read 11.93% against today's 952.73M) |
 | R:R | 0.75–1 | 2.16 | different target/stop levels |
 
-### Yana "The Mammoth" (CcRxve…mPmTL, Argus 9 Oct 22:57 AEST): the pre-graduation worked example
+### Yana "The Mammoth" (CcRxve…mPmTL, Argus 9 Oct 22:57 AEST): the pre-graduation worked example (v1.1 numbers; v1.2 in 6a)
 
 Fixture: Argus's RugCheck (22:57:06), DexScreener (22:57), GeckoTerminal trades (22:56), insider graph, SOL $110.15. Live-captured (`YANA_CAPTURE.md`): launch history (immutable), GeckoTerminal 1-min candles up to 22:57:06 (`before_timestamp`), Jupiter.
 
@@ -198,12 +198,124 @@ The creator bought 6.63% in the create tx and sold 4.97% 19 s later → `te_dev`
 ### Choices to confirm
 
 - `devExitWithinMin` = 15 min; "dev sold" also counts if ≥ 75% of the dev's launch buy is gone at any time.
-- A transfer out counts like a sell. Transfers into Streamflow / Jupiter Lock do not.
+- A transfer out counts like a sell. A transfer into Streamflow counts as not-an-exit only when the lock is verified on-chain or you tick the MANUAL box (v1.2, section 6a); otherwise it is an unresolved dev exit (+10, cap).
 - When a ≥25% wallet/cluster trips, the cap replaces the +2 (the +2 is only for exits below 25%).
-- The serial gate uses Jupiter's lifetime `devMints` for the launch wallet. SPEC says "10+ launches in 2 weeks". Launchpad / bot launcher wallets (QI: 40, Yana: 3,101) trip it.
+- The serial gate uses Jupiter's lifetime `devMints` for the launch wallet. SPEC says "10+ launches in 2 weeks". v1.2: a launchpad launcher (dust buy held, fees to another wallet; QI's 40-mint `2sRs…`) is exempt and gets +3; a dev-acting signer (Yana's 3,101-mint `8inT…`) still trips it.
 - SOL-paired pool (SPEC line 73) is not scored yet.
 
+## 6a. WORKED.md v1.2 rulings: what the app does, and app vs WORKED.md (not tuned)
+
+Source: `/workspace/coin-checker/WORKED.md` (Mnemosyne, 9 Oct 2026). Numbers live in `src/config.js` (`devPoints`, `gates.curveMaxExitPct`, `teamExit.lockMinCliffDays`, `rr.planDipPct`). Sections 6 and 7 above/below show v1.1 numbers where marked; the tables here are current.
+
+| Ruling | App |
+|---|---|
+| 1. Serial gate only for the wallet acting as dev | A launch signer that only made a dust buy (≤ 0.05 SOL), held it, and whose fees go to a different creator wallet is a **launchpad launcher**: no gate, deployer **+3**. A signer that bought real size and sold/moved it unlocked keeps the gate and gets the dev-sold cap. |
+| 2. Dev = create-tx signer AND RugCheck creator/fee wallet | Both traced. Deployer points = the **worse** of the two; cap fires if **either** sold or moved unlocked. Signer not fetchable → "signer unknown", **+7.5** (half of 15). Note: this stacks with the v1.1 team-exit "unknown +7.5", so a coin with no launch data gets +15 for the dev side in total. |
+| 3. Young/curve reward caps | Young/curve = still on the curve, or pair under 30 min old (`youngOrCurve`). Volume ≤ 60; trend/structure ≤ 60 if < 30 min; holder growth ≤ 80; room ≤ 80; narrative 20 with no own socials, auto-cap 40 with links (the hard cap without real reach); the manual input adds a "Viral caller tweet only (35)" choice, and any manual value is capped at 60 for these coins (site + X with real engagement). Curve depth from the $50 sell-quote cost: ≤ 0.5% → 40, ≤ 2% → 30, ≤ 5% → 15, worse or failed → 0. |
+| 4. $15k liquidity gate for graduated pools only | Curve coins: gate fails if the $50 sell quote fails or costs > 5%. Quote not available (Jupiter down / not saved) → gate unknown (no Avoid, lower confidence). Curve risk +8 kept. |
+| 5. R:R both ways | Card shows R:R **now** and at the **plan entry** (retest: price −10%, or halfway to the stop if that is closer), to TP1 (nearest chart high above price) and TP2 (chart peak when > 10% above TP1). Gate on plan TP1 (1.5:1 grade A, 2:1 otherwise). Warning when R:R now < 1:1. |
+| Locked-dev rule | Dev tokens moved into a lock program: the Streamflow contract is read on-chain (base64 `getMultipleAccounts`) and its escrow balance. **Verified** = not cancelled, 0 withdrawn, cliff ≥ 30 days away, sender cannot cancel or transfer, escrow still holds ≥ 99% of deposit, and the lock tx paid the dev no SOL. Verified → deployer **4** (+ holding band), no cap. Not verified / not readable → **unresolved dev exit: 10 + cap** unless you tick the **"Dev lock verified (MANUAL input)"** box, which counts as verified and is labelled MANUAL. |
+
+### QI, app vs WORKED.md (risk 34 B, reward ~53, 43 Skip, 4.3/10 HIGH)
+
+App: **risk 22 (A ×1.0), reward 60 (59.9), score 60 → Speculative lottery ticket, 6.0/10 HIGH.** Gate g_serial no longer trips (ruling 1: `2sRs…wdR8` is a launchpad launcher).
+
+| Risk rule | WORKED | App | Δ | Why |
+|---|---|---|---|---|
+| LP | 6 (PumpSwap burned; $89k Meteora pool withdrawable) | 0 | **−6** | The app scores the main pool's LP only (PumpSwap, 100% burned). A second, withdrawable Meteora pool is not scored. **App gap**, not tuned. |
+| Holders | 6 | 6 | 0 | |
+| Insiders (+ sniper exit) | 6 (4 + 2) | 4 + 2 (team-exit row) | 0 | |
+| Deployer | 3 | 3 | 0 | launchpad launcher |
+| Depth | 4 | 4 | 0 | |
+| Price action | 3 (41% below ATH) | 0 (39% below the minute-chart peak) | **−3** | Threshold 40%: different peak source (minute candles vs her ATH). |
+| Organic | 0 | 0 | 0 | |
+| Socials | 6 (none dedicated) | 3 | **−3** | DexScreener lists one website link; the app scores "1 link, unverified" = 3. It can't tell a launchpad page from an own site. |
+| Age | 0 | 0 | 0 | |
+| **Total / grade** | **34 B** | **22 A** | **−12** | Grade A → ×1.0 instead of ×0.8 |
+
+| Reward signal (weight) | WORKED | App | Weighted Δ |
+|---|---|---|---|
+| Depth (20%) | 75 | 80 | +1.0 |
+| Volume (15%) | 55 | 50 | −0.75 |
+| Buy/sell (15%) | 60 | 76 | +2.4 |
+| Structure (15%) | 45 | 65 | +3.0 |
+| Holder growth (10%) | 75 | 80 | +0.5 |
+| Narrative (15%) | 25 | 15 | −1.5 |
+| Room (10%) | 35 | 50 | +1.5 |
+| **Reward** | **53.75** | **59.9** | **+6.15** |
+
+Verdict: 60 vs 43 (**+17**), Lottery vs Skip, **6.0 vs 4.3 (+1.7)**. Almost all of it is LP −6, price −3, socials −3 (grade A not B) plus +6 reward.
+R:R: app now 2.2:1 / plan ($0.000943) 4.6:1, using stop $0.000806 (swing low) and TP1 $0.00157 (chart peak, so no separate TP2). WORKED: stop $0.00078, TP1 $0.00125, TP2 $0.00152 → now 0.75:1, plan 1.8:1 / 3.3:1. The app has no intermediate resistance level between price and the peak.
+
+### Yana, app vs WORKED.md (risk 51 C, ~50, Avoid 1.0)
+
+App: **risk 53 (C), reward 53 (52.8), gate g_serial → Avoid 1.0/10 LOW** (without the gate: 32, Skip, capped, 3.2). The liquidity gate now passes on the curve quote (0.36%). **Matches the verdict and rating.**
+
+| Risk rule | WORKED | App | Δ |
+|---|---|---|---|
+| LP / curve | 8 | 8 | 0 |
+| Holders | 0 | 0 | 0 |
+| Insiders | 10 | 10 | 0 |
+| Deployer | 15 (cap) | 15 (cap) | 0 |
+| Depth | 8 | 8 | 0 |
+| Price / organic | 0 / 0 | 0 / 0 | 0 |
+| Socials | 6 | 6 | 0 |
+| Age | 4 | 4 | 0 |
+| Sniper exit | "already inside insiders" | +2 (te_cluster) | **+2**: the 3.13% sniper `9qz7…hWpw` is not one of RugCheck's 16 graph wallets, so the app counts it separately |
+| **Total** | **51 C** | **53 C** | **+2** |
+
+| Reward signal | WORKED | App | Weighted Δ |
+|---|---|---|---|
+| Depth (20%) | 40 | 40 | 0 |
+| Volume (15%) | 55 | 60 | +0.75 |
+| Buy/sell (15%) | 50 | 52 | +0.3 |
+| Structure (15%) | 50 | 60 | +1.5 |
+| Holder growth (10%) | 70 | 80 | +1.0 |
+| Narrative (15%) | 30 | 20 | −1.5 (no own socials = 20; a viral caller tweet can't be seen, use the manual input) |
+| Room (10%) | 70 | 80 | +1.0 |
+| **Reward** | **~50 (50.0)** | **52.8** | **+2.8** |
+
+### z0s, app vs WORKED.md (risk 39 B, ~47, 38 Skip, 3.8/10 LOW)
+
+Fixture: Argus 23:08 data (RugCheck, DexScreener, GeckoTerminal trades, SOL $110.44 from the trades); live capture at 23:46 AEST (`Z0S_CAPTURE.md`): launch history, dev trace, Streamflow contract + escrow, minute candles ≤ 23:08:27, Jupiter quotes (moved on since 23:08).
+
+On-chain: dev `Cobh…aPcC` signed the create tx, bought 44M (4.40%) for ~1.31 SOL, and 43 s later locked it in Streamflow contract `FmTCSsmBhB5FvqZghHhYy5kysL5mPegvBhRzutpKWeMm` (escrow `4MKhVS…jjV3J`): net 43,781,094.53 deposited, 0 withdrawn, cliff 7 Apr 2027 23:04:52 AEST, not cancellable or transferable by the sender, escrow holds 44M, the lock tx paid no SOL → **verified**.
+
+App: **risk 35 (B), reward 55 (54.55), 44 Skip, 4.4/10 LOW.** Before the lock is verified (lock read unavailable): deployer 10 + cap → 41 C, Skip (capped). With the manual box ticked: deployer 4 (labelled MANUAL).
+
+| Risk rule | WORKED | App | Δ | Why |
+|---|---|---|---|---|
+| LP / curve | 8 | 8 | 0 | |
+| Holders | 6 | 6 | 0 | |
+| Insiders | 3 ("none flagged, unknown") | 0 + 2 (sniper exit) | **−1** | RugCheck answered with no insider networks → 0 (known, not unknown). 7 launch snipers sold (largest 10.22%, below 25%) → +2 |
+| Deployer | 4 (verified lock) | 4 | 0 | |
+| Depth | 8 | 8 | 0 | |
+| Price action | 0 | 0 | 0 | |
+| Organic | 3 | 0 | **−3** | Holders +330%/h (Jupiter, live) reads as organic growth |
+| Socials | 3 | 3 | 0 | |
+| Age | 4 | 4 | 0 | |
+| **Total** | **39 B** | **35 B** | **−4** | |
+
+Reward: WORKED gives ~47 without per-signal values, so only the app's are listed: depth 15 ($50 exit 2.03%, live quote at 23:46, not 23:08), volume 60, buy/sell 87 (65% buy share), structure 60, holders 80, narrative 30 (site + X, auto), room 80 → 54.55, **+7.5 vs ~47**. Verdict 44 vs 38 (**+6**), rating **4.4 vs 3.8 (+0.6)**.
+
+R:R (calculator, WORKED levels): at $21.1k, stop $15k, TP1 $26k = **0.8:1**, TP2 $35k = **2.3:1**; plan $19k: TP1 7/4 = 1.75 → **1.8:1** (WORKED says 1.7; the app rounds half up), TP2 **4.0:1**. The app's own chart levels: now 0.8:1 (warned), plan 2.6:1 with the −15% fallback stop.
+
+### Other cases under v1.2
+
+| Case | v1.1 | v1.2 | Why |
+|---|---|---|---|
+| CRAWL | 42 C, 31 Skip, 3.1 | 50 C, 31 Skip, 3.1 | signer unknown +7.5 |
+| Fux | 58 D, Avoid (g_liq), 1.0 | 66 D, 15 Skip, 1.5 LOW | signer +7.5; curve gate unknown (no saved quote); depth unknown; caps |
+| WILLY | 68 D, Avoid (g_liq), 1.0 | 76 D, 14 Skip, 1.4 LOW | same |
+| Alias | 64 D, Avoid (g_liq), 1.0 | 79 D, 11 Skip (capped), 1.1 LOW | creator moved 3.99% unlocked → deployer 15 + cap; curve gate unknown |
+| SYNRUG | 0 A, Skip (capped), 4.9 | 15 A, Skip (capped), 4.9 | dev sold → deployer 15 |
+| SYNCLEAN at 10 min old | Watch, 6.0 LOW | 66 Lottery, 6.0 LOW | young caps (trend, volume, holders) |
+
+Fux, WILLY and Alias lose their Avoid only because Argus didn't save a Jupiter quote on 7 Oct; live, the curve quote decides.
+
 ## 7. Worked examples, every case
+
+(v1.1 numbers below; the v1.2 numbers are in section 6a.)
 
 Format: risk points | hard-fail unknowns (+10 each) | team exit → raw → score (grade); reward = Σ signal × weight. QI and Yana are in section 6.
 
