@@ -1,0 +1,102 @@
+[
+ {
+  "mint": "BXoHJddsWJLHtAopeiSbKUSELsu8hSFMs8baGMDkpump",
+  "name": "CRAWL",
+  "now": 1791156081000,
+  "argus": "TOP PICK, clean dip-and-floor (scan-2026-10-05-0915.md)",
+  "expected": "green/amber"
+ },
+ {
+  "mint": "5s81GzJuCFsk4H8vJWxFfCM8n11qVSmVNBFKXSMXpump",
+  "name": "Fux",
+  "now": 1791361083000,
+  "argus": "4/10 watch-only / lottery size (scan-2026-10-07-1814.md)",
+  "expected": "amber-red"
+ },
+ {
+  "mint": "26dXHm8KfbvS79jhgJj3g2jYPwfXyw9fEo8H3cUApump",
+  "name": "WILLY",
+  "now": 1791361798000,
+  "argus": "5/10 small-size only (scan-2026-10-07-1825.md)",
+  "expected": "amber-red"
+ },
+ {
+  "mint": "FDVoukvB7QKDdPPjpktm3FHXyN3C6oeQS2Uw27F7pump",
+  "name": "Alias",
+  "now": 1791362743000,
+  "argus": "2/10 avoid (alias-domains-2026-10-07-1841.md)",
+  "expected": "red",
+  "history": "mainnet-beta"
+ },
+ {
+  "mint": "8TiMkgvsrat9tM2esko8zVTt99LZLpefUM4SnZaziXaQ",
+  "name": "QI",
+  "now": 1791549210000,
+  "argus": "5/10 small size (scan-2026-10-09-2230.md); Mnemosyne: risk 34 B, reward ~53, score ~43 Skip, ~4.3/10 HIGH",
+  "expected": "skip",
+  "history": "publicnode"
+ },
+ {
+  "mint": "CcRxve6DzVLYCKWTDL8bPMV5CHrQpHj1qbUNQr6mPmTL",
+  "name": "Yana",
+  "now": 1791550626000,
+  "argus": "4/10 speculative scalp, bonding curve (scan-2026-10-09-2254.md); Mnemosyne: risk 40 B, reward 47.5, 38 Skip, ~3.8/10 LOW",
+  "expected": "skip",
+  "history": "publicnode"
+ },
+ {
+  "mint": "28FBZsi7BsbVCdVk9i45xEZTfUc2tXrn2xCgkheV7QDL",
+  "name": "SYNCLEAN",
+  "now": 1791511200000,
+  "priceUsd": 0.002,
+  "decimals": 6,
+  "synthetic": true,
+  "history": "publicnode",
+  "argus": "synthetic: clean graduated coin, every source answers",
+  "expected": "green"
+ },
+ {
+  "mint": "2nBVCVShnFKa1DE9y29ca8a2GXoHw4qRGYDJZFU2k6JT",
+  "name": "SYNHARD",
+  "now": 1791511200000,
+  "priceUsd": 0.002,
+  "decimals": 6,
+  "synthetic": true,
+  "history": "publicnode",
+  "argus": "synthetic: mint authority live + 5% Token-2022 fee",
+  "expected": "red (hard fail)"
+ },
+ {
+  "mint": "D54gpiD3oeWkS3jsknKgtWoNbADHQTemLEVjq25FgMUG",
+  "name": "SYNMID",
+  "now": 1791511200000,
+  "priceUsd": 0.001,
+  "decimals": 6,
+  "synthetic": true,
+  "history": "publicnode",
+  "argus": "synthetic: mid-risk graduated coin, every source answers",
+  "expected": "amber/avoid"
+ },
+ {
+  "mint": "FVnHkyRZPfrsqrxxBZJrGmHYN9vUSZsbx7KSDEh94Xhk",
+  "name": "SYNLOT",
+  "now": 1791511200000,
+  "priceUsd": 0.002,
+  "decimals": 6,
+  "synthetic": true,
+  "history": "publicnode",
+  "argus": "synthetic: grade-B coin with decent reward (lottery band)",
+  "expected": "amber"
+ },
+ {
+  "mint": "G8kcmyYZComQv2AAogmv8Yk7PFLKB8R3M8FrizWCVHSE",
+  "name": "SYNRUG",
+  "now": 1791511200000,
+  "priceUsd": 0.002,
+  "decimals": 6,
+  "synthetic": true,
+  "history": "publicnode",
+  "argus": "synthetic: SYNCLEAN numbers, but the dev sold 6% of supply 4 min after launch (clean-RugCheck cap)",
+  "expected": "skip (capped)"
+ }
+]

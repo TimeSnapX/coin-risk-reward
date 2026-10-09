@@ -1,0 +1,43 @@
+{
+ "jsonrpc": "2.0",
+ "id": 1,
+ "result": {
+  "context": {
+   "slot": 1
+  },
+  "value": {
+   "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "lamports": 1,
+   "executable": false,
+   "data": {
+    "program": "spl-token-2022",
+    "parsed": {
+     "type": "mint",
+     "info": {
+      "decimals": 6,
+      "supply": "952734506432854",
+      "mintAuthority": null,
+      "freezeAuthority": null,
+      "isInitialized": true,
+      "extensions": [
+       {
+        "extension": "metadataPointer",
+        "state": {
+         "authority": null,
+         "metadataAddress": "8TiMkgvsrat9tM2esko8zVTt99LZLpefUM4SnZaziXaQ"
+        }
+       },
+       {
+        "extension": "tokenMetadata",
+        "state": {
+         "name": "Quantum Inu",
+         "symbol": "QI"
+        }
+       }
+      ]
+     }
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Coin Risk vs Reward Checker</title>
+  <meta name="description" content="Paste a Solana mint and see a risk score, reward score, verdict, red/amber/green flags and a risk-vs-reward chart from free public data. Research only. Not financial advice." />
+  <meta name="theme-color" content="#0a0b10" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-IUyGf+m3E1UP8b1eGZ/M7UYjg9WVyMMS0kGt3SDaOyg='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://api.rugcheck.xyz https://api.dexscreener.com https://api.geckoterminal.com https://solana-rpc.publicnode.com https://api.mainnet-beta.solana.com https://lite-api.jup.ag https://api.coingecko.com https://frontend-api-v3.pump.fun; object-src 'none'; base-uri 'self'; form-action 'none'" />
+  <meta name="referrer" content="no-referrer" />
+  <script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { scope: "./" }).catch(function () {});</script>
+  <link rel="stylesheet" href="css/app.css?v=1" />
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="#/" aria-label="Coin Risk vs Reward home">
+      <img src="favicon.svg" alt="" width="34" height="34" />
+      <div><p class="eyebrow">Research only · Solana first</p><h1>Coin Risk vs Reward</h1></div>
+    </a>
+    <span id="net" class="net" title="Network status">●</span>
+  </header>
+  <main id="view" tabindex="-1"><p class="loading">Loading…</p></main>
+  <footer class="foot"><p><b>Research only. Not financial advice. No trading, no wallet connection, no seed phrases.</b></p></footer>
+  <script type="module" src="src/app.js?v=1"></script>
+</body>
+</html>

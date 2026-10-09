@@ -1,0 +1,20 @@
+{
+  "id": "/coin-risk-reward/?app=coin-risk-reward",
+  "name": "Coin Risk vs Reward Checker",
+  "short_name": "Risk vs Reward",
+  "description": "Paste a Solana mint and see a risk score, reward score, verdict, flags and a risk-vs-reward chart from free public data. Research only. Not financial advice.",
+  "start_url": "./",
+  "scope": "/coin-risk-reward/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0b10",
+  "theme_color": "#0a0b10",
+  "lang": "en-AU",
+  "dir": "ltr",
+  "categories": ["finance", "utilities"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

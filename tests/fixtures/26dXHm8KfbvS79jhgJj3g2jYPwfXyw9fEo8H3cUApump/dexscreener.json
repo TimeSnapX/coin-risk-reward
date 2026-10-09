@@ -1,0 +1,54 @@
+{
+ "pairs": [
+  {
+   "chainId": "solana",
+   "dexId": "pumpfun",
+   "url": "https://dexscreener.com/solana/3bltctimg31cwnhxvsbsnk725sh6j9jst3jfsth8gfws",
+   "pairAddress": "3BLtCtimg31CwNHxVsbsnk725SH6J9jSt3JfStH8GFwS",
+   "baseToken": {
+    "address": "26dXHm8KfbvS79jhgJj3g2jYPwfXyw9fEo8H3cUApump",
+    "name": "The Anti AI Mascot ",
+    "symbol": "WILLY"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.0000001552",
+   "priceUsd": "0.00001840",
+   "txns": {
+    "m5": {
+     "buys": 688,
+     "sells": 598
+    },
+    "h1": {
+     "buys": 842,
+     "sells": 695
+    },
+    "h6": {
+     "buys": 842,
+     "sells": 695
+    },
+    "h24": {
+     "buys": 842,
+     "sells": 695
+    }
+   },
+   "volume": {
+    "h24": 66945.67,
+    "h6": 66945.67,
+    "h1": 66945.67,
+    "m5": 50629.31
+   },
+   "priceChange": {
+    "m5": 31.51,
+    "h1": 215,
+    "h6": 215,
+    "h24": 215
+   },
+   "fdv": 18402.72,
+   "marketCap": 18402.72,
+   "pairCreatedAt": 1791361358000
+  }
+ ]
+}

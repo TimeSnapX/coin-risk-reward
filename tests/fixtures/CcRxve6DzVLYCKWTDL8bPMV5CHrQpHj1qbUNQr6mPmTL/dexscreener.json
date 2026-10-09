@@ -1,0 +1,54 @@
+{
+ "pairs": [
+  {
+   "chainId": "solana",
+   "dexId": "pumpfun",
+   "url": "https://dexscreener.com/solana/hfjcgxmsyu46pxvctvgml3fyyjiw5xqoijtrbuqx4hsv",
+   "pairAddress": "HFJCGxMsYU46pxvctvGML3FyYjiw5xQoiJtrBuqx4HSv",
+   "baseToken": {
+    "address": "CcRxve6DzVLYCKWTDL8bPMV5CHrQpHj1qbUNQr6mPmTL",
+    "name": "The Mammoth",
+    "symbol": "Yana"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.0000002924",
+   "priceUsd": "0.00003222",
+   "txns": {
+    "m5": {
+     "buys": 741,
+     "sells": 450
+    },
+    "h1": {
+     "buys": 951,
+     "sells": 587
+    },
+    "h6": {
+     "buys": 951,
+     "sells": 587
+    },
+    "h24": {
+     "buys": 951,
+     "sells": 587
+    }
+   },
+   "volume": {
+    "h24": 68592.56,
+    "h6": 68592.56,
+    "h1": 68592.56,
+    "m5": 50567.06
+   },
+   "priceChange": {
+    "m5": 86.17,
+    "h1": 634,
+    "h6": 634,
+    "h24": 634
+   },
+   "fdv": 32220.93,
+   "marketCap": 32220.93,
+   "pairCreatedAt": 1791550220000
+  }
+ ]
+}

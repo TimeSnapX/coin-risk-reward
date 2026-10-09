@@ -1,0 +1,110 @@
+[
+ {
+  "net_id": "ceadbc22-e49c-48c5-a472-c214cbbaa97b",
+  "network_type": "transfer",
+  "nodes": [
+   {
+    "id": "7DCzW5Z4k6Zgt6j9nvepLRrcc1TjVbgmpzcSHjWRQPWP",
+    "participant": true,
+    "holdings": 8878551788346
+   },
+   {
+    "id": "7XPqFLpwzVfn6sw4W1N2zMjs4jSyEqC8cjvKY5Y76Qx8",
+    "participant": true,
+    "holdings": 0
+   },
+   {
+    "id": "Conw35Jkrf8bFMxzb3sPEu75JCejVYgqonwKzXYtaTvB",
+    "participant": true,
+    "holdings": 0
+   },
+   {
+    "id": "A2NKmkTtq1dVbX3pen6nyjsVVPiZZ3K3UBYLYmJqfoqf",
+    "participant": true,
+    "holdings": 18154640348324
+   },
+   {
+    "id": "BkdN9VVP9McUNdGBr341NJ58rQpVcnY6Tynj7FCZ6fUZ",
+    "participant": true,
+    "holdings": 0
+   }
+  ],
+  "links": [
+   {
+    "source": "Conw35Jkrf8bFMxzb3sPEu75JCejVYgqonwKzXYtaTvB",
+    "target": "A2NKmkTtq1dVbX3pen6nyjsVVPiZZ3K3UBYLYmJqfoqf"
+   },
+   {
+    "source": "Conw35Jkrf8bFMxzb3sPEu75JCejVYgqonwKzXYtaTvB",
+    "target": "7DCzW5Z4k6Zgt6j9nvepLRrcc1TjVbgmpzcSHjWRQPWP"
+   },
+   {
+    "source": "BkdN9VVP9McUNdGBr341NJ58rQpVcnY6Tynj7FCZ6fUZ",
+    "target": "A2NKmkTtq1dVbX3pen6nyjsVVPiZZ3K3UBYLYmJqfoqf"
+   },
+   {
+    "source": "BkdN9VVP9McUNdGBr341NJ58rQpVcnY6Tynj7FCZ6fUZ",
+    "target": "7DCzW5Z4k6Zgt6j9nvepLRrcc1TjVbgmpzcSHjWRQPWP"
+   },
+   {
+    "source": "7XPqFLpwzVfn6sw4W1N2zMjs4jSyEqC8cjvKY5Y76Qx8",
+    "target": "7DCzW5Z4k6Zgt6j9nvepLRrcc1TjVbgmpzcSHjWRQPWP"
+   }
+  ],
+  "relatedMint": null
+ },
+ {
+  "net_id": "f166dc54-4e62-4ab3-935c-323d769607b1",
+  "network_type": "transfer",
+  "nodes": [
+   {
+    "id": "HU9RE9C836ses9L9h7sqEQbKS6YnYgnMbDcAY7boUops",
+    "participant": true,
+    "holdings": 22379019804426
+   },
+   {
+    "id": "AZX8vSx8YhHAnfb2mB2aZwxzKoUv6ShjRFqi4EVcGH1p",
+    "participant": true,
+    "holdings": 4665361011112
+   },
+   {
+    "id": "6qb2wM9iiecBhrFbAp5HxQCpLjhziNeds1imLw4CLmAa",
+    "participant": true,
+    "holdings": 0
+   },
+   {
+    "id": "ERnsu9zFmFdD9HNfKRFCPLQ3t7s4wv6APPCymS5UpP3f",
+    "participant": true,
+    "holdings": 21273074974342
+   },
+   {
+    "id": "3kn7bC169Lt56RnTLTieC61on3MVg4PZcpjhzZqniEbB",
+    "participant": true,
+    "holdings": 0
+   }
+  ],
+  "links": [
+   {
+    "source": "3kn7bC169Lt56RnTLTieC61on3MVg4PZcpjhzZqniEbB",
+    "target": "HU9RE9C836ses9L9h7sqEQbKS6YnYgnMbDcAY7boUops"
+   },
+   {
+    "source": "3kn7bC169Lt56RnTLTieC61on3MVg4PZcpjhzZqniEbB",
+    "target": "ERnsu9zFmFdD9HNfKRFCPLQ3t7s4wv6APPCymS5UpP3f"
+   },
+   {
+    "source": "3kn7bC169Lt56RnTLTieC61on3MVg4PZcpjhzZqniEbB",
+    "target": "AZX8vSx8YhHAnfb2mB2aZwxzKoUv6ShjRFqi4EVcGH1p"
+   },
+   {
+    "source": "6qb2wM9iiecBhrFbAp5HxQCpLjhziNeds1imLw4CLmAa",
+    "target": "ERnsu9zFmFdD9HNfKRFCPLQ3t7s4wv6APPCymS5UpP3f"
+   },
+   {
+    "source": "6qb2wM9iiecBhrFbAp5HxQCpLjhziNeds1imLw4CLmAa",
+    "target": "HU9RE9C836ses9L9h7sqEQbKS6YnYgnMbDcAY7boUops"
+   }
+  ],
+  "relatedMint": null
+ }
+]

@@ -1,0 +1,151 @@
+{
+ "schemaVersion": "1.0.0",
+ "pairs": [
+  {
+   "chainId": "solana",
+   "dexId": "pumpswap",
+   "url": "https://dexscreener.com/solana/2b8tftz5ww8tremr3pgkgerlnjjyjxeapwmenvigmsl4",
+   "pairAddress": "2B8tftZ5ww8TREMr3pgkgERLNjJyJxEAPWMENViGMsL4",
+   "baseToken": {
+    "address": "BXoHJddsWJLHtAopeiSbKUSELsu8hSFMs8baGMDkpump",
+    "name": "CRAWLNET",
+    "symbol": "CRAWL"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.00002117",
+   "priceUsd": "0.002583",
+   "txns": {
+    "m5": {
+     "buys": 20,
+     "sells": 31
+    },
+    "h1": {
+     "buys": 542,
+     "sells": 552
+    },
+    "h6": {
+     "buys": 5276,
+     "sells": 5104
+    },
+    "h24": {
+     "buys": 49010,
+     "sells": 44772
+    }
+   },
+   "volume": {
+    "h24": 12536152.79,
+    "h6": 1544292.69,
+    "h1": 148999.21,
+    "m5": 11575.65
+   },
+   "priceChange": {
+    "m5": 8.22,
+    "h1": 6.08,
+    "h6": -10.18,
+    "h24": 137
+   },
+   "liquidity": {
+    "usd": 193398.82,
+    "base": 37682929,
+    "quote": 787.1325
+   },
+   "fdv": 2508917,
+   "marketCap": 2508917,
+   "pairCreatedAt": 1791065290000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/iq8fcz2JcnxgWNaC?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/Ap1Ct4YgAstNPspV?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/BXoHJddsWJLHtAopeiSbKUSELsu8hSFMs8baGMDkpump?timestamp=1791156000000",
+    "websites": [
+     {
+      "url": "https://crawlnet.network/",
+      "label": "Website"
+     }
+    ],
+    "socials": [
+     {
+      "url": "https://x.com/matthewabides/status/2106506213458341960",
+      "type": "twitter"
+     }
+    ]
+   }
+  }
+ ],
+ "pair": {
+  "chainId": "solana",
+  "dexId": "pumpswap",
+  "url": "https://dexscreener.com/solana/2b8tftz5ww8tremr3pgkgerlnjjyjxeapwmenvigmsl4",
+  "pairAddress": "2B8tftZ5ww8TREMr3pgkgERLNjJyJxEAPWMENViGMsL4",
+  "baseToken": {
+   "address": "BXoHJddsWJLHtAopeiSbKUSELsu8hSFMs8baGMDkpump",
+   "name": "CRAWLNET",
+   "symbol": "CRAWL"
+  },
+  "quoteToken": {
+   "address": "So11111111111111111111111111111111111111112",
+   "name": "Wrapped SOL",
+   "symbol": "SOL"
+  },
+  "priceNative": "0.00002117",
+  "priceUsd": "0.002583",
+  "txns": {
+   "m5": {
+    "buys": 20,
+    "sells": 31
+   },
+   "h1": {
+    "buys": 542,
+    "sells": 552
+   },
+   "h6": {
+    "buys": 5276,
+    "sells": 5104
+   },
+   "h24": {
+    "buys": 49010,
+    "sells": 44772
+   }
+  },
+  "volume": {
+   "h24": 12536152.79,
+   "h6": 1544292.69,
+   "h1": 148999.21,
+   "m5": 11575.65
+  },
+  "priceChange": {
+   "m5": 8.22,
+   "h1": 6.08,
+   "h6": -10.18,
+   "h24": 137
+  },
+  "liquidity": {
+   "usd": 193398.82,
+   "base": 37682929,
+   "quote": 787.1325
+  },
+  "fdv": 2508917,
+  "marketCap": 2508917,
+  "pairCreatedAt": 1791065290000,
+  "info": {
+   "imageUrl": "https://cdn.dexscreener.com/cms/images/iq8fcz2JcnxgWNaC?width=800&height=800&quality=95&format=auto",
+   "header": "https://cdn.dexscreener.com/cms/images/Ap1Ct4YgAstNPspV?width=1500&height=500&quality=95&format=auto",
+   "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/BXoHJddsWJLHtAopeiSbKUSELsu8hSFMs8baGMDkpump?timestamp=1791156000000",
+   "websites": [
+    {
+     "url": "https://crawlnet.network/",
+     "label": "Website"
+    }
+   ],
+   "socials": [
+    {
+     "url": "https://x.com/matthewabides/status/2106506213458341960",
+     "type": "twitter"
+    }
+   ]
+  }
+ }
+}

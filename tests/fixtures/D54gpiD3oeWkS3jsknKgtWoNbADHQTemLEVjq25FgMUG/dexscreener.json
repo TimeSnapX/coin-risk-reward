@@ -1,0 +1,72 @@
+{
+ "pairs": [
+  {
+   "chainId": "solana",
+   "dexId": "pumpswap",
+   "url": "https://dexscreener.com/solana/x",
+   "pairAddress": "DmDTx9ky88prf9mXnF4Bw5CHNZLxwY4uSDw5fbPvJKRc",
+   "baseToken": {
+    "address": "D54gpiD3oeWkS3jsknKgtWoNbADHQTemLEVjq25FgMUG",
+    "name": "SYNMID",
+    "symbol": "SYNMI"
+   },
+   "priceUsd": "0.001",
+   "txns": {
+    "m5": {
+     "buys": 10,
+     "sells": 10
+    },
+    "h1": {
+     "buys": 500,
+     "sells": 400
+    },
+    "h6": {
+     "buys": 3000,
+     "sells": 2000
+    },
+    "h24": {
+     "buys": 5000,
+     "sells": 4000
+    }
+   },
+   "volume": {
+    "m5": 1000,
+    "h1": 40000,
+    "h6": 300000,
+    "h24": 600000
+   },
+   "priceChange": {
+    "m5": -2,
+    "h1": -4,
+    "h6": -10,
+    "h24": -30
+   },
+   "liquidity": {
+    "usd": 30000
+   },
+   "fdv": 900000,
+   "marketCap": 900000,
+   "pairCreatedAt": 1791338400000,
+   "boosts": {
+    "active": 10
+   },
+   "info": {
+    "websites": [
+     {
+      "url": "https://example.org"
+     }
+    ],
+    "socials": [
+     {
+      "type": "twitter",
+      "url": "https://x.com/example"
+     },
+     {
+      "type": "telegram",
+      "url": "https://t.me/example"
+     }
+    ]
+   }
+  }
+ ]
+}

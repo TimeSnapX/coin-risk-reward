@@ -1,0 +1,23 @@
+{
+ "data": {
+  "id": "solana_2nBVCVShnFKa1DE9y29ca8a2GXoHw4qRGYDJZFU2k6JT",
+  "type": "token",
+  "attributes": {
+   "address": "2nBVCVShnFKa1DE9y29ca8a2GXoHw4qRGYDJZFU2k6JT",
+   "name": "SYNHARD",
+   "symbol": "SYNHA",
+   "decimals": 6,
+   "price_usd": "0.002",
+   "coingecko_coin_id": null
+  },
+  "relationships": {
+   "top_pools": {
+    "data": [
+     {
+      "id": "solana_9ysrxA2WW3fSg9y5TwTBQvZYtDa7wGvhnhd8Afk7XA75"
+     }
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,27 @@
+{
+ "jsonrpc": "2.0",
+ "id": 1,
+ "result": {
+  "context": {
+   "slot": 1
+  },
+  "value": {
+   "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+   "lamports": 1,
+   "executable": false,
+   "data": {
+    "program": "spl-token",
+    "parsed": {
+     "type": "mint",
+     "info": {
+      "decimals": 6,
+      "supply": "1000000000000000",
+      "mintAuthority": null,
+      "freezeAuthority": null,
+      "isInitialized": true
+     }
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,104 @@
+{
+ "2zMVWwKPK3kLGqJXqQ3UxaVpQ9GPwKBpsF6KSxinCZgX": {
+  "blockTime": 1791338340,
+  "slot": 1000000,
+  "meta": {
+   "err": null,
+   "preTokenBalances": [],
+   "postTokenBalances": [
+    {
+     "accountIndex": 1,
+     "mint": "G8kcmyYZComQv2AAogmv8Yk7PFLKB8R3M8FrizWCVHSE",
+     "owner": "ARPvSWfHcdE4UKnNG2KJWANwZs4DMinVo6KfHaF2cNL",
+     "uiTokenAmount": {
+      "uiAmount": 940000000.0,
+      "uiAmountString": "940000000.0",
+      "decimals": 6
+     }
+    },
+    {
+     "accountIndex": 1,
+     "mint": "G8kcmyYZComQv2AAogmv8Yk7PFLKB8R3M8FrizWCVHSE",
+     "owner": "A2ZzLpUks2hL6tP5ZwdzAoS7oykCCV3rCXXdjtWNYf5e",
+     "uiTokenAmount": {
+      "uiAmount": 60000000.0,
+      "uiAmountString": "60000000.0",
+      "decimals": 6
+     }
+    }
+   ]
+  }
+ },
+ "6zTdvo9WZ7K5WdY65M7XW1ERmjU36M5jmae1DtqmAAGV": {
+  "blockTime": 1791338340,
+  "slot": 1000001,
+  "meta": {
+   "err": null,
+   "preTokenBalances": [
+    {
+     "accountIndex": 1,
+     "mint": "G8kcmyYZComQv2AAogmv8Yk7PFLKB8R3M8FrizWCVHSE",
+     "owner": "ARPvSWfHcdE4UKnNG2KJWANwZs4DMinVo6KfHaF2cNL",
+     "uiTokenAmount": {
+      "uiAmount": 940000000.0,
+      "uiAmountString": "940000000.0",
+      "decimals": 6
+     }
+    }
+   ],
+   "postTokenBalances": [
+    {
+     "accountIndex": 1,
+     "mint": "G8kcmyYZComQv2AAogmv8Yk7PFLKB8R3M8FrizWCVHSE",
+     "owner": "ARPvSWfHcdE4UKnNG2KJWANwZs4DMinVo6KfHaF2cNL",
+     "uiTokenAmount": {
+      "uiAmount": 930000000.0,
+      "uiAmountString": "930000000.0",
+      "decimals": 6
+     }
+    },
+    {
+     "accountIndex": 1,
+     "mint": "G8kcmyYZComQv2AAogmv8Yk7PFLKB8R3M8FrizWCVHSE",
+     "owner": "EfJEwGvkyuJCFbryjnfyjhAsMXm9m1KFaJEXFonCYGGE",
+     "uiTokenAmount": {
+      "uiAmount": 10000000.0,
+      "uiAmountString": "10000000.0",
+      "decimals": 6
+     }
+    }
+   ]
+  }
+ },
+ "3nt7mwd2WsrEMck7fKavxXfLaLasx1gwMrMEigjYZo6f": {
+  "blockTime": 1791338580,
+  "slot": 1000600,
+  "meta": {
+   "err": null,
+   "preTokenBalances": [
+    {
+     "accountIndex": 1,
+     "mint": "G8kcmyYZComQv2AAogmv8Yk7PFLKB8R3M8FrizWCVHSE",
+     "owner": "A2ZzLpUks2hL6tP5ZwdzAoS7oykCCV3rCXXdjtWNYf5e",
+     "uiTokenAmount": {
+      "uiAmount": 60000000.0,
+      "uiAmountString": "60000000.0",
+      "decimals": 6
+     }
+    }
+   ],
+   "postTokenBalances": [
+    {
+     "accountIndex": 1,
+     "mint": "G8kcmyYZComQv2AAogmv8Yk7PFLKB8R3M8FrizWCVHSE",
+     "owner": "A2ZzLpUks2hL6tP5ZwdzAoS7oykCCV3rCXXdjtWNYf5e",
+     "uiTokenAmount": {
+      "uiAmount": 0.0,
+      "uiAmountString": "0.0",
+      "decimals": 6
+     }
+    }
+   ]
+  }
+ }
+}

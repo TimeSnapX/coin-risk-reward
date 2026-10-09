@@ -1,0 +1,14 @@
+{
+  "name": "coin-risk-reward",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Coin Risk vs Reward Checker: static PWA, plain ES modules, no build step. Research only.",
+  "type": "module",
+  "scripts": {
+    "serve": "node tests/server.mjs 4190",
+    "test:unit": "node tests/unit.mjs",
+    "test:e2e": "node tests/e2e.mjs",
+    "test:cors": "node tests/cors.mjs",
+    "test:live": "node tests/live.mjs"
+  }
+}

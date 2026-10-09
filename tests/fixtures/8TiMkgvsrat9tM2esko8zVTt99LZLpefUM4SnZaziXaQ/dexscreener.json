@@ -1,0 +1,69 @@
+{
+ "pairs": [
+  {
+   "chainId": "solana",
+   "dexId": "pumpswap",
+   "url": "https://dexscreener.com/solana/cb4gfrgeitfu5qtxfrmiqzsavpwgbd3heor4cs2jfpn",
+   "pairAddress": "cb4GFRgEitfu5qtxfRMiqzsaVPwgbD3HEor4cs2jFpn",
+   "baseToken": {
+    "address": "8TiMkgvsrat9tM2esko8zVTt99LZLpefUM4SnZaziXaQ",
+    "name": "Quantum Inu",
+    "symbol": "QI"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.000009486",
+   "priceUsd": "0.001048",
+   "txns": {
+    "m5": {
+     "buys": 124,
+     "sells": 127
+    },
+    "h1": {
+     "buys": 2070,
+     "sells": 1604
+    },
+    "h6": {
+     "buys": 21116,
+     "sells": 15572
+    },
+    "h24": {
+     "buys": 30713,
+     "sells": 22511
+    }
+   },
+   "volume": {
+    "h24": 3207344.99,
+    "h6": 2360137.54,
+    "h1": 260695.68,
+    "m5": 16389.55
+   },
+   "priceChange": {
+    "m5": 13.86,
+    "h1": -24.8,
+    "h6": 92.74,
+    "h24": 2255
+   },
+   "liquidity": {
+    "usd": 99377.36
+   },
+   "fdv": 998647,
+   "marketCap": 998647,
+   "pairCreatedAt": 1791521287000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/y9aN2LtyKytU1d1H?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/iCmK258GeoT5Jr2a?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/8TiMkgvsrat9tM2esko8zVTt99LZLpefUM4SnZaziXaQ?timestamp=1791549000000",
+    "websites": [
+     {
+      "url": "https://pqc.market/coin/q/8TiMkgvsrat9tM2esko8zVTt99LZLpefUM4SnZaziXaQ",
+      "label": "Website"
+     }
+    ],
+    "socials": []
+   }
+  }
+ ]
+}

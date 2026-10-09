@@ -1,0 +1,23 @@
+{
+ "data": {
+  "id": "solana_G8kcmyYZComQv2AAogmv8Yk7PFLKB8R3M8FrizWCVHSE",
+  "type": "token",
+  "attributes": {
+   "address": "G8kcmyYZComQv2AAogmv8Yk7PFLKB8R3M8FrizWCVHSE",
+   "name": "SYNRUG",
+   "symbol": "SYNRU",
+   "decimals": 6,
+   "price_usd": "0.002",
+   "coingecko_coin_id": null
+  },
+  "relationships": {
+   "top_pools": {
+    "data": [
+     {
+      "id": "solana_HhvGp4CLb1ofq9NepZRCH2jkvBS4XHS4omSTMFUC4eWm"
+     }
+    ]
+   }
+  }
+ }
+}

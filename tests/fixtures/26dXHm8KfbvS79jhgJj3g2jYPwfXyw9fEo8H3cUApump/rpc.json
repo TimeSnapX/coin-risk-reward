@@ -1,0 +1,43 @@
+{
+ "jsonrpc": "2.0",
+ "id": 1,
+ "result": {
+  "context": {
+   "slot": 1
+  },
+  "value": {
+   "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "lamports": 1,
+   "executable": false,
+   "data": {
+    "program": "spl-token-2022",
+    "parsed": {
+     "type": "mint",
+     "info": {
+      "decimals": 6,
+      "supply": "1000000000000000",
+      "mintAuthority": null,
+      "freezeAuthority": null,
+      "isInitialized": true,
+      "extensions": [
+       {
+        "extension": "metadataPointer",
+        "state": {
+         "authority": null,
+         "metadataAddress": "26dXHm8KfbvS79jhgJj3g2jYPwfXyw9fEo8H3cUApump"
+        }
+       },
+       {
+        "extension": "tokenMetadata",
+        "state": {
+         "name": "The Anti AI Mascot",
+         "symbol": "WILLY"
+        }
+       }
+      ]
+     }
+    }
+   }
+  }
+ }
+}

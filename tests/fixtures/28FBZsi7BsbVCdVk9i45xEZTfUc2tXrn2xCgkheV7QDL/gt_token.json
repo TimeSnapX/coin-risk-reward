@@ -1,0 +1,23 @@
+{
+ "data": {
+  "id": "solana_28FBZsi7BsbVCdVk9i45xEZTfUc2tXrn2xCgkheV7QDL",
+  "type": "token",
+  "attributes": {
+   "address": "28FBZsi7BsbVCdVk9i45xEZTfUc2tXrn2xCgkheV7QDL",
+   "name": "SYNCLEAN",
+   "symbol": "SYNCL",
+   "decimals": 6,
+   "price_usd": "0.002",
+   "coingecko_coin_id": null
+  },
+  "relationships": {
+   "top_pools": {
+    "data": [
+     {
+      "id": "solana_CWWKpUYyHGtgpuC8NYmusa2YYWtvnZAVBVbXeJTwLiBW"
+     }
+    ]
+   }
+  }
+ }
+}

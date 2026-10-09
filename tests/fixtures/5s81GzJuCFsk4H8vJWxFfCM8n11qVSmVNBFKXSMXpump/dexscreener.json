@@ -1,0 +1,55 @@
+{
+ "pairs": [
+  {
+   "chainId": "solana",
+   "dexId": "pumpfun",
+   "url": "https://dexscreener.com/solana/hr5wv719brwtmbwtcznsdux6cxdux9wyd7oxwgufckop",
+   "pairAddress": "Hr5WV719BrwTMBWTCzNSDUX6cxDUx9wyd7oXWGUFcKop",
+   "baseToken": {
+    "address": "5s81GzJuCFsk4H8vJWxFfCM8n11qVSmVNBFKXSMXpump",
+    "name": "Megan Fux",
+    "symbol": "Fux"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.0000001005",
+   "priceUsd": "0.00001191",
+   "txns": {
+    "m5": {
+     "buys": 178,
+     "sells": 88
+    },
+    "h1": {
+     "buys": 178,
+     "sells": 88
+    },
+    "h6": {
+     "buys": 178,
+     "sells": 88
+    },
+    "h24": {
+     "buys": 178,
+     "sells": 88
+    }
+   },
+   "volume": {
+    "h24": 12730.74,
+    "h6": 12730.74,
+    "h1": 12730.74,
+    "m5": 12730.74
+   },
+   "priceChange": {
+    "m5": 230,
+    "h1": 230,
+    "h6": 230,
+    "h24": 230
+   },
+   "fdv": 11911.23,
+   "marketCap": 11911.23,
+   "pairCreatedAt": 1791360924000
+  }
+ ]
+}

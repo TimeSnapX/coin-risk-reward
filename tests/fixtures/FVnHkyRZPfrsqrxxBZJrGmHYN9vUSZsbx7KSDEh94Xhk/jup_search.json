@@ -1,0 +1,25 @@
+[
+ {
+  "id": "FVnHkyRZPfrsqrxxBZJrGmHYN9vUSZsbx7KSDEh94Xhk",
+  "name": "SYNLOT",
+  "symbol": "SYNLO",
+  "decimals": 6,
+  "usdPrice": 0.002,
+  "liquidity": 30000,
+  "holderCount": 5000,
+  "isVerified": true,
+  "audit": {
+   "mintAuthorityDisabled": true,
+   "freezeAuthorityDisabled": true,
+   "topHoldersPercentage": 30.0,
+   "devMints": 1
+  },
+  "stats1h": {
+   "holderChange": 3.0,
+   "buyVolume": 30000,
+   "sellVolume": 20000,
+   "numBuys": 300,
+   "numSells": 200
+  }
+ }
+]

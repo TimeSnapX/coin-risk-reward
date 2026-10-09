@@ -1,0 +1,23 @@
+{
+ "data": {
+  "id": "solana_FVnHkyRZPfrsqrxxBZJrGmHYN9vUSZsbx7KSDEh94Xhk",
+  "type": "token",
+  "attributes": {
+   "address": "FVnHkyRZPfrsqrxxBZJrGmHYN9vUSZsbx7KSDEh94Xhk",
+   "name": "SYNLOT",
+   "symbol": "SYNLO",
+   "decimals": 6,
+   "price_usd": "0.002",
+   "coingecko_coin_id": null
+  },
+  "relationships": {
+   "top_pools": {
+    "data": [
+     {
+      "id": "solana_NWs8No9Bgjp4t1iqZxYv5ZszjeZs9UxrAgTC4pk5P6E"
+     }
+    ]
+   }
+  }
+ }
+}

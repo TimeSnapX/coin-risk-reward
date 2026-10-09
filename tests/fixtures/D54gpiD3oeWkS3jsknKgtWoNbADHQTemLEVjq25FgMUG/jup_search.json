@@ -1,0 +1,25 @@
+[
+ {
+  "id": "D54gpiD3oeWkS3jsknKgtWoNbADHQTemLEVjq25FgMUG",
+  "name": "SYNMID",
+  "symbol": "SYNMI",
+  "decimals": 6,
+  "usdPrice": 0.001,
+  "liquidity": 30000,
+  "holderCount": 5000,
+  "isVerified": false,
+  "audit": {
+   "mintAuthorityDisabled": true,
+   "freezeAuthorityDisabled": true,
+   "topHoldersPercentage": 31.0,
+   "devMints": 4
+  },
+  "stats1h": {
+   "holderChange": -2.0,
+   "buyVolume": 30000,
+   "sellVolume": 20000,
+   "numBuys": 300,
+   "numSells": 200
+  }
+ }
+]

@@ -1,0 +1,26 @@
+{
+ "50": {
+  "inAmount": "1",
+  "outAmount": "333333333",
+  "priceImpactPct": "0.001",
+  "routePlan": [
+   {
+    "swapInfo": {
+     "label": "Pump.fun Amm"
+    }
+   }
+  ]
+ },
+ "500": {
+  "inAmount": "1",
+  "outAmount": "3333333333",
+  "priceImpactPct": "0.009000000000000001",
+  "routePlan": [
+   {
+    "swapInfo": {
+     "label": "Pump.fun Amm"
+    }
+   }
+  ]
+ }
+}

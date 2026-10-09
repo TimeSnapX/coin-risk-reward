@@ -1,0 +1,69 @@
+{
+ "pairs": [
+  {
+   "chainId": "solana",
+   "dexId": "pumpswap",
+   "url": "https://dexscreener.com/solana/x",
+   "pairAddress": "9ysrxA2WW3fSg9y5TwTBQvZYtDa7wGvhnhd8Afk7XA75",
+   "baseToken": {
+    "address": "2nBVCVShnFKa1DE9y29ca8a2GXoHw4qRGYDJZFU2k6JT",
+    "name": "SYNHARD",
+    "symbol": "SYNHA"
+   },
+   "priceUsd": "0.002",
+   "txns": {
+    "m5": {
+     "buys": 10,
+     "sells": 10
+    },
+    "h1": {
+     "buys": 500,
+     "sells": 400
+    },
+    "h6": {
+     "buys": 3000,
+     "sells": 2000
+    },
+    "h24": {
+     "buys": 5000,
+     "sells": 4000
+    }
+   },
+   "volume": {
+    "m5": 1000,
+    "h1": 40000,
+    "h6": 300000,
+    "h24": 1000000
+   },
+   "priceChange": {
+    "m5": 5,
+    "h1": 2,
+    "h6": 8,
+    "h24": 20
+   },
+   "liquidity": {
+    "usd": 200000
+   },
+   "fdv": 2000000,
+   "marketCap": 2000000,
+   "pairCreatedAt": 1791338400000,
+   "info": {
+    "websites": [
+     {
+      "url": "https://example.org"
+     }
+    ],
+    "socials": [
+     {
+      "type": "twitter",
+      "url": "https://x.com/example"
+     },
+     {
+      "type": "telegram",
+      "url": "https://t.me/example"
+     }
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,39 @@
+[
+ {
+  "net_id": "n1",
+  "network_type": "transfer",
+  "nodes": [
+   {
+    "id": "EdM6EsNkdWNS8qJUY5BaDJHfBgCATDfJKJ7Dr7VgTYxf",
+    "participant": true,
+    "holdings": 0
+   },
+   {
+    "id": "G55LSpqFASPW59GkPPRVEUrc4uAGkRxLyp3S5ZBsJzNh",
+    "participant": true,
+    "holdings": 0
+   },
+   {
+    "id": "F1EdGpRy1ZX3wHwD4FvESPwNxJSZZqGkLHuAdrzS1nYN",
+    "participant": true,
+    "holdings": 0
+   },
+   {
+    "id": "HR6HNK7FAikmGQUAoqJTLVKieVem1iQS8DSMbsRargUf",
+    "participant": true,
+    "holdings": 0
+   },
+   {
+    "id": "7cVqyjAq6aMqYha2aTVd3gFqhAyu1uvMiCdRVqXUCMUd",
+    "participant": true,
+    "holdings": 0
+   },
+   {
+    "id": "RC2VwymarLxVCVj1fe663WuwWk1K4N8ZPtJ4vWKXozs",
+    "participant": true,
+    "holdings": 0
+   }
+  ],
+  "links": []
+ }
+]

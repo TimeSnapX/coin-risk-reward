@@ -1,0 +1,25 @@
+[
+ {
+  "id": "2nBVCVShnFKa1DE9y29ca8a2GXoHw4qRGYDJZFU2k6JT",
+  "name": "SYNHARD",
+  "symbol": "SYNHA",
+  "decimals": 6,
+  "usdPrice": 0.002,
+  "liquidity": 200000,
+  "holderCount": 5000,
+  "isVerified": true,
+  "audit": {
+   "mintAuthorityDisabled": false,
+   "freezeAuthorityDisabled": true,
+   "topHoldersPercentage": 12.2,
+   "devMints": 1
+  },
+  "stats1h": {
+   "holderChange": 3.0,
+   "buyVolume": 30000,
+   "sellVolume": 20000,
+   "numBuys": 300,
+   "numSells": 200
+  }
+ }
+]

@@ -1,0 +1,217 @@
+// Headless Chrome at 412x915 (Pixel 10 class) with EVERY external API mocked from tests/fixtures
+// (Argus's saved scans + synthetic cases). Checks the hand-checked numbers in the UI, secret rejection,
+// EVM "coming later", bulk paste, quadrant tap, watchlist refresh/export/import, failed-source handling.
+//   node tests/e2e.mjs
+import { createRequire } from "node:module";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { serve } from "./server.mjs";
+import { respond, CASES, state, setSol } from "./mock.mjs";
+const { chromium } = createRequire("/workspace/tools/package.json")("playwright-core");
+const here = path.dirname(fileURLToPath(import.meta.url));
+const SHOTS = process.env.SHOTS || path.join(here, "..", "test-results");
+await mkdir(SHOTS, { recursive: true });
+const srv = await serve(4192);
+const BASE = "http://127.0.0.1:4192/coin-risk-reward/";
+let pass = 0, fail = 0;
+const ok = (c, m, got = "") => { c ? pass++ : fail++; console.log(`${c ? "✓" : "✗"} ${m}${c ? "" : `   [got: ${got}]`}`); };
+const C = Object.fromEntries(CASES.map((c) => [c.name, c]));
+
+const browser = await chromium.launch({ executablePath: "/usr/bin/google-chrome" });
+const ctx = await browser.newContext({ viewport: { width: 412, height: 915 }, deviceScaleFactor: 2.625, isMobile: true, hasTouch: true, acceptDownloads: true });
+const unmocked = new Set(), expectedApiErrors = [], appErrors = [];
+await ctx.route(/^https:\/\//, (route) => {
+  const r = route.request(); const out = respond(r.url(), r.method(), r.postData());
+  if (!out) { unmocked.add(new URL(r.url()).host); return route.abort(); }
+  route.fulfill({ status: out.status, contentType: "application/json", headers: { "access-control-allow-origin": "*" }, body: JSON.stringify(out.json) });
+});
+const page = await ctx.newPage();
+page.on("pageerror", (e) => appErrors.push("pageerror " + e.message));
+page.on("console", (m) => { if (m.type() !== "error") return; const loc = m.location()?.url || "";
+  if (/^Failed to load resource/.test(m.text()) && /^https:\/\/(api\.rugcheck\.xyz|api\.dexscreener\.com|api\.geckoterminal\.com|lite-api\.jup\.ag|api\.coingecko\.com|solana-rpc\.publicnode\.com|api\.mainnet-beta\.solana\.com)/.test(loc)) expectedApiErrors.push(`${m.text().replace("Failed to load resource: the server responded with a status of ", "")} ${loc.slice(0, 90)}`);
+  else appErrors.push("console " + m.text() + " " + loc); });
+const shot = (n, full = false) => page.screenshot({ path: `${SHOTS}/e2e-${n}.png`, fullPage: full });
+const txt = async (sel) => (await page.textContent(sel))?.trim();
+const solFor = async (c) => setSol(JSON.parse(await readFile(path.join(here, "fixtures", c.mint, "coingecko.json"), "utf8")).solana.usd);
+async function checkCoin(c, { expectDetail = true } = {}) {
+  await page.clock.setFixedTime(new Date(c.now)); await solFor(c);
+  await page.goto(BASE + "#/"); await page.fill("#ca", c.mint); await page.click("#check");
+  if (expectDetail) await page.waitForSelector(`[data-coin-detail="${c.mint}"]`, { timeout: 20000 });
+}
+
+// ---- 1. empty home
+await page.clock.setFixedTime(new Date(C.SYNCLEAN.now));
+await page.goto(BASE); await page.waitForSelector("#ca");
+ok((await txt(".foot")) === "Research only. Not financial advice. No trading, no wallet connection, no seed phrases.", "footer text exact");
+ok(/Nothing tracked yet/.test(await txt("#tracker")), "tracker starts empty (no invented entries)");
+await shot("01-home-empty");
+
+// ---- 2. secret rejection
+await page.fill("#ca", "abandon ability able about above absent absorb abstract absurd abuse access accident");
+await page.waitForSelector(".chip.bad"); await page.click("#check");
+ok((await page.inputValue("#ca")) === "", "seed phrase cleared from the input");
+ok(/seed phrase\. Rejected and cleared/.test(await txt("#msg")), "seed phrase rejected with warning", await txt("#msg"));
+await shot("02-seed-rejected");
+await page.fill("#ca", "0x4c0883a69102937d6231471b5dbb6204fe5129617082792ae468d01a3f362318"); await page.click("#check");
+ok((await page.inputValue("#ca")) === "" && /private key/.test(await txt("#msg")), "EVM private key rejected and cleared");
+ok(!(await page.evaluate(() => JSON.stringify(localStorage))).includes("abandon"), "rejected secret never stored");
+
+// ---- 3. EVM detected, coming later
+await page.fill("#ca", "0x6982508145454Ce325dDbE47a25d4ec3d2311933");
+ok(/EVM: coming later/.test(await txt("#detect")), "EVM address auto-detected as 'coming later'");
+await page.click("#check"); ok(/EVM coming later/.test(await txt("#msg")), "EVM check explains Solana first");
+await shot("03-evm-coming-later");
+
+// ---- 4. Argus cases one by one, hand-checked numbers (FORMULA.md)
+const EXP = { CRAWL: ["42", "51", "31", "Skip", "MED", "+2.23%", "3.1"], Fux: ["58", "42", "—", "Avoid", "LOW", "+5.94%", "1.0"], WILLY: ["68", "39", "—", "Avoid", "LOW", "+5.73%", "1.0"], Alias: ["64", "27", "—", "Avoid", "LOW", "+146.28%", "1.0"] };
+for (const [name, [risk, reward, vs, verdict, conf, be, rating]] of Object.entries(EXP)) {
+  await checkCoin(C[name]);
+  const got = [await txt('[data-k="risk"]'), await txt('[data-k="reward"]'), await txt('[data-k="vscore"]'), await txt('[data-k="verdict"]'), (await txt(".conf")).split(" ")[0], await txt('[data-k="breakeven"]')];
+  ok(JSON.stringify(got) === JSON.stringify([risk, reward, vs, verdict, conf, be]), `${name}: risk ${risk} · reward ${reward} · score ${vs} · ${verdict} · ${conf} · BE ${be}`, JSON.stringify(got));
+  ok((await page.$$('[data-k="redflags"] li')).length === 3, `${name}: 3 red flags shown`);
+  ok(await page.$('[data-k="sources"] [data-src="jupiter"] em') && (await txt('[data-src="jupiter"] em')) === "unknown", `${name}: Jupiter (not saved by Argus) shows unknown`);
+  ok((await txt('[data-k="rating10"]')) === rating && (await txt(".ratingbar .conf")) === conf, `${name}: rating ${rating}/10 shown with ${conf}`, await txt(".ratingbar"));
+  if (name === "Alias") ok(/Team exit \(also\).*3\.99% of supply 1\.3 min after launch/.test(await txt('[data-k="capped"]')) && (await txt('[data-rule="te_dev"] [data-val]')) === "SKIP CAP", "Alias: clean RugCheck 1 but the dev exit (1.3 min) trips the team-exit cap", await txt('[data-k="capped"]'));
+  if (name === "CRAWL") ok((await txt('[data-rule="te_dev"] [data-val]')) === "+7.5" && /unknown/.test(await txt('[data-rule="te_dev"]')), "CRAWL: early dev data missing -> unknown +7.5", await txt('[data-rule="te_dev"]'));
+  await shot(`04-${name}-detail`);
+}
+await page.evaluate(() => window.scrollTo(0, 99999)); await shot("04-Alias-checks-bottom");
+// QI worked example (fixture: Argus 22:33 data + live-captured launch history / Jupiter; see tests/fixtures/8TiMkg…/QI_CAPTURE.md)
+await checkCoin(C.QI);
+{ const got = [await txt('[data-k="risk"]'), await txt('[data-k="reward"]'), await txt('[data-k="vscore"]'), await txt('[data-k="verdict"]'), (await txt(".conf")).split(" ")[0], await txt('[data-k="breakeven"]'), await txt('[data-k="rating10"]')];
+  ok(JSON.stringify(got) === JSON.stringify(["27", "60", "—", "Avoid", "HIGH", "+2.12%", "1.0"]), "QI: risk 27 B · reward 60 · Avoid (serial-launcher gate) · HIGH · BE +2.12% · 1.0/10", JSON.stringify(got));
+  ok((await txt('[data-rule="te_cluster"] [data-val]')) === "+2" && /largest sniper 11\.36%.*exit completed: Y after 6 s/.test(await txt('[data-rule="te_cluster"]')), "QI: 11.36% sniper exit = yellow +2, no cap", await txt('[data-rule="te_cluster"]'));
+  ok(/Launch wallet 2sRs…wdR8 has minted 40/.test(await txt('[data-rule="g_serial"]')), "QI: serial-launcher gate names the launch wallet", await txt('[data-rule="g_serial"]'));
+  ok((await txt('[data-k="liqkind"]')) === "pool", "QI: graduated coin's liquidity shown as a pool");
+  await shot("04-QI-detail"); await page.$eval('[data-rule="te_cluster"]', (e) => e.scrollIntoView({ block: "center" })); await shot("04-QI-team-exit"); }
+await page.goto(BASE + `#/coin/${C.CRAWL.mint}`); await page.waitForSelector("[data-coin-detail]"); await shot("04-CRAWL-full", true);
+
+// Yana: bonding-curve coin, 6.8 min old (fixture: Argus 22:57 data + live-captured launch/candles/Jupiter; YANA_CAPTURE.md)
+await checkCoin(C.Yana);
+{ const got = [await txt('[data-k="risk"]'), await txt('[data-k="reward"]'), await txt('[data-k="vscore"]'), await txt('[data-k="verdict"]'), (await txt(".conf")).split(" ")[0], await txt('[data-k="rating10"]'), await txt(".ratingbar .conf")];
+  ok(JSON.stringify(got) === JSON.stringify(["46", "58", "—", "Avoid", "LOW", "1.0", "LOW"]), "Yana: risk 46 C · reward 58 · Avoid · LOW badge · 1.0/10 LOW", JSON.stringify(got));
+  ok((await txt('[data-k="liqkind"]')) === "curve" && /real SOL in the pump\.fun bonding curve, not a pool/.test(await txt('[data-k="liq"]')), "Yana: liquidity shown as 'curve', not a pool", await txt('[data-k="liq"]'));
+  ok(/pair only 7 min old/.test(await txt(".coin .small.muted")), "Yana: LOW confidence explained by age < 30 min");
+  ok(/8inT…3Eeh sold\/moved 8\.25% of supply 1 s after launch/.test(await txt('[data-rule="te_dev"]')), "Yana: launch signer's 1 s dump shown in team-exit checks", await txt('[data-rule="te_dev"]'));
+  await shot("04-Yana-detail");
+  // reward-to-risk calculator with Mnemosyne's levels (market cap $)
+  const setRR = async (k, v) => { await page.fill(`[data-rr="${k}"]`, String(v)); };
+  await page.$eval(".rrcalc", (e) => e.scrollIntoView({ block: "center" }));
+  ok(/TP1: [\d.]+ to 1/.test(await txt('[data-k="rrout"]')), "calculator prefilled from mcap and the chart stop/target", await txt('[data-k="rrout"]'));
+  await setRR("entry", 32000); await setRR("stop", 22000); await setRR("tp1", 36000); await setRR("tp2", "");
+  ok((await txt('[data-rr-ratio="1"]')) === "0.4 to 1", "entry $32k, stop $22k, TP1 $36k = 0.4 to 1", await txt('[data-k="rrout"]'));
+  await setRR("entry", "26.5k"); await setRR("tp2", 46500);
+  ok((await txt('[data-rr-ratio="1"]')) === "2.1 to 1" && (await txt('[data-rr-ratio="2"]')) === "4.4 to 1", "pullback entry $26.5k: TP1 2.1 to 1, TP2 $46.5k 4.4 to 1", await txt('[data-k="rrout"]'));
+  await shot("04-Yana-rr-calculator");
+  await setRR("stop", 30000); ok(/stop must be below the entry/.test(await txt('[data-k="rrout"]')), "stop above entry explained"); }
+
+// ---- 5. bulk paste (synthetic coins, all sources answer)
+await page.clock.setFixedTime(new Date(C.SYNCLEAN.now)); setSol(150);
+await page.goto(BASE + "#/");
+await page.fill("#ca", [C.SYNCLEAN.mint, C.SYNHARD.mint, "0x6982508145454Ce325dDbE47a25d4ec3d2311933", C.SYNMID.mint, C.SYNLOT.mint, C.SYNRUG.mint].join("\n"));
+ok((await page.$$("#detect .chip.ok")).length === 5 && (await page.$$("#detect .chip.later")).length === 1, "bulk paste: 5 Solana + 1 EVM chips");
+await page.click("#check"); await page.waitForFunction(() => document.querySelectorAll(".watch li").length >= 11, null, { timeout: 30000 });
+const rows = await page.$$eval(".watch li", (l) => l.map((x) => x.textContent.replace(/\s+/g, " ").trim()));
+ok(rows.length === 11, "watchlist holds 11 coins", rows.length);
+const row = (n) => rows.find((r) => r.startsWith(n)) || "";
+ok(/Watch closely.*Risk 0 \(A\).*Reward 78.*Score 78.*7\.8\/10 HIGH/.test(row("SYNCL")), "SYNCLEAN row: Watch closely, risk 0 A, reward 78, score 78, 7.8/10 HIGH", row("SYNCL"));
+ok(/Avoid.*Risk 100 \(D\).*1\.0\/10/.test(row("SYNHA")), "SYNHARD row: Avoid, risk 100 D, 1.0/10", row("SYNHA"));
+ok(/Skip.*Risk 68 \(D\).*Reward 36.*Score 14/.test(row("SYNMI")), "SYNMID row: Skip, 68 D, 36, 14", row("SYNMI"));
+ok(/Speculative lottery ticket.*Risk 26 \(B\).*Reward 65.*Score 52/.test(row("SYNLO")), "SYNLOT row: lottery, 26 B, 65, 52", row("SYNLO"));
+ok(/Skip.*Risk 0 \(A\).*Reward 78.*Score 78.*4\.9\/10 HIGH/.test(row("SYNRU")), "SYNRUG row: Skip (capped) despite score 78, 4.9/10", row("SYNRU"));
+const dots = await page.$$eval("[data-dot]", (d) => d.length); ok(dots === 11, "quadrant shows 11 dots", dots);
+const pos = await page.$eval(`[data-dot="${C.SYNCLEAN.mint}"] circle:nth-of-type(2)`, (c) => [+c.getAttribute("cx"), +c.getAttribute("cy")]);
+// x = 34 + risk/100*316 ; y = 12 + 258 - score/100*258  => risk 0, score 78 -> (34, 68.76)
+ok(Math.abs(pos[0] - 34) < 0.01 && Math.abs(pos[1] - 68.76) < 0.01, "SYNCLEAN dot at risk 0 / score 78 -> (34, 68.76)", pos);
+await page.$eval(".quad", (e) => e.scrollIntoView()); await shot("05-quadrant-watchlist");
+await shot("05-home-full", true);
+
+// ---- 6. tap a dot opens the coin
+await page.tap(`[data-dot="${C.SYNLOT.mint}"] circle:nth-of-type(2)`);
+await page.waitForSelector(`[data-coin-detail="${C.SYNLOT.mint}"]`);
+ok(page.url().endsWith(`#/coin/${C.SYNLOT.mint}`), "tapping a dot opens that coin");
+ok((await txt('[data-k="verdict"]')) === "Speculative lottery ticket", "SYNLOT detail: lottery verdict");
+// ---- 7. manual narrative -> reward 72, score 58; bankroll -> amount you can lose
+await page.selectOption("#narrative", "90"); await page.waitForTimeout(200);
+ok((await txt('[data-k="reward"]')) === "72" && (await txt('[data-k="vscore"]')) === "58", "manual narrative 90: reward 72, score 58", (await txt('[data-k="reward"]')) + "/" + (await txt('[data-k="vscore"]')));
+await page.goto(BASE + "#/"); await page.click("details.card summary"); await page.fill("#bankroll", "1000"); await page.press("#bankroll", "Tab");
+await page.goto(BASE + `#/coin/${C.SYNLOT.mint}`); await page.waitForSelector("[data-coin-detail]");
+ok(/up to \$20 of \$1,000/.test(await txt('[data-k="lose"] + small')), "lose at most 1-2% = up to $20 of $1000", await txt('[data-k="lose"] + small'));
+await shot("07-lottery-detail");
+await page.goto(BASE + `#/coin/${C.SYNHARD.mint}`); await page.waitForSelector("[data-coin-detail]");
+ok(/Mint authority NOT revoked/.test(await txt(".gate")) && (await txt('[data-k="lose"]')) === "$0", "SYNHARD: hard-fail gate shown, amount you can lose $0");
+await shot("07-hardfail-detail");
+await page.goto(BASE + `#/coin/${C.SYNRUG.mint}`); await page.waitForSelector("[data-coin-detail]");
+ok(/Capped at Skip \(would have been Watch closely \/ small flip\).*6\.00% of supply 4\.0 min after launch/.test(await txt('[data-k="capped"]')) && (await txt('[data-k="rating10"]')) === "4.9" && (await txt('[data-k="lose"]')) === "$0",
+  "SYNRUG: capped at Skip (would be Watch), rating 4.9, lose $0", await txt('[data-k="capped"]'));
+ok(/78 \/ 10 = 7\.8; SKIP \(team-exit cap\) caps at 4\.9/.test(await txt('[data-k="ratingwhy"]')), "rating explains 78/10 = 7.8 -> Skip cap 4.9", await txt('[data-k="ratingwhy"]'));
+await shot("07-teamexit-capped");
+
+// ---- 7b. tracker: add SYNLOT as found by Hades, edit status + notes, /10 ratings
+await page.goto(BASE + `#/coin/${C.SYNLOT.mint}`); await page.waitForSelector("[data-coin-detail]");
+ok((await txt('[data-k="rating10"]')) === "5.8" && (await txt(".ratingbar .conf")) === "HIGH", "detail shows rating 5.8/10 HIGH (score 58 / 10)", await txt(".ratingbar"));
+await page.selectOption("#tr-foundBy", "Hades"); await page.fill("#tr-foundAt", "2026-10-09T11:30"); await page.fill("#tr-notes", "Hades flagged on the 1h chart");
+await page.click("[data-track-add]"); await page.waitForSelector(".trk [data-untrack]");
+await page.goto(BASE + "#/"); await page.waitForSelector(`[data-track="${C.SYNLOT.mint}"]`);
+const tr = await txt(`[data-track="${C.SYNLOT.mint}"]`);
+ok(/Found by Hades/.test(tr) && /5\.8\/10 HIGH/.test(tr) && /Speculative lottery ticket/.test(tr) && /data as of/.test(tr), "tracker row: Hades, verdict, 5.8/10 HIGH, data as of", tr.replace(/\s+/g, " "));
+await page.selectOption(`[data-track="${C.SYNLOT.mint}"] [data-tr="status"]`, "skipped");
+await page.fill(`[data-track="${C.SYNLOT.mint}"] [data-tr="notes"]`, "Skipped: liquidity too thin"); await page.press(`[data-track="${C.SYNLOT.mint}"] [data-tr="notes"]`, "Tab");
+await page.reload(); await page.waitForSelector(`[data-track="${C.SYNLOT.mint}"]`);
+ok((await page.inputValue(`[data-track="${C.SYNLOT.mint}"] [data-tr="status"]`)) === "skipped" && (await page.inputValue(`[data-track="${C.SYNLOT.mint}"] [data-tr="notes"]`)) === "Skipped: liquidity too thin", "tracker status + notes saved locally");
+ok((await page.$$("[data-track]")).length === 1, "tracker holds only the coin the user added");
+await page.$eval("#tracker", (e) => e.scrollIntoView()); await shot("07b-tracker");
+
+// ---- 8. refresh: inside the 45 s cache, then fresh
+await page.goto(BASE + `#/coin/${C.SYNCLEAN.mint}`); await page.waitForSelector("[data-coin-detail]");
+// (the 7b reload emptied the in-memory cache: warm it first)
+await page.clock.setFixedTime(new Date(C.SYNCLEAN.now + 1000)); await page.click(`[data-coin-detail] [data-refresh]`);
+await page.waitForFunction(() => !document.querySelector("[data-coin-detail] [data-refresh]")?.disabled, null, { timeout: 15000 }); await page.waitForTimeout(300);
+const asof1 = await txt('[data-k="asof"]'); state.log = [];
+await page.clock.setFixedTime(new Date(C.SYNCLEAN.now + 21000)); await page.click(`[data-coin-detail] [data-refresh]`); await page.waitForTimeout(400);
+ok((await txt('[data-k="asof"]')) === asof1 && state.log.length === 0, "refresh within 45 s uses the cache (no API calls)", state.log.length);
+await page.clock.setFixedTime(new Date(C.SYNCLEAN.now + 62000)); await page.click(`[data-coin-detail] [data-refresh]`);
+await page.waitForFunction((a) => document.querySelector('[data-k="asof"]').textContent !== a, asof1, { timeout: 15000 });
+ok(state.log.length >= 8, `refresh after 61 s refetches (${state.log.length} API calls) and updates 'data as of'`);
+// refresh all
+await page.goto(BASE + "#/"); state.log = []; await page.clock.setFixedTime(new Date(C.SYNCLEAN.now + 200000));
+await page.click("#refresh-all"); await page.waitForFunction(() => !document.querySelector("#refresh-all").disabled, null, { timeout: 180000 });
+ok(state.log.length >= 30, `refresh all hit the APIs for every coin (${state.log.length} calls)`);
+
+// ---- 9. export / import
+await page.goto(BASE + "#/");
+const [dl] = await Promise.all([page.waitForEvent("download"), page.click("#export")]);
+const exportPath = `${SHOTS}/e2e-export.json`; await dl.saveAs(exportPath);
+const exp = JSON.parse(await readFile(exportPath, "utf8"));
+ok(exp.app === "coin-risk-reward" && exp.coins.length === 11 && exp.coins.every((c) => c.lastChecked && c.data && c.result), "export JSON has 11 coins with data, result, last-checked");
+await page.evaluate(() => localStorage.clear()); await page.reload(); await page.waitForSelector("#ca");
+ok((await page.$$(".watch li")).length === 0, "watchlist empty after clearing storage");
+await page.setInputFiles("#import", exportPath); await page.waitForSelector(".watch li");
+ok((await page.$$(".watch li")).length === 11 && /11 new/.test(await txt("#msg")), "import restores 11 coins", await txt("#msg"));
+ok(exp.coins.filter((c) => c.tracker).length === 1 && (await page.$$("[data-track]")).length === 1, "export/import carries the tracker entry");
+await writeFile(`${SHOTS}/e2e-bad-import.json`, JSON.stringify({ hello: 1 }));
+await page.setInputFiles("#import", `${SHOTS}/e2e-bad-import.json`);
+ok(/Not a Coin Risk vs Reward export/.test(await txt("#msg")), "bad import rejected with a message");
+
+// ---- 10. failed source: RugCheck down -> unknown + half points, never safer
+await page.reload(); await page.clock.setFixedTime(new Date(C.CRAWL.now + 1)); await solFor(C.CRAWL); state.fail = new Set(["api.rugcheck.xyz"]);
+await page.goto(BASE + "#/"); await page.fill("#ca", C.CRAWL.mint); await page.click("#check"); await page.waitForSelector(`[data-coin-detail="${C.CRAWL.mint}"]`);
+state.fail = new Set();
+ok((await txt('[data-k="risk"]')) === "83", "CRAWL with RugCheck down: risk 42 -> 83", await txt('[data-k="risk"]'));
+ok((await txt('[data-rule="lp"] [data-val]')) === "+10/20" && /unknown/.test(await txt('[data-rule="lp"]')), "LP check shows 'unknown' and +10 (half of 20)");
+ok((await txt('[data-src="rugcheck"] em')) === "unknown", "RugCheck source shows unknown");
+await page.$eval('[data-rule="lp"]', (e) => e.scrollIntoView({ block: "center" })); await shot("10-rugcheck-down");
+
+// ---- 11. layout: no horizontal overflow at 412 px, offline reopen
+const sw = await page.evaluate(() => document.documentElement.scrollWidth); ok(sw <= 412, "no horizontal overflow at 412 px", sw);
+await page.evaluate(async () => { await navigator.serviceWorker.ready; }); await page.reload(); await ctx.setOffline(true);
+await page.reload(); await page.goto(BASE + "#/"); await page.waitForSelector(".watch li");
+ok((await page.$$(".watch li")).length === 11, "offline: app reopens from the service worker with saved results"); await ctx.setOffline(false);
+
+ok(unmocked.size === 0, "no unmocked hosts called", [...unmocked].join(","));
+ok(appErrors.length === 0, "no app console errors / page errors", appErrors.join(" | "));
+console.log(`\nExpected browser 'Failed to load resource' lines from deliberately failed/missing MOCK sources: ${expectedApiErrors.length}`);
+console.log(`\n${pass} passed, ${fail} failed. Screenshots: ${SHOTS}/e2e-*.png`);
+await browser.close(); srv.close();
+process.exit(fail ? 1 : 0);

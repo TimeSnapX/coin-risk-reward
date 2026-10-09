@@ -1,0 +1,131 @@
+{
+ "mint": "G8kcmyYZComQv2AAogmv8Yk7PFLKB8R3M8FrizWCVHSE",
+ "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+ "creator": "A2ZzLpUks2hL6tP5ZwdzAoS7oykCCV3rCXXdjtWNYf5e",
+ "creatorBalance": 0,
+ "token": {
+  "mintAuthority": null,
+  "supply": 1000000000000000,
+  "decimals": 6,
+  "isInitialized": true,
+  "freezeAuthority": null
+ },
+ "token_extensions": null,
+ "tokenMeta": {
+  "name": "SYNRUG",
+  "symbol": "SYNRU",
+  "mutable": false
+ },
+ "topHolders": [
+  {
+   "address": "5ZG7L3fYouGopuUW135mVkuP1kUNUy3YJ38qMeBJYmwc",
+   "owner": "HhvGp4CLb1ofq9NepZRCH2jkvBS4XHS4omSTMFUC4eWm",
+   "pct": 10.0,
+   "uiAmount": 100000000.0,
+   "insider": false
+  },
+  {
+   "address": "HoxhymvTyezHDiTg5aTKuqPGDyWkJ296F4Q3r4sAk1wb",
+   "owner": "8KQoSHg9U8JzdJFQuHwnXDNdDWgXdigoPgTsUGcLAQ6e",
+   "pct": 3.0,
+   "uiAmount": 30000000.0,
+   "insider": false
+  },
+  {
+   "address": "6mdKRbp8pyF7hfMAsj8N2srxb5m97xxvSEewq9X3rjpG",
+   "owner": "5QzQA4F9zR1mV1oZ8D885aAMooVcPKhZBcsbJXFsBKmU",
+   "pct": 2.0,
+   "uiAmount": 20000000.0,
+   "insider": false
+  },
+  {
+   "address": "2CQ6CQ7WLjEBRFiBEWsd3KFm7AsWnYPJSzJM4FBUV5SX",
+   "owner": "E4yCWCrpdLe5aAvr8UeVxLEWBXUHYGaBUeuM9xoEJcqy",
+   "pct": 1.5,
+   "uiAmount": 15000000.0,
+   "insider": false
+  },
+  {
+   "address": "694gUtErntwzXvUbLZ1P29EG9pFW2pmuMX1kKA2CATXd",
+   "owner": "3EmCSp4N2B6sgYgY2NHunQadUukuGLku2xXxNcMFdXie",
+   "pct": 1.2,
+   "uiAmount": 12000000.0,
+   "insider": false
+  },
+  {
+   "address": "BuNZD9ZHdy2rtQsYe91Gng3a2Sz7KTdrexrcDvgc6FuA",
+   "owner": "DZcBnN6Zg7r4EcN9eWMejk7SQozmXN8wuSezH33WznLp",
+   "pct": 1.0,
+   "uiAmount": 10000000.0,
+   "insider": false
+  },
+  {
+   "address": "51WPQvRVwwQWb365ng3r7EY7gUGwSB4EgwM1JXQApNMM",
+   "owner": "6faYznk4qzJiEfXyh2iYJx3pdrZ82zaboozzwRZJq7p5",
+   "pct": 0.9,
+   "uiAmount": 9000000.0,
+   "insider": false
+  },
+  {
+   "address": "G8fB9J4uCmx546NF5LbABaHjAZxuBM8mevEwdURjzNed",
+   "owner": "6uHsXtpo6PujHvrfw323MvQqXSdT667Y4G3f2WwPdB9K",
+   "pct": 0.8,
+   "uiAmount": 8000000.0,
+   "insider": false
+  },
+  {
+   "address": "Gv6pLEro3dMdnKWaYjiKPWgv5ynJhSM1xcgybZwBP6Zn",
+   "owner": "AjT4cUncwBfqMJniKDj4JUYH7jCjUG1vtxPs8k7Ys3jP",
+   "pct": 0.7,
+   "uiAmount": 7000000.0,
+   "insider": false
+  },
+  {
+   "address": "5HG6VVH8uazr8ZyTstnWArTh8d8VsK9obV8m3PqsSz4V",
+   "owner": "5h74FXMpo53CAE9fpdJShjpmty5vjEaWpnBghUDeKHFi",
+   "pct": 0.6,
+   "uiAmount": 6000000.0,
+   "insider": false
+  },
+  {
+   "address": "u9QJ8arNsbuG8UWmQikJAx7s7ASWRyi4HQoM16UHoDA",
+   "owner": "AjZ2hzPfT9FgWtxTP7gsp8jq6iRoxKDiaHPU52TF5xde",
+   "pct": 0.5,
+   "uiAmount": 5000000.0,
+   "insider": false
+  }
+ ],
+ "freezeAuthority": null,
+ "mintAuthority": null,
+ "risks": [],
+ "score": 1,
+ "score_normalised": 1,
+ "markets": [
+  {
+   "pubkey": "HhvGp4CLb1ofq9NepZRCH2jkvBS4XHS4omSTMFUC4eWm",
+   "marketType": "pump_fun_amm",
+   "liquidityA": "5ZG7L3fYouGopuUW135mVkuP1kUNUy3YJ38qMeBJYmwc",
+   "lp": {
+    "lpLockedPct": 100,
+    "quoteUSD": 100000.0,
+    "baseUSD": 100000.0,
+    "quote": 666.6666666666666,
+    "base": 100000000.0,
+    "quotePrice": 150
+   }
+  }
+ ],
+ "totalHolders": 5000,
+ "rugged": false,
+ "transferFee": {
+  "pct": 0.0
+ },
+ "knownAccounts": {
+  "HhvGp4CLb1ofq9NepZRCH2jkvBS4XHS4omSTMFUC4eWm": {
+   "name": "Pump Fun AMM",
+   "type": "AMM"
+  }
+ },
+ "graphInsidersDetected": 0,
+ "insiderNetworks": null
+}

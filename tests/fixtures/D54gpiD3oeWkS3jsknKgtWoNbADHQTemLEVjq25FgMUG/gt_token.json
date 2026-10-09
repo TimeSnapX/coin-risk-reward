@@ -1,0 +1,23 @@
+{
+ "data": {
+  "id": "solana_D54gpiD3oeWkS3jsknKgtWoNbADHQTemLEVjq25FgMUG",
+  "type": "token",
+  "attributes": {
+   "address": "D54gpiD3oeWkS3jsknKgtWoNbADHQTemLEVjq25FgMUG",
+   "name": "SYNMID",
+   "symbol": "SYNMI",
+   "decimals": 6,
+   "price_usd": "0.001",
+   "coingecko_coin_id": null
+  },
+  "relationships": {
+   "top_pools": {
+    "data": [
+     {
+      "id": "solana_DmDTx9ky88prf9mXnF4Bw5CHNZLxwY4uSDw5fbPvJKRc"
+     }
+    ]
+   }
+  }
+ }
+}
