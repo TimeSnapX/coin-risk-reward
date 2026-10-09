@@ -5,13 +5,13 @@
  * - Network first: online behaviour is unchanged; the cache is only an offline fallback for the app's own files.
  * Bump VERSION to drop old caches.
  */
-const VERSION = "v4";
+const VERSION = "v5";
 const CACHE = `coin-risk-reward-${VERSION}`;
 const SCOPE = new URL(self.registration.scope);
 const SHELL = [
   "./", "index.html", "manifest.webmanifest", "favicon.svg",
   "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "icons/apple-touch-icon.png",
-  "css/app.css?v=2", "src/app.js?v=2", "src/config.js", "src/chain.js", "src/store.js", "src/ui/chart.js",
+  "css/app.css?v=3", "src/app.js?v=3", "src/config.js", "src/chain.js", "src/store.js", "src/ui/chart.js",
   "src/data/fetchers.js", "src/data/collect.js", "src/data/solana.js", "src/scoring/rules.js", "src/scoring/engine.js",
 ];
 function handled(request) {

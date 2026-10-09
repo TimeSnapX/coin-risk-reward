@@ -178,8 +178,9 @@ export const RISK_RULES = [
       if (p.onCurve) return { score: Math.min(W.lp, 8), flag: "amber", reason: `Still on the pump.fun bonding curve (not graduated${u(p.curveTokensSoldPct) ? "" : `, ${fmtPct(p.curveTokensSoldPct, 0)} of sellable tokens sold`}${u(p.curveSolPct) ? "" : `, ~${fmtPct(p.curveSolPct, 0)} of the graduation SOL`}). LP is burned only on graduation.` };
       const pl = poolLocks(d, cfg); if (!pl) return unknown("RugCheck pool/LP data failed");
       if (!pl.totalUsd) return unknown(`no pool of ${fmtUsd(cfg.lp.minPoolUsd)} or more`);
-      const v = pl.sharePct, s = v >= 90 ? 0 : v >= 50 ? 10 : 20;
-      return pts(s, W.lp, `${fmtPct(v, 1)} of liquidity is locked/burned: ${fmtUsd(pl.lockedUsd)} of ${fmtUsd(pl.totalUsd)} across ${pl.pools.length} pool(s) >= ${fmtUsd(cfg.lp.minPoolUsd)} (${pl.pools.map((x) => `${x.type} ${fmtUsd(x.usd)} ${x.locked ? `${fmtPct(x.lockedPct, 0)} locked` : "withdrawable"}`).join(", ")}).${s === 20 ? " Most of it can be pulled." : ""}`); } },
+      // v1.4: linear, not a cliff: >= 90% locked 0, 50% 10, 0% 20, interpolated
+      const v = pl.sharePct, s = Math.round(lerp(v, [[0, 20], [50, 10], [90, 0]]) * 10) / 10;
+      return pts(s, W.lp, `${fmtPct(v, 1)} of liquidity is locked/burned: ${fmtUsd(pl.lockedUsd)} of ${fmtUsd(pl.totalUsd)} across ${pl.pools.length} pool(s) >= ${fmtUsd(cfg.lp.minPoolUsd)} (${pl.pools.map((x) => `${x.type} ${fmtUsd(x.usd)} ${x.locked ? `${fmtPct(x.lockedPct, 0)} locked` : "withdrawable"}`).join(", ")}).${v < 50 ? ` ${fmtPct(100 - v, 0)} of it can be pulled.` : ""}`); } },
   { id: "holders", label: "Holder concentration (top 10 ex-pools)", category: "risk", type: "points", weight: W.holders, sources: ["rugcheck", "jupiter"],
     evaluate(d) { const h = d.holders || {}; let t = h.top10PctExPools, src = "RugCheck";
       if (u(t) && !u(h.jupTop10Pct)) { t = h.jupTop10Pct; src = "Jupiter"; }
@@ -287,7 +288,13 @@ export const GATES = [
   { id: "g_lp", label: "LP locked/burned (or still on pump.fun curve)", category: "risk", type: "gate", weight: 0,
     evaluate(d, cfg) { const p = d.pool || {}; if (p.onCurve) return { score: 0, flag: "green", reason: "On pump.fun curve (exempt)." };
       if (u(p.lpLockedPct)) return unknown(p.clOnly ? "only concentrated-liquidity pools (no LP token)" : "LP data missing");
-      return p.lpLockedPct < cfg.gates.lpLockedMinPct ? { score: 1, flag: "red", reason: `LP only ${fmtPct(p.lpLockedPct, 0)} locked/burned.` } : { score: 0, flag: "green", reason: `LP ${fmtPct(p.lpLockedPct, 0)} locked/burned.` }; } },
+      // v1.4: Avoid only when the locked share of TOTAL liquidity (all pools >= $5k) is < 25%, or the main pool itself is unlocked.
+      // 25-50% locked is scored in the LP risk points, not gated.
+      const pl = poolLocks(d, cfg), share = pl?.sharePct, main = p.lpLockedPct, min = cfg.gates.lpLockedMinPct;
+      const why = `${!u(share) ? `${fmtPct(share, 1)} of total liquidity locked/burned across ${pl.pools.length} pool(s) >= ${fmtUsd(cfg.lp.minPoolUsd)}; ` : ""}main pool ${fmtPct(main, 0)} locked/burned`;
+      if (!u(share) && share < min) return { score: 1, flag: "red", reason: `Under ${min}% of total liquidity is locked: ${why}.` };
+      if (main < 1) return { score: 1, flag: "red", reason: `The main pool is unlocked: ${why}.` };
+      return { score: 0, flag: "green", reason: `${why} (gate: < ${min}% of the total, or an unlocked main pool).` }; } },
   { id: "g_dump", label: "Insider clusters have not dumped >15% of supply", category: "risk", type: "gate", weight: 0,
     evaluate(d, cfg) { const v = d.insiders?.dumpedPct; if (u(v)) return unknown("insider data missing");
       return v > cfg.gates.insiderDumpedPct ? { score: 1, flag: "red", reason: `Linked insider wallets already sold ${fmtPct(v)} of supply.` } : { score: 0, flag: "green", reason: `Insider clusters sold ${fmtPct(v)} of supply.` }; } },

@@ -43,7 +43,7 @@ eq(extractCandidates("https://pump.fun/coin/5s81GzJuCFsk4H8vJWxFfCM8n11qVSmVNBFK
 // coins with no saved Jupiter quote: the $15k pool gate no longer applies (ruling 4) and the curve sell-quote test is
 // unknown -> no Avoid; curve depth unknown; young/curve caps volume 60, room 80, narrative floor 20 (ruling 3).
 const EXPECT = {
-  CRAWL: { pts: { lp: 20, holders: 0, insiders: 6, dev: 7.5, liquidity: 4, priceAction: 3, organic: 3, socials: 3, age: 0 }, riskRaw: 64, risk: 64, grade: "D", caps: { te_dev: null, te_cluster: null }, rating: 2,
+  CRAWL: { pts: { lp: 12, holders: 0, insiders: 6, dev: 7.5, liquidity: 4, priceAction: 3, organic: 3, socials: 3, age: 0 }, riskRaw: 56, risk: 56, grade: "D", caps: { te_dev: null, te_cluster: null }, rating: 2,
     sig: { liquidityDepth: 90, volumeQuality: 55, buySell: 49, trend: 19, holderGrowth: 80, narrative: 30, room: 17 }, rewardRaw: 50.65, reward: 51, vscore: 20, verdict: "skip", conf: "MED", gates: [], hf: [], be: 2.23 },
   Fux: { pts: { lp: 8, holders: 0, insiders: 2, dev: 7.5, liquidity: 8, priceAction: 4, organic: 3, socials: 6, age: 4 }, riskRaw: 60, risk: 60, grade: "D", caps: { te_dev: null, te_cluster: null }, rating: 1.4,
     sig: { liquidityDepth: null, volumeQuality: 60, buySell: 56, trend: null, holderGrowth: 80, narrative: 20, room: 70 }, rewardRaw: 35.4, reward: 35, vscore: 14, verdict: "skip", conf: "LOW", gates: [], hf: [], be: 5.94 },
@@ -51,9 +51,9 @@ const EXPECT = {
     sig: { liquidityDepth: null, volumeQuality: 60, buySell: 51, trend: null, holderGrowth: 65, narrative: 20, room: 70 }, rewardRaw: 33.15, reward: 33, vscore: 13, verdict: "skip", conf: "LOW", gates: [], hf: [], be: 5.73 },
   Alias: { pts: { lp: 8, holders: 0, insiders: 12, dev: 15, liquidity: 10, priceAction: 5, organic: 3, socials: 6, age: 4 }, riskRaw: 80.5, risk: 81, grade: "D", caps: { te_dev: 1, te_cluster: null }, rating: 1.5,
     sig: { liquidityDepth: null, volumeQuality: 55, buySell: 39, trend: 31, holderGrowth: 80, narrative: 20, room: 70 }, rewardRaw: 36.75, reward: 37, vscore: 15, verdict: "skip", conf: "LOW", gates: [], hf: [], be: 146.28 },
-  // QI fixture (Argus 22:33 data + live launch history/Jupiter, QI_CAPTURE.md): the APP'S numbers, not tuned; WORKED.md v1.3 differences in the QI block and FORMULA.md 6b.
-  QI: { pts: { lp: 20, holders: 6, insiders: 6, dev: 3, liquidity: 4, priceAction: 0, organic: 0, socials: 3, age: 0 }, riskRaw: 44, risk: 44, grade: "C", caps: { te_dev: 0, te_cluster: 0 }, rating: 3.4,
-    sig: { liquidityDepth: 80, volumeQuality: 55, buySell: 61, trend: 57, holderGrowth: 75, narrative: 25, room: 30 }, rewardRaw: 56.2, reward: 56, vscore: 34, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 2.12 },
+  // QI fixture (Argus 22:33 data + live launch history/Jupiter, QI_CAPTURE.md): the APP'S numbers, not tuned; WORKED.md v1.4 QI FINAL: risk 34 B, reward ~56, 45 Skip, 4.5.
+  QI: { pts: { lp: 10.3, holders: 6, insiders: 6, dev: 3, liquidity: 4, priceAction: 0, organic: 0, socials: 3, age: 0 }, riskRaw: 34.3, risk: 34, grade: "B", caps: { te_dev: 0, te_cluster: 0 }, rating: 4.5,
+    sig: { liquidityDepth: 80, volumeQuality: 55, buySell: 61, trend: 57, holderGrowth: 75, narrative: 25, room: 30 }, rewardRaw: 56.2, reward: 56, vscore: 45, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 2.12 },
   // Yana fixture (bonding curve, 6.8 min old, YANA_CAPTURE.md). App's numbers, not tuned.
   Yana: { pts: { lp: 8, holders: 0, insiders: 12, dev: 15, liquidity: 8, priceAction: 0, organic: 0, socials: 6, age: 4 }, riskRaw: 55, risk: 55, grade: "C", caps: { te_dev: 1, te_cluster: 0 }, rating: 1,
     sig: { liquidityDepth: 40, volumeQuality: 60, buySell: 51, trend: 60, holderGrowth: 80, narrative: 20, room: 70 }, rewardRaw: 51.65, reward: 52, vscore: 31, verdict: "avoid", conf: "LOW", gates: ["g_serial"], hf: [], be: 2.85 },
@@ -64,7 +64,7 @@ const EXPECT = {
     sig: { liquidityDepth: 85, volumeQuality: 100, buySell: 65, trend: 83, holderGrowth: 90, narrative: 35, room: 21 }, rewardRaw: 70.55, reward: 71, vscore: 71, verdict: "watch", conf: "HIGH", gates: [], hf: [], be: 2.35 },
   SYNHARD: { riskRaw: 2, risk: 100, grade: "D", caps: { te_dev: 0, te_cluster: 0 }, rating: 1,
     rewardRaw: 70.55, reward: 71, vscore: 28, verdict: "avoid", conf: "HIGH", gates: [], hf: ["hf_mint","hf_token2022"], be: 13.4 },
-  SYNMID: { pts: { lp: 10, holders: 13, insiders: 12, dev: 13, liquidity: 8, priceAction: 3, organic: 6, socials: 5, age: 0 }, riskRaw: 70, risk: 70, grade: "D", caps: { te_dev: 0, te_cluster: 0 }, rating: 1.4,
+  SYNMID: { pts: { lp: 5, holders: 13, insiders: 12, dev: 13, liquidity: 8, priceAction: 3, organic: 6, socials: 5, age: 0 }, riskRaw: 65, risk: 65, grade: "D", caps: { te_dev: 0, te_cluster: 0 }, rating: 1.4,
     sig: { liquidityDepth: 15, volumeQuality: 72, buySell: 33, trend: 25, holderGrowth: 30, narrative: 35, room: 31 }, rewardRaw: 33.85, reward: 34, vscore: 14, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 3.18 },
   SYNLOT: { pts: { lp: 0, holders: 13, insiders: 2, dev: 5, liquidity: 8, priceAction: 0, organic: 0, socials: 0, age: 0 }, riskRaw: 28, risk: 28, grade: "B", caps: { te_dev: 0, te_cluster: 0 }, rating: 4.3,
     sig: { liquidityDepth: 21, volumeQuality: 100, buySell: 65, trend: 83, holderGrowth: 50, narrative: 35, room: 21 }, rewardRaw: 53.75, reward: 54, vscore: 43, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 2.35 },
@@ -135,23 +135,29 @@ for (const c of CASES) {
   ok(/single route \(Pump\.fun Amm\)/.test(hp.reason) && /\$500: 0\.79% \(impact 0\.79%, output vs notional 0\.00%\)/.test(hp.reason), "Jupiter sells on a single route; exit cost shows both impact and output-vs-notional, worst used", hp.reason);
   // v1.3 ruling A: LP over every pool >= $5k (RugCheck markets, DexScreener USD)
   const lp = r.checks.risk.find((x) => x.id === "lp");
-  ok(lp.points === 20 && /48\.5% of liquidity is locked\/burned: \$99\.4k of \$204\.8k across 3 pool/.test(lp.reason), "LP: $99.4k locked of $204.8k in 3 pools >= $5k = 48.5% (<50%) -> 20 (WORKED.md 52.8% -> 10 without the second $20.3k DLMM pool)", lp.reason);
+  ok(lp.points === 10.3 && /48\.5% of liquidity is locked\/burned: \$99\.4k of \$204\.8k across 3 pool/.test(lp.reason), "v1.4 LP: $99.4k locked of $204.8k in 3 pools >= $5k = 48.5% -> linear 10.3 (WORKED.md v1.4: ~10)", lp.reason);
+  const { RISK_RULES: RR_ } = await import("../src/scoring/rules.js"); const lpp = (v) => RR_.find((x) => x.id === "lp").evaluate({ pool: { markets: [{ type: "amm", address: "a", usd: 1e6, lockedPct: v }] }, market: { pools: [] } }, CONFIG).score; eq([100, 90, 70, 50, 48.5, 25, 0].map(lpp).join(","), "0,0,5,10,10.3,15,20", "v1.4 LP points are linear: >=90% 0, 50% 10, 0% 20");
+  const gl = r.checks.gates.find((x) => x.id === "g_lp"); eq(gl.score, 0, "v1.4: 48.5% locked is scored in points, not gated (QI is not Avoid)");
+  const dg = structuredClone(d); dg.pool.markets.forEach((m) => { if (m.type === "pump_fun_amm") m.lockedPct = 20; });
+  const gg = score(dg).checks.gates.find((x) => x.id === "g_lp"); ok(gg.score === 1 && /Under 25% of total liquidity/.test(gg.reason), "v1.4 gate: locked share < 25% of total liquidity across all pools -> Avoid", gg.reason);
+  const dm = structuredClone(d); dm.pool.lpLockedPct = 0; ok(score(dm).checks.gates.find((x) => x.id === "g_lp").score === 1, "v1.4 gate: main pool unlocked -> Avoid");
   // ruling B: peak since pair creation; candles cover the pair's life
   near(d.chart.peakUsd, 0.00156928, "peak $0.00157 from candles since pair creation"); near(d.chart.ddFromPeakPct, 33.22, "33.2% below the peak -> price action 0 (WORKED.md 41% -> 3)"); eq(d.chart.historyShort, false, "candles cover the pair age (no 'peak may be understated')");
-  eq(r.checks.risk.find((x) => x.id === "insiders").points, 6, "ruling D: 1.7% (0) + linked groups 4 + no top-10 funder trace 2 = 6");
+  eq(r.checks.risk.find((x) => x.id === "insiders").points, 6, "ruling D: 1.7% (0) + linked groups 4 + no top-10 funder trace 2 = 6 on the insiders row");
+  eq(r.checks.risk.find((x) => x.id === "insiders").points + r.checks.caps.find((x) => x.id === "te_cluster").points, 8, "v1.4: QI insiders = 4 linked + 2 sniper exit + 2 funder trace not done = 8 (insiders row 6 + finished-sniper-exit row 2)");
   // ruling G levels
   const z = r.rr; near(z.stop, 0.000782, "stop 3% under the 2 h swing low $0.000806 = $0.000782 (WORKED.md 0.00078)");
   ok(z.plan.entry >= 0.00092 && z.plan.entry <= 0.00098 && Math.abs(z.plan.zone[0] - 0.000927) < 1e-6 && Math.abs(z.plan.zone[1] - 0.000968) < 1e-6, "plan entry $0.000948 inside the swing low +15-20% zone $0.000927-$0.000968 (WORKED.md 0.00092-0.00098)", JSON.stringify(z.plan));
   ok(z.target >= 0.00122 && z.target <= 0.00128, "TP1 $0.001275 = midpoint of the highest-volume node $0.00125-$0.00130 (WORKED.md 0.00122-0.00128)", String(z.target));
   near(z.target2, 0.001491, "TP2 = 95% of the peak $0.00157 = $0.001491 (WORKED.md ~0.00148-0.00155)");
   eq(`${z.current.tp1} ${z.current.tp2} ${z.plan.tp1} ${z.plan.tp2} ${z.meets} ${z.warnCurrent}`, "0.85 1.67 1.98 3.29 false true", "R:R now TP1 0.85 / TP2 1.67 (under 1:1 warning); plan TP1 1.98 / TP2 3.29; grade C needs 2:1 on plan TP1 -> not met");
-  const r2 = r; eq(`${r2.riskScore} ${r2.grade} ${r2.rewardScore} ${r2.verdictScore} ${r2.verdict} ${r2.rating10} ${r2.confidence}`, "44 C 56 34 skip 3.4 HIGH", "v1.3 app: risk 44 C, reward 56, 56x0.6=34 Skip, 3.4/10 HIGH (WORKED.md: 35 B, ~54, ~43 Skip, 4.3; see FORMULA.md 6b)");
-  const M = { risk: 35, reward: 53.6, vscore: 43, rating: 4.3 };
-  console.log(`  info  vs WORKED.md v1.3 (35 B, ~53.6, 43 Skip, 4.3): risk +${r2.riskScore - M.risk} (LP +10, price action -3, te_cluster sniper +2), reward +${(r2.rewardRaw - M.reward).toFixed(1)}, score ${r2.verdictScore - M.vscore}, rating ${(r2.rating10 - M.rating).toFixed(1)} (grade C x0.6, not B x0.8)`);
+  const r2 = r; eq(`${r2.riskScore} ${r2.grade} ${r2.rewardScore} ${r2.verdictScore} ${r2.verdict} ${r2.rating10} ${r2.confidence}`, "34 B 56 45 skip 4.5 HIGH", "v1.4 QI FINAL: risk 34 B, reward 56, 56x0.8=45 Skip, 4.5/10 HIGH (= WORKED.md v1.4)");
+  const M = { risk: 34, reward: 56, vscore: 45, rating: 4.5 };
+  console.log(`  info  vs WORKED.md v1.4 (34 B, ~56, 45 Skip, 4.5): risk ${r2.riskScore - M.risk}, reward ${(r2.rewardRaw - M.reward).toFixed(1)}, score ${r2.verdictScore - M.vscore}, rating ${(r2.rating10 - M.rating).toFixed(1)}`);
   // threshold check on the same coin: a 26% launch wallet that dumped -> Skip cap
   const d5 = structuredClone(d); Object.assign(d5.launch.wallets.find((w) => w.wallet === d5.launch.largest.wallet), { boughtPct: 26 }); d5.launch.largest.boughtPct = 26;
   const r5 = score(d5, { ...CONFIG, gates: { ...CONFIG.gates, serialLaunches: Infinity } });
-  eq(`${r5.checks.caps.find((x) => x.id === "te_cluster").score} ${r5.verdict} ${r5.rating10}`, "1 skip 3.4", "same sniper at 26% (>=25%) and dumped -> Skip cap (the cap replaces the +2: risk 42 C, 34 Skip, 3.4)"); }
+  eq(`${r5.checks.caps.find((x) => x.id === "te_cluster").score} ${r5.verdict} ${r5.rating10}`, "1 skip 4.5", "same sniper at 26% (>=25%) and dumped -> Skip cap (the cap replaces the +2; verdict 45 is Skip anyway)"); }
 { const c = CASES.find((x) => x.name === "Yana"); const { r, d } = await run(c);
   console.log("\n— Yana (The Mammoth): pre-graduation bonding-curve worked example");
   eq(d.pool.onCurve, true, "on the pump.fun bonding curve (not graduated)");

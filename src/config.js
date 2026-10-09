@@ -52,7 +52,7 @@ export const CONFIG = {
   narrativeAutoCap: 40,       // without real-reach engagement (manual input) narrative is capped at 40
 
   // ---- combined verdict ----
-  gates: { liquidityMinUsd: 15000, insiderDumpedPct: 15, serialLaunches: 10, lpLockedMinPct: 50, curveMaxExitPct: 5 },
+  gates: { liquidityMinUsd: 15000, insiderDumpedPct: 15, serialLaunches: 10, lpLockedMinPct: 25, curveMaxExitPct: 5 },
   verdicts: [
     { min: 70, key: "watch", label: "Watch closely / small flip", colour: "green" },
     { min: 50, key: "lottery", label: "Speculative lottery ticket", colour: "amber" },

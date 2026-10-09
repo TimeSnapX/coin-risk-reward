@@ -65,7 +65,7 @@ await shot("03-evm-coming-later");
 
 // ---- 4. Argus cases one by one, hand-checked numbers (FORMULA.md)
 // v1.2: no launch data -> deployer "signer unknown" +7.5; curve coins without a saved Jupiter quote -> curve liquidity gate unknown (no Avoid)
-const EXP = { CRAWL: ["64", "51", "20", "Skip", "MED", "+2.23%", "2.0"], Fux: ["60", "35", "14", "Skip", "LOW", "+5.94%", "1.4"], WILLY: ["70", "33", "13", "Skip", "LOW", "+5.73%", "1.3"], Alias: ["81", "37", "15", "Skip", "LOW", "+146.28%", "1.5"] };
+const EXP = { CRAWL: ["56", "51", "20", "Skip", "MED", "+2.23%", "2.0"], Fux: ["60", "35", "14", "Skip", "LOW", "+5.94%", "1.4"], WILLY: ["70", "33", "13", "Skip", "LOW", "+5.73%", "1.3"], Alias: ["81", "37", "15", "Skip", "LOW", "+146.28%", "1.5"] };
 for (const [name, [risk, reward, vs, verdict, conf, be, rating]] of Object.entries(EXP)) {
   await checkCoin(C[name]);
   const got = [await txt('[data-k="risk"]'), await txt('[data-k="reward"]'), await txt('[data-k="vscore"]'), await txt('[data-k="verdict"]'), (await txt(".conf")).split(" ")[0], await txt('[data-k="breakeven"]')];
@@ -81,7 +81,7 @@ await page.evaluate(() => window.scrollTo(0, 99999)); await shot("04-Alias-check
 // QI worked example (fixture: Argus 22:33 data + live-captured launch history / Jupiter; see tests/fixtures/8TiMkg…/QI_CAPTURE.md)
 await checkCoin(C.QI);
 { const got = [await txt('[data-k="risk"]'), await txt('[data-k="reward"]'), await txt('[data-k="vscore"]'), await txt('[data-k="verdict"]'), (await txt(".conf")).split(" ")[0], await txt('[data-k="breakeven"]'), await txt('[data-k="rating10"]')];
-  ok(JSON.stringify(got) === JSON.stringify(["44", "56", "34", "Skip", "HIGH", "+2.12%", "3.4"]), "QI (v1.3): risk 44 C · reward 56 · 34 Skip · HIGH · BE +2.12% · 3.4/10 (WORKED.md 35 / ~54 / 43 Skip / 4.3; deltas in FORMULA.md 6b)", JSON.stringify(got));
+  ok(JSON.stringify(got) === JSON.stringify(["34", "56", "45", "Skip", "HIGH", "+2.12%", "4.5"]), "QI (v1.4): risk 34 B · reward 56 · 45 Skip · HIGH · BE +2.12% · 4.5/10 (= WORKED.md v1.4 QI FINAL)", JSON.stringify(got));
   ok((await txt('[data-rule="te_cluster"] [data-val]')) === "+2" && /largest sniper 11\.36%.*exit completed: Y after 6 s/.test(await txt('[data-rule="te_cluster"]')), "QI: 11.36% sniper exit = yellow +2, no cap", await txt('[data-rule="te_cluster"]'));
   ok(/2sRs…wdR8/.test(await txt('[data-rule="g_serial"]')) && /acts as a launchpad launcher.*not a gate, \+3 deployer points/.test(await txt('[data-rule="g_serial"]')), "QI: launch wallet 2sRs… is a launchpad relayer -> no serial gate", await txt('[data-rule="g_serial"]'));
   ok(/R:R now 0\.8:1 \/ TP2 1\.7:1 ⚠ under 1:1.*plan entry \$0\.000948 \(zone \$0\.000927-\$0\.000968\): 2\.0:1 \/ TP2 3\.3:1 \(needs 2:1 ✗\).*Stop \$0\.000782 \(3% under the 2 h swing low \$0\.000806\) · TP1 \$0\.00127 · TP2 \$0\.00149/.test(await txt('[data-k="rr"]')), "QI: R:R now and at the plan entry, zone, stop/TP1/TP2 (ruling G)", await txt('[data-k="rr"]'));
@@ -142,7 +142,7 @@ ok(rows.length === 12, "watchlist holds 12 coins", rows.length);
 const row = (n) => rows.find((r) => r.startsWith(n)) || "";
 ok(/Watch closely.*Risk 2 \(A\).*Reward 71.*Score 71.*7\.1\/10 HIGH/.test(row("SYNCL")), "SYNCLEAN row: Watch closely, risk 2 A, reward 71, score 71, 7.1/10 HIGH", row("SYNCL"));
 ok(/Avoid.*Risk 100 \(D\).*1\.0\/10/.test(row("SYNHA")), "SYNHARD row: Avoid, risk 100 D, 1.0/10", row("SYNHA"));
-ok(/Skip.*Risk 70 \(D\).*Reward 34.*Score 14/.test(row("SYNMI")), "SYNMID row: Skip, 70 D, 34, 14", row("SYNMI"));
+ok(/Skip.*Risk 65 \(D\).*Reward 34.*Score 14/.test(row("SYNMI")), "SYNMID row: Skip, 65 D, 34, 14", row("SYNMI"));
 ok(/Skip.*Risk 28 \(B\).*Reward 54.*Score 43/.test(row("SYNLO")), "SYNLOT row: Skip, 28 B, 54, 43", row("SYNLO"));
 ok(/Skip.*Risk 17 \(A\).*Reward 71.*Score 71.*4\.9\/10 HIGH/.test(row("SYNRU")), "SYNRUG row: Skip (capped) despite score 71, 4.9/10 (dev sold: deployer 15)", row("SYNRU"));
 const dots = await page.$$eval("[data-dot]", (d) => d.length); ok(dots === 12, "quadrant shows 12 dots", dots);
@@ -223,7 +223,7 @@ ok(/Not a Coin Risk vs Reward export/.test(await txt("#msg")), "bad import rejec
 await page.reload(); await page.clock.setFixedTime(new Date(C.CRAWL.now + 1)); await solFor(C.CRAWL); state.fail = new Set(["api.rugcheck.xyz"]);
 await page.goto(BASE + "#/"); await page.fill("#ca", C.CRAWL.mint); await page.click("#check"); await page.waitForSelector(`[data-coin-detail="${C.CRAWL.mint}"]`);
 state.fail = new Set();
-ok((await txt('[data-k="risk"]')) === "76", "CRAWL with RugCheck down: risk 64 -> 76", await txt('[data-k="risk"]'));
+ok((await txt('[data-k="risk"]')) === "76", "CRAWL with RugCheck down: risk 56 -> 76", await txt('[data-k="risk"]'));
 ok((await txt('[data-rule="lp"] [data-val]')) === "+10/20" && /unknown/.test(await txt('[data-rule="lp"]')), "LP check shows 'unknown' and +10 (half of 20)");
 ok((await txt('[data-src="rugcheck"] em')) === "unknown", "RugCheck source shows unknown");
 await page.$eval('[data-rule="lp"]', (e) => e.scrollIntoView({ block: "center" })); await shot("10-rugcheck-down");

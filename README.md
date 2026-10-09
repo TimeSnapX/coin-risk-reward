@@ -66,7 +66,7 @@ All are keyless and called from the browser. CORS was tested from https://timesn
 ## Tests
 
 ```
-node tests/unit.mjs     # 519 checks: hand-checked maths incl. QI, Yana and z0s worked examples (FORMULA.md 6a/6b), v1.3 reward formulas, locked-dev rule, R:R levels, failures, cache, ATA
+node tests/unit.mjs     # 524 checks: hand-checked maths incl. QI, Yana and z0s worked examples (FORMULA.md 6a/6b), v1.3 reward formulas, locked-dev rule, R:R levels, failures, cache, ATA
 node tests/e2e.mjs      # 412x915, every API mocked; screenshots -> test-results/e2e-*.png
 node tests/cors.mjs     # every source from a page on https://timesnapx.github.io (simulated)
 node tests/live.mjs     # real APIs through the UI; test-results/live-report.json + live-*.png
@@ -87,7 +87,7 @@ node /workspace/pwa-check/check.mjs <url>
 - **Serial-launcher gate (v1.2)**: applies to the wallet acting as dev. A launchpad launcher (dust buy held, fees to another wallet; QI's 40-mint `2sRs…`) gets +3 instead; a signer that bought and sold (Yana's 3,101-mint `8inT…`) still trips it.
 - **Dev locks (v1.2)**: only Streamflow contracts are decoded. Other lock programs (Jupiter Lock) show "lock not verified" → unresolved dev exit (+10, cap) unless you tick the labelled MANUAL "Dev lock verified" box.
 - **Curve coins (v1.2)**: the $15k liquidity gate is for graduated pools only; on the curve the $50 Jupiter sell quote decides (fail or > 5% cost = Avoid). If Jupiter can't be reached the gate is unknown.
-- **v1.3 (WORKED.md, FORMULA.md 6b)**: LP counts every pool ≥ $5k that RugCheck or DexScreener lists. Pools neither lists are missed. DexScreener has **no ATH** in its API, so price action uses the candle peak since pair creation ("peak may be understated" when the candles start late). There is no top-10 funder trace, so insiders always carry +2. The R:R swing low leaves out the first 15 min after launch, and the volume-node TP1 needs the peak ≥ 30% above price (otherwise −18% stop / +30% TP1).
+- **v1.3 (WORKED.md, FORMULA.md 6b)**: LP counts every pool ≥ $5k that RugCheck or DexScreener lists; points are linear (90% locked 0, 50% 10, 0% 20) and the Avoid gate fires only under 25% locked of the total (v1.4, FORMULA.md 6c). Pools neither lists are missed. DexScreener has **no ATH** in its API, so price action uses the candle peak since pair creation ("peak may be understated" when the candles start late). There is no top-10 funder trace, so insiders always carry +2. The R:R swing low leaves out the first 15 min after launch, and the volume-node TP1 needs the peak ≥ 30% above price (otherwise −18% stop / +30% TP1).
 - **Not scored yet (SPEC v1.1 line 73):** SOL-paired pool.
 - **Fixtures**: QI, Yana and z0s mix Argus's saved data with live-captured parts (launch history, Jupiter); each fixture folder has a `*_CAPTURE.md` saying which is which.
 - **pump.fun API is CORS-blocked.** The curve fill comes from RugCheck instead.
