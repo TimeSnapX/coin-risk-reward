@@ -1,0 +1,453 @@
+{
+ "pairs": [
+  {
+   "chainId": "solana",
+   "dexId": "pumpswap",
+   "url": "https://dexscreener.com/solana/fgj1dwz1rkuluny2dmzh37eauzwlkqd3ku1txplqhgyp",
+   "pairAddress": "FGJ1Dwz1rkULUny2DMZH37EaUzWLkQd3Ku1tXPLqhGyp",
+   "baseToken": {
+    "address": "CMVdeRerz8fRT65jRJX5CP1CqTRVkZkuH3DZrA5Fpump",
+    "name": "Snoop",
+    "symbol": "SNOOP"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.000001184",
+   "priceUsd": "0.0001293",
+   "txns": {
+    "m5": {
+     "buys": 103,
+     "sells": 64
+    },
+    "h1": {
+     "buys": 1476,
+     "sells": 757
+    },
+    "h6": {
+     "buys": 15034,
+     "sells": 9972
+    },
+    "h24": {
+     "buys": 15034,
+     "sells": 9972
+    }
+   },
+   "volume": {
+    "h24": 1085905.5,
+    "h6": 1085905.5,
+    "h1": 55552.99,
+    "m5": 4068.84
+   },
+   "priceChange": {
+    "m5": -15.86,
+    "h1": 2.56,
+    "h6": 191,
+    "h24": 191
+   },
+   "liquidity": {
+    "usd": 31970.28,
+    "base": 131121296,
+    "quote": 137.3834
+   },
+   "fdv": 124185,
+   "marketCap": 124185,
+   "pairCreatedAt": 1791564632000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/FqUq-XA7pLR3qJ4o?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/ooQTC3CIDbCtXllc?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/CMVdeRerz8fRT65jRJX5CP1CqTRVkZkuH3DZrA5Fpump?timestamp=1791585600000",
+    "websites": [
+     {
+      "url": "https://snoop.wtf",
+      "label": "Website"
+     }
+    ],
+    "socials": [
+     {
+      "url": "https://x.com/snoopdotfun",
+      "type": "twitter"
+     }
+    ]
+   }
+  },
+  {
+   "chainId": "solana",
+   "dexId": "pumpfun",
+   "url": "https://dexscreener.com/solana/122tyiycijbfumjm8atepr7hmmyttff2cg2ft5f37zov",
+   "pairAddress": "122TyiYCiJBFUmJM8aTePR7hmmyTtFf2CG2ft5f37ZoV",
+   "baseToken": {
+    "address": "CMVdeRerz8fRT65jRJX5CP1CqTRVkZkuH3DZrA5Fpump",
+    "name": "Snoop",
+    "symbol": "SNOOP"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.0000004106",
+   "priceUsd": "0.00004495",
+   "txns": {
+    "m5": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h1": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h6": {
+     "buys": 166,
+     "sells": 59
+    },
+    "h24": {
+     "buys": 1098,
+     "sells": 748
+    }
+   },
+   "volume": {
+    "h24": 85685.09,
+    "h6": 9920.24,
+    "h1": 0,
+    "m5": 0
+   },
+   "priceChange": {
+    "h6": 49.24,
+    "h24": 1232
+   },
+   "fdv": 44956.09,
+   "marketCap": 44956.09,
+   "pairCreatedAt": 1791561655000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/FqUq-XA7pLR3qJ4o?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/ooQTC3CIDbCtXllc?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/CMVdeRerz8fRT65jRJX5CP1CqTRVkZkuH3DZrA5Fpump?timestamp=1791585600000",
+    "websites": [
+     {
+      "url": "https://snoop.wtf",
+      "label": "Website"
+     }
+    ],
+    "socials": [
+     {
+      "url": "https://x.com/snoopdotfun",
+      "type": "twitter"
+     }
+    ]
+   }
+  },
+  {
+   "chainId": "solana",
+   "dexId": "meteora",
+   "url": "https://dexscreener.com/solana/5onafqcem7xo9hajhzy3sk8f8tvt6cix2xmeqahkkzrk",
+   "pairAddress": "5onafQCeM7Xo9haJhZY3sk8F8TVT6Cix2XMEQahKKzRK",
+   "labels": [
+    "DLMM"
+   ],
+   "baseToken": {
+    "address": "CMVdeRerz8fRT65jRJX5CP1CqTRVkZkuH3DZrA5Fpump",
+    "name": "Snoop",
+    "symbol": "SNOOP"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.000001196",
+   "priceUsd": "0.0001306",
+   "txns": {
+    "m5": {
+     "buys": 1,
+     "sells": 7
+    },
+    "h1": {
+     "buys": 64,
+     "sells": 61
+    },
+    "h6": {
+     "buys": 686,
+     "sells": 762
+    },
+    "h24": {
+     "buys": 686,
+     "sells": 762
+    }
+   },
+   "volume": {
+    "h24": 16008.05,
+    "h6": 16008.05,
+    "h1": 198.39,
+    "m5": 12.65
+   },
+   "priceChange": {
+    "m5": -16.03,
+    "h1": 3.28,
+    "h6": -55.84,
+    "h24": -55.84
+   },
+   "liquidity": {
+    "usd": 176.06,
+    "base": 512621,
+    "quote": 0.9985
+   },
+   "fdv": 125437,
+   "marketCap": 125437,
+   "pairCreatedAt": 1791568375000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/FqUq-XA7pLR3qJ4o?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/ooQTC3CIDbCtXllc?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/CMVdeRerz8fRT65jRJX5CP1CqTRVkZkuH3DZrA5Fpump?timestamp=1791585600000",
+    "websites": [
+     {
+      "url": "https://snoop.wtf",
+      "label": "Website"
+     }
+    ],
+    "socials": [
+     {
+      "url": "https://x.com/snoopdotfun",
+      "type": "twitter"
+     }
+    ]
+   }
+  },
+  {
+   "chainId": "solana",
+   "dexId": "meteora",
+   "url": "https://dexscreener.com/solana/cyx4lck7mcy7ppyudye4vtq2zumnkc9qmab5qj15tc7b",
+   "pairAddress": "CyX4Lck7McY7PPyuDyE4VtQ2ZUmnkC9QMab5Qj15TC7B",
+   "labels": [
+    "DLMM"
+   ],
+   "baseToken": {
+    "address": "CMVdeRerz8fRT65jRJX5CP1CqTRVkZkuH3DZrA5Fpump",
+    "name": "Snoop",
+    "symbol": "SNOOP"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.000003071",
+   "priceUsd": "0.0003352",
+   "txns": {
+    "m5": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h1": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h6": {
+     "buys": 73,
+     "sells": 77
+    },
+    "h24": {
+     "buys": 73,
+     "sells": 77
+    }
+   },
+   "volume": {
+    "h24": 1320.55,
+    "h6": 1320.55,
+    "h1": 0,
+    "m5": 0
+   },
+   "priceChange": {
+    "h6": -11.74,
+    "h24": -11.74
+   },
+   "liquidity": {
+    "usd": 176.16,
+    "base": 144514,
+    "quote": 1.1702
+   },
+   "fdv": 321784,
+   "marketCap": 321784,
+   "pairCreatedAt": 1791569740000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/FqUq-XA7pLR3qJ4o?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/ooQTC3CIDbCtXllc?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/CMVdeRerz8fRT65jRJX5CP1CqTRVkZkuH3DZrA5Fpump?timestamp=1791585600000",
+    "websites": [
+     {
+      "url": "https://snoop.wtf",
+      "label": "Website"
+     }
+    ],
+    "socials": [
+     {
+      "url": "https://x.com/snoopdotfun",
+      "type": "twitter"
+     }
+    ]
+   }
+  },
+  {
+   "chainId": "solana",
+   "dexId": "orca",
+   "url": "https://dexscreener.com/solana/d8ma4cjsj6muq9nqhiknn65gsfdpmcbskwuyyt3qy8gu",
+   "pairAddress": "D8MA4cJSj6mUQ9nqHiKnn65GsFdpMCbskWuyYt3qy8gu",
+   "labels": [
+    "wp"
+   ],
+   "baseToken": {
+    "address": "CMVdeRerz8fRT65jRJX5CP1CqTRVkZkuH3DZrA5Fpump",
+    "name": "Snoop",
+    "symbol": "SNOOP"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.0000007304",
+   "priceUsd": "0.00007993",
+   "txns": {
+    "m5": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h1": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h6": {
+     "buys": 121,
+     "sells": 157
+    },
+    "h24": {
+     "buys": 121,
+     "sells": 157
+    }
+   },
+   "volume": {
+    "h24": 1670.09,
+    "h6": 1670.09,
+    "h1": 0,
+    "m5": 0
+   },
+   "priceChange": {
+    "h6": -69.48,
+    "h24": -69.48
+   },
+   "liquidity": {
+    "usd": 255.62,
+    "base": 3106316,
+    "quote": 0.06684
+   },
+   "fdv": 76735,
+   "marketCap": 76735,
+   "pairCreatedAt": 1791568665000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/FqUq-XA7pLR3qJ4o?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/ooQTC3CIDbCtXllc?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/CMVdeRerz8fRT65jRJX5CP1CqTRVkZkuH3DZrA5Fpump?timestamp=1791585600000",
+    "websites": [
+     {
+      "url": "https://snoop.wtf",
+      "label": "Website"
+     }
+    ],
+    "socials": [
+     {
+      "url": "https://x.com/snoopdotfun",
+      "type": "twitter"
+     }
+    ]
+   }
+  },
+  {
+   "chainId": "solana",
+   "dexId": "pumpfun",
+   "url": "https://dexscreener.com/solana/c4ukwcrhy1qe85ulk63gsxfndm9kgkcowadsv3qjxqus",
+   "pairAddress": "C4UKWCRHY1qe85ULk63gSxFNdm9kGkcoWADsv3QJxqUs",
+   "baseToken": {
+    "address": "E9xDZFvy4uZD91518qVT9fPc3iwRB7BQ47ZaEq6npump",
+    "name": "Snoop Dog",
+    "symbol": "snoopdog"
+   },
+   "quoteToken": {
+    "address": "CMVdeRerz8fRT65jRJX5CP1CqTRVkZkuH3DZrA5Fpump",
+    "name": "Snoop",
+    "symbol": "SNOOP"
+   },
+   "priceNative": "0.0000",
+   "txns": {
+    "m5": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h1": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h6": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h24": {
+     "buys": 0,
+     "sells": 0
+    }
+   },
+   "volume": {
+    "h24": 0,
+    "h6": 0,
+    "h1": 0,
+    "m5": 0
+   },
+   "priceChange": {},
+   "pairCreatedAt": 1791571997000
+  },
+  {
+   "chainId": "solana",
+   "dexId": "pumpfun",
+   "url": "https://dexscreener.com/solana/2ledihnreheaic46wa7iekvazhbuhpshcqgye56qqcer",
+   "pairAddress": "2LEDiHNreHeAiC46WA7ieKvazHBUHPshCQgye56qqcEr",
+   "baseToken": {
+    "address": "6j74nPR7xYEZWVePuLV5EFWCkaHq289WzmyPD6xzpump",
+    "name": "snoopy",
+    "symbol": "snoopy"
+   },
+   "quoteToken": {
+    "address": "CMVdeRerz8fRT65jRJX5CP1CqTRVkZkuH3DZrA5Fpump",
+    "name": "Snoop",
+    "symbol": "SNOOP"
+   },
+   "priceNative": "0.0000",
+   "txns": {
+    "m5": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h1": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h6": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h24": {
+     "buys": 0,
+     "sells": 0
+    }
+   },
+   "volume": {
+    "h24": 0,
+    "h6": 0,
+    "h1": 0,
+    "m5": 0
+   },
+   "priceChange": {},
+   "pairCreatedAt": 1791570375000
+  }
+ ]
+}

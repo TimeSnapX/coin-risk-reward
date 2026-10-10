@@ -1,0 +1,80 @@
+{
+ "pairs": [
+  {
+   "chainId": "solana",
+   "dexId": "pumpswap",
+   "url": "https://dexscreener.com/solana/ayhexwrxqtpt9zkjc3ysiela1kcquakgxw6o8utqfv2",
+   "pairAddress": "ayhExWrXQtPT9ZKJC3ySiELa1kCQUAKGXW6o8uTQFV2",
+   "baseToken": {
+    "address": "5yuiTSNd32qxBM4rkuxqNd6gaSLBqCykJEaKwK4Jpump",
+    "name": "Super Whale",
+    "symbol": "SW"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.000003744",
+   "priceUsd": "0.0004091",
+   "txns": {
+    "m5": {
+     "buys": 117,
+     "sells": 59
+    },
+    "h1": {
+     "buys": 1685,
+     "sells": 916
+    },
+    "h6": {
+     "buys": 7912,
+     "sells": 4467
+    },
+    "h24": {
+     "buys": 7912,
+     "sells": 4467
+    }
+   },
+   "volume": {
+    "h24": 710221.69,
+    "h6": 710221.69,
+    "h1": 76859.85,
+    "m5": 3473.15
+   },
+   "priceChange": {
+    "m5": 2.03,
+    "h1": -9.75,
+    "h6": 226,
+    "h24": 226
+   },
+   "liquidity": {
+    "usd": 55788.45,
+    "base": 69491631,
+    "quote": 250.6183
+   },
+   "fdv": 403862,
+   "marketCap": 403862,
+   "pairCreatedAt": 1791571624000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/3G7uB5DSR7upjJBN?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/zpC6f7xlM8bcdKjK?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/5yuiTSNd32qxBM4rkuxqNd6gaSLBqCykJEaKwK4Jpump?timestamp=1791586200000",
+    "websites": [
+     {
+      "url": "https://www.superwhale.lol",
+      "label": "Website"
+     }
+    ],
+    "socials": [
+     {
+      "url": "https://x.com/SuperWhaleCoin",
+      "type": "twitter"
+     }
+    ]
+   },
+   "boosts": {
+    "active": 30
+   }
+  }
+ ]
+}

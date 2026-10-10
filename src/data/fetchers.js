@@ -361,10 +361,12 @@ export const jupiterQuote = {
     return out;
   },
   normalize(raw, ctx) {
-    const q = {};
+    const q = {}, price = ctx.data.market?.priceUsd ?? ctx.data.market?.jupPriceUsd, dec = ctx.data.token?.decimals;
+    // what we asked to sell, in USD at the market price the app sized it with (= the nominal $50 / $500 when the price is the same one)
+    const inUsd = (r, usd) => (price && dec !== undefined && num(r.inAmount) > 0 ? (num(r.inAmount) / 10 ** dec) * price : usd);
     for (const usd of ctx.cfg.costs.quoteSizesUsd) {
       const r = raw[usd]; if (!r) continue;
-      q[usd] = r.noRoute ? { noRoute: true, error: r.error } : { impactPct: num(r.priceImpactPct) * 100, outSol: num(r.outAmount) / 1e9, notionalUsd: num(r.swapUsdValue), route: (r.routePlan || []).map((x) => x.swapInfo?.label).filter(Boolean).join(" > "), routeHops: (r.routePlan || []).length };
+      q[usd] = r.noRoute ? { noRoute: true, error: r.error } : { impactPct: num(r.priceImpactPct) * 100, outSol: num(r.outAmount) / 1e9, notionalUsd: num(r.swapUsdValue), sizeUsd: inUsd(r, usd), route: (r.routePlan || []).map((x) => x.swapInfo?.label).filter(Boolean).join(" > "), routeHops: (r.routePlan || []).length };
     }
     return { sellQuote: { ...q, noRoute: Object.values(q).some((x) => x.noRoute) } };
   },
@@ -463,6 +465,12 @@ function mintDeltas(tx, mint) {
   for (const [k, sign] of [["preTokenBalances", -1], ["postTokenBalances", 1]]) for (const b of tx?.meta?.[k] || []) if (b.mint === mint) m.set(b.owner, (m.get(b.owner) || 0) + sign * (num(b.uiTokenAmount?.uiAmountString ?? b.uiTokenAmount?.uiAmount) || 0));
   return m;
 }
+// A burn (SPL burn / burnChecked) takes tokens out of the supply: not a sale and not a transfer to anyone (v1.5 ruling).
+function burnOf(tx, mint) { // tokens of this mint burned in the tx (UI units); a transfer can carry a small burn (GULCH: 0.1%), so only the burned part is not an exit
+  let n = 0, dec; for (const b of [...(tx?.meta?.preTokenBalances || []), ...(tx?.meta?.postTokenBalances || [])]) if (b.mint === mint) dec = b.uiTokenAmount?.decimals;
+  for (const i of allIx(tx)) { const p = i.parsed; if (!/^burn(Checked)?$/i.test(p?.type || "") || p.info?.mint !== mint) continue; const ti = p.info.tokenAmount; n += ti ? num(ti.uiAmountString) || 0 : (num(p.info.amount) || 0) / 10 ** (dec ?? 6); }
+  return n;
+}
 export const launchSnipers = {
   id: "solana-rpc", sub: "launch snipers", label: "Solana RPC launch snipers", phase: 2,
   when: (ctx) => isPump(ctx.data, ctx.address) && !!ctx.data.token?.supply,
@@ -486,13 +494,15 @@ export const launchSnipers = {
     if (!sigs) throw lastErr;
     const call = (m, p) => rpcCall(ctx, [ep], m, p);
     const oldest = sigs[sigs.length - 1], launchSlot = oldest.slot, launchS = oldest.blockTime;
-    const block = sigs.filter((x) => !x.err && x.slot < launchSlot + te.launchSlots).sort((a, b) => a.slot - b.slot).slice(0, te.maxLaunchTx);
+    const inWin = sigs.filter((x) => !x.err && (x.slot < launchSlot + te.launchSlots || x.blockTime <= launchS + te.firstSeconds)).sort((a, b) => a.slot - b.slot), block = inWin.slice(0, te.maxLaunchTx);
     const txs = []; for (const x of block) txs.push({ x, tx: await call("getTransaction", [x.signature, { encoding: "jsonParsed", maxSupportedTransactionVersion: 1, commitment: "confirmed" }]) });
-    const bought = new Map(); let dev;
+    const skipOwner = new Set([curve, ...(ctx.data.market?.pools || []).map((p) => p.address)]); // the curve and the AMM pool(s) are not buyers (a coin that graduates in its launch slot deposits ~20% into the pool)
+    const bought = new Map(), slotOf = new Map(), net = new Map(); let dev, createRecv = [];
     for (const { x, tx } of txs) for (const [owner, dlt] of mintDeltas(tx, mint)) {
-      if (owner === curve || dlt <= 0) continue;
-      bought.set(owner, (bought.get(owner) || 0) + dlt);
-      if (x.signature === oldest.signature && !dev) dev = owner; // the wallet that receives tokens in the create tx = dev buy
+      if (!skipOwner.has(owner)) net.set(owner, (net.get(owner) || 0) + dlt); // net position over the window (buys minus sells)
+      if (skipOwner.has(owner) || dlt <= 0) continue;
+      bought.set(owner, (bought.get(owner) || 0) + dlt); if (!slotOf.has(owner)) slotOf.set(owner, x.slot - launchSlot);
+      if (x.signature === oldest.signature) createRecv.push(owner); // wallets that receive tokens in the create tx (a bundler can put several buyers in it)
     }
     // "% of supply taken in the launch block" is measured against the supply AT LAUNCH: everything minted in the create tx
     // (curve + dev buy; 1B on pump.fun). Today's supply can be lower after burns. Current holdings use today's supply.
@@ -501,38 +511,77 @@ export const launchSnipers = {
     const minted = sum((createTx?.meta?.postTokenBalances || []).filter((b) => b.mint === mint).map((b) => num(b.uiTokenAmount?.uiAmountString ?? b.uiTokenAmount?.uiAmount) || 0));
     // The oldest curve signature must BE the create tx (no balance of this mint before it). Otherwise the RPC's history
     // doesn't reach launch (PublicNode keeps ~20 h) and the "launch block" would be some later trade: unknown, never pass.
-    if (!createTx || (createTx.meta?.preTokenBalances || []).some((b) => b.mint === mint) || !(minted > 0)) throw new SourceError(`${new URL(ep).host} curve history does not reach the create tx`);
+    if (!createTx || (createTx.meta?.preTokenBalances || []).some((b) => b.mint === mint) || !(minted > 0)) throw new SourceError(`launch buyers unknown: ${new URL(ep).host} curve has ${sigs.length} transaction(s) and the create tx could not be read (or the history does not reach it)`);
     const signer = (createTx.transaction?.message?.accountKeys || []).filter((k) => k.signer).map((k) => k.pubkey || k).find((k) => k !== mint);
+    dev = createRecv.includes(signer) ? signer : createRecv[0]; // the dev buy = the create-tx signer's own buy; else the first receiver
     const launchSupply = minted > 0 ? minted : supply, lpct = (v) => (v / launchSupply) * 100;
-    const wallets = [...bought.entries()].map(([w, v]) => ({ wallet: w, boughtTokens: v, boughtPct: lpct(v) })).sort((a, b) => b.boughtPct - a.boughtPct);
+    const wallets = [...bought.entries()].map(([w, v]) => ({ wallet: w, boughtTokens: v, boughtPct: lpct(v), slot: slotOf.get(w) })).sort((a, b) => b.boughtPct - a.boughtPct);
     const prog = ctx.data.token?.program === "token-2022" ? TOKEN_2022 : TOKEN_PROGRAM;
     const ws = wallets.slice(0, te.maxWallets);
     const atas = await Promise.all(ws.map((w) => associatedTokenAddress(w.wallet, mint, prog)));
     const accs = atas.length ? (await multipleAccounts(ctx, [ep], atas)).value : [];
     ws.forEach((w, i) => { const held = accs[i] ? num(accs[i].data?.parsed?.info?.tokenAmount?.uiAmountString) || 0 : 0; w.heldNowPct = pct(held); w.exitShare = w.boughtTokens > 0 ? Math.max(0, Math.min(1, 1 - held / w.boughtTokens)) : 0; });
     // trace the dev and the big snipers through their own history (first drop of their balance)
-    const toTrace = ws.filter((w) => w.wallet === dev || w.boughtPct >= te.sniperYellowPct).slice(0, te.maxTraceWallets);
+    const toTrace = [...ws.filter((w) => w.wallet === dev), ...ws.filter((w) => w.wallet !== dev && w.boughtPct >= te.sniperYellowPct)].slice(0, te.maxTraceWallets); // the dev is always traced (v1.5)
     for (const w of toTrace) {
       try {
         const hs = await call("getSignaturesForAddress", [w.wallet, { limit: 1000 }]) || [];
-        const win = hs.filter((x, i) => !x.err && x.blockTime >= launchS && x.blockTime <= launchS + te.traceMin * 60 && hs.findIndex((y) => y.signature === x.signature) === i).sort((a, b) => a.blockTime - b.blockTime).slice(0, te.maxTraceTx);
+        const win = hs.filter((x, i) => !x.err && x.blockTime >= launchS && x.blockTime <= launchS + te.traceMin * 60 && hs.findIndex((y) => y.signature === x.signature) === i).sort((a, b) => a.blockTime - b.blockTime).slice(0, Math.max(te.maxTraceTx, te.maxDevTraceTx));
         w.traceCovered = hs.length > 0 && (hs.length < 1000 || Math.min(...hs.map((x) => x.blockTime)) <= launchS);
-        for (const x of win) {
+        const isDev = w.wallet === dev;
+        for (const x of win.slice(0, isDev ? te.maxDevTraceTx : te.maxTraceTx)) {
           const tx = await call("getTransaction", [x.signature, { encoding: "jsonParsed", maxSupportedTransactionVersion: 1, commitment: "confirmed" }]);
-          const d = mintDeltas(tx, mint).get(w.wallet) || 0;
+          const dm = mintDeltas(tx, mint), d = dm.get(w.wallet) || 0;
           const progs = [...(tx?.transaction?.message?.instructions || []), ...(tx?.meta?.innerInstructions || []).flatMap((y) => y.instructions || [])].map((i) => i.programId);
           if (d < 0 && progs.some((p) => te.lockPrograms.includes(p))) { (w.locks ||= []).push({ t: x.blockTime * 1000, sig: x.signature, tokens: -d, pct: lpct(-d), ...lockIx(tx, te.lockPrograms) }); continue; }
-          if (d < 0) { w.firstExitSec = x.blockTime - launchS; w.firstExitPct = lpct(-d); w.firstExitSol = solDelta(tx, w.wallet); break; }
+          let out = -d; // tokens that left the wallet and were not burned
+          if (d < 0) { const bn = Math.min(-d, burnOf(tx, mint)); if (bn > 0) { (w.burns ||= []).push({ t: x.blockTime * 1000, sig: x.signature, tokens: bn, pct: lpct(bn) }); out = -d - bn; if (out < 0.01 * -d) continue; } }
+          if (d < 0) {
+            const sol = solDelta(tx, w.wallet);
+            if (w.firstExitSec === undefined) { w.firstExitSec = x.blockTime - launchS; w.firstExitPct = lpct(out); w.firstExitSol = sol; }
+            if (isDev) { // v1.5: keep going: what the dev sold (SOL came back) and where its plain transfers went
+              if (sol > 0) { if (x.blockTime - launchS <= ctx.cfg.devSold.windowMin * 60) { w.soldTokens = (w.soldTokens || 0) + out; w.soldSol = (w.soldSol || 0) + sol; if (lpct(w.soldTokens) >= ctx.cfg.devSold.minPct) break; } } // the cap is already certain: stop reading
+              else for (const [o, v] of dm) if (v > 0 && o !== w.wallet && o !== curve) (w.sentTo ||= new Map()).set(o, { tokens: ((w.sentTo.get(o)?.tokens) || 0) + v, t: x.blockTime * 1000 });
+              continue;
+            }
+            break;
+          }
         }
+        if (isDev && w.exitShare > 0.5 && w.firstExitSec === undefined && !w.locks?.length) { // gone with no sale seen in the window: look just past it for a burn (Circuit: BURNow burn 2 h after launch)
+          const late = hs.filter((x, i) => !x.err && x.blockTime > launchS + te.traceMin * 60 && hs.findIndex((y) => y.signature === x.signature) === i).sort((a, b) => a.blockTime - b.blockTime).slice(0, te.lateBurnTx);
+          for (const x of late) { const tx = await call("getTransaction", [x.signature, { encoding: "jsonParsed", maxSupportedTransactionVersion: 1, commitment: "confirmed" }]); const d = mintDeltas(tx, mint).get(w.wallet) || 0, bn = d < 0 ? Math.min(-d, burnOf(tx, mint)) : 0; if (bn > 0) (w.burns ||= []).push({ t: x.blockTime * 1000, sig: x.signature, tokens: bn, pct: lpct(bn), late: true }); }
+        }
+        if (isDev && w.sentTo) { // dev-linked wallets: did a wallet that got the dev's tokens sell them?
+          w.linked = [];
+          for (const [o, r] of [...w.sentTo.entries()].sort((a, b) => b[1].tokens - a[1].tokens).slice(0, te.maxRecipients)) {
+            const L = { wallet: o, receivedTokens: r.tokens, receivedPct: lpct(r.tokens), soldTokens: 0, soldSol: 0, checked: 0 };
+            try {
+              const hs2 = await call("getSignaturesForAddress", [o, { limit: 1000 }]) || [];
+              const w2 = hs2.filter((y, i) => !y.err && y.blockTime >= r.t / 1000 - 5 && y.blockTime <= launchS + ctx.cfg.devSold.windowMin * 60 && hs2.findIndex((z) => z.signature === y.signature) === i).sort((a, b) => a.blockTime - b.blockTime);
+              for (const y of w2.slice(0, te.maxRecipientTx)) {
+                const t2 = await call("getTransaction", [y.signature, { encoding: "jsonParsed", maxSupportedTransactionVersion: 1, commitment: "confirmed" }]); L.checked++;
+                const d2 = mintDeltas(t2, mint).get(o) || 0, s2 = solDelta(t2, o);
+                if (d2 < 0 && s2 > 0) { L.soldTokens += -d2; L.soldSol += s2; }
+              }
+              L.complete = w2.length <= te.maxRecipientTx;
+            } catch (e) { L.error = e.message; }
+            w.linked.push({ ...L, soldPct: lpct(L.soldTokens) });
+          }
+          delete w.sentTo;
+        }
+        if (isDev && w.soldTokens) w.soldPct = lpct(w.soldTokens);
       } catch (e) { w.traceError = e.message; }
     }
-    return { endpoint: ep, curve, curveTx: sigs.length, launchSlot, launchAt: launchS * 1000, blockTx: block.length, launchSupply, supplyNow: supply, launchSupplyFrom: minted > 0 ? "create tx" : "current supply", wallets: ws, dev, signer, totalWallets: wallets.length };
+    return { endpoint: ep, curve, curveTx: sigs.length, launchSlot, launchAt: launchS * 1000, blockTx: block.length, launchSupply, supplyNow: supply, launchSupplyFrom: minted > 0 ? "create tx" : "current supply", wallets: ws, dev, signer, totalWallets: wallets.length,
+      createTxBuyers: createRecv.filter((o) => o !== dev).length,
+      createSlot: { wallets: wallets.filter((w) => w.slot === 0 && w.wallet !== dev).length, pct: sum(wallets.filter((w) => w.slot === 0 && w.wallet !== dev).map((w) => w.boughtPct)) },
+      first60: { wallets: wallets.filter((w) => w.wallet !== dev).length, pct: Math.min(100, sum([...net.entries()].filter(([o, v]) => o !== dev && v > 0).map(([, v]) => lpct(v)))), grossPct: sum(wallets.filter((w) => w.wallet !== dev).map((w) => w.boughtPct)), txRead: block.length, txInWindow: inWin.length, partial: inWin.length > block.length } };
   },
   normalize(raw) {
     const w = raw.wallets, dev = w.find((x) => x.wallet === raw.dev);
     const largest = w.filter((x) => x.wallet !== raw.dev)[0];
     return { launch: { source: new URL(raw.endpoint).host, curve: raw.curve, curveTx: raw.curveTx, slot: raw.launchSlot, at: raw.launchAt, blockTx: raw.blockTx, launchSupply: raw.launchSupply, supplyNow: raw.supplyNow, launchSupplyFrom: raw.launchSupplyFrom,
-      wallets: w, walletCount: raw.totalWallets, boughtPct: sum(w.map((x) => x.boughtPct)), stillHeldPct: sum(w.map((x) => x.heldNowPct || 0)),
+      wallets: w, walletCount: raw.totalWallets, createSlot: raw.createSlot, first60: raw.first60, createTxBuyers: raw.createTxBuyers, boughtPct: sum(w.map((x) => x.boughtPct)), stillHeldPct: sum(w.map((x) => x.heldNowPct || 0)),
       signer: raw.signer, dev: dev ? { ...dev, buySolEst: pumpBuySol(dev.boughtTokens) } : null, largest: largest ? { ...largest } : null } };
   },
 };
@@ -566,15 +615,16 @@ export const rpcDevHistory = {
   normalize(raw, ctx) {
     const creator = ctx.data.dev.address, mint = ctx.address, supply = ctx.data.token?.supply;
     const bal = (l) => sum((l || []).filter((b) => b.owner === creator && b.mint === mint).map((b) => num(b.uiTokenAmount?.uiAmountString ?? b.uiTokenAmount?.uiAmount) || 0));
-    const events = [], locked = []; let missing = 0;
+    const events = [], locked = [], burned = []; let missing = 0;
     for (const { sig, t, tx } of raw.txs) {
       if (!tx?.meta) { missing++; continue; }
       const delta = bal(tx.meta.postTokenBalances) - bal(tx.meta.preTokenBalances);
       const progs = [...(tx.transaction?.message?.instructions || []), ...(tx.meta.innerInstructions || []).flatMap((x) => x.instructions || [])].map((i) => i.programId);
       if (delta < 0 && progs.some((p) => ctx.cfg.teamExit.lockPrograms.includes(p))) { locked.push({ t, sig, tokens: -delta, pct: supply ? (-delta / supply) * 100 : undefined, ...lockIx(tx, ctx.cfg.teamExit.lockPrograms) }); continue; }
-      if (delta < 0) events.push({ t, sig, tokens: -delta, pct: supply ? (-delta / supply) * 100 : undefined, sol: solDelta(tx, creator) });
+      let out = -delta; if (delta < 0) { const bn = Math.min(-delta, burnOf(tx, mint)); if (bn > 0) { burned.push({ t, sig, tokens: bn, pct: supply ? (bn / supply) * 100 : undefined }); out = -delta - bn; if (out < 0.01 * -delta) continue; } }
+      if (delta < 0) events.push({ t, sig, tokens: out, pct: supply ? (out / supply) * 100 : undefined, sol: solDelta(tx, creator) });
     }
-    return { devExit: { covered: raw.covered && missing === 0 && raw.txs.length === raw.windowTx, windowTx: raw.windowTx, checkedTx: raw.txs.length - missing, events, locked, source: new URL(raw.endpoint).host } };
+    return { devExit: { covered: raw.covered && missing === 0 && raw.txs.length === raw.windowTx, windowTx: raw.windowTx, checkedTx: raw.txs.length - missing, events, locked, burned, source: new URL(raw.endpoint).host } };
   },
 };
 
@@ -617,7 +667,7 @@ export const devLocks = {
       if (back.length) why.push(`the lock transaction paid the wallet ${back[0].sol.toFixed(2)} SOL`);
       if (!raw.events.some((e) => e.accounts?.includes(c.contract))) why.push("lock transaction not found in the dev trace");
       return { program: "Streamflow", contract: c.contract, escrow: c.escrow, sender: c.sender, recipient: c.recipient, deposited, withdrawn, escrowNow: c.escrowNow,
-        start: c.start * 1000, cliff: c.cliff * 1000, end: c.endTime * 1000, cancelableBySender: c.cancelableBySender, verified: why.length === 0, why };
+        start: c.start * 1000, cliff: c.cliff * 1000, end: c.endTime * 1000, cancelableBySender: c.cancelableBySender, verified: why.length === 0 && Number.isFinite(c.escrowNow), probable: why.length === 0 && !Number.isFinite(c.escrowNow), why: why.length === 0 && !Number.isFinite(c.escrowNow) ? ["escrow balance not read"] : why };
     });
     return { devLocks: locks };
   },

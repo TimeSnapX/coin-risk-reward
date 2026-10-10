@@ -52,7 +52,7 @@ export const CONFIG = {
   narrativeAutoCap: 40,       // without real-reach engagement (manual input) narrative is capped at 40
 
   // ---- combined verdict ----
-  gates: { liquidityMinUsd: 15000, insiderDumpedPct: 15, serialLaunches: 10, lpLockedMinPct: 25, curveMaxExitPct: 5 },
+  gates: { liquidityMinUsd: 15000, insiderDumpedPct: 15, serialLaunches: 10, lpLockedMinPct: 25, curveMaxExitPct: 5, bundleWalletPct: 25, bundleCreateSlotPct: 40 },
   verdicts: [
     { min: 70, key: "watch", label: "Watch closely / small flip", colour: "green" },
     { min: 50, key: "lottery", label: "Speculative lottery ticket", colour: "amber" },
@@ -69,10 +69,13 @@ export const CONFIG = {
   // v1.2 dev rulings (WORKED.md): "the dev" = create-tx signer/buyer AND the RugCheck creator/fee wallet; points = the worse.
   devPoints: { soldOrMovedUnlocked: 15, unresolvedLock: 10, lockedVerified: 4, launchpadRelayer: 3, repeatLauncher: 8, relayerMaxSol: 0.05 },
   teamExit: { lockMinCliffDays: 30, devExitWithinMin: 15, sniperCapPct: 25, dumpShare: 0.75, sniperYellowPct: 2, sniperYellowPoints: 2,
-    launchSlots: 3, traceMin: 60, maxCurvePages: 10, maxLaunchTx: 30, maxTraceWallets: 6, maxTraceTx: 12, maxDevTx: 15, maxWallets: 60,
+    launchSlots: 3, traceMin: 60, maxCurvePages: 10, maxLaunchTx: 100, firstSeconds: 60, maxTraceWallets: 6, maxTraceTx: 12, maxDevTx: 15, maxWallets: 60,
+    maxDevTraceTx: 130, lateBurnTx: 6, maxRecipients: 3, maxRecipientTx: 30, // v1.5: the dev's whole early sell history + where its transfers went
     pumpProgram: "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P",
     // moving tokens INTO a lock/vesting program is not an exit (Streamflow, Jupiter Lock)
     lockPrograms: ["strmRqUCoQUgGUan5YhzUZa6KqdzwX5L6FpUxfmKg5m", "LocpQgucEQHbqNABEYvBvwoxCPsSbG91A1QaQhQQqjn"] },
+  // v1.5 (WORKED.md, 10 Oct 2026): the dev or a dev-linked wallet sold >= 3% of supply or > $5k early => verdict SKIP and rating <= 2.5
+  devSold: { minPct: 3, minUsd: 5000, ratingMax: 2.5, windowMin: 30 }, // "early" = within 30 min of launch
   // Exit cost (SPEC v1.1): compare Jupiter's priceImpactPct with the quote's actual output vs notional and use the worse.
   exitCostDisagreePts: 1,
 

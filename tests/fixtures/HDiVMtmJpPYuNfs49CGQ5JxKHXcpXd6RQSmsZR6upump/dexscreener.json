@@ -1,0 +1,142 @@
+{
+ "pairs": [
+  {
+   "chainId": "solana",
+   "dexId": "pumpfun",
+   "url": "https://dexscreener.com/solana/eicwhjnp1ayjze5trnzaqt9p9fukvh59mcfwhds5sslc",
+   "pairAddress": "EiCWHjNP1ayJze5tRNzaqT9P9fUkvh59mCfWHDs5ssLc",
+   "baseToken": {
+    "address": "HDiVMtmJpPYuNfs49CGQ5JxKHXcpXd6RQSmsZR6upump",
+    "name": "Sundown Gulch",
+    "symbol": "$GULCH"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.0000004077",
+   "priceUsd": "0.00004478",
+   "txns": {
+    "m5": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h1": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h6": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h24": {
+     "buys": 103,
+     "sells": 66
+    }
+   },
+   "volume": {
+    "h24": 10898.95,
+    "h6": 0,
+    "h1": 0,
+    "m5": 0
+   },
+   "priceChange": {
+    "h24": 1176
+   },
+   "fdv": 44784.77,
+   "marketCap": 44784.77,
+   "pairCreatedAt": 1791562571000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/uzWGaI2-IRa8I4dX?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/n_o6QXAQo8F1wFc8?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/HDiVMtmJpPYuNfs49CGQ5JxKHXcpXd6RQSmsZR6upump?timestamp=1791585600000",
+    "websites": [
+     {
+      "url": "https://sundowngulch.com/",
+      "label": "Website"
+     }
+    ],
+    "socials": [
+     {
+      "url": "https://x.com/sundowngulch",
+      "type": "twitter"
+     }
+    ]
+   }
+  },
+  {
+   "chainId": "solana",
+   "dexId": "pumpswap",
+   "url": "https://dexscreener.com/solana/6eqs6t7bpdrs2k8aku96kejcz7twxypvwubyraxeh87m",
+   "pairAddress": "6eqs6T7bPdRS2K8aku96KejCz7TwxYPvwubYRaxeH87M",
+   "baseToken": {
+    "address": "HDiVMtmJpPYuNfs49CGQ5JxKHXcpXd6RQSmsZR6upump",
+    "name": "Sundown Gulch",
+    "symbol": "$GULCH"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.0000006694",
+   "priceUsd": "0.00007312",
+   "txns": {
+    "m5": {
+     "buys": 2,
+     "sells": 2
+    },
+    "h1": {
+     "buys": 102,
+     "sells": 65
+    },
+    "h6": {
+     "buys": 1679,
+     "sells": 1101
+    },
+    "h24": {
+     "buys": 3107,
+     "sells": 2084
+    }
+   },
+   "volume": {
+    "h24": 294002.92,
+    "h6": 134373.28,
+    "h1": 11495.85,
+    "m5": 188.97
+   },
+   "priceChange": {
+    "m5": 1.13,
+    "h1": 55.35,
+    "h6": -31.68,
+    "h24": 68.84
+   },
+   "liquidity": {
+    "usd": 22348.46,
+    "base": 164993048,
+    "quote": 94.1314
+   },
+   "fdv": 61380,
+   "marketCap": 61380,
+   "pairCreatedAt": 1791562660000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/uzWGaI2-IRa8I4dX?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/n_o6QXAQo8F1wFc8?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/HDiVMtmJpPYuNfs49CGQ5JxKHXcpXd6RQSmsZR6upump?timestamp=1791585600000",
+    "websites": [
+     {
+      "url": "https://sundowngulch.com/",
+      "label": "Website"
+     }
+    ],
+    "socials": [
+     {
+      "url": "https://x.com/sundowngulch",
+      "type": "twitter"
+     }
+    ]
+   }
+  }
+ ]
+}

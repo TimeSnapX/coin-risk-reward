@@ -1,0 +1,4804 @@
+{
+ "data": [
+  {
+   "id": "0",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024650,
+    "tx_hash": "7tBaFAPh4VYsQRBkN4xQTrRqtPsAnM5kvznQx2X2SU6VPMYGXCq9ETwKgsJacmqCiZM2yqbrxjZ8QxP4t6hr2BX",
+    "tx_from_address": "CKYfNHCrjF2m2a3ovdsMxqpVFzBJoiff5Gf4Y8RHw78z",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:37Z",
+    "volume_in_usd": "2.549217467721855955",
+    "price_from_in_usd": "0.000232074399719854",
+    "price_to_in_usd": "0.000232074399719854",
+    "to_token_amount": "10985.782949",
+    "from_token_amount": "0.023399111"
+   }
+  },
+  {
+   "id": "1",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024649,
+    "tx_hash": "5inttPgkCJED9siPj5jGwdyZ2yfDd96Xt7z8SGyBb7QaJVEiNRKtLCSk5TDykzMdTo3qJtiyFFDSDxjs9ZrQjBTR",
+    "tx_from_address": "F4LqQcBD9PutDbWtjJHKSg3wyZySRD38zRjJ1M9P2Qu7",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:37Z",
+    "volume_in_usd": "119.936431966804939996",
+    "price_from_in_usd": "0.000232001542217229",
+    "price_to_in_usd": "0.000232001542217229",
+    "from_token_amount": "520060.911764",
+    "to_token_amount": "1.100974594"
+   }
+  },
+  {
+   "id": "2",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024649,
+    "tx_hash": "hXbMA9vXgRpeX6UMC6TRakGFywEMrQXHmkCaWLRpSxgY9iifJHqE7RQotnmNpywQAESYXE6eX6XR1FkHUKEsCuN",
+    "tx_from_address": "ksnAAWKBqpZ58o5auvUtvWrdRj3JEGb7gjH21g75ZGR",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:37Z",
+    "volume_in_usd": "388.941663727393290702",
+    "price_from_in_usd": "0.000234614304492385",
+    "price_to_in_usd": "0.000234614304492385",
+    "from_token_amount": "1647279.608138",
+    "to_token_amount": "3.570348753"
+   }
+  },
+  {
+   "id": "3",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024648,
+    "tx_hash": "2WTdDPHTTFAn6ekpD2eehEMswis5PnjXbDMCzwWZVY8KBMcCY5yDrFbS3voEjJLaduoQyyPaRWgVP1nz96jmmcXr",
+    "tx_from_address": "GMkRoSf4C8RvJPGGQyMYS2WqKysTbfQnM2KZmFVsc6iA",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:37Z",
+    "volume_in_usd": "2.537064738678534846",
+    "price_from_in_usd": "0.000243188033004212",
+    "price_to_in_usd": "0.000243188033004212",
+    "to_token_amount": "10433.722683",
+    "from_token_amount": "0.023289369"
+   }
+  },
+  {
+   "id": "4",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024647,
+    "tx_hash": "2XyuLdeaF9sJcyNPhhwvGuifM7RpHjYHwZViAuVXvCaAAyK9QdBE6hJYNRA2W1VYgkuHW2GYoQBxhm31exLwGLLq",
+    "tx_from_address": "CKYfNHCrjF2m2a3ovdsMxqpVFzBJoiff5Gf4Y8RHw78z",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:36Z",
+    "volume_in_usd": "5.611958462259376315",
+    "price_from_in_usd": "0.000243151012737182",
+    "price_to_in_usd": "0.000243151012737182",
+    "to_token_amount": "23086.009863",
+    "from_token_amount": "0.051511823"
+   }
+  },
+  {
+   "id": "5",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024646,
+    "tx_hash": "2nxzH36FTbkxEGcXjXJ1qVhNw71afpPvbQgyRYYTNc5jNcxLkfnPYMky9BQu2BP2sxitgLEXicnDyyiw2Nb3RuHr",
+    "tx_from_address": "6sRmuywwH9F4tc93W7ZSq1PY7czZGKCFQhwXaB7TcRpu",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:36Z",
+    "volume_in_usd": "5.267116418341532295",
+    "price_from_in_usd": "0.000243027412456135",
+    "price_to_in_usd": "0.000243027412456135",
+    "to_token_amount": "21678.109232",
+    "from_token_amount": "0.048346539"
+   }
+  },
+  {
+   "id": "6",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024646,
+    "tx_hash": "5uVL1way5DLRRDxU4oYtXb5qkoDBejvZxB52LD4ybxfppxb8Kqew5kBYURZERGfhq2L3LkavD7E1GFLryAYadqJc",
+    "tx_from_address": "GMkRoSf4C8RvJPGGQyMYS2WqKysTbfQnM2KZmFVsc6iA",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:36Z",
+    "volume_in_usd": "3.318879428805131355",
+    "price_from_in_usd": "0.000242911435687811",
+    "price_to_in_usd": "0.000242911435687811",
+    "from_token_amount": "13819.775748",
+    "to_token_amount": "0.030463791"
+   }
+  },
+  {
+   "id": "7",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024645,
+    "tx_hash": "2E2R6YRTP1yZdFQbK5YB2YZ3EA7rC6ccSMj9omMB7d2gC2PWsQk8Gvu14rzgptPB4hTvyVwWK89gphT2633c3WUG",
+    "tx_from_address": "JAsHN7grRN3CSdTdK6nvNNQkhEdtmFyLw2U71eD6WAtj",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:36Z",
+    "volume_in_usd": "85.802377721160715058",
+    "price_from_in_usd": "0.000242966358844484",
+    "price_to_in_usd": "0.000242966358844484",
+    "to_token_amount": "354524.892916",
+    "from_token_amount": "0.787635887"
+   }
+  },
+  {
+   "id": "8",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024644,
+    "tx_hash": "g5dbS6fFsTH7462GcCKg6oyvLkwTMYnH7JCk3rW3tQ2HAwVGtRz5xMYdRW9JrSWRjyQ1VFdttEtufGqyzP1LH92",
+    "tx_from_address": "3gSktadELhWk7Ziu5nofFMyGM3z4Vg6DtYLqwVcBf8qd",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:36Z",
+    "volume_in_usd": "2.558258899423448216",
+    "price_from_in_usd": "0.000241080678113161",
+    "price_to_in_usd": "0.000241080678113161",
+    "to_token_amount": "10612.865659",
+    "from_token_amount": "0.023483924"
+   }
+  },
+  {
+   "id": "9",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024644,
+    "tx_hash": "24pXgenamTBYKuJHTKd7c1p8zUSB2jRpXRwWYE8XGZ2wpjRfWHYtZPn2JpHWqzP54CgDN9ML1qyCrrjRyUCkSdpM",
+    "tx_from_address": "6sRmuywwH9F4tc93W7ZSq1PY7czZGKCFQhwXaB7TcRpu",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:36Z",
+    "volume_in_usd": "1.614915851852211176",
+    "price_from_in_usd": "0.000241024567973931",
+    "price_to_in_usd": "0.000241024567973931",
+    "to_token_amount": "6700.704982",
+    "from_token_amount": "0.014824364"
+   }
+  },
+  {
+   "id": "10",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024643,
+    "tx_hash": "5sGziq6gRqZEGrE6YST53rY3V9JM4WiaTguBiVKN7JEyNvc4T5jRu9f2E7UCaaaX4c34eCZUKjCJsGDU99TN21i2",
+    "tx_from_address": "2kvGz4T9wqk54yMbwcMfRtGEV1QQ9jLa3yxhh18DNFFa",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:35Z",
+    "volume_in_usd": "1.413292903620498245",
+    "price_from_in_usd": "0.000241007852661073",
+    "price_to_in_usd": "0.000241007852661073",
+    "to_token_amount": "5864.471843",
+    "from_token_amount": "0.012972529"
+   }
+  },
+  {
+   "id": "11",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024643,
+    "tx_hash": "3Woh5xXMZ4B2KVREXn6zZDGCkMp88nyobjrNFf7vscWPxR9ZWdEMFU4pZfNykmRc4jBD4KK3ZJhhtDtU5yqgyVJH",
+    "tx_from_address": "6sRmuywwH9F4tc93W7ZSq1PY7czZGKCFQhwXaB7TcRpu",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:35Z",
+    "volume_in_usd": "1.767309864408545745",
+    "price_from_in_usd": "0.00024097686006536",
+    "price_to_in_usd": "0.00024097686006536",
+    "to_token_amount": "7334.530048",
+    "from_token_amount": "0.016222029"
+   }
+  },
+  {
+   "id": "12",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024642,
+    "tx_hash": "4qej3wAt71vpNi62xxqkNevXzcNpk4CMxatTMNkso6Y8Uetd6uKmPa1Sq41cUDf7mHsBJSQ1Lm8pFrsRXsosqPTp",
+    "tx_from_address": "2kvGz4T9wqk54yMbwcMfRtGEV1QQ9jLa3yxhh18DNFFa",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:35Z",
+    "volume_in_usd": "1.413292903620498245",
+    "price_from_in_usd": "0.000240938106908642",
+    "price_to_in_usd": "0.000240938106908642",
+    "to_token_amount": "5866.16952",
+    "from_token_amount": "0.012972529"
+   }
+  },
+  {
+   "id": "13",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024640,
+    "tx_hash": "VXm4TCv6yqwcVfNTvPgobctuVtJHRMKgubqQaQVNNaT62ADJM13JXbKV7UoyFpx1bgyWo8jt2ABi97puFVaoX81",
+    "tx_from_address": "4y3BS3wNAH4nKxHMCQkHDFqToDVAZgMqJuEuBFRyo8Z3",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:35Z",
+    "volume_in_usd": "7.522992715202596832",
+    "price_from_in_usd": "0.00024088842543008",
+    "price_to_in_usd": "0.00024088842543008",
+    "to_token_amount": "31240.902027",
+    "from_token_amount": "0.069058448"
+   }
+  },
+  {
+   "id": "14",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024639,
+    "tx_hash": "3N63bDcXPwVn5Z3Uyk5BMYhFh8Bs2znbstCVPcxZ4o6S4uqriXSQH5KaTohBQGrwjnNuU1HFPCAmpyGDkLMz8pcS",
+    "tx_from_address": "BxJRPHhCmP7RaumtvHM3nB5MTZuycw2wKZXNNjDNqnbn",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:35Z",
+    "volume_in_usd": "3.422779669783869482",
+    "price_from_in_usd": "0.000240723508418783",
+    "price_to_in_usd": "0.000240723508418783",
+    "to_token_amount": "14220.935655",
+    "from_token_amount": "0.031419923"
+   }
+  },
+  {
+   "id": "15",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024637,
+    "tx_hash": "5SVMLEwy9m7w3Axg2siTxVeWYFozbjb8LoSXC2yG3YDLZZ5Wo3Rdy7zY1sSFTRMCHVBXVaxW6vMgJRhEXdQkgkkU",
+    "tx_from_address": "4y3BS3wNAH4nKxHMCQkHDFqToDVAZgMqJuEuBFRyo8Z3",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:34Z",
+    "volume_in_usd": "10.432383044966553025",
+    "price_from_in_usd": "0.000240667168593468",
+    "price_to_in_usd": "0.000240667168593468",
+    "from_token_amount": "43831.064005",
+    "to_token_amount": "0.095758205"
+   }
+  },
+  {
+   "id": "16",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024634,
+    "tx_hash": "4HDCoCc2iRpRDTWcAzTqUcoJKWztU74NzgNKgEo472K6u1zuLdarFGxmZz1r46p9E9daJijusB1SnG5m9ZvBto98",
+    "tx_from_address": "BxJRPHhCmP7RaumtvHM3nB5MTZuycw2wKZXNNjDNqnbn",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:34Z",
+    "volume_in_usd": "4.80677094860432832",
+    "price_from_in_usd": "0.000240879350155164",
+    "price_to_in_usd": "0.000240879350155164",
+    "from_token_amount": "20182.798822",
+    "to_token_amount": "0.04412448"
+   }
+  },
+  {
+   "id": "17",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024632,
+    "tx_hash": "2FJNJQceQemjedZgt3VK1dCHhMDDUwAGdtePbdsGmCdy8VpbBZrDrtECysUw3ghLAxBaqFpF1a3Mh6HijvPTdiJf",
+    "tx_from_address": "T7UNnBx5KFs2uHL9jfKn39StbDUquJshC7TD3gPhzup",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:33Z",
+    "volume_in_usd": "2.18565768260812529",
+    "price_from_in_usd": "0.000241004464760104",
+    "price_to_in_usd": "0.000241004464760104",
+    "to_token_amount": "9069.853365",
+    "from_token_amount": "0.020062018"
+   }
+  },
+  {
+   "id": "18",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024629,
+    "tx_hash": "5zaZFx1TXtUZTE1NBBFcBHZWBiMoNzPvKJQXKxALwbneZCMfewxbsr1nFCJq76rQGweoBbrh2vS5X3k73B9EnBc",
+    "tx_from_address": "7Y7nRkXKkyRM2KQWar8bjZWRM9uZJcvcjsUd7hi7i5Vq",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:33Z",
+    "volume_in_usd": "6.325294792210373266",
+    "price_from_in_usd": "0.000240937838618238",
+    "price_to_in_usd": "0.000240937838618238",
+    "to_token_amount": "26260.373585",
+    "from_token_amount": "0.058063999"
+   }
+  },
+  {
+   "id": "19",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024627,
+    "tx_hash": "5ueGaguKmfQ8BBxdk6PUup3FanRg6SW4hgxYyr7Zui24EAT15tdSjvS4njtUoDZPjTxjNJgnVRSqTwSL7fxVQa6H",
+    "tx_from_address": "7Y7nRkXKkyRM2KQWar8bjZWRM9uZJcvcjsUd7hi7i5Vq",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:32Z",
+    "volume_in_usd": "2.62447557764889918",
+    "price_from_in_usd": "0.000240799159040394",
+    "price_to_in_usd": "0.000240799159040394",
+    "from_token_amount": "11024.493156",
+    "to_token_amount": "0.02409177"
+   }
+  },
+  {
+   "id": "20",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024626,
+    "tx_hash": "3jWwa9A6QmbxECgASgZ1HCz7gigeWuUJAfMA3V4UJY3TsgSZAYdSazJGf9Zpz1Q9c9hRWQ1guoS6Q86iwDePowtu",
+    "tx_from_address": "7Y7nRkXKkyRM2KQWar8bjZWRM9uZJcvcjsUd7hi7i5Vq",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:32Z",
+    "volume_in_usd": "9.633421836193942545",
+    "price_from_in_usd": "0.000240875938834907",
+    "price_to_in_usd": "0.000240875938834907",
+    "from_token_amount": "40440.684339",
+    "to_token_amount": "0.088424589"
+   }
+  },
+  {
+   "id": "21",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024626,
+    "tx_hash": "5VW31RfiX6mjKQ1LWhUZRp4ee42qEFjBn5HeSXpDckFLEZ1X2CpCD57j7N4hJ3r9ZNaCzyq4sLWmChKzbCAC9Nk4",
+    "tx_from_address": "6c3mjpvk8LopDeKmJzzELtqixPnjfzZLcAG1jmPvkjEm",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:32Z",
+    "volume_in_usd": "1.83710300905811168",
+    "price_from_in_usd": "0.000241089220375814",
+    "price_to_in_usd": "0.000241089220375814",
+    "to_token_amount": "7620.650091",
+    "from_token_amount": "0.016862656"
+   }
+  },
+  {
+   "id": "22",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024622,
+    "tx_hash": "meyAUjzmWPPsqA228f8SXQimJpPAF2YQV2eMbVB6df2Pos75zZbYQnRrk3x9Q372uzZp3JNKWUaZkJvFthBgPeU",
+    "tx_from_address": "GBCwf6NWNRAEvSft96ZYT9Q1iGLbcpmiu3HMHKu2cv7B",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:31Z",
+    "volume_in_usd": "5.7997357080869297",
+    "price_from_in_usd": "0.000241030223025194",
+    "price_to_in_usd": "0.000241030223025194",
+    "to_token_amount": "24068.632624",
+    "from_token_amount": "0.05323955"
+   }
+  },
+  {
+   "id": "23",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024622,
+    "tx_hash": "4jSHrujmDRVcRRd12npqy6wRvrhetFsnP3iaQSUsCvtedfU1caCjAepVKHyCcHoF8ecmMWagLSVkkw1193RMCCJh",
+    "tx_from_address": "6c3mjpvk8LopDeKmJzzELtqixPnjfzZLcAG1jmPvkjEm",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:31Z",
+    "volume_in_usd": "2.399052847738227512",
+    "price_from_in_usd": "0.000240903040105746",
+    "price_to_in_usd": "0.000240903040105746",
+    "from_token_amount": "10073.330844",
+    "to_token_amount": "0.022022468"
+   }
+  },
+  {
+   "id": "24",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024619,
+    "tx_hash": "62T2tDP7YvEQwqPaPPZ16hHLDw745HaDusSRXLZgRhQfVWy6tBe6drmoiUehCvv3vhWHo52CZUztf2SHdidcy4h",
+    "tx_from_address": "GBCwf6NWNRAEvSft96ZYT9Q1iGLbcpmiu3HMHKu2cv7B",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:31Z",
+    "volume_in_usd": "7.038175626866256115",
+    "price_from_in_usd": "0.000240974849404078",
+    "price_to_in_usd": "0.000240974849404078",
+    "from_token_amount": "29537.346686",
+    "to_token_amount": "0.064602983"
+   }
+  },
+  {
+   "id": "25",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024619,
+    "tx_hash": "3Y4FYcxMd7mta7yR5NDnc7nJD3SVaByB3oj4AjgutLw6EQQyHcQdGJk8S14xzdMFi3nAzHZ4cgBUemhhCBK1ZxTi",
+    "tx_from_address": "DEoMdkzd3u2cEc1mbpQ7CARKia5Aj4a45Han3rZETjd6",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:31Z",
+    "volume_in_usd": "102.536267180869516302",
+    "price_from_in_usd": "0.000241111984953688",
+    "price_to_in_usd": "0.000241111984953688",
+    "to_token_amount": "427258.909398",
+    "from_token_amount": "0.941247153"
+   }
+  },
+  {
+   "id": "26",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024618,
+    "tx_hash": "2cQK9hGFqwEjR4iENQkTsfkET5XKY6swHdmAcazBrjyeFG8YQac5XHkAFjv64Arg3nH2FSxxNNeXoXuzdib8xtQP",
+    "tx_from_address": "CNUc3YQeKPKHKKG3PPUZeTmdJNSHFCoFVFFEWfPWb53",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:30Z",
+    "volume_in_usd": "1.74120888775340846",
+    "price_from_in_usd": "0.000238868013968242",
+    "price_to_in_usd": "0.000238868013968242",
+    "to_token_amount": "7289.998602",
+    "from_token_amount": "0.01598369"
+   }
+  },
+  {
+   "id": "27",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024617,
+    "tx_hash": "4YiaZ7esegQWtCqycfzk1Tj3qQdXiNF8BCS9mqUr2jBvbA1jYcgLJLqRfdvwkdTy9AWxRtKsDxbCn6MWSvMASrGA",
+    "tx_from_address": "CNUc3YQeKPKHKKG3PPUZeTmdJNSHFCoFVFFEWfPWb53",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:30Z",
+    "volume_in_usd": "4.14600478672439322",
+    "price_from_in_usd": "0.0002388485324209",
+    "price_to_in_usd": "0.0002388485324209",
+    "to_token_amount": "17361.593808",
+    "from_token_amount": "0.038055924"
+   }
+  },
+  {
+   "id": "28",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024617,
+    "tx_hash": "48a2LvGRN11xKfyTrjbcappVkPtwVfytm21LCoZvw42FN2NdqZ2RK2jN5Fe3aHGPGYHhfzek5vM4ERa7D6oUFzYP",
+    "tx_from_address": "2rQN7g8YNve6TZcJF7sRmKnoXeRu3fxafyygESxVZ4Zi",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:30Z",
+    "volume_in_usd": "3.39681490908029418",
+    "price_from_in_usd": "0.000238758026383344",
+    "price_to_in_usd": "0.000238758026383344",
+    "from_token_amount": "14390.280206",
+    "to_token_amount": "0.031179156"
+   }
+  },
+  {
+   "id": "29",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024615,
+    "tx_hash": "2XaChpBmrrCX5so2xuF9u6c4p5BLSaWdubYppr98gTjRtTJaR2fjLd3FQeEJ2GaFqA8NieSihpPBfD4Pqmp9st6E",
+    "tx_from_address": "7VaZvFwzknLgQ63tSYFUVnwc5rV1P97PMTUsNygVo25E",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:30Z",
+    "volume_in_usd": "2.4445046843701398",
+    "price_from_in_usd": "0.000238814356993614",
+    "price_to_in_usd": "0.000238814356993614",
+    "to_token_amount": "10237.148375",
+    "from_token_amount": "0.0224397"
+   }
+  },
+  {
+   "id": "30",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024614,
+    "tx_hash": "2JigEWYsZfGEDmU62zUnUYmRnBvrvs7S8asr9vNMgPTD9DHEVAeAibH4X7fxNU3qFdC3CJbJ9FW4HdGdZAgmGv4u",
+    "tx_from_address": "5ZvEpVun54k3zei3Fdz7U8S7H6gqJWqM3jxnt8c1Pi4W",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:30Z",
+    "volume_in_usd": "6.753821621385370575",
+    "price_from_in_usd": "0.000238779522120918",
+    "price_to_in_usd": "0.000238779522120918",
+    "from_token_amount": "28604.914217",
+    "to_token_amount": "0.061992915"
+   }
+  },
+  {
+   "id": "31",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024614,
+    "tx_hash": "5H6Nh5yqcYTc5ahDfJ96ifCPXRqUW415JYXC63gWyNC1iMVhL2WJ9X57XoFjiBEpuGp3zAtvSuWdqKdnLTs5whVb",
+    "tx_from_address": "CNUc3YQeKPKHKKG3PPUZeTmdJNSHFCoFVFFEWfPWb53",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:30Z",
+    "volume_in_usd": "5.252095501399112536",
+    "price_from_in_usd": "0.000238909849293065",
+    "price_to_in_usd": "0.000238909849293065",
+    "from_token_amount": "22233.957802",
+    "to_token_amount": "0.048212404"
+   }
+  },
+  {
+   "id": "32",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024610,
+    "tx_hash": "5LXYVqnuxrh3fmFJuXnWrP43Ei8ynbdepuiG9XbU5ujNManBcdr7QJAjBnpSBBtqfae7uRizdmJUdRKHrCwdCEUZ",
+    "tx_from_address": "5ZvEpVun54k3zei3Fdz7U8S7H6gqJWqM3jxnt8c1Pi4W",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:29Z",
+    "volume_in_usd": "5.852815394578879402",
+    "price_from_in_usd": "0.000239025647497644",
+    "price_to_in_usd": "0.000239025647497644",
+    "from_token_amount": "24764.32803",
+    "to_token_amount": "0.053726803"
+   }
+  },
+  {
+   "id": "33",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024609,
+    "tx_hash": "3BBHRcb3mQ6eNJMtZgMixeaK7EQTBeEyT2NPXy6V8DPKuC2cNpp65Dcnet768bSZNdNc47WeQuGdAnP8mJ87UHVx",
+    "tx_from_address": "9RFMBJmTh2jgm48v18fmiLR4bn67373fDrJ5Jd8VT4DC",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:28Z",
+    "volume_in_usd": "10.269657915137563205",
+    "price_from_in_usd": "0.000239173282288167",
+    "price_to_in_usd": "0.000239173282288167",
+    "from_token_amount": "43417.143351",
+    "to_token_amount": "0.094264561"
+   }
+  },
+  {
+   "id": "34",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024609,
+    "tx_hash": "5CAHrV4F35s5CqjERWcjMiSwohXJWJnJrYYgzPvTqufJApdCbkWH25jdvZr5vgrRxbxVDGAnnXwpykhyWhmEPzbH",
+    "tx_from_address": "5ZvEpVun54k3zei3Fdz7U8S7H6gqJWqM3jxnt8c1Pi4W",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:28Z",
+    "volume_in_usd": "2.60929423857088556",
+    "price_from_in_usd": "0.000239399850074349",
+    "price_to_in_usd": "0.000239399850074349",
+    "from_token_amount": "11024.791286",
+    "to_token_amount": "0.023950552"
+   }
+  },
+  {
+   "id": "35",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024608,
+    "tx_hash": "QBpKQGVdg5tFuE9QLXoeeKucAfoxE9BYhyiJwHN1rFW2FLEFepcqDg1BxAa4i5XCwxLsk2zycsreizEHdgcwNAB",
+    "tx_from_address": "GfedMNxnwtxy1tWpxfhcdVKjVUJVRThwck9MV4ikVcgW",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:28Z",
+    "volume_in_usd": "4.069762541539506",
+    "price_from_in_usd": "0.000239438852191255",
+    "price_to_in_usd": "0.000239438852191255",
+    "to_token_amount": "17000.245996",
+    "from_token_amount": "0.037359"
+   }
+  },
+  {
+   "id": "36",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024608,
+    "tx_hash": "4Xzsf5NMP3SW1H1SXqqhmMZMJk4ueoAwbXfRL48zhhSrrXaKUKcF6iN2Dh5MLsCf6p6SWpp2xjUG9fEVAo9xj3N1",
+    "tx_from_address": "GfedMNxnwtxy1tWpxfhcdVKjVUJVRThwck9MV4ikVcgW",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:28Z",
+    "volume_in_usd": "5.698858344159793754",
+    "price_from_in_usd": "0.000239349896995745",
+    "price_to_in_usd": "0.000239349896995745",
+    "from_token_amount": "24080.417423",
+    "to_token_amount": "0.052313531"
+   }
+  },
+  {
+   "id": "37",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024607,
+    "tx_hash": "2c2yX5BXJtsjNuRPkhn6M4pmCCeU43X1EaHPk3qfEArBkLZnatu7s4hGoYJqARRiKgnxqHZQ3trdN6UpwpUpRwhH",
+    "tx_from_address": "AYUiZtcFUUoXWtHoeRwPHZuAfqWSk8iP7u3PF1YnbJPE",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:28Z",
+    "volume_in_usd": "1.756230482714207922",
+    "price_from_in_usd": "0.000239475662539335",
+    "price_to_in_usd": "0.000239475662539335",
+    "from_token_amount": "7418.368625",
+    "to_token_amount": "0.016121583"
+   }
+  },
+  {
+   "id": "38",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024604,
+    "tx_hash": "4xXHmG4fQGvthQgnL7wmpfE9s3cMREopV1jvUjuLChnSFTPFKzbr9wztupbPZ5xbcAK4ozTbMsnTMvq3vUfW3AMX",
+    "tx_from_address": "AYUiZtcFUUoXWtHoeRwPHZuAfqWSk8iP7u3PF1YnbJPE",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:27Z",
+    "volume_in_usd": "1.776800068271985295",
+    "price_from_in_usd": "0.000239533013403619",
+    "price_to_in_usd": "0.000239533013403619",
+    "to_token_amount": "7418.368625",
+    "from_token_amount": "0.016309139"
+   }
+  },
+  {
+   "id": "39",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024604,
+    "tx_hash": "2XBZU7sdcigA1hxCj4jZfsJEVNJVBqSnGWDsVZCfx53PKhrSaNkVco1pSGnVNoU9Q554skQh9SqK9bd4Cc1hFJjj",
+    "tx_from_address": "GfedMNxnwtxy1tWpxfhcdVKjVUJVRThwck9MV4ikVcgW",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:27Z",
+    "volume_in_usd": "1.64594213005685281",
+    "price_from_in_usd": "0.000239494168660549",
+    "price_to_in_usd": "0.000239494168660549",
+    "from_token_amount": "6952.004804",
+    "to_token_amount": "0.015108002"
+   }
+  },
+  {
+   "id": "40",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024603,
+    "tx_hash": "499KeJ1yEJgafDeD21K3V3prV5X67voxcxHfDMq7ESNFBgW5hRBBGxzYxKLkzXmP1oswxPMBGbUkXW5xK2s1QnMN",
+    "tx_from_address": "GfedMNxnwtxy1tWpxfhcdVKjVUJVRThwck9MV4ikVcgW",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:27Z",
+    "volume_in_usd": "3.586261918872810622",
+    "price_from_in_usd": "0.000239511911824584",
+    "price_to_in_usd": "0.000239511911824584",
+    "from_token_amount": "15144.904759",
+    "to_token_amount": "0.032920633"
+   }
+  },
+  {
+   "id": "41",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024602,
+    "tx_hash": "4SyqxGvwfNRU8ZtyKKZYrWcnfMrGfhs7XMvHnU3wBsJYAHQTSW25RFthBM9TjhUzLwfitrLxymERcRqKRhZ4MDcX",
+    "tx_from_address": "AYUiZtcFUUoXWtHoeRwPHZuAfqWSk8iP7u3PF1YnbJPE",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:27Z",
+    "volume_in_usd": "8.82603274680289767",
+    "price_from_in_usd": "0.000239609671070382",
+    "price_to_in_usd": "0.000239609671070382",
+    "from_token_amount": "37248.446156",
+    "to_token_amount": "0.081013614"
+   }
+  },
+  {
+   "id": "42",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024599,
+    "tx_hash": "fe3U8LZPCMTPyYNRQRkSNuzHggPJqeNjbmkiFeY4WAdD6aL1WvCzthncUnnWPs5z1av62SAnghQyyLSCMaThHWs",
+    "tx_from_address": "HAMiF1F5GYnVnAqQUNpHJYgJQ7f7qkoUx9LU96bowgGz",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:26Z",
+    "volume_in_usd": "3.921633859344028985",
+    "price_from_in_usd": "0.000239804561104361",
+    "price_to_in_usd": "0.000239804561104361",
+    "to_token_amount": "16356.386304",
+    "from_token_amount": "0.035996437"
+   }
+  },
+  {
+   "id": "43",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024599,
+    "tx_hash": "kn4ts2fTfiNjkmbDxobdLgwb1zvbnsY3Zv2ZzKc54KQdEnXS12adHuSjrkewUCi2ercZmEsWGtfAVaZvmfAA28S",
+    "tx_from_address": "HnJeGTcbu9DVbcauj4pqe8WaK8G2jym2kkYALo21PZuN",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:26Z",
+    "volume_in_usd": "3.560472499647054395",
+    "price_from_in_usd": "0.000239718781134714",
+    "price_to_in_usd": "0.000239718781134714",
+    "from_token_amount": "15023.038709",
+    "to_token_amount": "0.032681359"
+   }
+  },
+  {
+   "id": "44",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024594,
+    "tx_hash": "4zHox6U1bgvmMhdK518kqtWCcbHyv7tQNBrdyirWra8V81JAqqrnWcVM4kcoAMZSmbHGJ2DUgzJKuYom4irkdvT2",
+    "tx_from_address": "HTBYjapHdmuqJR8KduwxZfZQx5traQNoLJyZL7TEEKkm",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:25Z",
+    "volume_in_usd": "66.214107975246058004",
+    "price_from_in_usd": "0.000239778802033507",
+    "price_to_in_usd": "0.000239778802033507",
+    "to_token_amount": "276984.060737",
+    "from_token_amount": "0.607822406"
+   }
+  },
+  {
+   "id": "45",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024594,
+    "tx_hash": "2bzdca17pPMm6ZEcLnNZFjcX3Mg3EHqrwTSRJf22JvXxXnzXqfBg8VuLcpKMEGwYUr33eWxymEZGQ79W5MutxKvr",
+    "tx_from_address": "CKYfNHCrjF2m2a3ovdsMxqpVFzBJoiff5Gf4Y8RHw78z",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:25Z",
+    "volume_in_usd": "2.634430422279937568",
+    "price_from_in_usd": "0.00023833254073103",
+    "price_to_in_usd": "0.00023833254073103",
+    "to_token_amount": "11054.924355",
+    "from_token_amount": "0.024183152"
+   }
+  },
+  {
+   "id": "46",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024594,
+    "tx_hash": "G8nz8FzoaEsCWMWnhFJ434g7PawZTXiDiXvJ9enEEKcxCqnGGnU3eTLu568gf6372G8pddu6SUeyw4qPWfwuSmL",
+    "tx_from_address": "CfrJDf66TieYNtb3KdsF87sJXTfc2tfQNETwfdDgCZdi",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:25Z",
+    "volume_in_usd": "4.702535940707725026",
+    "price_from_in_usd": "0.000238275089480735",
+    "price_to_in_usd": "0.000238275089480735",
+    "to_token_amount": "19739.994566",
+    "from_token_amount": "0.043167639"
+   }
+  },
+  {
+   "id": "47",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024593,
+    "tx_hash": "5cdq7hhaswhd7SanHeMkZH7ryyS4h1XeoBFYyr96Z1tGAoReY2cr66xLPr9dPPGPxujkGeXhVucR41MP7DzyfBeu",
+    "tx_from_address": "HAMiF1F5GYnVnAqQUNpHJYgJQ7f7qkoUx9LU96bowgGz",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:25Z",
+    "volume_in_usd": "4.858802011358360538",
+    "price_from_in_usd": "0.000238172554497566",
+    "price_to_in_usd": "0.000238172554497566",
+    "from_token_amount": "20633.049532",
+    "to_token_amount": "0.044602107"
+   }
+  },
+  {
+   "id": "48",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024586,
+    "tx_hash": "JGzxScWLdqkF699MZ1WZyVqQHtryn1JiETT84xv4N2gYV7msgCn9QdX2HQfJFjU8yVxukBYE8HmfMPMFH99CqcW",
+    "tx_from_address": "CfrJDf66TieYNtb3KdsF87sJXTfc2tfQNETwfdDgCZdi",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:23Z",
+    "volume_in_usd": "5.53105773920187412",
+    "price_from_in_usd": "0.000238279515632445",
+    "price_to_in_usd": "0.000238279515632445",
+    "from_token_amount": "23476.533665",
+    "to_token_amount": "0.05077318"
+   }
+  },
+  {
+   "id": "49",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024583,
+    "tx_hash": "5arPSE2BURT9D4cjcgEKDjhFnTw73xpmPh3EN715maGfwyMghAA2rYf8EFvJANF31fFk1AQQXxsp6Tu6WB5z1JCG",
+    "tx_from_address": "94B1D4ofetu6LM1VNywiZJKGXudXTjKPraMdE8v1zEYf",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:22Z",
+    "volume_in_usd": "4.793330241622404666",
+    "price_from_in_usd": "0.000238401304988445",
+    "price_to_in_usd": "0.000238401304988445",
+    "from_token_amount": "20335.554541",
+    "to_token_amount": "0.044001099"
+   }
+  },
+  {
+   "id": "50",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024577,
+    "tx_hash": "B9hxNfQqYGFqamuw7rm95VsDrjfCzgxfNkPwoyuqdDD4tPCg4jpBVBMHxpEJEmVm1cuQrxn8F4amTpj8ccHwtZ9",
+    "tx_from_address": "BxJRPHhCmP7RaumtvHM3nB5MTZuycw2wKZXNNjDNqnbn",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:21Z",
+    "volume_in_usd": "4.812675748218922056",
+    "price_from_in_usd": "0.000238506875381391",
+    "price_to_in_usd": "0.000238506875381391",
+    "to_token_amount": "20182.798822",
+    "from_token_amount": "0.044178684"
+   }
+  },
+  {
+   "id": "51",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024576,
+    "tx_hash": "5EQX2uGVrLmKSDbdh4JDQFCCDj9mb2zQ3Dtm3xetpR43cwGieUNoywDVcXEVmLj9cvEfMqtxCNvLYn6KAwPvY6wn",
+    "tx_from_address": "6PtfisqhMZpN6dCivGUEGRY8KpmaL6KwhD6AQ5XgGYx3",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:21Z",
+    "volume_in_usd": "4.984431514412305028",
+    "price_from_in_usd": "0.000238401888024387",
+    "price_to_in_usd": "0.000238401888024387",
+    "from_token_amount": "21146.057896",
+    "to_token_amount": "0.045755342"
+   }
+  },
+  {
+   "id": "52",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024575,
+    "tx_hash": "4Tu6DRXHEvdsb9LVGQieqC3D1BFjSGFXZN5HgBHjvFPuPpRapZJbZALYnDvpvRcQ5dekggLdQ4NAvwqop7gG5p7b",
+    "tx_from_address": "2kvGz4T9wqk54yMbwcMfRtGEV1QQ9jLa3yxhh18DNFFa",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:21Z",
+    "volume_in_usd": "4.242780991895178766",
+    "price_from_in_usd": "0.000238511667983548",
+    "price_to_in_usd": "0.000238511667983548",
+    "to_token_amount": "17792.023396",
+    "from_token_amount": "0.038947249"
+   }
+  },
+  {
+   "id": "53",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024574,
+    "tx_hash": "bviAY6bg65wi7S3nrz38vJ4BBsDVvdtWstpksNwWTPpxex3tX2mwtcJs7H8jw3cX3oifFEFCbrayUtekaPJqQti",
+    "tx_from_address": "BxJRPHhCmP7RaumtvHM3nB5MTZuycw2wKZXNNjDNqnbn",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:21Z",
+    "volume_in_usd": "6.976882702352577495",
+    "price_from_in_usd": "0.000238437612307512",
+    "price_to_in_usd": "0.000238437612307512",
+    "from_token_amount": "29591.721199",
+    "to_token_amount": "0.064040379"
+   }
+  },
+  {
+   "id": "54",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024570,
+    "tx_hash": "2qsdDzf1h1XVjautU3mRXivjcBfNaU4jrrzkUKCGQRkLucf3GzrGXaCkFpDBT69DKQM8TgL4qCNSGURkLinTRnGK",
+    "tx_from_address": "4beqJd4QKJ8hT3VXFngnis9gWeT1xfuv68ZkYWxxmAub",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:19Z",
+    "volume_in_usd": "55.56945542412184614",
+    "price_from_in_usd": "0.000238572774177778",
+    "price_to_in_usd": "0.000238572774177778",
+    "to_token_amount": "233518.563793",
+    "from_token_amount": "0.51010821"
+   }
+  },
+  {
+   "id": "55",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024570,
+    "tx_hash": "4b1PaaqUSWxEpwoTn2TgQfJ1odzVcVXehWzXhDSdMyY1WEvS8dTXQr42EygL7BQ7Rgs97XN2b2Fg8xQCCXTUT2T4",
+    "tx_from_address": "EqxRpfajjQLob5SHp3MzphU5AYk4N82CU74R8RbSwwoc",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:19Z",
+    "volume_in_usd": "1.668338688642772978",
+    "price_from_in_usd": "0.000237361775732723",
+    "price_to_in_usd": "0.000237361775732723",
+    "to_token_amount": "7029.212353",
+    "from_token_amount": "0.015314767"
+   }
+  },
+  {
+   "id": "56",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024567,
+    "tx_hash": "Qtxf1mV2bdsC6RaAjXWeD12HfqPwc8KwuLUY1ZowzqXLBgMcYA3YvL9L5Hg2S4Pa4inHjJe3hEab9VWtQLSLVsY",
+    "tx_from_address": "6c3mjpvk8LopDeKmJzzELtqixPnjfzZLcAG1jmPvkjEm",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:19Z",
+    "volume_in_usd": "2.390395764855559266",
+    "price_from_in_usd": "0.000237325466070693",
+    "price_to_in_usd": "0.000237325466070693",
+    "to_token_amount": "10073.330844",
+    "from_token_amount": "0.021942999"
+   }
+  },
+  {
+   "id": "57",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024567,
+    "tx_hash": "5vMD7e4LvzTjzfhpzzicvM8My7b8aBagQNEV3mgkayCtJZAsXBmuzY5nzgnugN63ivyCEYHXi34ytPFi6qQNPXQ1",
+    "tx_from_address": "F3bnBk6vA2h7dMWKtUgAh9ott9R9XTMnoHuEa3BbteuG",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:19Z",
+    "volume_in_usd": "1.17966970837988298",
+    "price_from_in_usd": "0.000237291859254763",
+    "price_to_in_usd": "0.000237291859254763",
+    "to_token_amount": "4971.655914",
+    "from_token_amount": "0.010828116"
+   }
+  },
+  {
+   "id": "58",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024566,
+    "tx_hash": "moLjbmRGA2L6LmiwgfyBrijtKyeEXNt5RJ7XE3wYoas3qTskbSyu2Aaf3CuBrGXnE2huwGNMsh7m5Jf9RRRSLJX",
+    "tx_from_address": "T7UNnBx5KFs2uHL9jfKn39StbDUquJshC7TD3gPhzup",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:19Z",
+    "volume_in_usd": "3.209621131545594268",
+    "price_from_in_usd": "0.000237247778609385",
+    "price_to_in_usd": "0.000237247778609385",
+    "to_token_amount": "13530.554428",
+    "from_token_amount": "0.029463202"
+   }
+  },
+  {
+   "id": "59",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024565,
+    "tx_hash": "2Mnbte2yeZq9N9iYBauwVUdtuzZjU3Line5Yr7uS3HbgA1ibN1LgSFLF1FauAvuPqkSrd7PU6iCShuguN63uN7Ma",
+    "tx_from_address": "6c3mjpvk8LopDeKmJzzELtqixPnjfzZLcAG1jmPvkjEm",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:19Z",
+    "volume_in_usd": "4.330763421220088398",
+    "price_from_in_usd": "0.000237177943755513",
+    "price_to_in_usd": "0.000237177943755513",
+    "from_token_amount": "18468.282346",
+    "to_token_amount": "0.039754897"
+   }
+  },
+  {
+   "id": "60",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024565,
+    "tx_hash": "3UCkRRvDE6cWrHyP1RVffU49Ark4dVzQ9jCmoxzcgWx7zXJR6avibSkAJMKVtuXUVYpvqRHBtqqUhk35Rdz3CWeY",
+    "tx_from_address": "T7UNnBx5KFs2uHL9jfKn39StbDUquJshC7TD3gPhzup",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:19Z",
+    "volume_in_usd": "2.791768646974681108",
+    "price_from_in_usd": "0.000237273080730232",
+    "price_to_in_usd": "0.000237273080730232",
+    "to_token_amount": "11767.564748",
+    "from_token_amount": "0.025627462"
+   }
+  },
+  {
+   "id": "61",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024565,
+    "tx_hash": "47qyKGLhwmMDcjwDUsTRDwWBbA15sHcKyJZgKV8SwzeQUseiiFUubeB852xYKmjJBGYSCSzfKadY2o8MSjRhuP6n",
+    "tx_from_address": "6CBVyFr191s826pJJgRXibdAVzrWGdmCZxLwmAPnShPF",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:19Z",
+    "volume_in_usd": "1.630032766340402888",
+    "price_from_in_usd": "0.000237212333659403",
+    "price_to_in_usd": "0.000237212333659403",
+    "to_token_amount": "6872.132735",
+    "from_token_amount": "0.014963132"
+   }
+  },
+  {
+   "id": "62",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024563,
+    "tx_hash": "2nhrzbCrQMPbk3emdMGypBUw26fvbbm7MnyBwmoBDQdPF2dqVYPNkdKJYAeSLTGnYbeVabP7yARPp97PbqAbjtj",
+    "tx_from_address": "6CBVyFr191s826pJJgRXibdAVzrWGdmCZxLwmAPnShPF",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:18Z",
+    "volume_in_usd": "4.97002660955958274",
+    "price_from_in_usd": "0.000237176868799239",
+    "price_to_in_usd": "0.000237176868799239",
+    "to_token_amount": "20959.72023",
+    "from_token_amount": "0.04562311"
+   }
+  },
+  {
+   "id": "63",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024562,
+    "tx_hash": "5PsghRNg48Q2bDxVAKgd3x3F58U3VAfyT65tsMt3o5AdJbLcXddXWn2u1xVWJLWwynv5DJyc59GEMjHxRMQnFcts",
+    "tx_from_address": "6CBVyFr191s826pJJgRXibdAVzrWGdmCZxLwmAPnShPF",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:18Z",
+    "volume_in_usd": "1.93100994354730391",
+    "price_from_in_usd": "0.00023708714849764",
+    "price_to_in_usd": "0.00023708714849764",
+    "to_token_amount": "8145.448122",
+    "from_token_amount": "0.017724622"
+   }
+  },
+  {
+   "id": "64",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024561,
+    "tx_hash": "5nWTHpV44BhnBPiSDDqCtfeGVRkPoQ61ruyecA87Eq5EvjkwpD1xJkg4URrdfKPsCcrRRESkZ8RCgfiHPu8y4Gog",
+    "tx_from_address": "6CBVyFr191s826pJJgRXibdAVzrWGdmCZxLwmAPnShPF",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:18Z",
+    "volume_in_usd": "2.07205425240368949",
+    "price_from_in_usd": "0.000237026754536256",
+    "price_to_in_usd": "0.000237026754536256",
+    "to_token_amount": "8742.68959",
+    "from_token_amount": "0.019020735"
+   }
+  },
+  {
+   "id": "65",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024559,
+    "tx_hash": "4gguKKjhe6qZ96fA3Rz24yd239bYfwN4UG5KAQ38WKMvopRog8g7BRjkJu6q6ndRNj88KqGF7DMSRJGsC23eoCzM",
+    "tx_from_address": "FoJEkeWUxLLqUyECq1ze2VHwXB7stxhv25SqVgvr8Tna",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:17Z",
+    "volume_in_usd": "2.193745915142005348",
+    "price_from_in_usd": "0.000236981690627556",
+    "price_to_in_usd": "0.000236981690627556",
+    "from_token_amount": "9363.771791",
+    "to_token_amount": "0.020137822"
+   }
+  },
+  {
+   "id": "66",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024549,
+    "tx_hash": "541huwFkPcy68q6HSUYraKpnym2MFgKVFRJK4o289CxiXXhrN88WBiUhg9qQXgu7aQaVbLQi3cffhPA5vJABtS3L",
+    "tx_from_address": "9DrEZenejeJ4uD4gwzCRERNonhEsyejQBgjMfPZDJuJf",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:15Z",
+    "volume_in_usd": "2.804625562702553256",
+    "price_from_in_usd": "0.000237029859924472",
+    "price_to_in_usd": "0.000237029859924472",
+    "to_token_amount": "11833.896142",
+    "from_token_amount": "0.025745484"
+   }
+  },
+  {
+   "id": "67",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024547,
+    "tx_hash": "2jQk6Lno7i2jYQNq7HRd1kMQcDRYwrzJmpD3RXeswpB47Rh3ZisrvGrdDegvdmYRbkTPzEcGSvnFX8cyLUpSdTCM",
+    "tx_from_address": "4Kd2meVkCi8AtWMSrbPo8UQ4Uq9gJ8bhSSJCpvPFPEjS",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:14Z",
+    "volume_in_usd": "2.355212183460751084",
+    "price_from_in_usd": "0.000236968864358191",
+    "price_to_in_usd": "0.000236968864358191",
+    "from_token_amount": "10053.441823",
+    "to_token_amount": "0.021620026"
+   }
+  },
+  {
+   "id": "68",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024546,
+    "tx_hash": "3zx5CiD5ijV6ABw91Rueiun1f9LdsvTogz8ySdPBC3gibCHaRVoUsAuH6dGaEXjJBxp6pCDVN5xtrUFpLuk4VAfw",
+    "tx_from_address": "FotnVngSn8h96z4x1qxATSjzrEnBKMtMbozo1daAungY",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:14Z",
+    "volume_in_usd": "75.855839314788589715",
+    "price_from_in_usd": "0.000237038971074949",
+    "price_to_in_usd": "0.000237038971074949",
+    "to_token_amount": "321132.876888",
+    "from_token_amount": "0.696276103"
+   }
+  },
+  {
+   "id": "69",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024545,
+    "tx_hash": "5PtMrFnikYuL5vm75iroaXBfUQypX8JPHQ98SBNcocTVPwnjRQutrVuvByRxFEqDAMKfq9MPj7F5rK1ozDepoBDo",
+    "tx_from_address": "9DrEZenejeJ4uD4gwzCRERNonhEsyejQBgjMfPZDJuJf",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:14Z",
+    "volume_in_usd": "8.417107856681352942",
+    "price_from_in_usd": "0.000235373768370114",
+    "price_to_in_usd": "0.000235373768370114",
+    "to_token_amount": "35774.479937",
+    "from_token_amount": "0.077266113"
+   }
+  },
+  {
+   "id": "70",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024537,
+    "tx_hash": "SzpqozedWY6UGjhwT3AEVsifaS6WVPQP8DgqgYpcf2tYdqUZ9tQJ3LiDUmzhQiUhNKk8rNheMnU6i8UaEH23Gfx",
+    "tx_from_address": "HnJeGTcbu9DVbcauj4pqe8WaK8G2jym2kkYALo21PZuN",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:12Z",
+    "volume_in_usd": "2.23415137258886782",
+    "price_from_in_usd": "0.000235191374899161",
+    "price_to_in_usd": "0.000235191374899161",
+    "to_token_amount": "9500.269371",
+    "from_token_amount": "0.02050873"
+   }
+  },
+  {
+   "id": "71",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024536,
+    "tx_hash": "4XHPSQi6eoRhKFducVgXuBxHMUfFqEc2gRQfBbGZS5BSofFLbH5kUUkXkp1Ydf275vCxaWWfThyzzcqMRbVEuWgs",
+    "tx_from_address": "HnJeGTcbu9DVbcauj4pqe8WaK8G2jym2kkYALo21PZuN",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:12Z",
+    "volume_in_usd": "1.298562759210045102",
+    "price_from_in_usd": "0.000235142974102481",
+    "price_to_in_usd": "0.000235142974102481",
+    "to_token_amount": "5522.769338",
+    "from_token_amount": "0.011920353"
+   }
+  },
+  {
+   "id": "72",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024535,
+    "tx_hash": "2rWpfF22EfhRT5KrSEhTri8jj63EXMe2Wwrxpv9GggLaewpFX6fRXsrBXegPzVuU5t8aqhxhePcW4w9ztDA8E54t",
+    "tx_from_address": "7u9ozyYD89Am1mhxebVVn9wuXwiwYr87r69BSgSNvpr3",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:12Z",
+    "volume_in_usd": "1.408302878325811086",
+    "price_from_in_usd": "0.000235114844244383",
+    "price_to_in_usd": "0.000235114844244383",
+    "to_token_amount": "5990.239513",
+    "from_token_amount": "0.012927729"
+   }
+  },
+  {
+   "id": "73",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024534,
+    "tx_hash": "4CBCvWh1sktsAKnqdwqoxMHqpkDP8YiyuDNsGJ5qHAmebi6imsiSbaGQv92vh8Q23W6PkLfVfasPrThiEGZ5Zwc4",
+    "tx_from_address": "3QY8YyrS44NWcUAj1pvLU5ptkU7CR52j5gs9hidni6pB",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:12Z",
+    "volume_in_usd": "1.50424345329024762",
+    "price_from_in_usd": "0.000235084339062371",
+    "price_to_in_usd": "0.000235084339062371",
+    "to_token_amount": "6399.182967",
+    "from_token_amount": "0.01380843"
+   }
+  },
+  {
+   "id": "74",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024534,
+    "tx_hash": "3ekT9Fb9xSDrDKwFtxZHMkeMANSZi6imCKJmE6pivNK8KYqB6xZcoKLisN9SFYcLTdMkSBNs3VADqtETqfBPMqze",
+    "tx_from_address": "7u9ozyYD89Am1mhxebVVn9wuXwiwYr87r69BSgSNvpr3",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:12Z",
+    "volume_in_usd": "2.683263977870521418",
+    "price_from_in_usd": "0.000235051757900205",
+    "price_to_in_usd": "0.000235051757900205",
+    "to_token_amount": "11417.042704",
+    "from_token_amount": "0.024631427"
+   }
+  },
+  {
+   "id": "75",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024534,
+    "tx_hash": "52ExS6xmZ1mN3mtdNLgsVY7iNt4CpkB1xbLFBeyUK863b7vywcMfTY5yjim6uGB3ZTtnyi8RkGquojMXoNTkJ6Lp",
+    "tx_from_address": "HnJeGTcbu9DVbcauj4pqe8WaK8G2jym2kkYALo21PZuN",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:12Z",
+    "volume_in_usd": "3.003324836723341916",
+    "price_from_in_usd": "0.000234993645340272",
+    "price_to_in_usd": "0.000234993645340272",
+    "from_token_amount": "12927.332876",
+    "to_token_amount": "0.027569474"
+   }
+  },
+  {
+   "id": "76",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024533,
+    "tx_hash": "5kwpgdWaNvj6Vs63h5VgopuyvZNYooS4zsb8C2G8D9YyTN28PpzdEvzSCPQAdYoGG3mquKG4CFdyb5Y1oNRDpGRd",
+    "tx_from_address": "3QY8YyrS44NWcUAj1pvLU5ptkU7CR52j5gs9hidni6pB",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:12Z",
+    "volume_in_usd": "1.5047046171",
+    "price_from_in_usd": "0.000235131378741017",
+    "price_to_in_usd": "0.000235131378741017",
+    "to_token_amount": "6399.864228",
+    "from_token_amount": "0.01380843"
+   }
+  },
+  {
+   "id": "77",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024532,
+    "tx_hash": "2XMLMZMS4yzsBoSPUiKhNMCPjonQ3knvtK5HNV4TXbCHoAGF3HmwWdrENguKU4WC7JUnFsLBC4KSDzfXfejLftdP",
+    "tx_from_address": "7u9ozyYD89Am1mhxebVVn9wuXwiwYr87r69BSgSNvpr3",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:11Z",
+    "volume_in_usd": "7.8724700886",
+    "price_from_in_usd": "0.000235098789314133",
+    "price_to_in_usd": "0.000235098789314133",
+    "to_token_amount": "33497.954356",
+    "from_token_amount": "0.07224438"
+   }
+  },
+  {
+   "id": "78",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024531,
+    "tx_hash": "2EC9Rnv9MgDN718L4AV6YfiH37xkGWistAk3Mbr1ZGAadxpcFoUy625yLSEhtuWMDb6jQWKbr4ADWYHCXbypiV28",
+    "tx_from_address": "7u9ozyYD89Am1mhxebVVn9wuXwiwYr87r69BSgSNvpr3",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:11Z",
+    "volume_in_usd": "1.37545969090414016",
+    "price_from_in_usd": "0.000234856320181701",
+    "price_to_in_usd": "0.000234856320181701",
+    "to_token_amount": "5856.971928",
+    "from_token_amount": "0.01262624"
+   }
+  },
+  {
+   "id": "79",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024528,
+    "tx_hash": "3vaFNjqhyB2GEvkaTESmeBF2nTayvQJzQyBfLJdoXTwQ5CvfYYe1o6imxyfX5D4zWe1BxSMovCXCGmmoBV53GFPW",
+    "tx_from_address": "4oUnsi98aUKf9Ghp61EhNbmZJxEzDUow82NuHxAHciKP",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:10Z",
+    "volume_in_usd": "1.24589049561232056",
+    "price_from_in_usd": "0.000234826542752409",
+    "price_to_in_usd": "0.000234826542752409",
+    "to_token_amount": "5305.882364",
+    "from_token_amount": "0.01143684"
+   }
+  },
+  {
+   "id": "80",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024528,
+    "tx_hash": "5Gp1WcyPmtT5xpysAJPyRzfwQjLKHkaHs8dZTWPCQiKBXRHWrGwKsS6HFS42S9taPE9gug9dxVrsKWbhX5VvMKV",
+    "tx_from_address": "7tSEkwgcJuULbVzRRN3U6qfweQn4PckeT6q4WzX6UQLk",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:10Z",
+    "volume_in_usd": "1.255166229461915192",
+    "price_from_in_usd": "0.000234799572004497",
+    "price_to_in_usd": "0.000234799572004497",
+    "from_token_amount": "5407.568885",
+    "to_token_amount": "0.011521988"
+   }
+  },
+  {
+   "id": "81",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024527,
+    "tx_hash": "2b6DfrzaEc5KMXaXHYhi6JiMnzoQ6u2drLC5YucGTDu7M4ggiHrcNHbQ42FMFtv36eBNyDdWRyR3jmuaVKsHpqKX",
+    "tx_from_address": "4oUnsi98aUKf9Ghp61EhNbmZJxEzDUow82NuHxAHciKP",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:10Z",
+    "volume_in_usd": "1.24589049561232056",
+    "price_from_in_usd": "0.000234827004761083",
+    "price_to_in_usd": "0.000234827004761083",
+    "to_token_amount": "5305.871925",
+    "from_token_amount": "0.01143684"
+   }
+  },
+  {
+   "id": "82",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024527,
+    "tx_hash": "2A1uthbqY1nmGWtcHUXRQ2WQ9VK2mZHCvYkzgnQKgoCEU6xu9ryzvCBevHLPGtCHVPhdYajHyRnU4MZg5mrf5Rgn",
+    "tx_from_address": "4zxArJgZzKzVJDeRKLn1XKBSeNqogQbv7utvqhwKxssM",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:10Z",
+    "volume_in_usd": "1.081828268050423604",
+    "price_from_in_usd": "0.000234800033983514",
+    "price_to_in_usd": "0.000234800033983514",
+    "to_token_amount": "4607.674654",
+    "from_token_amount": "0.009930806"
+   }
+  },
+  {
+   "id": "83",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024526,
+    "tx_hash": "37RpC8oe341TxrBGvPZNWnbHHwA9esjNC36Da2YG49u6tJEQwoNaNtjuziZ76ZEShcuxiZAzVuYGccpNvyjb2fCj",
+    "tx_from_address": "4zxArJgZzKzVJDeRKLn1XKBSeNqogQbv7utvqhwKxssM",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:10Z",
+    "volume_in_usd": "1.43132007824",
+    "price_from_in_usd": "0.000234848592745388",
+    "price_to_in_usd": "0.000234848592745388",
+    "to_token_amount": "6095.052419",
+    "from_token_amount": "0.013134992"
+   }
+  },
+  {
+   "id": "84",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024525,
+    "tx_hash": "4HzSbUz9K4Nq2rYzbk4QUaVQrPS5mJ4fkUHz7p4mCvguhyTaBy7Qgx8X1673Ni3Zoen6XacrSmeYf54dANnesTZU",
+    "tx_from_address": "BA2XC7yg9PFwvdTeqLrzdteSqoAbTjjiW5ran7gF7fAb",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:10Z",
+    "volume_in_usd": "58.99887259172",
+    "price_from_in_usd": "0.00023481761128027",
+    "price_to_in_usd": "0.00023481761128027",
+    "from_token_amount": "253481.887267",
+    "to_token_amount": "0.541423076"
+   }
+  },
+  {
+   "id": "85",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024525,
+    "tx_hash": "UUg8tFXE7VXKCtC68R3drxdVR1H8ffmL79kFKReC5a3Ui3yEGeb9WcRJqsrsKz3EMjSpgyjBLE2rvx9Tzf9Zmrx",
+    "tx_from_address": "4Hw9DNfk3CBRsVbG6AScWiFDC2XS9qTwr6kkSzwAndGT",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:10Z",
+    "volume_in_usd": "474.99517477273",
+    "price_from_in_usd": "0.000236108670757493",
+    "price_to_in_usd": "0.000236108670757493",
+    "from_token_amount": "1991321.378255",
+    "to_token_amount": "4.358953609"
+   }
+  },
+  {
+   "id": "86",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024524,
+    "tx_hash": "3QQ4G8fVa8jJVVxpYfRKeYJz4gBPz2LwdTyEkxjgiXCQhGDhYZDmgauEVc49gbVVN8JWTCYGzwCYWyZhJnd8hcPs",
+    "tx_from_address": "EJugYZxUqHhzoS4DBLUqBrtNgwyWU82Q4BpRvuMtxcJF",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:09Z",
+    "volume_in_usd": "1.4046324275",
+    "price_from_in_usd": "0.000246586813553973",
+    "price_to_in_usd": "0.000246586813553973",
+    "to_token_amount": "5696.659679",
+    "from_token_amount": "0.01289245"
+   }
+  },
+  {
+   "id": "87",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024523,
+    "tx_hash": "5ktxENWTFdG4iwqEWzZ4bPdKkQpSWbz677CeLH76Ms8PPCCp6LiqNPd1qu8GtQYdN1uRgXxCoi4KV8dJF9tuzgaF",
+    "tx_from_address": "EJugYZxUqHhzoS4DBLUqBrtNgwyWU82Q4BpRvuMtxcJF",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:09Z",
+    "volume_in_usd": "1.4057095072",
+    "price_from_in_usd": "0.000246555655516989",
+    "price_to_in_usd": "0.000246555655516989",
+    "to_token_amount": "5701.748666",
+    "from_token_amount": "0.012902336"
+   }
+  },
+  {
+   "id": "88",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024523,
+    "tx_hash": "2DzmnYvU5KwQ6yRe74g69SBpbDcsqx3fqMfW94m6uZvCuHbcZL5hkr3UAu9cJS2CiawpK9Do5EqcatY6WC5vmEQ7",
+    "tx_from_address": "4zxArJgZzKzVJDeRKLn1XKBSeNqogQbv7utvqhwKxssM",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:09Z",
+    "volume_in_usd": "4.2964035922",
+    "price_from_in_usd": "0.000246524475556518",
+    "price_to_in_usd": "0.000246524475556518",
+    "to_token_amount": "17431.270716",
+    "from_token_amount": "0.039434636"
+   }
+  },
+  {
+   "id": "89",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024522,
+    "tx_hash": "3voiHsEKh7AYkztdYdPw6YEYbeDNJYMncXYYDSJTavqKgPne8qiX6qsWjuxYaNpzv3prZb8Bjkd7tKgHgeLmTto4",
+    "tx_from_address": "5zTaWLan4wNjcfsf4xXp8oq3Grm2imCbHLGEuEB4LFK7",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:09Z",
+    "volume_in_usd": "139.8741821313",
+    "price_from_in_usd": "0.000246429189481167",
+    "price_to_in_usd": "0.000246429189481167",
+    "to_token_amount": "571202.452841",
+    "from_token_amount": "1.283838294"
+   }
+  },
+  {
+   "id": "90",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024521,
+    "tx_hash": "4ARNwtRgRWFd8fJKDnPRFqsCLfZzemgrzyfeicDNRkyXhA7SXzQQXs5vfznHtsUguJSk2k4PZeWbrYm8brM9de55",
+    "tx_from_address": "EJugYZxUqHhzoS4DBLUqBrtNgwyWU82Q4BpRvuMtxcJF",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:09Z",
+    "volume_in_usd": "4.5464758735",
+    "price_from_in_usd": "0.000243337086948581",
+    "price_to_in_usd": "0.000243337086948581",
+    "to_token_amount": "18687.709728",
+    "from_token_amount": "0.04172993"
+   }
+  },
+  {
+   "id": "91",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024521,
+    "tx_hash": "EBTxYVHaWsJDHDdf62fHz5AzRXq8brnrd2VymZiXhCzdnmFhy9fEeXu5dj4WZBBU4CQwSgpVD4GrGzbam6UWmP1",
+    "tx_from_address": "7qyJu3hSLtDJ9nqCNSpxEaFFa3cZzaunjS2itvK7xZ2t",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:09Z",
+    "volume_in_usd": "81.2569968283",
+    "price_from_in_usd": "0.000243236908691046",
+    "price_to_in_usd": "0.000243236908691046",
+    "to_token_amount": "335300.400878",
+    "from_token_amount": "0.745819154"
+   }
+  },
+  {
+   "id": "92",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024520,
+    "tx_hash": "3onUkEH4t5RDfgnoowSRsK12uHjXvAHLr4N1Gq9oTdBtkQ9aRvPK3Yd1Ju5KgusH84KyzbP5zfYSoAHCh2WnX8vh",
+    "tx_from_address": "6PtfisqhMZpN6dCivGUEGRY8KpmaL6KwhD6AQ5XgGYx3",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:09Z",
+    "volume_in_usd": "1.5910482744",
+    "price_from_in_usd": "0.000241449942293202",
+    "price_to_in_usd": "0.000241449942293202",
+    "to_token_amount": "6590.034125",
+    "from_token_amount": "0.014603472"
+   }
+  },
+  {
+   "id": "93",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024519,
+    "tx_hash": "2qUQ9qs9rNZbMMwot4Nm1VndZ9HFN5xQ9uqpngMLUxGL5QstTfrx8QwaHAXNgLi1Z3UogPyw6Z4YcAYGDwbDYWRe",
+    "tx_from_address": "BA2XC7yg9PFwvdTeqLrzdteSqoAbTjjiW5ran7gF7fAb",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:08Z",
+    "volume_in_usd": "121.5809824983",
+    "price_from_in_usd": "0.000241415018455721",
+    "price_to_in_usd": "0.000241415018455721",
+    "to_token_amount": "506419.949589",
+    "from_token_amount": "1.115933754"
+   }
+  },
+  {
+   "id": "94",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024518,
+    "tx_hash": "4TCSSgEkQ4TNKWFyMvkP7VZSVSTJ3CDfYQkaStREKLvwXfnvg3qKSUd8JzW5UQwfQZJ1B64g3UAHenMQZcTYNSnZ",
+    "tx_from_address": "Fkf6NUzSCQFLFtMJyzphBQ12bNPYSFgqHitWrGC48pUa",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:08Z",
+    "volume_in_usd": "93.6328097106",
+    "price_from_in_usd": "0.000238753747458082",
+    "price_to_in_usd": "0.000238753747458082",
+    "to_token_amount": "393860.646099",
+    "from_token_amount": "0.859410828"
+   }
+  },
+  {
+   "id": "95",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024518,
+    "tx_hash": "q6MCDfpcRoPaaVRp18roRXUYGcn9pkW4QFtgFQ9BrbMiTRi2NrYbU9NFWJk9F8ZAQA9yBwwGJcCUW9imBe19JN7",
+    "tx_from_address": "4RjH4ZMTMR8dBEUKXsFysyGQ2gmSKfPr7A9sEDtj3xaH",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:08Z",
+    "volume_in_usd": "2.07048416575",
+    "price_from_in_usd": "0.000236714275501011",
+    "price_to_in_usd": "0.000236714275501011",
+    "from_token_amount": "8847.67606",
+    "to_token_amount": "0.019003985"
+   }
+  },
+  {
+   "id": "96",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024518,
+    "tx_hash": "4WGGbmnDy4wVHswV2mw3UXa1nsQUwUXuWazLqNi53Ev8ZSWFGuZSChTtNWyY8E9tQ98VAGLeeLx1yJkDNVwGv6Sr",
+    "tx_from_address": "34zQnY1mXffNqSR474oyDz4Sd4kxSmt2YAYpU9SzQT6m",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:08Z",
+    "volume_in_usd": "152.5078171263",
+    "price_from_in_usd": "0.000236759711995479",
+    "price_to_in_usd": "0.000236759711995479",
+    "to_token_amount": "648691.939296",
+    "from_token_amount": "1.399796394"
+   }
+  },
+  {
+   "id": "97",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024517,
+    "tx_hash": "2TRFUkY32yFjebsYwQZyUt8XVXTEL9aMjrUwUtfs4v2oo3cJDe49Ja7beETqxo1vvne8y17HBQsi4T9zSR8gn1tf",
+    "tx_from_address": "6PtfisqhMZpN6dCivGUEGRY8KpmaL6KwhD6AQ5XgGYx3",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:08Z",
+    "volume_in_usd": "3.39828404397",
+    "price_from_in_usd": "0.00023349909128543",
+    "price_to_in_usd": "0.00023349909128543",
+    "to_token_amount": "14556.023771",
+    "from_token_amount": "0.031185501"
+   }
+  },
+  {
+   "id": "98",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024517,
+    "tx_hash": "3Vkyg3ux6PoDDF5LaouwQmVwAjTvsvUcfJ4UxC8zVXJ6XwFXeGwCL16JWpfE13ZGqxhiAdgkQ2BAy79brZExDBfS",
+    "tx_from_address": "4Hw9DNfk3CBRsVbG6AScWiFDC2XS9qTwr6kkSzwAndGT",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:08Z",
+    "volume_in_usd": "122.06164828107",
+    "price_from_in_usd": "0.000233425745278202",
+    "price_to_in_usd": "0.000233425745278202",
+    "to_token_amount": "525884.596019",
+    "from_token_amount": "1.120139931"
+   }
+  },
+  {
+   "id": "99",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024517,
+    "tx_hash": "wSB1M8R7TjcqeXjUVAQRofEsJgnJf9NfJDW2aCnHJkjLQrVU9Z3AfVbgsdAXsiN8mMjXpkqgRq8qHYHnK4QdASk",
+    "tx_from_address": "CzgoZCap3LNnnuNvKEQ26Bd5n1tsUVMcR1drW6yT8EL3",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:08Z",
+    "volume_in_usd": "182.78855994077",
+    "price_from_in_usd": "0.00023079888277419",
+    "price_to_in_usd": "0.00023079888277419",
+    "to_token_amount": "798776.722229",
+    "from_token_amount": "1.677420941"
+   }
+  },
+  {
+   "id": "100",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024517,
+    "tx_hash": "eXVFsh6gyV2JB3jPCj7aTV4YYmcigPDEdK8PxRAmHNWChxm6n6kTS7LgiCXUtB65yJDVJhD5dCBhpx2C15xWuWk",
+    "tx_from_address": "A2eeQjHbgAHmft7ehbJKsDjwzEiAL6x5nYXBTZ23NdS9",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:08Z",
+    "volume_in_usd": "1.0965879937",
+    "price_from_in_usd": "0.000226892893382948",
+    "price_to_in_usd": "0.000226892893382948",
+    "to_token_amount": "4833.312812",
+    "from_token_amount": "0.01006321"
+   }
+  },
+  {
+   "id": "101",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024515,
+    "tx_hash": "2UiqSsP5YvCFRiJ4tMT4FUfSEcZgGmcJPQvhsCnBnSsCZdqhvjFXz9V39WfyCg1Nf7GqFbRYLNh4yyAQM8cFeXRN",
+    "tx_from_address": "GfBwhjYwBEGPjxDHNjbEdrfWMg18SuzUfk4CLoYr4Xag",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:07Z",
+    "volume_in_usd": "120.2443554821",
+    "price_from_in_usd": "0.000226869561100337",
+    "price_to_in_usd": "0.000226869561100337",
+    "to_token_amount": "533023.814148",
+    "from_token_amount": "1.10346293"
+   }
+  },
+  {
+   "id": "102",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024514,
+    "tx_hash": "uH13TB9xmbqjoAB5RnRCWqegucAuBGFLpRfYRZLMxo7YCt4zX8f8NrGw4nNFjyPx6fqa8M2BqHF6RaWH3eggYLz",
+    "tx_from_address": "6PtfisqhMZpN6dCivGUEGRY8KpmaL6KwhD6AQ5XgGYx3",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:07Z",
+    "volume_in_usd": "2.5777835838",
+    "price_from_in_usd": "0.000224277195670976",
+    "price_to_in_usd": "0.000224277195670976",
+    "from_token_amount": "11626.03039",
+    "to_token_amount": "0.023660244"
+   }
+  },
+  {
+   "id": "103",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024512,
+    "tx_hash": "P4m4xKdd8T6bBSofJBt7Vx7qV9AtTEaccqV4BohsTfPSLcex9fKGyczySGww8ngRwBukqgff2NZ94tTB2sPQ6uN",
+    "tx_from_address": "A2eeQjHbgAHmft7ehbJKsDjwzEiAL6x5nYXBTZ23NdS9",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:07Z",
+    "volume_in_usd": "3.30208547175",
+    "price_from_in_usd": "0.000224332260876052",
+    "price_to_in_usd": "0.000224332260876052",
+    "to_token_amount": "14721.913709",
+    "from_token_amount": "0.030308265"
+   }
+  },
+  {
+   "id": "104",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024512,
+    "tx_hash": "2LuAQGFVsAqj8TWv318h4Lak3EY65pLY7QcE28YLqsrtojtjuHWf8DBng2JEdpo17qWsu4PSzQw7i8azWUaVK1oq",
+    "tx_from_address": "71N57GDp77tddn5hcuWPRa4rBTYAbVs2Skt15F5V4Vip",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:07Z",
+    "volume_in_usd": "3.40391646085",
+    "price_from_in_usd": "0.000224262396264182",
+    "price_to_in_usd": "0.000224262396264182",
+    "from_token_amount": "15352.371276",
+    "to_token_amount": "0.031242923"
+   }
+  },
+  {
+   "id": "105",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024503,
+    "tx_hash": "2KyJP9wYUthQ7Pi4xWS6Mw8aKg5oqCL2HMpq3kXvCDDwQPsRQc4sFgcpXqTBXyLCwshLeJ64Lebnf65RUwqK3HBN",
+    "tx_from_address": "Hp6yxv67Q9poQQbzJTTDPmHo1uCsqrJsUD4wit3x47fR",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:05Z",
+    "volume_in_usd": "1.56240390305",
+    "price_from_in_usd": "0.000224335107921645",
+    "price_to_in_usd": "0.000224335107921645",
+    "to_token_amount": "6965.111505",
+    "from_token_amount": "0.014340559"
+   }
+  },
+  {
+   "id": "106",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024501,
+    "tx_hash": "3aavDb6AnW5DEXDgKjxxbTcLGTqDa5ZaWvWHcv4c1nqiFKNfvNeaANDEumCLymLSA8rk8PogZccHWAieiyRiEiPk",
+    "tx_from_address": "Hp6yxv67Q9poQQbzJTTDPmHo1uCsqrJsUD4wit3x47fR",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:05Z",
+    "volume_in_usd": "1.56240390305",
+    "price_from_in_usd": "0.000224302049437729",
+    "price_to_in_usd": "0.000224302049437729",
+    "to_token_amount": "6966.138088",
+    "from_token_amount": "0.014340559"
+   }
+  },
+  {
+   "id": "107",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024500,
+    "tx_hash": "3HqQWTYRu2AkJGNShR4AoWnLxVhitjWy5zQJqtrr1GDp88Z4Pv3PakhSv5TguJM9WyRfvPNXU7Csa1RcHusQwTAq",
+    "tx_from_address": "D7cEmwUFvfbh7TUnb5FzUQNdusKUyq1Rkq4au5ULXoAj",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:04Z",
+    "volume_in_usd": "2.9133988292",
+    "price_from_in_usd": "0.00022426899338734",
+    "price_to_in_usd": "0.00022426899338734",
+    "to_token_amount": "12992.43147",
+    "from_token_amount": "0.026740696"
+   }
+  },
+  {
+   "id": "108",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024499,
+    "tx_hash": "5zHejJgUgpLqPUxwrEQCLyLWgHkb7uGsBUtpAejjDDLc2WaAmoCcyjTp2RgijNzUfvpquVFkq9jEGxT21TpRwvpU",
+    "tx_from_address": "FQVBHNNX8KvCkQnvxSnrExFBJU7Jw6f2xag7nDxyGmwE",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:04Z",
+    "volume_in_usd": "1.397085461",
+    "price_from_in_usd": "0.000224207360600861",
+    "price_to_in_usd": "0.000224207360600861",
+    "to_token_amount": "6231.630945",
+    "from_token_amount": "0.01282318"
+   }
+  },
+  {
+   "id": "109",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024499,
+    "tx_hash": "eAbE7D3A1ua8aKS4wZK3L87aJHyC8ybvaFVbggRwSGq3Jjm72CucW6oPsk9KzR4Fq9sDERG1p32sZn9Kz2ZMWTJ",
+    "tx_from_address": "7FDRUPDQbcAPQ9D9uyXKCSRXf9KEZeJgTqQjaH2y8Aes",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:04Z",
+    "volume_in_usd": "101.81139575947",
+    "price_from_in_usd": "0.000224218960760455",
+    "price_to_in_usd": "0.000224218960760455",
+    "to_token_amount": "456264.602257",
+    "from_token_amount": "0.934306651"
+   }
+  },
+  {
+   "id": "110",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024497,
+    "tx_hash": "GUdaDAgfdS71dMrmarRFnM2CAMwCnvprY7buuQVBwqqcEKPdwMLbefxCtX25QHW3jBCC75torcvhKpoPshot4Q7",
+    "tx_from_address": "F6VYfrP7Zjub5gbmKiBqSjCDqWMjGu7SVKSQhbThsQxj",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:04Z",
+    "volume_in_usd": "1.36750455545",
+    "price_from_in_usd": "0.000222029838774649",
+    "price_to_in_usd": "0.000222029838774649",
+    "from_token_amount": "6230.350069",
+    "to_token_amount": "0.012551671"
+   }
+  },
+  {
+   "id": "111",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024496,
+    "tx_hash": "5D1s23482hCgKTYrq9LR4hgjCCP2L2me3F3YdHUUhwVyVc1dTVwCAwfdEFbm5ayZBv81GP7Ai4ptjTCGMvxwprkB",
+    "tx_from_address": "D7cEmwUFvfbh7TUnb5FzUQNdusKUyq1Rkq4au5ULXoAj",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:03Z",
+    "volume_in_usd": "7.96067133105",
+    "price_from_in_usd": "0.000222058903263365",
+    "price_to_in_usd": "0.000222058903263365",
+    "to_token_amount": "35862.91387",
+    "from_token_amount": "0.073067199"
+   }
+  },
+  {
+   "id": "112",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024496,
+    "tx_hash": "3zw7T6RQVJjK3ScSzxvrnwcP7aJ3aZ5JvaRY5cPKpPMRvcNpjgcoLfTAGnGsJoHxGSzbPB93prSRZHJiWdv1i85Y",
+    "tx_from_address": "FQVBHNNX8KvCkQnvxSnrExFBJU7Jw6f2xag7nDxyGmwE",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:03Z",
+    "volume_in_usd": "1.397085461",
+    "price_from_in_usd": "0.000221891346781662",
+    "price_to_in_usd": "0.000221891346781662",
+    "to_token_amount": "6296.6764",
+    "from_token_amount": "0.01282318"
+   }
+  },
+  {
+   "id": "113",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024495,
+    "tx_hash": "21dfGAvn2q5Nt42Zjztou7UE6mmLHLSxUB3u39zUbo4jibA1Gq7YcWNsJPHkSk6ddcoEmuMZSzSmvRfSgh5m2HXG",
+    "tx_from_address": "D7cEmwUFvfbh7TUnb5FzUQNdusKUyq1Rkq4au5ULXoAj",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:03Z",
+    "volume_in_usd": "4.7337700753",
+    "price_from_in_usd": "0.000221861947400702",
+    "price_to_in_usd": "0.000221861947400702",
+    "to_token_amount": "21341.352143",
+    "from_token_amount": "0.043449014"
+   }
+  },
+  {
+   "id": "114",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024493,
+    "tx_hash": "4gHTNm1vrK7sTFYXZqSBxwJgS47bZVDiHRHGJBZFTbMXsUGhW8QnHXzKprp3Bf1RBRKA6UAQKpBDJTCF8H6cyytD",
+    "tx_from_address": "3mv9i79ARgvYukd3eBYCjzSm4KbqRRTMfEDt9ZdXNoNB",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:03Z",
+    "volume_in_usd": "59.80174273845",
+    "price_from_in_usd": "0.000221803056413282",
+    "price_to_in_usd": "0.000221803056413282",
+    "from_token_amount": "271975.085798",
+    "to_token_amount": "0.548790885"
+   }
+  },
+  {
+   "id": "115",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024493,
+    "tx_hash": "5uj6wznd2FLQr9V6rd9xx6B9U4guxCE8rGJVNDDpoeX12oA5vhTDafFmxSeDy2CWbLnm84jyzeoNofXERVZ9ZFCE",
+    "tx_from_address": "5arswHWmzMBV6GNGxYFqubnqYiGg3M19djwJYjLL8SGf",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:03Z",
+    "volume_in_usd": "478.8990193066",
+    "price_from_in_usd": "0.000223034135794746",
+    "price_to_in_usd": "0.000223034135794746",
+    "from_token_amount": "2123663.560787",
+    "to_token_amount": "4.395585308"
+   }
+  },
+  {
+   "id": "116",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024490,
+    "tx_hash": "8QWxxD69AL9wLNYiFUjiPwbEjJwSA3af7JqHrST2Rd6WTAGHrmFpqMFQyL1xcHvj6qguCZZnXGT69A6wSXtHz6n",
+    "tx_from_address": "5dnSu51AkbmE3hHHwpECaj4Mnf5YtPY5fQZpWPNhGPZA",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:02Z",
+    "volume_in_usd": "3.04891358345",
+    "price_from_in_usd": "0.000233394910064741",
+    "price_to_in_usd": "0.000233394910064741",
+    "to_token_amount": "13065.168143",
+    "from_token_amount": "0.027979385"
+   }
+  },
+  {
+   "id": "117",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024490,
+    "tx_hash": "3ng7YB4ap98o7UW4HnikqNKT9jYo6N1hTzGXZmHemzvZbSuRRhCT7hvonjFYc2KpdFfEg8PFVWtQg8H8Ga9ZQvht",
+    "tx_from_address": "FoJEkeWUxLLqUyECq1ze2VHwXB7stxhv25SqVgvr8Tna",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:02Z",
+    "volume_in_usd": "2.18461977197",
+    "price_from_in_usd": "0.000233329115336398",
+    "price_to_in_usd": "0.000233329115336398",
+    "to_token_amount": "9363.771791",
+    "from_token_amount": "0.020047901"
+   }
+  },
+  {
+   "id": "118",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024489,
+    "tx_hash": "4vqpqoc3QMyRHHawcVwsfv7ThQra1kmfLRykdETwqZjLrAxxa8Ga1aWXhKHX5dxVnPPkpVGKLMY5FByToTzCycVm",
+    "tx_from_address": "5dnSu51AkbmE3hHHwpECaj4Mnf5YtPY5fQZpWPNhGPZA",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:02Z",
+    "volume_in_usd": "5.82553874115",
+    "price_from_in_usd": "0.000233239161716835",
+    "price_to_in_usd": "0.000233239161716835",
+    "to_token_amount": "24983.413014",
+    "from_token_amount": "0.053469837"
+   }
+  },
+  {
+   "id": "119",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024488,
+    "tx_hash": "5FyKQjsvJpWKvgDnhJiYH57QpY3KeHj4XWY33tE28MLmVczcX7RBS2fUV46g4JtHVi6P3kdP8kRe47Tq9NuL69Pv",
+    "tx_from_address": "5dnSu51AkbmE3hHHwpECaj4Mnf5YtPY5fQZpWPNhGPZA",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:02Z",
+    "volume_in_usd": "5.7220818912",
+    "price_from_in_usd": "0.000233113486616132",
+    "price_to_in_usd": "0.000233113486616132",
+    "to_token_amount": "24552.841689",
+    "from_token_amount": "0.052520256"
+   }
+  },
+  {
+   "id": "120",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024487,
+    "tx_hash": "eM8Mh7azPQhgzVNhwQcAwxuvchjknAX19bnG6FULvHy49LCJMB7JWpNEwJpqheEXPJkrK4NqQ8ZAc9HLc9WH6u4",
+    "tx_from_address": "FoJEkeWUxLLqUyECq1ze2VHwXB7stxhv25SqVgvr8Tna",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:01Z",
+    "volume_in_usd": "2.925882756",
+    "price_from_in_usd": "0.000232990076341343",
+    "price_to_in_usd": "0.000232990076341343",
+    "from_token_amount": "12702.334649",
+    "to_token_amount": "0.02685528"
+   }
+  },
+  {
+   "id": "121",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024484,
+    "tx_hash": "5e6GbjeX4XW2aWLqmxVSgDcLTsKyCwY2zt4aAQLCuZsdpKi9wQ8hXkyRGjsLT7CpkTyXMnRMs8GkpGntb7PCBhDr",
+    "tx_from_address": "47UfWx2Dbikog37v9PkpB3Puj9kYu9dis7RM4G69x1ey",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:29:01Z",
+    "volume_in_usd": "2.22522388965",
+    "price_from_in_usd": "0.000233053782464719",
+    "price_to_in_usd": "0.000233053782464719",
+    "from_token_amount": "9658.191315",
+    "to_token_amount": "0.020424267"
+   }
+  },
+  {
+   "id": "122",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024483,
+    "tx_hash": "2ms36KUhEjv19hUCXgj7rHco8UALzUCJiv5F3urnECJURiJrrPe5WXRiMrv2qzVK6YmaCVxv9uYcRzsn7Vv1ek1H",
+    "tx_from_address": "CRcApcHE1b2NJXuuDF4BWFitiZgJ3sVm7apgv9aegbpX",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:01Z",
+    "volume_in_usd": "2.8176132577",
+    "price_from_in_usd": "0.000233102238765917",
+    "price_to_in_usd": "0.000233102238765917",
+    "to_token_amount": "12089.033922",
+    "from_token_amount": "0.025861526"
+   }
+  },
+  {
+   "id": "123",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024480,
+    "tx_hash": "pqN7EM4kjsXBNwGW9Jm243M8JLt59nY3xZQGtkuiqZkTxfegG2Fbxn3np51yi6GmDVoKddmm6bMSUPZVeFe1WWS",
+    "tx_from_address": "CRcApcHE1b2NJXuuDF4BWFitiZgJ3sVm7apgv9aegbpX",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:00Z",
+    "volume_in_usd": "8.456071448",
+    "price_from_in_usd": "0.000233041467609668",
+    "price_to_in_usd": "0.000233041467609668",
+    "to_token_amount": "36299.911613",
+    "from_token_amount": "0.07761424"
+   }
+  },
+  {
+   "id": "124",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024478,
+    "tx_hash": "3L3zQGjLCXxBFDM3v63b9vC9kJzDTLxWxJZyb4QyYK5CrGzgmYKPBCUSCT8xSsz8uJGvmKtuyvg8s2he75d2623V",
+    "tx_from_address": "6c3mjpvk8LopDeKmJzzELtqixPnjfzZLcAG1jmPvkjEm",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:00Z",
+    "volume_in_usd": "4.29965150065",
+    "price_from_in_usd": "0.000232859131936519",
+    "price_to_in_usd": "0.000232859131936519",
+    "to_token_amount": "18468.282346",
+    "from_token_amount": "0.039464447"
+   }
+  },
+  {
+   "id": "125",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024478,
+    "tx_hash": "EMpXiDkS54ENviEjFLNXH9FK7DoDr1RJRmfoCyH9R2zmQ9iwzWtLP1zVKLjTnjYsesLQaB51rEqK3JmnPtSgEMX",
+    "tx_from_address": "4Kd2meVkCi8AtWMSrbPo8UQ4Uq9gJ8bhSSJCpvPFPEjS",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:29:00Z",
+    "volume_in_usd": "1.1693867159",
+    "price_from_in_usd": "0.000232766447219876",
+    "price_to_in_usd": "0.000232766447219876",
+    "to_token_amount": "5024.134712",
+    "from_token_amount": "0.010733242"
+   }
+  },
+  {
+   "id": "126",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024477,
+    "tx_hash": "2j9Qq433qw2D2G4zPMhQiutr6uAPb8fU1ssQqWn8HFFPQdNR4AWSXcMMvnW3ZSiiKy9KArenrmqXfyHHf7ABB5AY",
+    "tx_from_address": "4Kd2meVkCi8AtWMSrbPo8UQ4Uq9gJ8bhSSJCpvPFPEjS",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:59Z",
+    "volume_in_usd": "1.1704637956",
+    "price_from_in_usd": "0.000232741242721311",
+    "price_to_in_usd": "0.000232741242721311",
+    "to_token_amount": "5029.307111",
+    "from_token_amount": "0.010743128"
+   }
+  },
+  {
+   "id": "127",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024475,
+    "tx_hash": "4TG2E31Ay8XEeLQ6yGWhTkixFN2FHadRFsxCqRsEtFgTnyqsquJX2CrcLA1sGJ89958jVkkKbW8fYwpFLLE5zJ1R",
+    "tx_from_address": "6c3mjpvk8LopDeKmJzzELtqixPnjfzZLcAG1jmPvkjEm",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:59Z",
+    "volume_in_usd": "4.863586833",
+    "price_from_in_usd": "0.000232716016372725",
+    "price_to_in_usd": "0.000232716016372725",
+    "from_token_amount": "21137.57189",
+    "to_token_amount": "0.04464054"
+   }
+  },
+  {
+   "id": "128",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024474,
+    "tx_hash": "3KguXhQfuGEYYFdNWbWEwwYQhFrGD9i9u4dLuWzbBhHdvWcqJ3e9NdEvq9WxfmgQicoK4wGzJHeFnpJ9LCN31rtF",
+    "tx_from_address": "4Kd2meVkCi8AtWMSrbPo8UQ4Uq9gJ8bhSSJCpvPFPEjS",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:59Z",
+    "volume_in_usd": "2.48199824815",
+    "price_from_in_usd": "0.000232864594536106",
+    "price_to_in_usd": "0.000232864594536106",
+    "from_token_amount": "10781.297376",
+    "to_token_amount": "0.022776895"
+   }
+  },
+  {
+   "id": "129",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024473,
+    "tx_hash": "3ksLcSJJKSHNyQLRzqnzswdKm7Q3JgLagU9MbJUh1LhsKPDRNLRzWc8Ki8cJxUasWynuZBfHie8VjNYrM9RNoQnV",
+    "tx_from_address": "5arswHWmzMBV6GNGxYFqubnqYiGg3M19djwJYjLL8SGf",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:59Z",
+    "volume_in_usd": "172.52855726114",
+    "price_from_in_usd": "0.000232918615823357",
+    "price_to_in_usd": "0.000232918615823357",
+    "to_token_amount": "746692.739376",
+    "from_token_amount": "1.583266562"
+   }
+  },
+  {
+   "id": "130",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024473,
+    "tx_hash": "HHvtDQwsiVrtQMCusAxV1Fp7snnSZdqKsYzdUsis2nEDW1aU6Pf6MKMTbPuD66ACPHEMfYAentHNQhAZNEen1BF",
+    "tx_from_address": "HnJeGTcbu9DVbcauj4pqe8WaK8G2jym2kkYALo21PZuN",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:59Z",
+    "volume_in_usd": "2.96271384568",
+    "price_from_in_usd": "0.000229213847935812",
+    "price_to_in_usd": "0.000229213847935812",
+    "to_token_amount": "12927.332876",
+    "from_token_amount": "0.027188344"
+   }
+  },
+  {
+   "id": "131",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024471,
+    "tx_hash": "2XXM1Wargdoz6ueqeHK2KfUeGHRK96C63Wq67NZYYoNVwKqpLtQBqTiXDqzHzgNgdFJmxgpaZC7Nz1V4QgVRjTV",
+    "tx_from_address": "FNhnbgo5Sg6CaqQE5vuYGpnW9XMTnSDrJaeUvAXy45QE",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:58Z",
+    "volume_in_usd": "9.171060181",
+    "price_from_in_usd": "0.000229108430360436",
+    "price_to_in_usd": "0.000229108430360436",
+    "from_token_amount": "40477.564984",
+    "to_token_amount": "0.08417678"
+   }
+  },
+  {
+   "id": "132",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024470,
+    "tx_hash": "2h8rHPaEiXSA7rzMA89kSLefYRQS5EaE3HPztkeQ1jbP5nJq522n7weBfb6CFkn2gwFcmH8NH8kr7ZuBsxmMXosA",
+    "tx_from_address": "AXgFakYzyyh3rQ79oL5tUwCezhgDWFFXv1XDeKZR6v1u",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:58Z",
+    "volume_in_usd": "1.4263143491",
+    "price_from_in_usd": "0.000229306475422108",
+    "price_to_in_usd": "0.000229306475422108",
+    "to_token_amount": "6220.536245",
+    "from_token_amount": "0.013091458"
+   }
+  },
+  {
+   "id": "133",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024470,
+    "tx_hash": "3TowG1F4yJ3fELw9BiPyD8o2zXaghnKoCLLRB6GyutbXCCXmNMHZwysk8YX1gcb9Dj123vLetexW9g6ewN7FFrYD",
+    "tx_from_address": "35WqMRCxr3P5wefHWq4GZjK4ChQXnty9gwjMfBsxUwuF",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:58Z",
+    "volume_in_usd": "3.7936272334",
+    "price_from_in_usd": "0.000229275962461744",
+    "price_to_in_usd": "0.000229275962461744",
+    "from_token_amount": "16735.625952",
+    "to_token_amount": "0.034819892"
+   }
+  },
+  {
+   "id": "134",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024467,
+    "tx_hash": "4EjHiBAdDyzsok2aBYFwFVEDBxJFw3AiXeFMfaMuT2WqRz6z2vnRtStQzN591iBT2BVfBZksjurWdmCaV4tqXdjb",
+    "tx_from_address": "HnJeGTcbu9DVbcauj4pqe8WaK8G2jym2kkYALo21PZuN",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:57Z",
+    "volume_in_usd": "5.1983747121",
+    "price_from_in_usd": "0.000229357903779097",
+    "price_to_in_usd": "0.000229357903779097",
+    "from_token_amount": "22922.977205",
+    "to_token_amount": "0.047713398"
+   }
+  },
+  {
+   "id": "135",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024467,
+    "tx_hash": "66GHMbKjw7LPvJWAnEosPdTwfA1SC2EceMGBDimvJKMhhPbUFKUfEpaKVhhHArBSzfUhv7KZeKN4mqQBF5TsAk1s",
+    "tx_from_address": "35WqMRCxr3P5wefHWq4GZjK4ChQXnty9gwjMfBsxUwuF",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:57Z",
+    "volume_in_usd": "3.8396394332",
+    "price_from_in_usd": "0.000229470211063645",
+    "price_to_in_usd": "0.000229470211063645",
+    "to_token_amount": "16735.625952",
+    "from_token_amount": "0.035242216"
+   }
+  },
+  {
+   "id": "136",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024467,
+    "tx_hash": "4GdW1RXkmm28pBx6fAjRH7DPUW2GGJQsQ5DBVr2Hv2gYMimhjdLKyWrxdiyCWPdcx7scxx8XKzZ3YW45jyJ2krHT",
+    "tx_from_address": "35WqMRCxr3P5wefHWq4GZjK4ChQXnty9gwjMfBsxUwuF",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:57Z",
+    "volume_in_usd": "1.34001385565",
+    "price_from_in_usd": "0.000229388045398462",
+    "price_to_in_usd": "0.000229388045398462",
+    "from_token_amount": "5909.279092",
+    "to_token_amount": "0.012299347"
+   }
+  },
+  {
+   "id": "137",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024465,
+    "tx_hash": "4hSxEjiLPJCVNDLeKo3bdvm6eQD78wfeX9f9guCRnyfeSB4uM9zYYGkzbs9b8ycwi6U2FqaeuQn3iFZnQkUP41EY",
+    "tx_from_address": "7tSEkwgcJuULbVzRRN3U6qfweQn4PckeT6q4WzX6UQLk",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:57Z",
+    "volume_in_usd": "1.2405164666",
+    "price_from_in_usd": "0.000229416994750088",
+    "price_to_in_usd": "0.000229416994750088",
+    "to_token_amount": "5407.568885",
+    "from_token_amount": "0.011386108"
+   }
+  },
+  {
+   "id": "138",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024464,
+    "tx_hash": "49jCpS8CSshg7NFTVgbkCbXvGACS6z13hA2LwaF9QPtMz4BJVvixVVXBVrpxWZcnvW1xxcDuF5vdmZFP28xSphbh",
+    "tx_from_address": "35WqMRCxr3P5wefHWq4GZjK4ChQXnty9gwjMfBsxUwuF",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:57Z",
+    "volume_in_usd": "10.02828433745",
+    "price_from_in_usd": "0.000229390450010374",
+    "price_to_in_usd": "0.000229390450010374",
+    "from_token_amount": "44204.838716",
+    "to_token_amount": "0.092044831"
+   }
+  },
+  {
+   "id": "139",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024461,
+    "tx_hash": "3CQmvGELbe5VNDXvc4p7jTWBrSM81FeFjL8EW6wSv6mXhr9uVKEHeKhEEMK2XSkxKKmgPGjHCBD13UxqPY2iy5fj",
+    "tx_from_address": "2UUbnF4xpS3xecVXpH1fx9sTNLE8bjonfW4hMoXuiAUC",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:56Z",
+    "volume_in_usd": "1.0802394679",
+    "price_from_in_usd": "0.000229607144312114",
+    "price_to_in_usd": "0.000229607144312114",
+    "to_token_amount": "4704.966034",
+    "from_token_amount": "0.009915002"
+   }
+  },
+  {
+   "id": "140",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024461,
+    "tx_hash": "3PwcmRdZKX8bS7Eo9gVFDSVL284Erq2DuDPD6oJYQ86oBXb8kk1iYFqNKxyX6FQNYKHMbbEQjh72jHn8ffeHgFBR",
+    "tx_from_address": "7tSEkwgcJuULbVzRRN3U6qfweQn4PckeT6q4WzX6UQLk",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:56Z",
+    "volume_in_usd": "2.5878300812",
+    "price_from_in_usd": "0.000229584019525032",
+    "price_to_in_usd": "0.000229584019525032",
+    "from_token_amount": "11401.569031",
+    "to_token_amount": "0.023752456"
+   }
+  },
+  {
+   "id": "141",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024460,
+    "tx_hash": "2txMLLAmh7bnJ7tMJyubR55xmFyuvdNnX1QoSXnjPzLoaHosshTd6pJUUcRGe3P5bctPSihqZUVBu3ShXS7haFwf",
+    "tx_from_address": "2UUbnF4xpS3xecVXpH1fx9sTNLE8bjonfW4hMoXuiAUC",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:56Z",
+    "volume_in_usd": "1.08131665655",
+    "price_from_in_usd": "0.00022963995196873",
+    "price_to_in_usd": "0.00022963995196873",
+    "to_token_amount": "4708.985085",
+    "from_token_amount": "0.009924889"
+   }
+  },
+  {
+   "id": "142",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024460,
+    "tx_hash": "2ajU3YCn2XABG5btknXqJfmxF8hNmVU2T1odxfzgnr2WoiLaYiNQgNLCAjDXCsS4pPmKnzLFYq8WndnJ3Es6cv2G",
+    "tx_from_address": "ECEEVeKeAtVMCC8yFi7PfW3i1Mbff47phReutLpND1n4",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:56Z",
+    "volume_in_usd": "2.77159332245",
+    "price_from_in_usd": "0.000229616802465928",
+    "price_to_in_usd": "0.000229616802465928",
+    "from_token_amount": "12209.35205",
+    "to_token_amount": "0.025439131"
+   }
+  },
+  {
+   "id": "143",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024459,
+    "tx_hash": "5XBWQmiC6FX82M8XcueDxU43DP3vXQjqyjZPoRiU5UVt3XkDm7KLg4cWnhCqxv4tH2kWbiWRyf9AcAXZMX2jSdUx",
+    "tx_from_address": "4RjH4ZMTMR8dBEUKXsFysyGQ2gmSKfPr7A9sEDtj3xaH",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:56Z",
+    "volume_in_usd": "2.03191259725",
+    "price_from_in_usd": "0.000229676711248906",
+    "price_to_in_usd": "0.000229676711248906",
+    "to_token_amount": "8847.67606",
+    "from_token_amount": "0.018649955"
+   }
+  },
+  {
+   "id": "144",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024458,
+    "tx_hash": "4K1GfRiKAfnWv4pUM3tmyVh8pHryqQarozggtV3dbm8WYeRrc89WxChtN1cKCiMnfQdfgSQb1c7dSNagQnU7nQbM",
+    "tx_from_address": "2UUbnF4xpS3xecVXpH1fx9sTNLE8bjonfW4hMoXuiAUC",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:55Z",
+    "volume_in_usd": "3.57395305539",
+    "price_from_in_usd": "0.000229675362136145",
+    "price_to_in_usd": "0.000229675362136145",
+    "to_token_amount": "15563.484572",
+    "from_token_amount": "0.032797587"
+   }
+  },
+  {
+   "id": "145",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024456,
+    "tx_hash": "NSvtwpkuaYcc94UBHpSdfu1pa3zckkYqAEWPs6PvqvwLsW1jZmxpTeAiaqkiuaD5hKffvqha6VYJFehu8CqkxgR",
+    "tx_from_address": "4RjH4ZMTMR8dBEUKXsFysyGQ2gmSKfPr7A9sEDtj3xaH",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:55Z",
+    "volume_in_usd": "2.34567181895",
+    "price_from_in_usd": "0.000229556714422047",
+    "price_to_in_usd": "0.000229556714422047",
+    "from_token_amount": "10336.005483",
+    "to_token_amount": "0.021529801"
+   }
+  },
+  {
+   "id": "146",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024454,
+    "tx_hash": "4nKwLMZsx2GHUF2AK1ppRDiU4rij93qUiiiAwHikuLNVAvNw5Dsp4LWUg66LTw1NpNR9tC8tsvsEJmAmXS5wYFmV",
+    "tx_from_address": "25ttUbgcUQgFEVr45ngt8MtEDFpgaTMnMVZpmf8K41sL",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:54Z",
+    "volume_in_usd": "3.39727225405",
+    "price_from_in_usd": "0.000229607409668259",
+    "price_to_in_usd": "0.000229607409668259",
+    "to_token_amount": "14798.349984",
+    "from_token_amount": "0.031181939"
+   }
+  },
+  {
+   "id": "147",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024453,
+    "tx_hash": "24xD7q9ofjCrzW317f6hwB41oBFE11hMkgzWmEkasHM9vsrtMmEgMMv1UkkkydFu5pWNXksiDdxkXGVkqCzXgBhq",
+    "tx_from_address": "6ntokJQSqoPeRnwydEJ6FpEMwn8U24RzZfqXqwz2X6nP",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:54Z",
+    "volume_in_usd": "2.54606921935",
+    "price_from_in_usd": "0.000229534687770413",
+    "price_to_in_usd": "0.000229534687770413",
+    "to_token_amount": "11093.62476",
+    "from_token_amount": "0.023369153"
+   }
+  },
+  {
+   "id": "148",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024452,
+    "tx_hash": "5D636fJHeUyJAcomrPeQgpzhcFHs9DczC98z4bVaMCBH9qgXQBi4PgY3pjEXv7sF2vWLFEVuX94SFaHxX6Pn5jay",
+    "tx_from_address": "H3qwBo9SMFP9C9uodW85BpPJpRuDVbSqdA34S7JcVb5k",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:54Z",
+    "volume_in_usd": "1.90739082952",
+    "price_from_in_usd": "0.000229522320022008",
+    "price_to_in_usd": "0.000229522320022008",
+    "from_token_amount": "8406.189518",
+    "to_token_amount": "0.017503816"
+   }
+  },
+  {
+   "id": "149",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024448,
+    "tx_hash": "4qdjnTCdjy3M7tNZuUjtXmyVz56ecpB9swDtdU2uTaDhvQBFAcffUned3FRc9x35a1irxceaXjT9mpa7bzGPZVzf",
+    "tx_from_address": "H3qwBo9SMFP9C9uodW85BpPJpRuDVbSqdA34S7JcVb5k",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:53Z",
+    "volume_in_usd": "1.92922678645",
+    "price_from_in_usd": "0.000229521402401729",
+    "price_to_in_usd": "0.000229521402401729",
+    "to_token_amount": "8406.189518",
+    "from_token_amount": "0.017707451"
+   }
+  },
+  {
+   "id": "150",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024448,
+    "tx_hash": "4FQKSuSEsiyexdwSahQkcRzfJc2DKtZDxfudMb8VTBCQQ5WgpmbEmNZ7Ps4167DdiSMDDYr3XeKoNBvWYhZmfpUb",
+    "tx_from_address": "6ntokJQSqoPeRnwydEJ6FpEMwn8U24RzZfqXqwz2X6nP",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:53Z",
+    "volume_in_usd": "1.1377293323",
+    "price_from_in_usd": "0.000229480111747597",
+    "price_to_in_usd": "0.000229480111747597",
+    "to_token_amount": "4958.11876",
+    "from_token_amount": "0.010442674"
+   }
+  },
+  {
+   "id": "151",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024447,
+    "tx_hash": "5sJRQGjjRdggL9UuihNnDPZAUtZrm6fp8cHi2fYAxqcDPvupTuaR9vYn5YEjWLRBtWzH7zxaxVTyai6CTcUtR1Bu",
+    "tx_from_address": "2jSWzrQ28KUTQA34AMWioLyKFy8KTBShozp1c2Cx1vsU",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:53Z",
+    "volume_in_usd": "81.94947690262",
+    "price_from_in_usd": "0.000229497884308958",
+    "price_to_in_usd": "0.000229497884308958",
+    "to_token_amount": "358452.594808",
+    "from_token_amount": "0.752037046"
+   }
+  },
+  {
+   "id": "152",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024445,
+    "tx_hash": "3d74p5PMTTWQmPHKV6eJoR4fpeGcTJdGiHNygLu8wvCWVeKTpYy32NLiytiB1iyvo388Fhz3C71YtwP39VQ6dkS1",
+    "tx_from_address": "H3qwBo9SMFP9C9uodW85BpPJpRuDVbSqdA34S7JcVb5k",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:53Z",
+    "volume_in_usd": "2.53899618535",
+    "price_from_in_usd": "0.000227705660154489",
+    "price_to_in_usd": "0.000227705660154489",
+    "from_token_amount": "11278.712385",
+    "to_token_amount": "0.023304233"
+   }
+  },
+  {
+   "id": "153",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024445,
+    "tx_hash": "5ykmJzuvW1M7i5dpFFcSTeknEoCUUWbRqerA2j7rKqJCHDemy8VjWGWwforodSsyN9mGfwqkLLnGjjMGSA6m7gTH",
+    "tx_from_address": "D1ZFCfHP3pepmKqiT5NsJaJb1FbEWnpajPt1d6HJHWWZ",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:53Z",
+    "volume_in_usd": "2.43953398715",
+    "price_from_in_usd": "0.000227760312391831",
+    "price_to_in_usd": "0.000227760312391831",
+    "to_token_amount": "10712.194435",
+    "from_token_amount": "0.022391317"
+   }
+  },
+  {
+   "id": "154",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024444,
+    "tx_hash": "5x96Q7BBmXErYm4AwJ45PPo7AK1M9Z6KPDfoZYq2kvkLwRkayzbmq64P2fUF3HrewTMcQk7pdCGLM1bJN3UouAgN",
+    "tx_from_address": "AG2yy4ZSJSBDv397bb9MkCyvpUWcbjushXWteyYU3sPX",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:52Z",
+    "volume_in_usd": "1.63628028325",
+    "price_from_in_usd": "0.000227708300900298",
+    "price_to_in_usd": "0.000227708300900298",
+    "to_token_amount": "7186.411905",
+    "from_token_amount": "0.015018635"
+   }
+  },
+  {
+   "id": "155",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024443,
+    "tx_hash": "VntUhLTNTrfHCtybPrXnomiMyacGYV3MseBpgwnCPHLbhb1iysAYGLUjh96TwMHYkRBNgGETACUc2Egsjsi6CLK",
+    "tx_from_address": "5pgYFoNMnGjUiAn1yvVtWxU78CLgtowSUYNFT6LqgWzn",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:52Z",
+    "volume_in_usd": "1.7556732497",
+    "price_from_in_usd": "0.000227673418309195",
+    "price_to_in_usd": "0.000227673418309195",
+    "to_token_amount": "7712.000874",
+    "from_token_amount": "0.016114486"
+   }
+  },
+  {
+   "id": "156",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024442,
+    "tx_hash": "5ftBG4wq21SNahhCGoeDBLLronKpNfSJwi54gP6P1LGuH1YYEw1m5s9dMtQkvAcBDnA2tc9KDbHSgxSyg41pKhsU",
+    "tx_from_address": "6PtfisqhMZpN6dCivGUEGRY8KpmaL6KwhD6AQ5XgGYx3",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:52Z",
+    "volume_in_usd": "2.64666063575",
+    "price_from_in_usd": "0.000227677780681946",
+    "price_to_in_usd": "0.000227677780681946",
+    "to_token_amount": "11626.03039",
+    "from_token_amount": "0.024287975"
+   }
+  },
+  {
+   "id": "157",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024442,
+    "tx_hash": "2mMG3dFTDzLV7yUa93CGEfZB1cMJuYxtPchQCsVyNrkpzPmm5Wv5sn4ZcFv2RWxE5Wf1T9uMnirPKERcc2RgUPoZ",
+    "tx_from_address": "5pgYFoNMnGjUiAn1yvVtWxU78CLgtowSUYNFT6LqgWzn",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:52Z",
+    "volume_in_usd": "1.088347309",
+    "price_from_in_usd": "0.000227579591970264",
+    "price_to_in_usd": "0.000227579591970264",
+    "to_token_amount": "4782.514607",
+    "from_token_amount": "0.00998942"
+   }
+  },
+  {
+   "id": "158",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024440,
+    "tx_hash": "5kSTEzbBqNLdxRf7phSUmtzRGxVnVHrdmhw6CpgtFrdnacfbDBU1FDM8mqyPWucWbAMj1A9yuPNiBKW6wFUEYnWa",
+    "tx_from_address": "AG2yy4ZSJSBDv397bb9MkCyvpUWcbjushXWteyYU3sPX",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:52Z",
+    "volume_in_usd": "4.91207252465",
+    "price_from_in_usd": "0.000227556396593159",
+    "price_to_in_usd": "0.000227556396593159",
+    "to_token_amount": "21591.147342",
+    "from_token_amount": "0.045085567"
+   }
+  },
+  {
+   "id": "159",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024439,
+    "tx_hash": "54yq4KXxGZQMJrG9mREKmZUxv8uPB13g6H244HPUCjdJcf6v535FQPi8RLScnJSK2fyVZGpL8xsbZHNjFS1wWVqN",
+    "tx_from_address": "5pgYFoNMnGjUiAn1yvVtWxU78CLgtowSUYNFT6LqgWzn",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:51Z",
+    "volume_in_usd": "5.270251424",
+    "price_from_in_usd": "0.000227451722839301",
+    "price_to_in_usd": "0.000227451722839301",
+    "to_token_amount": "23176.583753",
+    "from_token_amount": "0.04837312"
+   }
+  },
+  {
+   "id": "160",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024438,
+    "tx_hash": "3GEBZ43678Sd9NvsFJFQgcf8B78bjNUGfXtAyeAwyt9Atwtot2KoxcYGkwo5REgtpCnvzxpDGfoQbjPgAw6QVKW3",
+    "tx_from_address": "6PtfisqhMZpN6dCivGUEGRY8KpmaL6KwhD6AQ5XgGYx3",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:51Z",
+    "volume_in_usd": "4.72321031445",
+    "price_from_in_usd": "0.000227339443226483",
+    "price_to_in_usd": "0.000227339443226483",
+    "from_token_amount": "21013.04132",
+    "to_token_amount": "0.043352091"
+   }
+  },
+  {
+   "id": "161",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024436,
+    "tx_hash": "rdNB1ZyYpNzGKwBhn9JfSx2W3F98Adxy4wmc7af7wenvkFoggYqcpH5wsCocrhxdePZK2qYYbixdsiw8nQQS4YV",
+    "tx_from_address": "F6VYfrP7Zjub5gbmKiBqSjCDqWMjGu7SVKSQhbThsQxj",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:51Z",
+    "volume_in_usd": "1.41694323275",
+    "price_from_in_usd": "0.000227441034545714",
+    "price_to_in_usd": "0.000227441034545714",
+    "to_token_amount": "6230.350069",
+    "from_token_amount": "0.013005445"
+   }
+  },
+  {
+   "id": "162",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024435,
+    "tx_hash": "4qEuCuznPQFGtsMZiLZ3au4vvhsWNbUssZ1UTuonqYbwYoosCjgdE9piAtt5ToTy7RRv3713owcVGPGm6VN4WVK",
+    "tx_from_address": "CfSRNcXezMYT94YwBsPpsukjG1fGEffS4Cucf2agNb2Q",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:50Z",
+    "volume_in_usd": "1.8493852848",
+    "price_from_in_usd": "0.000227410845379012",
+    "price_to_in_usd": "0.000227410845379012",
+    "to_token_amount": "8133.057857",
+    "from_token_amount": "0.016974624"
+   }
+  },
+  {
+   "id": "163",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024434,
+    "tx_hash": "4Nwqk2HrZAYdmqiy8gJRj7k1RJFYKzFANR4y9CHuXchrjjVoqnhiHyX4NssKjVSHWNUgJF2YWLG1HKTc7LyF6uFi",
+    "tx_from_address": "F6VYfrP7Zjub5gbmKiBqSjCDqWMjGu7SVKSQhbThsQxj",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:50Z",
+    "volume_in_usd": "1.7600996703",
+    "price_from_in_usd": "0.000227371445680683",
+    "price_to_in_usd": "0.000227371445680683",
+    "from_token_amount": "7830.483934",
+    "to_token_amount": "0.016155114"
+   }
+  },
+  {
+   "id": "164",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024432,
+    "tx_hash": "433DaCVpNzUcncQYit2vsBBcvgxtbXY5g6tVJYiPeNRtK6AeqU2n1sKVFuKsgondM2LV6CLBMVbMVLkZF7Yk5izb",
+    "tx_from_address": "CfSRNcXezMYT94YwBsPpsukjG1fGEffS4Cucf2agNb2Q",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:50Z",
+    "volume_in_usd": "1.75090439925",
+    "price_from_in_usd": "0.000227409303608649",
+    "price_to_in_usd": "0.000227409303608649",
+    "to_token_amount": "7699.984225",
+    "from_token_amount": "0.016070715"
+   }
+  },
+  {
+   "id": "165",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024432,
+    "tx_hash": "4Wmr7gebgkPG1h7w9CFs8ZiQKmdS3ZzS4ckLD36Mr9CCBK5MeeGFmyy43aMAbUe1tUqq3txX5KEv2syfRqPCnJd3",
+    "tx_from_address": "Eybxei4gpkpooBiVewfDPHtR9B8UXmFoESndzNA99xBP",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:50Z",
+    "volume_in_usd": "2.77300640395",
+    "price_from_in_usd": "0.000227372002002571",
+    "price_to_in_usd": "0.000227372002002571",
+    "to_token_amount": "12197.486538",
+    "from_token_amount": "0.025452101"
+   }
+  },
+  {
+   "id": "166",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024428,
+    "tx_hash": "4HVSxL7NwBA7uUxvznaA31yXFLEhr9ZBPSHJvUb1Fuk7S8DVQHMdYUq276xQ2whQdvmKtJkHoBBvxZDyrjxfE9U2",
+    "tx_from_address": "FoJEkeWUxLLqUyECq1ze2VHwXB7stxhv25SqVgvr8Tna",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:49Z",
+    "volume_in_usd": "2.88701408085",
+    "price_from_in_usd": "0.00022731293158924",
+    "price_to_in_usd": "0.00022731293158924",
+    "to_token_amount": "12702.334649",
+    "from_token_amount": "0.026498523"
+   }
+  },
+  {
+   "id": "167",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024428,
+    "tx_hash": "xFJhTBuzzMfD7s6R9QRrWpDatQCykHknRsU9KpQpiZmYrNa8bJcsjZsFDuAHeESgDQ5kjCFzWPkdc7w8y4zgzJY",
+    "tx_from_address": "ksnAAWKBqpZ58o5auvUtvWrdRj3JEGb7gjH21g75ZGR",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:49Z",
+    "volume_in_usd": "1.18646950086",
+    "price_from_in_usd": "0.000227293157384854",
+    "price_to_in_usd": "0.000227293157384854",
+    "from_token_amount": "5280.430167",
+    "to_token_amount": "0.010888038"
+   }
+  },
+  {
+   "id": "168",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024428,
+    "tx_hash": "3s5eUKpScrZdMPTHFox7nLXrt5gJRNJzDAF9DPSyT9mFtSZuLU6eu33VMuvzFZsYW8D4Vjg5iGtCy4HJZMs8sMb4",
+    "tx_from_address": "GgJxBSxcsS9FGfuUUjKLvGL7VAqFnoUFcNJRTz8ESq6Z",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:49Z",
+    "volume_in_usd": "534.5726933078",
+    "price_from_in_usd": "0.000227276948720188",
+    "price_to_in_usd": "0.000227276948720188",
+    "from_token_amount": "2320807.422452",
+    "to_token_amount": "4.906587364"
+   }
+  },
+  {
+   "id": "169",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024427,
+    "tx_hash": "cJ6YFDeemJEGJRgtvkbsB7woU5YgBRau8c8xc4rX5Q337u9pKJcnF3DZP953rtd9SLEwSg68diAATSGtbDtzdno",
+    "tx_from_address": "h91Qeom9rHUhfc7ezrv73KZHyCgyHrPVRKGhyjk1K1r",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:49Z",
+    "volume_in_usd": "2.58329307635",
+    "price_from_in_usd": "0.000238917841817068",
+    "price_to_in_usd": "0.000238917841817068",
+    "to_token_amount": "10813.752027",
+    "from_token_amount": "0.023710813"
+   }
+  },
+  {
+   "id": "170",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024426,
+    "tx_hash": "uDko8N5hrES3vZDPz6ioShB5pFECbh6368vf1XE5J9pXZAjqEaR3tAKTJi39XFft8Cso8amKSMCfBy8rRXAiUEQ",
+    "tx_from_address": "FoJEkeWUxLLqUyECq1ze2VHwXB7stxhv25SqVgvr8Tna",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:49Z",
+    "volume_in_usd": "5.35960077425",
+    "price_from_in_usd": "0.000238861431010089",
+    "price_to_in_usd": "0.000238861431010089",
+    "from_token_amount": "22693.551353",
+    "to_token_amount": "0.049193215"
+   }
+  },
+  {
+   "id": "171",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024425,
+    "tx_hash": "4nTxv9WtiKdC9YfEfu9KxbHTkndysQuxoj9v3KokMxag69g8MRFjvkQUWLqSsYMLjyvu1QWTMFgVxktcmCRiPsrf",
+    "tx_from_address": "47UfWx2Dbikog37v9PkpB3Puj9kYu9dis7RM4G69x1ey",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:48Z",
+    "volume_in_usd": "2.3082908057",
+    "price_from_in_usd": "0.000239023469721521",
+    "price_to_in_usd": "0.000239023469721521",
+    "to_token_amount": "9658.191315",
+    "from_token_amount": "0.02118281"
+   }
+  },
+  {
+   "id": "172",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024422,
+    "tx_hash": "G12Jyhq2dTCmuH77myjHzArkFnVDpoUiNQZT2pzVCfkHNLr2h33UtMzYLMPFY8DwsvUYonLJz7hdSU7vygzr7PP",
+    "tx_from_address": "GgJxBSxcsS9FGfuUUjKLvGL7VAqFnoUFcNJRTz8ESq6Z",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:48Z",
+    "volume_in_usd": "127.88013146535",
+    "price_from_in_usd": "0.000238929196890393",
+    "price_to_in_usd": "0.000238929196890393",
+    "to_token_amount": "538371.388066",
+    "from_token_amount": "1.173750633"
+   }
+  },
+  {
+   "id": "173",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024421,
+    "tx_hash": "5k45VhLesp9T6Y41KKbx2cTGfEW82gyMHtHeTZtxjNLP3VSqDnXLjeLVmHid2ifA9vMVuCiLc4S8KihRrnKt4yeS",
+    "tx_from_address": "47UfWx2Dbikog37v9PkpB3Puj9kYu9dis7RM4G69x1ey",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:48Z",
+    "volume_in_usd": "3.1151225869",
+    "price_from_in_usd": "0.000236144618617421",
+    "price_to_in_usd": "0.000236144618617421",
+    "from_token_amount": "13343.12984",
+    "to_token_amount": "0.028592222"
+   }
+  },
+  {
+   "id": "174",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024417,
+    "tx_hash": "2HKztrFdLzRVMEQr5YTp4YSgyk1GF74EKKMFW2HJUCAZ99KP8B83S6ziJRd5f8U4wxytJfMWBbhXdq4mLua48yHV",
+    "tx_from_address": "AXgFakYzyyh3rQ79oL5tUwCezhgDWFFXv1XDeKZR6v1u",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:47Z",
+    "volume_in_usd": "4.61152131145",
+    "price_from_in_usd": "0.000236212906406385",
+    "price_to_in_usd": "0.000236212906406385",
+    "to_token_amount": "19526.874791",
+    "from_token_amount": "0.042326951"
+   }
+  },
+  {
+   "id": "175",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024415,
+    "tx_hash": "3u12Vg8sK7etN4HxfWKvtigAVD7Um9TjuzT69vn4VaJV4TrqJiFGjGiHmwKSC1vMWQpH3mcGYhYh59BU2vpjJ6q6",
+    "tx_from_address": "9ZTD5GiqcXpkAdmbzuLP4uXs4qRpbFWDkBenWqmxSh87",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:46Z",
+    "volume_in_usd": "1.08924821655",
+    "price_from_in_usd": "0.000236112781337955",
+    "price_to_in_usd": "0.000236112781337955",
+    "from_token_amount": "4666.688024",
+    "to_token_amount": "0.009997689"
+   }
+  },
+  {
+   "id": "176",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024414,
+    "tx_hash": "2o4qtfFSXV5R9K6TKB6vjbJ6hVezKcyZ9qCgoUj5Xn4bz8XfY24iZe9i9vhQ6SUFUAjTXm9qioaPMRvoaKZYRPdP",
+    "tx_from_address": "45gA2ns1hLYKB8KmDQuU8ekxM7SijX9axySQtmB2cFt6",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:46Z",
+    "volume_in_usd": "1.43867091335",
+    "price_from_in_usd": "0.000236136656436866",
+    "price_to_in_usd": "0.000236136656436866",
+    "to_token_amount": "6092.938201",
+    "from_token_amount": "0.013204873"
+   }
+  },
+  {
+   "id": "177",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024412,
+    "tx_hash": "2vCwadiBKt27C1qDPPGxrK6eJR6gx6sXfcemqP5jRDrQiNWbRz26jAhLw7wNuSH9dtrEUvEhkTnrCMeowBgw22C5",
+    "tx_from_address": "A4AA9sogAkK23JfqD1DEH6x6Yd1d3a2AzHVJ5BgjrpGi",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:46Z",
+    "volume_in_usd": "2.5008113738",
+    "price_from_in_usd": "0.000236148764841147",
+    "price_to_in_usd": "0.000236148764841147",
+    "to_token_amount": "10591.201086",
+    "from_token_amount": "0.02294954"
+   }
+  },
+  {
+   "id": "178",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024408,
+    "tx_hash": "5dki2wCWzGXvC5HYmUmLyR1RNqwANuzD186VcdpmK1cjiAA1D197uJCbmhP3oa9QS3JZUa95XHexXPzGD9dfwyHv",
+    "tx_from_address": "66zA9Gavm4cuf6jkmBkL8HPocgq1ZH9R2D4cCNZJihAG",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:45Z",
+    "volume_in_usd": "2.0370862697",
+    "price_from_in_usd": "0.000236094477086092",
+    "price_to_in_usd": "0.000236094477086092",
+    "from_token_amount": "8727.822869",
+    "to_token_amount": "0.01869401"
+   }
+  },
+  {
+   "id": "179",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024407,
+    "tx_hash": "2VhrSfnUUsVgvYfmUBdLBg7F64XCNU3g2gJYgw3hJBW7B6Qu6UKu3gUgurErBQj6s7AaQk1Yqf1MUzdnBnqxfbtC",
+    "tx_from_address": "7z2YQaJLbDZNbmeo8gpbC7LSCAB4QcBkZvFZwRsBJPrT",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:45Z",
+    "volume_in_usd": "2.8050321475",
+    "price_from_in_usd": "0.000236095782691005",
+    "price_to_in_usd": "0.000236095782691005",
+    "to_token_amount": "11882.440901",
+    "from_token_amount": "0.02574605"
+   }
+  },
+  {
+   "id": "180",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024405,
+    "tx_hash": "3dwFJfzvTsn3SrRYiJb5R4qmGuf9kLWuiJ9XwuWjU2cebpJXrotx8mNAGCSwR2THfUdAKTrVRVNo9fth2FTMQZo5",
+    "tx_from_address": "A2H4P2Boa8M7yNqtwAuzxJCMSgALkm4EPistbeAM9qqr",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:44Z",
+    "volume_in_usd": "1.33433690695",
+    "price_from_in_usd": "0.000236034892550234",
+    "price_to_in_usd": "0.000236034892550234",
+    "to_token_amount": "5653.480876",
+    "from_token_amount": "0.012247241"
+   }
+  },
+  {
+   "id": "181",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024405,
+    "tx_hash": "8Jy2wWhJPn92TUKmZ4A7HiGrBuLzW75hZpg6cGZ9F8Fgs3UTQKz3UrQTCaCdFtNQjFJzimhUR9T5wqEFHAD5DLF",
+    "tx_from_address": "ECEEVeKeAtVMCC8yFi7PfW3i1Mbff47phReutLpND1n4",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:44Z",
+    "volume_in_usd": "1.44001034465",
+    "price_from_in_usd": "0.000236005930231846",
+    "price_to_in_usd": "0.000236005930231846",
+    "to_token_amount": "6101.989422",
+    "from_token_amount": "0.013217167"
+   }
+  },
+  {
+   "id": "182",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024404,
+    "tx_hash": "35ydFH1dK7khdRAihdLGS2uzjJrXpN7sYQM3mLF6YpZMCsPWDv6zSAg74RMZixLiG5vrir5EJ3iMcWM5Lzajnwe6",
+    "tx_from_address": "ECEEVeKeAtVMCC8yFi7PfW3i1Mbff47phReutLpND1n4",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:44Z",
+    "volume_in_usd": "1.44108742435",
+    "price_from_in_usd": "0.000235974676220436",
+    "price_to_in_usd": "0.000235974676220436",
+    "to_token_amount": "6107.362628",
+    "from_token_amount": "0.013227053"
+   }
+  },
+  {
+   "id": "183",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024402,
+    "tx_hash": "5QFA5HTYavzFgF3FwL4j7dbMU9xTDXis3QDZfgSYZT6jcpmwktcJZS5W8CLSX4msynU6DkrCZza1GQaHWb9Ks2JP",
+    "tx_from_address": "GuDxo8d3suysrLT8HShFpMynrKxQ3e2LqQSfgwzjWotC",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:43Z",
+    "volume_in_usd": "1.93356909765",
+    "price_from_in_usd": "0.000235943400901656",
+    "price_to_in_usd": "0.000235943400901656",
+    "to_token_amount": "8195.783857",
+    "from_token_amount": "0.017747307"
+   }
+  },
+  {
+   "id": "184",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024401,
+    "tx_hash": "pfnUyKuA4k9LPVo1V87LXwWfn3St1Yi6D3yCQNN2dwdVMseDWjqwHZhy6ABCFarXf1KGM5RatUKZtBYQwfXQTrE",
+    "tx_from_address": "ECEEVeKeAtVMCC8yFi7PfW3i1Mbff47phReutLpND1n4",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:43Z",
+    "volume_in_usd": "1.79673247355",
+    "price_from_in_usd": "0.000235901440711773",
+    "price_to_in_usd": "0.000235901440711773",
+    "from_token_amount": "7704.42083",
+    "to_token_amount": "0.016491349"
+   }
+  },
+  {
+   "id": "185",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024401,
+    "tx_hash": "4y8uM1nCvbJJzVFdY513ZBrUHb2HFxSjKsQ8mHYHziSEuAVfniuneoU5XVxyBnSXExqYZtL9wjSutBMK31EvAwGp",
+    "tx_from_address": "GuDxo8d3suysrLT8HShFpMynrKxQ3e2LqQSfgwzjWotC",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:43Z",
+    "volume_in_usd": "2.55155506975",
+    "price_from_in_usd": "0.000235940806121941",
+    "price_to_in_usd": "0.000235940806121941",
+    "to_token_amount": "10815.65648",
+    "from_token_amount": "0.023419505"
+   }
+  },
+  {
+   "id": "186",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024399,
+    "tx_hash": "361TrMvfCoGoihVtVb2wd4WGJgzjw8PudMYzoXcWMkJN4FdZqhBtG8rRFigsaRVH8wZZk9kRZ4Qh89Z73MK4Ujb",
+    "tx_from_address": "GuDxo8d3suysrLT8HShFpMynrKxQ3e2LqQSfgwzjWotC",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:43Z",
+    "volume_in_usd": "9.32722083312",
+    "price_from_in_usd": "0.000235907086956763",
+    "price_to_in_usd": "0.000235907086956763",
+    "to_token_amount": "39554.67232",
+    "from_token_amount": "0.085602247"
+   }
+  },
+  {
+   "id": "187",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024398,
+    "tx_hash": "2pDrUFedQzRgKpasPVS7MESsLZHycc9gWRNiWixZgCKkqXDioTnRBSEdwdia9yizFeUttd9ojNjxxgvQTBhWzeGu",
+    "tx_from_address": "4RjH4ZMTMR8dBEUKXsFysyGQ2gmSKfPr7A9sEDtj3xaH",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:43Z",
+    "volume_in_usd": "1.21138688016",
+    "price_from_in_usd": "0.000235704737014755",
+    "price_to_in_usd": "0.000235704737014755",
+    "to_token_amount": "5139.711558",
+    "from_token_amount": "0.011117721"
+   }
+  },
+  {
+   "id": "188",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024396,
+    "tx_hash": "2H2VhqvxAAWmZrndzZihuW4CVzcZKXefiKFrtizrE7QLDUSrxZTjZUkBiFyaqytqXQvciaMTtqFTkQW8fhqKLzuV",
+    "tx_from_address": "5arswHWmzMBV6GNGxYFqubnqYiGg3M19djwJYjLL8SGf",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:42Z",
+    "volume_in_usd": "117.4286454522",
+    "price_from_in_usd": "0.000235656833065003",
+    "price_to_in_usd": "0.000235656833065003",
+    "to_token_amount": "501013.658683",
+    "from_token_amount": "1.077821436"
+   }
+  },
+  {
+   "id": "189",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024396,
+    "tx_hash": "2m4SHGP9C1LtW9jXgEL2rGx7K846ewB1HB76WncuZnou7Ldcr3H9UAH2hPNXT8XStQtFEgDzZL9NYkFhj8TUTvbe",
+    "tx_from_address": "4RjH4ZMTMR8dBEUKXsFysyGQ2gmSKfPr7A9sEDtj3xaH",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:42Z",
+    "volume_in_usd": "1.21127570295",
+    "price_from_in_usd": "0.000233116826442787",
+    "price_to_in_usd": "0.000233116826442787",
+    "to_token_amount": "5196.293925",
+    "from_token_amount": "0.011117721"
+   }
+  },
+  {
+   "id": "190",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024394,
+    "tx_hash": "53VQTM7YQGeR2ZiPjGRnaNqLoWRD5TdX5JsMLyJ1ikH4ZrbWBbaM3S2Kvj3MWLJpA7rpBXWguQQSbyExQkx5QWR9",
+    "tx_from_address": "4LG9vpbTztE9XedWB3sCuV6mkSNUMFMJnjjPK72DPozy",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:42Z",
+    "volume_in_usd": "2.2680936446",
+    "price_from_in_usd": "0.000233090698004464",
+    "price_to_in_usd": "0.000233090698004464",
+    "to_token_amount": "9731.541603",
+    "from_token_amount": "0.020817748"
+   }
+  },
+  {
+   "id": "191",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024394,
+    "tx_hash": "4fPgNny6VKGFu4CN4sSQkCaYLn8jGU9pLnyhXPcgCTanPXnsrJkQoix4haPTeGe8Yf88GukxWvKnSLgpNvqmZfPr",
+    "tx_from_address": "DqYms6voRMFqQ8vNWX9ZAwCSyQAAHc9agfBMQcibPcFg",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:42Z",
+    "volume_in_usd": "2.09863488465",
+    "price_from_in_usd": "0.000233041776870118",
+    "price_to_in_usd": "0.000233041776870118",
+    "to_token_amount": "9006.277054",
+    "from_token_amount": "0.019262367"
+   }
+  },
+  {
+   "id": "192",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024393,
+    "tx_hash": "2yJCAKmaqz3b1jR1DQyvJAXc5PSoVbNhsdr9JbwPW4dP2dFgLDMtaET4WqqbjCTqVx56PaHTDhRqTymyfPPa1nJ",
+    "tx_from_address": "APSbRTfp7XzMM4N6tiZT5GwdyY5g8SGray7CBqdGus6t",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:42Z",
+    "volume_in_usd": "1.2816540255",
+    "price_from_in_usd": "0.000232996515407459",
+    "price_to_in_usd": "0.000232996515407459",
+    "to_token_amount": "5501.069471",
+    "from_token_amount": "0.01176369"
+   }
+  },
+  {
+   "id": "193",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024393,
+    "tx_hash": "599gpk8Q8x6HAKxBUX3NfJfsvdfn7Gd4orkkFHWuPbwZGtFeEPXwZfKia2hJHJGKkfDWJZUwr3PrzZ51dBmThj6P",
+    "tx_from_address": "4RjH4ZMTMR8dBEUKXsFysyGQ2gmSKfPr7A9sEDtj3xaH",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:42Z",
+    "volume_in_usd": "2.5418300838",
+    "price_from_in_usd": "0.000232968876010729",
+    "price_to_in_usd": "0.000232968876010729",
+    "from_token_amount": "11036.222025",
+    "to_token_amount": "0.023330244"
+   }
+  },
+  {
+   "id": "194",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024391,
+    "tx_hash": "3gbUgoABEKRvKBk9ZAFsNxvdiJ9wGiVV4r5y9oLapSNM4PeUdXHVwxk7DKiBu7rKHGatMQkwXiTxzPQPiUgRUCcs",
+    "tx_from_address": "APSbRTfp7XzMM4N6tiZT5GwdyY5g8SGray7CBqdGus6t",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:41Z",
+    "volume_in_usd": "1.2816540255",
+    "price_from_in_usd": "0.000233024220194466",
+    "price_to_in_usd": "0.000233024220194466",
+    "to_token_amount": "5500.415417",
+    "from_token_amount": "0.01176369"
+   }
+  },
+  {
+   "id": "195",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024388,
+    "tx_hash": "5x1HrBadef8WBwhajPi3GavTgm8LSdRERYaAYzThbATGE9NJguW9MHWNVUXvnpWEetmDXDLC1oCaXzzuHQznRVmo",
+    "tx_from_address": "7tSEkwgcJuULbVzRRN3U6qfweQn4PckeT6q4WzX6UQLk",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:40Z",
+    "volume_in_usd": "2.65619980155",
+    "price_from_in_usd": "0.000232996579149561",
+    "price_to_in_usd": "0.000232996579149561",
+    "to_token_amount": "11401.569031",
+    "from_token_amount": "0.024379989"
+   }
+  },
+  {
+   "id": "196",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024388,
+    "tx_hash": "5eb8p24KWruXDyXxbs4N8NJxL1FvayusNQrbCSXryBcdsm3q2ij6QJutXBGENCw24zB7M1jdxfFLAGeuXGZHUq2U",
+    "tx_from_address": "APSbRTfp7XzMM4N6tiZT5GwdyY5g8SGray7CBqdGus6t",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:40Z",
+    "volume_in_usd": "3.84819386035",
+    "price_from_in_usd": "0.00023293929890442",
+    "price_to_in_usd": "0.00023293929890442",
+    "to_token_amount": "16523.102797",
+    "from_token_amount": "0.035320733"
+   }
+  },
+  {
+   "id": "197",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024387,
+    "tx_hash": "3ucXbtznVC9GJoyNZDb6PbU8XP6Fv9UZuwVwDBpSuUY2tV1okxz28Z2feW4Qu2rtMp8W2u7AeR8DnTaHereHV3RQ",
+    "tx_from_address": "5kPjRZa6nMgsh3QByESaxLMBkCrn1fL75uGoS4duvq8o",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:40Z",
+    "volume_in_usd": "1.3932526",
+    "price_from_in_usd": "0.000232856326098224",
+    "price_to_in_usd": "0.000232856326098224",
+    "to_token_amount": "5983.70022",
+    "from_token_amount": "0.012788"
+   }
+  },
+  {
+   "id": "198",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024386,
+    "tx_hash": "Kst1DwQa5UYw69zzb3dUiakC3yzvzN64UxhCe6dP4ke81sa5LxxGtiGLABYdinhjrbC5tcUf4iKnPMCZwrEeJ9W",
+    "tx_from_address": "5kPjRZa6nMgsh3QByESaxLMBkCrn1fL75uGoS4duvq8o",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:40Z",
+    "volume_in_usd": "1.3932526",
+    "price_from_in_usd": "0.000232826289133761",
+    "price_to_in_usd": "0.000232826289133761",
+    "to_token_amount": "5984.472203",
+    "from_token_amount": "0.012788"
+   }
+  },
+  {
+   "id": "199",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024386,
+    "tx_hash": "3TqKbDYhB3BwqqDU9aT8GyxXZ1gHakjCYueMcdQkZgqgp2fT1eJFsqyddWQGQeoypVALEdD3DRkAyery4JPqXiqv",
+    "tx_from_address": "7tSEkwgcJuULbVzRRN3U6qfweQn4PckeT6q4WzX6UQLk",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:40Z",
+    "volume_in_usd": "3.64036149405",
+    "price_from_in_usd": "0.000232796254104776",
+    "price_to_in_usd": "0.000232796254104776",
+    "from_token_amount": "15816.778616",
+    "to_token_amount": "0.033413139"
+   }
+  },
+  {
+   "id": "200",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024385,
+    "tx_hash": "wdjGFNu3tE89ybgtUNS3T9WdVSxRM2YPYyncsCfM2N2JniXqCWLwXW2H7bVf4zi3SW2i7winTWghDArtdWmVsAx",
+    "tx_from_address": "7XiQcSwv89cdCCnqr6bVHuAWJkch2r7xCzfj1YfZdJHa",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:40Z",
+    "volume_in_usd": "3.06262033104",
+    "price_from_in_usd": "0.000232896864254269",
+    "price_to_in_usd": "0.000232896864254269",
+    "to_token_amount": "13151.979904",
+    "from_token_amount": "0.028107749"
+   }
+  },
+  {
+   "id": "201",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024384,
+    "tx_hash": "qcY5LtidqBRa56DXMWt5Rcisfor2s8XTYWCy8jrz33iW9jwvcZaJ4SExiFkEZUtgzAyChzzUFursW1rMGGcCY8N",
+    "tx_from_address": "H3qwBo9SMFP9C9uodW85BpPJpRuDVbSqdA34S7JcVb5k",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:39Z",
+    "volume_in_usd": "2.625712632",
+    "price_from_in_usd": "0.000232830837402329",
+    "price_to_in_usd": "0.000232830837402329",
+    "to_token_amount": "11278.712385",
+    "from_token_amount": "0.02409795"
+   }
+  },
+  {
+   "id": "202",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024382,
+    "tx_hash": "4J5XzDJTJ5DX7MV9JDP8EqmUSbKjax7DAA9ymiZia8jkxctyx3rsDFdgr3rUCVvui9qnHQZfUE3TGpK9bdNHuv2Q",
+    "tx_from_address": "5pgYFoNMnGjUiAn1yvVtWxU78CLgtowSUYNFT6LqgWzn",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:38Z",
+    "volume_in_usd": "7.37614373856",
+    "price_from_in_usd": "0.000232774237264403",
+    "price_to_in_usd": "0.000232774237264403",
+    "to_token_amount": "31698.8089",
+    "from_token_amount": "0.067695886"
+   }
+  },
+  {
+   "id": "203",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024380,
+    "tx_hash": "4NJBtGYcZpGeedFNCsCHhTDn6EXNAALnStNkhprLaePc6eg5zx888W5HCLxnQuepwqvAevS7QN3cb4Uy9Bs6wC12",
+    "tx_from_address": "CfSRNcXezMYT94YwBsPpsukjG1fGEffS4Cucf2agNb2Q",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:38Z",
+    "volume_in_usd": "2.49379290768",
+    "price_from_in_usd": "0.000232615273090296",
+    "price_to_in_usd": "0.000232615273090296",
+    "to_token_amount": "10721.914875",
+    "from_token_amount": "0.022887233"
+   }
+  },
+  {
+   "id": "204",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024380,
+    "tx_hash": "469cM9eJQrdzTH7xcCuZ3zhstgrNQ2fRp419q11CUBMYQfzWxV4rDVN8AzGvhHjdQiTDsaM4zz5PWUFurafzoPS7",
+    "tx_from_address": "H3qwBo9SMFP9C9uodW85BpPJpRuDVbSqdA34S7JcVb5k",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:38Z",
+    "volume_in_usd": "7.73408856144",
+    "price_from_in_usd": "0.000232561541330931",
+    "price_to_in_usd": "0.000232561541330931",
+    "from_token_amount": "33630.837675",
+    "to_token_amount": "0.070980989"
+   }
+  },
+  {
+   "id": "205",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024378,
+    "tx_hash": "4v768KmMbkWXVwrAAn7SetRJHQ661JEDYAPevtrJ9mRWzZ2Nkpo71bbYQk3Qus1JTZgxBk6DkKhqUf7YsHxC44Y7",
+    "tx_from_address": "4Kd2meVkCi8AtWMSrbPo8UQ4Uq9gJ8bhSSJCpvPFPEjS",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:38Z",
+    "volume_in_usd": "2.50883755968",
+    "price_from_in_usd": "0.000232729804155035",
+    "price_to_in_usd": "0.000232729804155035",
+    "to_token_amount": "10781.297376",
+    "from_token_amount": "0.023025308"
+   }
+  },
+  {
+   "id": "206",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024376,
+    "tx_hash": "9B6SNu8Wq2vMKh8JZCVNVgBaZKCgpSBcBFdsm1FfTxeihT62iMeV6AtgjftrdPtMZhog1Hvp5zFXEoxdqZhHpG6",
+    "tx_from_address": "6PtfisqhMZpN6dCivGUEGRY8KpmaL6KwhD6AQ5XgGYx3",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:37Z",
+    "volume_in_usd": "2.48468755632",
+    "price_from_in_usd": "0.000232675734927069",
+    "price_to_in_usd": "0.000232675734927069",
+    "from_token_amount": "10801.738047",
+    "to_token_amount": "0.022803667"
+   }
+  },
+  {
+   "id": "207",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024374,
+    "tx_hash": "2DoHD1ZVZbuxzFBUwGHrUYwZH593ZCsf7rYCvjoEtmStDg3gEoujEKxRW99fBj9hG5D3AGEEypenY5runWbwET5E",
+    "tx_from_address": "4Kd2meVkCi8AtWMSrbPo8UQ4Uq9gJ8bhSSJCpvPFPEjS",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:37Z",
+    "volume_in_usd": "3.02636116704",
+    "price_from_in_usd": "0.00023272979843495",
+    "price_to_in_usd": "0.00023272979843495",
+    "from_token_amount": "13153.179448",
+    "to_token_amount": "0.027774974"
+   }
+  },
+  {
+   "id": "208",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024373,
+    "tx_hash": "54TF8i5bYw2mtEkfnWnLijeERFARYbUakey4m2ar1wuLq9dDZ3e4mmCgqE6G5tp94zYf52bneekDAoEbw56Vr5kq",
+    "tx_from_address": "DaWtoSsAJSg48Q6tPDeuceetjtVi4ShGawN7qYoWjwu6",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:37Z",
+    "volume_in_usd": "66.34610879808",
+    "price_from_in_usd": "0.000232795656535991",
+    "price_to_in_usd": "0.000232795656535991",
+    "to_token_amount": "285876.188581",
+    "from_token_amount": "0.608903348"
+   }
+  },
+  {
+   "id": "209",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024373,
+    "tx_hash": "UfxyEG6gJvxqnyHyv2MrVLYaP7sfTZ1NeREQrNAsTjqDDGituaM3qw4U7DVkmJQ84V1fg3TdroCs1K7nKFf7c5X",
+    "tx_from_address": "6PtfisqhMZpN6dCivGUEGRY8KpmaL6KwhD6AQ5XgGYx3",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:37Z",
+    "volume_in_usd": "4.30473164304",
+    "price_from_in_usd": "0.000231367704326069",
+    "price_to_in_usd": "0.000231367704326069",
+    "from_token_amount": "18818.245652",
+    "to_token_amount": "0.039507449"
+   }
+  },
+  {
+   "id": "210",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024371,
+    "tx_hash": "4uN2wm52NxjarCqm6aVoGXy3C8gncdG7GVicGGRaUdy9coVoP1fJ3vp4e3PXzqyKqMRhut3CNkhQSBTMKh2hqpHj",
+    "tx_from_address": "HrRPd8w5CDMjeX3LxTagEjgnMJEozWtLwbX9iysHy5iZ",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:36Z",
+    "volume_in_usd": "1.98881288448",
+    "price_from_in_usd": "0.000231461110249482",
+    "price_to_in_usd": "0.000231461110249482",
+    "to_token_amount": "8593.221671",
+    "from_token_amount": "0.018252688"
+   }
+  },
+  {
+   "id": "211",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024371,
+    "tx_hash": "2VaWZYAZfLrhL2Krv4Lhak6sbyE7zh45U8z2aeskoo54GN1fhy3RWvv1qmPLUWRnGsZj8no8W7o9hN4JLFxULRRv",
+    "tx_from_address": "GHsfbJ1xBp6hKJn4jAPYodHrHLh8GXoU1tfDpT8quSNx",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:36Z",
+    "volume_in_usd": "3.01690757952",
+    "price_from_in_usd": "0.000231418364659805",
+    "price_to_in_usd": "0.000231418364659805",
+    "from_token_amount": "13186.397942",
+    "to_token_amount": "0.027688212"
+   }
+  },
+  {
+   "id": "212",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024368,
+    "tx_hash": "3Qt5t4SGtc7bkCeNDZ7VkhVNhGLcgvGFtXx36JW4cJyR1hvemjt5SQp5kf85xNSCWbKZ6uxPuPzEvxaUJgXwoK56",
+    "tx_from_address": "47UfWx2Dbikog37v9PkpB3Puj9kYu9dis7RM4G69x1ey",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:36Z",
+    "volume_in_usd": "3.0882756168",
+    "price_from_in_usd": "0.000231483832026836",
+    "price_to_in_usd": "0.000231483832026836",
+    "to_token_amount": "13343.12984",
+    "from_token_amount": "0.028343205"
+   }
+  },
+  {
+   "id": "213",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024365,
+    "tx_hash": "48Ke85HrYuzwkqUaKmRjL4wuJofG8yKauqaNBbaY9rp6rb87faMPYgmEzQz6YiQNtJz522ZJBgmUBfrz3t1M9xzd",
+    "tx_from_address": "45gA2ns1hLYKB8KmDQuU8ekxM7SijX9axySQtmB2cFt6",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:35Z",
+    "volume_in_usd": "4.64901767616",
+    "price_from_in_usd": "0.000231417454082825",
+    "price_to_in_usd": "0.000231417454082825",
+    "to_token_amount": "20093.654705",
+    "from_token_amount": "0.042667196"
+   }
+  },
+  {
+   "id": "214",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024365,
+    "tx_hash": "2csLxm6kkZLPgotyt5ZvSKJzVGQqzt2ECqGHNZTqdsMyoycejaLWEfFerW5cBsHPr6K2QBQGotgCQUUsnUMkZYnA",
+    "tx_from_address": "47UfWx2Dbikog37v9PkpB3Puj9kYu9dis7RM4G69x1ey",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:35Z",
+    "volume_in_usd": "4.2991617168",
+    "price_from_in_usd": "0.000231317548210335",
+    "price_to_in_usd": "0.000231317548210335",
+    "from_token_amount": "18797.976082",
+    "to_token_amount": "0.03945633"
+   }
+  },
+  {
+   "id": "215",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024362,
+    "tx_hash": "2idzhrLFWWzmCn2knV7k17gFwmpwmwUQvkCuJidpG1JktGpZU5afyM1ex66QfUMxUTH9eGrKznzppMHwuyan7vQ1",
+    "tx_from_address": "9ZTD5GiqcXpkAdmbzuLP4uXs4qRpbFWDkBenWqmxSh87",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:34Z",
+    "volume_in_usd": "1.07986801968",
+    "price_from_in_usd": "0.00023141082322655",
+    "price_to_in_usd": "0.00023141082322655",
+    "to_token_amount": "4666.688024",
+    "from_token_amount": "0.009910683"
+   }
+  },
+  {
+   "id": "216",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024361,
+    "tx_hash": "5wYjpq141GH9DdiZ1W92D6raHbYbnzHwXjn4qiQwXnBdcJMW9L2srWbmkuBKLP9rPfmSc8pbs4hW2mN8mMe2QgSS",
+    "tx_from_address": "FoJEkeWUxLLqUyECq1ze2VHwXB7stxhv25SqVgvr8Tna",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:34Z",
+    "volume_in_usd": "2.02931767488",
+    "price_from_in_usd": "0.000231387615618999",
+    "price_to_in_usd": "0.000231387615618999",
+    "to_token_amount": "8771.035604",
+    "from_token_amount": "0.018624428"
+   }
+  },
+  {
+   "id": "217",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024359,
+    "tx_hash": "4nTyFvy3R7NHvRBqtN8LsYRpThdYaxa6y589SUZNGyhJKnN25twUcCmYfmNZ6SYrgE48yTkXZ5nbfkzW5HGfTwox",
+    "tx_from_address": "FoJEkeWUxLLqUyECq1ze2VHwXB7stxhv25SqVgvr8Tna",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:34Z",
+    "volume_in_usd": "3.22040846688",
+    "price_from_in_usd": "0.000231344006389292",
+    "price_to_in_usd": "0.000231344006389292",
+    "to_token_amount": "13922.515749",
+    "from_token_amount": "0.029555878"
+   }
+  },
+  {
+   "id": "218",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024359,
+    "tx_hash": "5dPGWARMhco6iZTKAeD48vvSF1a65TH3RYmW7HcPqv1dWzMxyHXcdzZe1NHCSrpafZRfrwJPVxRiCNVAKDpAA9Vq",
+    "tx_from_address": "9ZTD5GiqcXpkAdmbzuLP4uXs4qRpbFWDkBenWqmxSh87",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:34Z",
+    "volume_in_usd": "1.24863659952",
+    "price_from_in_usd": "0.000231274809517324",
+    "price_to_in_usd": "0.000231274809517324",
+    "from_token_amount": "5461.42173",
+    "to_token_amount": "0.011459587"
+   }
+  },
+  {
+   "id": "219",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024356,
+    "tx_hash": "5eNKnE51HBtP4a4hK2gKYnAR6Hg5k94nYscD5JZzbebZtK9UzELsTHeCbQCcCL7CLJNj6dWZ1MFgdx57xWoS5qaX",
+    "tx_from_address": "7z2YQaJLbDZNbmeo8gpbC7LSCAB4QcBkZvFZwRsBJPrT",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:33Z",
+    "volume_in_usd": "4.88760052368",
+    "price_from_in_usd": "0.000231301895626434",
+    "price_to_in_usd": "0.000231301895626434",
+    "to_token_amount": "21135.63022",
+    "from_token_amount": "0.044856833"
+   }
+  },
+  {
+   "id": "220",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024356,
+    "tx_hash": "65P736M8tZTz67u3Vr2sz62Z9bTTTD7u49Bbg6pCZgEuMe1fHdD2sih8AcVqDLwBQWCkHz36mf6P7zQvucjMzMEU",
+    "tx_from_address": "FoJEkeWUxLLqUyECq1ze2VHwXB7stxhv25SqVgvr8Tna",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:33Z",
+    "volume_in_usd": "5.59025131152",
+    "price_from_in_usd": "0.000231196889416849",
+    "price_to_in_usd": "0.000231196889416849",
+    "from_token_amount": "24454.508446",
+    "to_token_amount": "0.051305537"
+   }
+  },
+  {
+   "id": "221",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024355,
+    "tx_hash": "36koRXuXBC7EYGNyJEKAjGUNo46aMtv21SstYxqKNMBd6PxCphVv3f3xBhwAd1dgS3bB5EpJSedoY5ayeMjUS9aM",
+    "tx_from_address": "66zA9Gavm4cuf6jkmBkL8HPocgq1ZH9R2D4cCNZJihAG",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:33Z",
+    "volume_in_usd": "2.0187144504",
+    "price_from_in_usd": "0.000231318148172148",
+    "price_to_in_usd": "0.000231318148172148",
+    "to_token_amount": "8727.822869",
+    "from_token_amount": "0.018527115"
+   }
+  },
+  {
+   "id": "222",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024353,
+    "tx_hash": "3pTsvH3Dzhi1XmTVnPX9kfNn3bfuezHsummwwV4DS9tee2RTsTGKwAtfbtyhHCSU72XNizwiEGaxztkG8CjReRyt",
+    "tx_from_address": "8e4BsvXJqLYJug42rzxbQSKPh6qciErv6FwP23SfFxU",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:33Z",
+    "volume_in_usd": "3.4251091128",
+    "price_from_in_usd": "0.000231274773268599",
+    "price_to_in_usd": "0.000231274773268599",
+    "from_token_amount": "14979.586273",
+    "to_token_amount": "0.031434555"
+   }
+  },
+  {
+   "id": "223",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024352,
+    "tx_hash": "4Jyht8KRYRshGFFrxSGArJtjf6etBDdFKyrVmHueQ5TMp3dY6aEdVfiAybE6TPdNWkj4MKv1xYn9NQfxxsNqAKTP",
+    "tx_from_address": "2fnzV3dGKF6Bs6S71DAhVUKunDKQ7LFeUiYz4kAYufQU",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:32Z",
+    "volume_in_usd": "2.48119102992",
+    "price_from_in_usd": "0.000231349076447175",
+    "price_to_in_usd": "0.000231349076447175",
+    "to_token_amount": "10726.116533",
+    "from_token_amount": "0.022771577"
+   }
+  },
+  {
+   "id": "224",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024351,
+    "tx_hash": "3MD3qzP4c6cR9ATjwZm1Uvs9UdPWcdB8c42krCZpUQGCNTU5r3LB71gWL5Wo7moZ8nSAQf5QHjuC2BYru3oDyFwR",
+    "tx_from_address": "2fnzV3dGKF6Bs6S71DAhVUKunDKQ7LFeUiYz4kAYufQU",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:32Z",
+    "volume_in_usd": "1.63136350272",
+    "price_from_in_usd": "0.000231295761581119",
+    "price_to_in_usd": "0.000231295761581119",
+    "to_token_amount": "7053.683687",
+    "from_token_amount": "0.014972132"
+   }
+  },
+  {
+   "id": "225",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024351,
+    "tx_hash": "ArsFP8XbTy4e7gF5rrJTVQJPCGtUKM3aaar5rDvxJDdWrUD6fC7Re7DVBNJqdUficq4Lz5uV1ZZcZdGzZeVbAzh",
+    "tx_from_address": "66zA9Gavm4cuf6jkmBkL8HPocgq1ZH9R2D4cCNZJihAG",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:32Z",
+    "volume_in_usd": "2.67800460624",
+    "price_from_in_usd": "0.000231260710823181",
+    "price_to_in_usd": "0.000231260710823181",
+    "from_token_amount": "11713.274953",
+    "to_token_amount": "0.024577869"
+   }
+  },
+  {
+   "id": "226",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024350,
+    "tx_hash": "5VEYiCVqCCYhQFRL2HLSXaeT2i5dbb6jT3mpBWbkJQ9AJXMhLktyzRnTffAYHDHFfJE2Cg4bFV1SU1Xjkoabia6a",
+    "tx_from_address": "8e4BsvXJqLYJug42rzxbQSKPh6qciErv6FwP23SfFxU",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:32Z",
+    "volume_in_usd": "8.6649078",
+    "price_from_in_usd": "0.000231318803799566",
+    "price_to_in_usd": "0.000231318803799566",
+    "from_token_amount": "37879.138664",
+    "to_token_amount": "0.07952375"
+   }
+  },
+  {
+   "id": "227",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024348,
+    "tx_hash": "4S78bhPEsXiPz5Efj13GLJYGwr5E5gNqBqQZfc3tdGnVzbRmaqYWiXSGvSCC31VkqaeV33r24dUrfEY2XavCbAQp",
+    "tx_from_address": "GgJxBSxcsS9FGfuUUjKLvGL7VAqFnoUFcNJRTz8ESq6Z",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:31Z",
+    "volume_in_usd": "137.14480948464",
+    "price_from_in_usd": "0.000231506818542287",
+    "price_to_in_usd": "0.000231506818542287",
+    "to_token_amount": "596200.642735",
+    "from_token_amount": "1.258671159"
+   }
+  },
+  {
+   "id": "228",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024348,
+    "tx_hash": "49K9ecQNLMdEnCd7886jZe53AuykNj4ATG1kJoSkquonTqbK9S7KRjQuML6PwkynUj8skc8PnPKfBDv3epY1MLWF",
+    "tx_from_address": "FNhnbgo5Sg6CaqQE5vuYGpnW9XMTnSDrJaeUvAXy45QE",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:31Z",
+    "volume_in_usd": "3.21468512496",
+    "price_from_in_usd": "0.000228568095053856",
+    "price_to_in_usd": "0.000228568095053856",
+    "from_token_amount": "14225.921471",
+    "to_token_amount": "0.029503351"
+   }
+  },
+  {
+   "id": "229",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024347,
+    "tx_hash": "zvjW8vA8tpabuV7Uq17x9VRzUnqhX8UaMM1Vx4zCKJaxjcodE6wUXLLfShWMoZmz1MGBDRzwhCQdgW6MmcTiw3L",
+    "tx_from_address": "FNhnbgo5Sg6CaqQE5vuYGpnW9XMTnSDrJaeUvAXy45QE",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:31Z",
+    "volume_in_usd": "1.45335674928",
+    "price_from_in_usd": "0.000228637424270403",
+    "price_to_in_usd": "0.000228637424270403",
+    "to_token_amount": "6357.032007",
+    "from_token_amount": "0.013338443"
+   }
+  },
+  {
+   "id": "230",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024347,
+    "tx_hash": "65g9Vz9PSuQybjiVcLzjyY5tCUSJx6nDsG9KF5qQcH7GBkLuUKMZWsmWsN5U6DwHBCmDyQQsfuzXFsjPBStsuXG5",
+    "tx_from_address": "HnJeGTcbu9DVbcauj4pqe8WaK8G2jym2kkYALo21PZuN",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:31Z",
+    "volume_in_usd": "5.23905492624",
+    "price_from_in_usd": "0.000228606377708419",
+    "price_to_in_usd": "0.000228606377708419",
+    "to_token_amount": "22922.977205",
+    "from_token_amount": "0.048082369"
+   }
+  },
+  {
+   "id": "231",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024344,
+    "tx_hash": "51MQdZS6coMDbKsT2M7LH8MetxQJ59pPJh288Nrdxi5jc4gT35tN6PMEaKxZmboVY6yHiYq6oi7573yetpGuiHC6",
+    "tx_from_address": "ECEEVeKeAtVMCC8yFi7PfW3i1Mbff47phReutLpND1n4",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:30Z",
+    "volume_in_usd": "1.7602727712",
+    "price_from_in_usd": "0.000228494478644773",
+    "price_to_in_usd": "0.000228494478644773",
+    "to_token_amount": "7704.42083",
+    "from_token_amount": "0.01615522"
+   }
+  },
+  {
+   "id": "232",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024344,
+    "tx_hash": "oEjsFTC2f8wCF3X16viCaXdBu7btXP16HmNRhXjgTZGYYpQYnrqVtDTUU7VTH1zf9Tv8LKVbRe3JcfEQV962iwQ",
+    "tx_from_address": "FNhnbgo5Sg6CaqQE5vuYGpnW9XMTnSDrJaeUvAXy45QE",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:30Z",
+    "volume_in_usd": "1.23475422384",
+    "price_from_in_usd": "0.000228456887765807",
+    "price_to_in_usd": "0.000228456887765807",
+    "from_token_amount": "5467.319518",
+    "to_token_amount": "0.011332179"
+   }
+  },
+  {
+   "id": "233",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024344,
+    "tx_hash": "3YDCpwzMEoLP6AJJ35vAS4zvXtgtHBvK4tBwcKWwGGGGqKDKtZGX6QykrS9MrG4XTVZHtPsavkUWctR2LWsCjvL2",
+    "tx_from_address": "HnJeGTcbu9DVbcauj4pqe8WaK8G2jym2kkYALo21PZuN",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:30Z",
+    "volume_in_usd": "6.44406339696",
+    "price_from_in_usd": "0.000228483509276197",
+    "price_to_in_usd": "0.000228483509276197",
+    "from_token_amount": "28523.07828",
+    "to_token_amount": "0.059141551"
+   }
+  },
+  {
+   "id": "234",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024341,
+    "tx_hash": "bu8LJt26Nt5ZPkjiwdvRECT7Z5ct4bDwKEVBjQGzMFD2N77yNsyhBWUkgSbh67Fsa3AeCmYJnnGJZNzeyjD64Qd",
+    "tx_from_address": "ECEEVeKeAtVMCC8yFi7PfW3i1Mbff47phReutLpND1n4",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:30Z",
+    "volume_in_usd": "2.28098051664",
+    "price_from_in_usd": "0.000228622469556771",
+    "price_to_in_usd": "0.000228622469556771",
+    "from_token_amount": "10092.048785",
+    "to_token_amount": "0.020934109"
+   }
+  },
+  {
+   "id": "235",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024341,
+    "tx_hash": "2jVeeVeLd2o8q3vnaSBHKgwjKRN6L8ufQdXK7eXXjbYTzWc5BfU9nb4SeEAHWFE2jkNypLi5fqrktYxaLZ3Js9BA",
+    "tx_from_address": "25QHio2VhWMZq9d8kkvPRTHY2jx5zAiY3QRLKM5o58WH",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:30Z",
+    "volume_in_usd": "2.53068295008",
+    "price_from_in_usd": "0.000228671666925461",
+    "price_to_in_usd": "0.000228671666925461",
+    "to_token_amount": "11068.193896",
+    "from_token_amount": "0.023225798"
+   }
+  },
+  {
+   "id": "236",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024341,
+    "tx_hash": "65imqQRZ4y96ba8qjXpWEGVqxsnAyGqtjCFY76hF2YkTBh12B9Rrjyw1oH1TRBMuJFwU58x1rM5CVGSxqCygoAwk",
+    "tx_from_address": "F6VYfrP7Zjub5gbmKiBqSjCDqWMjGu7SVKSQhbThsQxj",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:30Z",
+    "volume_in_usd": "1.79003672064",
+    "price_from_in_usd": "0.000228617603816097",
+    "price_to_in_usd": "0.000228617603816097",
+    "to_token_amount": "7830.483934",
+    "from_token_amount": "0.016428384"
+   }
+  },
+  {
+   "id": "237",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024339,
+    "tx_hash": "x3Bhgso9v7zbyRBsNfNF5U3xnSHwnVtU9DFdYc5er4XK7tTk3ewpsL5pyF96ToUBqMpDTL5FcH2pLspmE6Tz9zN",
+    "tx_from_address": "juYB6LNRrmBrdjFAQugZ2wXmSFdrWVAsr3hewmQXbSR",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:29Z",
+    "volume_in_usd": "1.23451756272",
+    "price_from_in_usd": "0.000228579367026674",
+    "price_to_in_usd": "0.000228579367026674",
+    "to_token_amount": "5401.138138",
+    "from_token_amount": "0.011330007"
+   }
+  },
+  {
+   "id": "238",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024337,
+    "tx_hash": "4D9ZZJFrKprJy7eCqGofs3sTndGLUA7tp7vRqweG66uaf1opE3DrXGZz9tdDGLfvbd8wq4cY6Uw4MSWR5JPjvyZ2",
+    "tx_from_address": "F6VYfrP7Zjub5gbmKiBqSjCDqWMjGu7SVKSQhbThsQxj",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:29Z",
+    "volume_in_usd": "2.32777436928",
+    "price_from_in_usd": "0.000228552998485685",
+    "price_to_in_usd": "0.000228552998485685",
+    "from_token_amount": "10302.193047",
+    "to_token_amount": "0.021363568"
+   }
+  },
+  {
+   "id": "239",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024337,
+    "tx_hash": "2LUzV9bJUtVasxH7R2w1dt3J62rELNVzCXpQS2WAzp5mYGHJS2G6hhzRfdde3uHRhtC2DpnrPWqDCE31Logvh29d",
+    "tx_from_address": "juYB6LNRrmBrdjFAQugZ2wXmSFdrWVAsr3hewmQXbSR",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:29Z",
+    "volume_in_usd": "1.23451756272",
+    "price_from_in_usd": "0.000228603197575594",
+    "price_to_in_usd": "0.000228603197575594",
+    "to_token_amount": "5400.575085",
+    "from_token_amount": "0.011330007"
+   }
+  },
+  {
+   "id": "240",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024336,
+    "tx_hash": "4qGPmG8fQVr9WvDNMrZgx7dqtBsjEGrMTPvyJBYxSkQNcJAhCz3TyqQ7WFQH4VfQVeUk5r2rKtcrctrxmwkLFsUd",
+    "tx_from_address": "4RjH4ZMTMR8dBEUKXsFysyGQ2gmSKfPr7A9sEDtj3xaH",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:29Z",
+    "volume_in_usd": "2.52232713456",
+    "price_from_in_usd": "0.000228576827655655",
+    "price_to_in_usd": "0.000228576827655655",
+    "to_token_amount": "11036.222025",
+    "from_token_amount": "0.023149111"
+   }
+  },
+  {
+   "id": "241",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024334,
+    "tx_hash": "49dTrbMN1jToyjx7xMr3AwCLDSWgNahhxrGFVmz4AqAyzo1epYCAvT8rGQej74odKMBjUHSY5UCTiXNEdoHhzf8s",
+    "tx_from_address": "6FeN2fXe1WDtPoopNnb1EyKogyFfPXkcBDShi7ZbV73p",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:28Z",
+    "volume_in_usd": "2.0318975208",
+    "price_from_in_usd": "0.000228522954193949",
+    "price_to_in_usd": "0.000228522954193949",
+    "to_token_amount": "8892.281987",
+    "from_token_amount": "0.018648105"
+   }
+  },
+  {
+   "id": "242",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024333,
+    "tx_hash": "47fNjK7NtU3HvmdFxhwozaFabu1G8DPLby8jG92kpcg6czgZiXJwzrmidCv2J4TZ9r3QyP6RqgP7xzriPdJ66XK4",
+    "tx_from_address": "zFNWF2mHdTkshAnit2LEYVCQqPwGVbbAYddXb4pPD9D",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:28Z",
+    "volume_in_usd": "3.00718856544",
+    "price_from_in_usd": "0.000228479560252374",
+    "price_to_in_usd": "0.000228479560252374",
+    "to_token_amount": "13163.591331",
+    "from_token_amount": "0.027599014"
+   }
+  },
+  {
+   "id": "243",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024333,
+    "tx_hash": "23UCLksvsZg1hQGHk8yoYNCkfFNPmhv75M3VkUykxr7y1E5yPq9rLcefv3P56HmLAD7m3n9XS61jK5GEhvUuXGyd",
+    "tx_from_address": "7TXW3F6TYUL4tvvkovk5g1x55ezvMTtDgynWc5CtpJLS",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:28Z",
+    "volume_in_usd": "1.28835273744",
+    "price_from_in_usd": "0.000228415345193298",
+    "price_to_in_usd": "0.000228415345193298",
+    "to_token_amount": "5640.734388",
+    "from_token_amount": "0.011824089"
+   }
+  },
+  {
+   "id": "244",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024332,
+    "tx_hash": "4FmNGZz5sipWMiLLh8L1cNaQnTXUB37FSDREHAqf2iHzgs3eGJaQ7uYBu1VmGDJN927T338io2C8oCkNebzJGRxd",
+    "tx_from_address": "4RjH4ZMTMR8dBEUKXsFysyGQ2gmSKfPr7A9sEDtj3xaH",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:28Z",
+    "volume_in_usd": "4.53108776208",
+    "price_from_in_usd": "0.000228387836659952",
+    "price_to_in_usd": "0.000228387836659952",
+    "from_token_amount": "20065.966822",
+    "to_token_amount": "0.041584873"
+   }
+  },
+  {
+   "id": "245",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024331,
+    "tx_hash": "15vBaMhaTunXJk8f7EVzriufw2w36rVKSWwmhXnD8Ckvjs7kAKue8BWsdSj211vUGqxC4MQKt1sDSxSPFwGsWDx",
+    "tx_from_address": "35WqMRCxr3P5wefHWq4GZjK4ChQXnty9gwjMfBsxUwuF",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:28Z",
+    "volume_in_usd": "1.40194331952",
+    "price_from_in_usd": "0.000228485520635971",
+    "price_to_in_usd": "0.000228485520635971",
+    "to_token_amount": "6136.2101",
+    "from_token_amount": "0.012866587"
+   }
+  },
+  {
+   "id": "246",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024330,
+    "tx_hash": "3o1S6rsLUFkobaZaZtimPtG9FbgAW5ysQGDij95vgRzTcqPYhJ43ySJSnDMaF7HeZbsictMRRNdS86kHqT8T4ZtA",
+    "tx_from_address": "35WqMRCxr3P5wefHWq4GZjK4ChQXnty9gwjMfBsxUwuF",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:27Z",
+    "volume_in_usd": "1.66555525968",
+    "price_from_in_usd": "0.000228455582222554",
+    "price_to_in_usd": "0.000228455582222554",
+    "to_token_amount": "7291.066926",
+    "from_token_amount": "0.015285933"
+   }
+  },
+  {
+   "id": "247",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024330,
+    "tx_hash": "3BfUzGGnuTYnWKq372TW5R5Xk8btWRq5MjWApsQji7uqXd2kTvCABvRobrQm7XAWWqbpxWppfxDWcEUwxavbyofo",
+    "tx_from_address": "7TXW3F6TYUL4tvvkovk5g1x55ezvMTtDgynWc5CtpJLS",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:27Z",
+    "volume_in_usd": "1.28835273744",
+    "price_from_in_usd": "0.000228420016939827",
+    "price_to_in_usd": "0.000228420016939827",
+    "to_token_amount": "5640.619018",
+    "from_token_amount": "0.011824089"
+   }
+  },
+  {
+   "id": "248",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024327,
+    "tx_hash": "5capiFGVEvVLxcKLTih42HmxgonZHie1PaKowpjHUmcuMddhxrgTdfSwRkt7ZiMnYomK9s69WcrrnATEK5AFLWa3",
+    "tx_from_address": "7TXW3F6TYUL4tvvkovk5g1x55ezvMTtDgynWc5CtpJLS",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:27Z",
+    "volume_in_usd": "3.86829051072",
+    "price_from_in_usd": "0.000228392508113677",
+    "price_to_in_usd": "0.000228392508113677",
+    "to_token_amount": "16940.094485",
+    "from_token_amount": "0.035501932"
+   }
+  },
+  {
+   "id": "249",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024327,
+    "tx_hash": "4rUVgtjCiUjvDAZSYmiRpTdbL4UfkpRzWX6yDSf6qfCme8xoYcipcFV2FEhb17T59d7ErUnYyRbSNmDSA6bgevBH",
+    "tx_from_address": "CfSRNcXezMYT94YwBsPpsukjG1fGEffS4Cucf2agNb2Q",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:27Z",
+    "volume_in_usd": "2.35499257728",
+    "price_from_in_usd": "0.000228309922558755",
+    "price_to_in_usd": "0.000228309922558755",
+    "to_token_amount": "10316.030114",
+    "from_token_amount": "0.021613368"
+   }
+  },
+  {
+   "id": "250",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024326,
+    "tx_hash": "3SoFKFY3232LKS8JJR9JMC6XQnvXbXtGChpjnoyTPNG6WdubQSsua7NHvnou8mySJNFZBebDrmgLw7Av847xweJa",
+    "tx_from_address": "7tSEkwgcJuULbVzRRN3U6qfweQn4PckeT6q4WzX6UQLk",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:26Z",
+    "volume_in_usd": "3.60972254688",
+    "price_from_in_usd": "0.000228259652265296",
+    "price_to_in_usd": "0.000228259652265296",
+    "to_token_amount": "15816.778616",
+    "from_token_amount": "0.033128878"
+   }
+  },
+  {
+   "id": "251",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024326,
+    "tx_hash": "51KH7u28bSFSxyXFjB23EaM8YNR3kMyVLmbHSPVoJYm3HDBVBfkGNN7Cpr717x8C94X3QbEQ9yvgewU3yHFJ48Mv",
+    "tx_from_address": "35WqMRCxr3P5wefHWq4GZjK4ChQXnty9gwjMfBsxUwuF",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:26Z",
+    "volume_in_usd": "3.17289787536",
+    "price_from_in_usd": "0.000228182608905244",
+    "price_to_in_usd": "0.000228182608905244",
+    "from_token_amount": "14064.746893",
+    "to_token_amount": "0.029119841"
+   }
+  },
+  {
+   "id": "252",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024325,
+    "tx_hash": "66WFAYfpqpbnrSd4pFwwTR9DpP7jZjkr88fTgy5hZTmsk7oLLcda3ixyP6PK8gVCHirZ6ZfYvWLCDGyCKyAaSLMw",
+    "tx_from_address": "H3qwBo9SMFP9C9uodW85BpPJpRuDVbSqdA34S7JcVb5k",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:26Z",
+    "volume_in_usd": "1.50582752688",
+    "price_from_in_usd": "0.000228250979316547",
+    "price_to_in_usd": "0.000228250979316547",
+    "to_token_amount": "6597.709057",
+    "from_token_amount": "0.013820003"
+   }
+  },
+  {
+   "id": "253",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024324,
+    "tx_hash": "2QM4j4CBf3Z1pofTwDqqfMxeTXHG2EmWvxHJNxn2AgW5Yiis4ASzkuUEKqm2PWubiyRR1qvSbiLkJBHg81nrqEm8",
+    "tx_from_address": "AqKrVBFpYoM7GLPbQ4tVgbsffpUhYpTEhvYi4nPDq1ca",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:26Z",
+    "volume_in_usd": "56.0386362984",
+    "price_from_in_usd": "0.000228218839023195",
+    "price_to_in_usd": "0.000228218839023195",
+    "to_token_amount": "246193.577144",
+    "from_token_amount": "0.514304665"
+   }
+  },
+  {
+   "id": "254",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024323,
+    "tx_hash": "2n1n1QjGfzY63HqW8EPFcsGWqCZxtBVECZYThC4rCnvu8fXK4jyEc6aw27p6rkibn1avW1CRxKdaeJa9YjR83Qqf",
+    "tx_from_address": "H3qwBo9SMFP9C9uodW85BpPJpRuDVbSqdA34S7JcVb5k",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:26Z",
+    "volume_in_usd": "1.28855180736",
+    "price_from_in_usd": "0.000227024359731496",
+    "price_to_in_usd": "0.000227024359731496",
+    "to_token_amount": "5676.173366",
+    "from_token_amount": "0.011825916"
+   }
+  },
+  {
+   "id": "255",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024322,
+    "tx_hash": "4FLWWJQ1HJLDtuGh1umw2eaSS6NroRYGrcRT5G8vyMEnsKqMinQKvZ9XssAnpZbGjNXKKr1KEhovwBgnSm34KDxa",
+    "tx_from_address": "H3qwBo9SMFP9C9uodW85BpPJpRuDVbSqdA34S7JcVb5k",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:26Z",
+    "volume_in_usd": "4.8468605976",
+    "price_from_in_usd": "0.000226996930748037",
+    "price_to_in_usd": "0.000226996930748037",
+    "to_token_amount": "21356.955252",
+    "from_token_amount": "0.044482935"
+   }
+  },
+  {
+   "id": "256",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024322,
+    "tx_hash": "5dPSPuZsik5BA5jjUk9vawgnhRahbZvFT7q2sFEc6oN5UhsYRavErT3HNF13hZRG46DHiPLc3BfPSzRYC2NY62i1",
+    "tx_from_address": "7tSEkwgcJuULbVzRRN3U6qfweQn4PckeT6q4WzX6UQLk",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:26Z",
+    "volume_in_usd": "8.7282576888",
+    "price_from_in_usd": "0.000226893772015322",
+    "price_to_in_usd": "0.000226893772015322",
+    "from_token_amount": "38899.951526",
+    "to_token_amount": "0.080105155"
+   }
+  },
+  {
+   "id": "257",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024319,
+    "tx_hash": "3xtr2RTnwUxHNubW6ZMfBgVqPZC3P5ujQvZeDxnC4rCV13xjUdsNGTiyuMGCTy5aSK6YUc8xatxvdz2hcQ6GEHR6",
+    "tx_from_address": "H3qwBo9SMFP9C9uodW85BpPJpRuDVbSqdA34S7JcVb5k",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:25Z",
+    "volume_in_usd": "6.93796600176",
+    "price_from_in_usd": "0.000227081344154504",
+    "price_to_in_usd": "0.000227081344154504",
+    "from_token_amount": "30898.088077",
+    "to_token_amount": "0.063674431"
+   }
+  },
+  {
+   "id": "258",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024319,
+    "tx_hash": "4T2YdV7UmdhBZL4LxgXsdvLK8Pd4pUqpp9UnH74atzj3ADBxmg4nSvKczXQX3JsM8MDxhXM4QNXujkPz37jZVMAC",
+    "tx_from_address": "7U6yjPRDdA45sWDUpDVp8g2o6ozceoWvYEzmkKC417PW",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:25Z",
+    "volume_in_usd": "2.564370876",
+    "price_from_in_usd": "0.000227230497874235",
+    "price_to_in_usd": "0.000227230497874235",
+    "to_token_amount": "11286.685991",
+    "from_token_amount": "0.023534975"
+   }
+  },
+  {
+   "id": "259",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024317,
+    "tx_hash": "4uo9uuy56TwBUa47gBssEXaKLA43N1NZi7FBw9FK2ALYJM1kPvrSVBB14ySSx2sRuMLD7seNwirSpsss3QLxFRV9",
+    "tx_from_address": "6PtfisqhMZpN6dCivGUEGRY8KpmaL6KwhD6AQ5XgGYx3",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:25Z",
+    "volume_in_usd": "6.08857943568",
+    "price_from_in_usd": "0.00022717588773968",
+    "price_to_in_usd": "0.00022717588773968",
+    "to_token_amount": "26808.826609",
+    "from_token_amount": "0.055879033"
+   }
+  },
+  {
+   "id": "260",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024317,
+    "tx_hash": "5gqQUe7JNQ6Uxiu27bZfyNb5CzHSQZ9AKocVM4UodWR2nexC1Rr1EKokunen61KLwhHHNJBVZXgWTKkV2nQCefvU",
+    "tx_from_address": "GHsfbJ1xBp6hKJn4jAPYodHrHLh8GXoU1tfDpT8quSNx",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:25Z",
+    "volume_in_usd": "2.99350177296",
+    "price_from_in_usd": "0.000227046253282639",
+    "price_to_in_usd": "0.000227046253282639",
+    "to_token_amount": "13186.397942",
+    "from_token_amount": "0.027473401"
+   }
+  },
+  {
+   "id": "261",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024314,
+    "tx_hash": "4ZHwyd8zHCSzKBRA6rRen5YPSuo53dFVb9e65aQhrCbmjzcxptAjz93vM3Fcn4zAkvASyseJTrBsA8aWHoJqui9m",
+    "tx_from_address": "6PtfisqhMZpN6dCivGUEGRY8KpmaL6KwhD6AQ5XgGYx3",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:24Z",
+    "volume_in_usd": "3.62558113008",
+    "price_from_in_usd": "0.000226982530959906",
+    "price_to_in_usd": "0.000226982530959906",
+    "from_token_amount": "16156.009218",
+    "to_token_amount": "0.033274423"
+   }
+  },
+  {
+   "id": "262",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024313,
+    "tx_hash": "49b5DQhrnzeiwxEZaiZn94wYVHb7mhFVCKvdfPegrEJmhLApvRUkaNfvN4KxkbVnMVPEy2Bp5urXgnAJ4rtysYN2",
+    "tx_from_address": "GHsfbJ1xBp6hKJn4jAPYodHrHLh8GXoU1tfDpT8quSNx",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:24Z",
+    "volume_in_usd": "3.08970604368",
+    "price_from_in_usd": "0.000227060451388281",
+    "price_to_in_usd": "0.000227060451388281",
+    "from_token_amount": "13763.712336",
+    "to_token_amount": "0.028356333"
+   }
+  },
+  {
+   "id": "263",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024313,
+    "tx_hash": "33R9hJT5rDEjBUMhuTmBwCCkAHSD5JRSrLf2WHhTNWUQRGiLXcpPgbbCnWz5n43cFW18Xcey7mUVPeCeQVouDHeD",
+    "tx_from_address": "6PtfisqhMZpN6dCivGUEGRY8KpmaL6KwhD6AQ5XgGYx3",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:24Z",
+    "volume_in_usd": "6.2657725848",
+    "price_from_in_usd": "0.000227126865437932",
+    "price_to_in_usd": "0.000227126865437932",
+    "from_token_amount": "27899.783783",
+    "to_token_amount": "0.057505255"
+   }
+  },
+  {
+   "id": "264",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024312,
+    "tx_hash": "2Z6QApBcrpnXKVP1Kh4M72vR6c8oWfMDgeogpP38q2S2Qi6ayyvUSwTjZ3kCFb3RjSs4NH2e5jbpMbiBATUq3zyb",
+    "tx_from_address": "7KfjsaMDm32GRyYocbv4yJuk6QZ8cKpVciKon7o7fvSZ",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:23Z",
+    "volume_in_usd": "1.54188740304",
+    "price_from_in_usd": "0.000227261579730325",
+    "price_to_in_usd": "0.000227261579730325",
+    "to_token_amount": "6785.127598",
+    "from_token_amount": "0.014150949"
+   }
+  },
+  {
+   "id": "265",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024311,
+    "tx_hash": "SEfopS3DYsxHUEVikre9VMGE7PMkpzLmt8FppgwaXtSQy7my2mKhkPLZynGsfq8WcYKMUSrri5beRy1Ri1uwpGJ",
+    "tx_from_address": "CWSreSM82th7WxyR3mPBbAG2zANjVFaDBHmhy2DzmQTM",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:23Z",
+    "volume_in_usd": "379.56100567776",
+    "price_from_in_usd": "0.000227228741053015",
+    "price_to_in_usd": "0.000227228741053015",
+    "from_token_amount": "1660043.313526",
+    "to_token_amount": "3.483489406"
+   }
+  },
+  {
+   "id": "266",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024311,
+    "tx_hash": "8F57Syj63nTU8KZTGcRA5ch4yNHVwiekFXdRnDxrhZeE3r1sXn5fMxXpCyBkW8SanVtPGS9iZhpET5iKbTugeHR",
+    "tx_from_address": "7UzwDV2zwm2zjJ4wZLuA6w9sYzn7jpvE9rDrAPYKYwzo",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:23Z",
+    "volume_in_usd": "112.45769466912",
+    "price_from_in_usd": "0.000235463363177823",
+    "price_to_in_usd": "0.000235463363177823",
+    "from_token_amount": "480648.189815",
+    "to_token_amount": "1.032100722"
+   }
+  },
+  {
+   "id": "267",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024311,
+    "tx_hash": "22ao5i3jcxEidxij92yJyM6z7SNXk3LUmCfAGw2kBUDC3yFbSmiEtDfGa2oPRDqxBjKZSnkS4NnosaCXMneZV9d4",
+    "tx_from_address": "47UfWx2Dbikog37v9PkpB3Puj9kYu9dis7RM4G69x1ey",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:23Z",
+    "volume_in_usd": "1.25740809744",
+    "price_from_in_usd": "0.000237931304845663",
+    "price_to_in_usd": "0.000237931304845663",
+    "to_token_amount": "5285.056856",
+    "from_token_amount": "0.011540089"
+   }
+  },
+  {
+   "id": "268",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024310,
+    "tx_hash": "2nEMnjCz1uxvtBASjjdLeZdLtvuKmzzEuYm264h5j9oSxEiFyiysiW3Uh1e83f9KTGVjiu6wc8WjU7cTQ8esjqn8",
+    "tx_from_address": "8snsZiSshJmMMrRM5ZCehQy1cYi4FRaGe2cGSpj8XqTt",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:23Z",
+    "volume_in_usd": "2.92424472672",
+    "price_from_in_usd": "0.000237903902652051",
+    "price_to_in_usd": "0.000237903902652051",
+    "from_token_amount": "12433.026847",
+    "to_token_amount": "0.026837782"
+   }
+  },
+  {
+   "id": "269",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024309,
+    "tx_hash": "4pF5gCmcxxWcgEaqs3xZ847MZVib8M1GneV8S4HhsHpcAaRyLEBAC9yhGZCLz1oEeWtxbriCFtyFyjU6hPsYWCQN",
+    "tx_from_address": "47UfWx2Dbikog37v9PkpB3Puj9kYu9dis7RM4G69x1ey",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:23Z",
+    "volume_in_usd": "3.21517184928",
+    "price_from_in_usd": "0.00023796824464263",
+    "price_to_in_usd": "0.00023796824464263",
+    "to_token_amount": "13512.919226",
+    "from_token_amount": "0.029507818"
+   }
+  },
+  {
+   "id": "270",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024306,
+    "tx_hash": "3HcgZRyJgWx7SJvGuvS5nqZyBj8vY7wpwDSRdKu8hFmpDMN31xY8yUNJrMMMqYWDMDE3DDzeWqPnPKEC7wFc9Azk",
+    "tx_from_address": "DGvKS7u9K6Wbas8tpBJDmTbZFToUxLwKC2wsBtX34RZU",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:22Z",
+    "volume_in_usd": "19.5994218912",
+    "price_from_in_usd": "0.000237898175366307",
+    "price_to_in_usd": "0.000237898175366307",
+    "to_token_amount": "81521.513173",
+    "from_token_amount": "0.17987722"
+   }
+  },
+  {
+   "id": "271",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024306,
+    "tx_hash": "2HhwTNVgfVqHAMuPDVCGvxneTuAZCVDV5gNruX14uVeVxdbVRszpWicEyppuacDBCiuDXmSa4eMecxGvaZygtGqd",
+    "tx_from_address": "EFoSpbzq6paXWaxVLbtxXoAzhGijUVrwE6ALiATZhajS",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:22Z",
+    "volume_in_usd": "3.67372815696",
+    "price_from_in_usd": "0.000237476113151561",
+    "price_to_in_usd": "0.000237476113151561",
+    "from_token_amount": "15647.201536",
+    "to_token_amount": "0.033716301"
+   }
+  },
+  {
+   "id": "272",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024306,
+    "tx_hash": "2ss9iA2otmwbk7Eb4tMkGNBjCNs6KJAirzNDykCGH3AULCDDJes5ztp1EKwSTQWpq63j18FaFVt2tvXgsuzrrsRu",
+    "tx_from_address": "47UfWx2Dbikog37v9PkpB3Puj9kYu9dis7RM4G69x1ey",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:22Z",
+    "volume_in_usd": "5.58394056624",
+    "price_from_in_usd": "0.000237556874773472",
+    "price_to_in_usd": "0.000237556874773472",
+    "from_token_amount": "23773.024383",
+    "to_token_amount": "0.051247619"
+   }
+  },
+  {
+   "id": "273",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024304,
+    "tx_hash": "31gPFE2VaaBGrFqeGyujtVwTBCRSHVLye7HwCSdB2A4quK1RAqT4Kwsx5JKunZq55uCHEcakkXvfzPW2Hdcn4ZsJ",
+    "tx_from_address": "9ZTD5GiqcXpkAdmbzuLP4uXs4qRpbFWDkBenWqmxSh87",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:22Z",
+    "volume_in_usd": "1.29799166592",
+    "price_from_in_usd": "0.000237679655989174",
+    "price_to_in_usd": "0.000237679655989174",
+    "to_token_amount": "5461.42173",
+    "from_token_amount": "0.011912552"
+   }
+  },
+  {
+   "id": "274",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024302,
+    "tx_hash": "2izbc3SE5JhV4VrqAY4JZ7uavysGgyuBoTea8z3f1vNZ2jGim1hS9aLe8P6MLpBe7yxPfNj154mxJUvxvxZhoHX9",
+    "tx_from_address": "FoJEkeWUxLLqUyECq1ze2VHwXB7stxhv25SqVgvr8Tna",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:21Z",
+    "volume_in_usd": "5.81009903184",
+    "price_from_in_usd": "0.000237651384316473",
+    "price_to_in_usd": "0.000237651384316473",
+    "to_token_amount": "24454.508446",
+    "from_token_amount": "0.053323229"
+   }
+  },
+  {
+   "id": "275",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024302,
+    "tx_hash": "daG4mbG5JiFLhaEMaSeVXwiwoB9ZPD9bYSGavVxcAVWoN3AuGewEvvWq1i6MuxmB7zD59kviuaA3X5McHQEe2ww",
+    "tx_from_address": "9ZTD5GiqcXpkAdmbzuLP4uXs4qRpbFWDkBenWqmxSh87",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:21Z",
+    "volume_in_usd": "1.57958473008",
+    "price_from_in_usd": "0.000237524854605158",
+    "price_to_in_usd": "0.000237524854605158",
+    "from_token_amount": "6727.063654",
+    "to_token_amount": "0.014496923"
+   }
+  },
+  {
+   "id": "276",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024299,
+    "tx_hash": "kkwsHVS8jwY491r23TdnR8CvHvrpJ4LctZT5GEhdMtjbhrMhwkHxHv2om19pRup6tMbC4SftX3ad7r2xF7ynyXE",
+    "tx_from_address": "Bi27hWWn5iSXpZx3X4fRH8dSjBRprg4KUqYPGmzXYFUC",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:21Z",
+    "volume_in_usd": "84.80196508944",
+    "price_from_in_usd": "0.000237559581405596",
+    "price_to_in_usd": "0.000237559581405596",
+    "to_token_amount": "358365.620197",
+    "from_token_amount": "0.778285289"
+   }
+  },
+  {
+   "id": "277",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024299,
+    "tx_hash": "27jy1MrQmQirYz64sftufQBKy5ZY9Qpo4CTw3mNsiMJAUJfExtnpQwBkzDpENRbyAxQ8MhokHg3ReksCMv1Z2x4s",
+    "tx_from_address": "FoJEkeWUxLLqUyECq1ze2VHwXB7stxhv25SqVgvr8Tna",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:21Z",
+    "volume_in_usd": "9.52373956368",
+    "price_from_in_usd": "0.000235716494914241",
+    "price_to_in_usd": "0.000235716494914241",
+    "from_token_amount": "40855.353194",
+    "to_token_amount": "0.087405833"
+   }
+  },
+  {
+   "id": "278",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024297,
+    "tx_hash": "5akwt1L2nZgmRejfDvMRhQqzTBwJUAEHKZP6cihgKqe1Sg7JYwrA2mnDtDrqUSVz43L6RxpMzj6HozEktaChVxWs",
+    "tx_from_address": "8e4BsvXJqLYJug42rzxbQSKPh6qciErv6FwP23SfFxU",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:20Z",
+    "volume_in_usd": "1.14517690032",
+    "price_from_in_usd": "0.000235925112945907",
+    "price_to_in_usd": "0.000235925112945907",
+    "to_token_amount": "4854.24021",
+    "from_token_amount": "0.010510067"
+   }
+  },
+  {
+   "id": "279",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024295,
+    "tx_hash": "wWHnSHNchkbDKKVcYqv9qnRd3CLQf1SA6KrDktjZjRXirsmQrbEzMqPie7brrbH7vDxo5hS7hU4wRgWpdjDjHfa",
+    "tx_from_address": "8e4BsvXJqLYJug42rzxbQSKPh6qciErv6FwP23SfFxU",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:20Z",
+    "volume_in_usd": "3.4387628904",
+    "price_from_in_usd": "0.000235900261778988",
+    "price_to_in_usd": "0.000235900261778988",
+    "to_token_amount": "14579.49759",
+    "from_token_amount": "0.031559865"
+   }
+  },
+  {
+   "id": "280",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024293,
+    "tx_hash": "mZnPqqVsU6d5YzLxodRohFiHfmJNLYtoBqn1jntfjtRRSdHgKby24LSTPjZjmEJ7Q2W6Gx9LQc1UHxgC5dq8Qth",
+    "tx_from_address": "66zA9Gavm4cuf6jkmBkL8HPocgq1ZH9R2D4cCNZJihAG",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:19Z",
+    "volume_in_usd": "1.63945476336",
+    "price_from_in_usd": "0.000235825645992419",
+    "price_to_in_usd": "0.000235825645992419",
+    "to_token_amount": "6952.502659",
+    "from_token_amount": "0.015046391"
+   }
+  },
+  {
+   "id": "281",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024292,
+    "tx_hash": "3zSwP9pW1hhkVfC3pV7jQ1s3HNbDzqUBwbVFp4jmK8v3h6eqNVbowNQUKoPrKMa6F2c84PA9d2GnWVCiVi72DTZo",
+    "tx_from_address": "8e4BsvXJqLYJug42rzxbQSKPh6qciErv6FwP23SfFxU",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:19Z",
+    "volume_in_usd": "6.09186719472",
+    "price_from_in_usd": "0.000235790076535971",
+    "price_to_in_usd": "0.000235790076535971",
+    "from_token_amount": "26129.162914",
+    "to_token_amount": "0.055909207"
+   }
+  },
+  {
+   "id": "282",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024292,
+    "tx_hash": "3K9eYdq2azNwaQr9uzf9DBBQYoTdWZL2hVnGCTirD2tZqqgymPgJAy8cWgEpThkGkeEcbX2YgqKsLioCo1cuYNU3",
+    "tx_from_address": "66zA9Gavm4cuf6jkmBkL8HPocgq1ZH9R2D4cCNZJihAG",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:19Z",
+    "volume_in_usd": "1.12312023648",
+    "price_from_in_usd": "0.000235923529479064",
+    "price_to_in_usd": "0.000235923529479064",
+    "to_token_amount": "4760.772294",
+    "from_token_amount": "0.010307638"
+   }
+  },
+  {
+   "id": "283",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024291,
+    "tx_hash": "5dYS5o6iMpM2KkpTjG8mzMv3dqHDERZCA1PLbynPTK3LTAJ8GCiAsMTqc7quNFP5TsPStjxyjCCL1YW4xmqyKAqS",
+    "tx_from_address": "BKY9j4Kn3pjAphxga9fjcbBfAs722btk9J64Gy8b3gHz",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:19Z",
+    "volume_in_usd": "1.53898993872",
+    "price_from_in_usd": "0.000235899157013455",
+    "price_to_in_usd": "0.000235899157013455",
+    "to_token_amount": "6524.393318",
+    "from_token_amount": "0.014124357"
+   }
+  },
+  {
+   "id": "284",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024289,
+    "tx_hash": "dF4hHyVL2V562oSH7s5ZqxTXQ6kE3sJ8oLNvadqM1H3DxXpkkjt5eTvRSAun8EeGfogYBukNqRfA4bPxLsVHf54",
+    "tx_from_address": "EypLi1QAQXQoC1Lgkb11LDXnJG6ZSkywTXBPNPyTLaQz",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:19Z",
+    "volume_in_usd": "1.56964801392",
+    "price_from_in_usd": "0.000235865761937789",
+    "price_to_in_usd": "0.000235865761937789",
+    "to_token_amount": "6655.316746",
+    "from_token_amount": "0.014405727"
+   }
+  },
+  {
+   "id": "285",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024289,
+    "tx_hash": "5JUUx3BQeM6J7usFd9Cwccr8oNYtooE7bv5xfsyuoCyX7ibmn3NZwm91nmVvMao21CF7sXDyGFyPiWBh3eBsFgth",
+    "tx_from_address": "66zA9Gavm4cuf6jkmBkL8HPocgq1ZH9R2D4cCNZJihAG",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:19Z",
+    "volume_in_usd": "2.10257268144",
+    "price_from_in_usd": "0.000235831704034215",
+    "price_to_in_usd": "0.000235831704034215",
+    "from_token_amount": "9018.407098",
+    "to_token_amount": "0.019296739"
+   }
+  },
+  {
+   "id": "286",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024288,
+    "tx_hash": "4uRZF8QHnKY1RtnFDnHFy6dQg4Pfnwi3nocvKiKWYbqZs4g3GdNqQ5BXqawreE8Xi21EZ4TWqCpe4VvuqvEEqwjv",
+    "tx_from_address": "EypLi1QAQXQoC1Lgkb11LDXnJG6ZSkywTXBPNPyTLaQz",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:18Z",
+    "volume_in_usd": "1.57072519248",
+    "price_from_in_usd": "0.000235877764359711",
+    "price_to_in_usd": "0.000235877764359711",
+    "to_token_amount": "6659.545426",
+    "from_token_amount": "0.014415613"
+   }
+  },
+  {
+   "id": "287",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024286,
+    "tx_hash": "3jtpxEAeAFpxEQRJLAkHU47xH5gfLDwhekpsMQKN6fxRksVLdUi322iSbmaKfvW8FFcKjei3xR4gBVR6s82MH6KT",
+    "tx_from_address": "EypLi1QAQXQoC1Lgkb11LDXnJG6ZSkywTXBPNPyTLaQz",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:18Z",
+    "volume_in_usd": "4.71540765792",
+    "price_from_in_usd": "0.000235843682211357",
+    "price_to_in_usd": "0.000235843682211357",
+    "to_token_amount": "19998.125706",
+    "from_token_amount": "0.043276502"
+   }
+  },
+  {
+   "id": "288",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024285,
+    "tx_hash": "2ejqDBvYzGTZszKYCtisXbHXZauwUJDPTpYSKtRqh1L8Eyw6bPqGhkM2StnDUREThoAQeMp6ah3pnVNF5Cbvo1Ly",
+    "tx_from_address": "ECEEVeKeAtVMCC8yFi7PfW3i1Mbff47phReutLpND1n4",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:18Z",
+    "volume_in_usd": "2.37885296496",
+    "price_from_in_usd": "0.000235741380404987",
+    "price_to_in_usd": "0.000235741380404987",
+    "to_token_amount": "10092.048785",
+    "from_token_amount": "0.021832351"
+   }
+  },
+  {
+   "id": "289",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024282,
+    "tx_hash": "4GtybHdhSYFEva57d9dF9FEG8RgT5HCD16uz7HB7okT6u6MF9mQKwG3MzcbxFFjaH1yHkCbBfzVaVU2JxHCF7dNA",
+    "tx_from_address": "6FeN2fXe1WDtPoopNnb1EyKogyFfPXkcBDShi7ZbV73p",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:17Z",
+    "volume_in_usd": "8.67100585536",
+    "price_from_in_usd": "0.000235689779083781",
+    "price_to_in_usd": "0.000235689779083781",
+    "to_token_amount": "36804.609491",
+    "from_token_amount": "0.079579716"
+   }
+  },
+  {
+   "id": "290",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024282,
+    "tx_hash": "5ehALh29CEMLr6Nv5kbmFN77JUzdzo8vXDCY7kS2jMZGEsxSgXYBMrdcqKU6LWjZRtqYcNMzLfYZvSxNnKoom3rg",
+    "tx_from_address": "ECEEVeKeAtVMCC8yFi7PfW3i1Mbff47phReutLpND1n4",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:17Z",
+    "volume_in_usd": "5.22680814912",
+    "price_from_in_usd": "0.000235501738122783",
+    "price_to_in_usd": "0.000235501738122783",
+    "from_token_amount": "22447.108976",
+    "to_token_amount": "0.047969972"
+   }
+  },
+  {
+   "id": "291",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024280,
+    "tx_hash": "5N63ocZtwsLUL9qfZNN8jEvCrmgj1JKs7E4xSoogqM5aYtwzJJFpkF1d1xWtqC8hxSE1XT5LAaGPaeDLpAytmDRV",
+    "tx_from_address": "zFNWF2mHdTkshAnit2LEYVCQqPwGVbbAYddXb4pPD9D",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:16Z",
+    "volume_in_usd": "9.02479788576",
+    "price_from_in_usd": "0.000235616168277678",
+    "price_to_in_usd": "0.000235616168277678",
+    "to_token_amount": "38318.895992",
+    "from_token_amount": "0.082826706"
+   }
+  },
+  {
+   "id": "292",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024280,
+    "tx_hash": "36LJaKqXfcfhe2Xp4AvE1dy6goCv8u7UrkEyopkGTkbt13hFmmtoLARjyQuZobD5hsePxTdNcX1iz5VKyShyAyqf",
+    "tx_from_address": "6FeN2fXe1WDtPoopNnb1EyKogyFfPXkcBDShi7ZbV73p",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:16Z",
+    "volume_in_usd": "2.1113375328",
+    "price_from_in_usd": "0.000235420486956123",
+    "price_to_in_usd": "0.000235420486956123",
+    "to_token_amount": "8969.240173",
+    "from_token_amount": "0.01937718"
+   }
+  },
+  {
+   "id": "293",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024279,
+    "tx_hash": "3yr9qEacVmhiXVBF5R4ehZit4reAVLero8MVtbQ3Bb9H73cUv8Vr43wofkPg5nxbWVFwR3s4mpVJ5bGNQwg36Js4",
+    "tx_from_address": "F6VYfrP7Zjub5gbmKiBqSjCDqWMjGu7SVKSQhbThsQxj",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:16Z",
+    "volume_in_usd": "1.21230258",
+    "price_from_in_usd": "0.0002353747193425",
+    "price_to_in_usd": "0.0002353747193425",
+    "to_token_amount": "5150.808966",
+    "from_token_amount": "0.011126125"
+   }
+  },
+  {
+   "id": "294",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024277,
+    "tx_hash": "4jn5Pr7fHNx8xThQX75z2XueGzyuRD2XLwctew1jEwB9zpLZJBqJ3R56LjicEP2xEvK2WGubJgpiuxLxwePenyba",
+    "tx_from_address": "F6VYfrP7Zjub5gbmKiBqSjCDqWMjGu7SVKSQhbThsQxj",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:16Z",
+    "volume_in_usd": "1.21230258",
+    "price_from_in_usd": "0.000235348442182752",
+    "price_to_in_usd": "0.000235348442182752",
+    "to_token_amount": "5151.384081",
+    "from_token_amount": "0.011126125"
+   }
+  },
+  {
+   "id": "295",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024276,
+    "tx_hash": "3zwoe9s16yPCLKdZCbo2W9YVZ8pLDhFgyRnyZNtpYA2dBY1omC5F8hUy6vFt1YCZXarhQWgGPT15rYBMRH6J5AJK",
+    "tx_from_address": "AittUm3YHr2i9UFbjaZSJmfhpAa2qkecRvn48Fp3x3eD",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:16Z",
+    "volume_in_usd": "1.21489822512",
+    "price_from_in_usd": "0.000235322166488408",
+    "price_to_in_usd": "0.000235322166488408",
+    "to_token_amount": "5162.990703",
+    "from_token_amount": "0.011149947"
+   }
+  },
+  {
+   "id": "296",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024276,
+    "tx_hash": "47iPMa4W3WV8SGoBpCbFkwDwact3d9eYkysdW1a3ytfNZ3ik9wsoTpY5o22dN1AndJr7eTvw1rF5qdLAfU7FnW7k",
+    "tx_from_address": "7pHY5Xwv7HMmWZk73GvF3i7rmBoiXHBruk4iEBJSwZct",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:16Z",
+    "volume_in_usd": "2.30501131776",
+    "price_from_in_usd": "0.000235295836006392",
+    "price_to_in_usd": "0.000235295836006392",
+    "to_token_amount": "9797.267151",
+    "from_token_amount": "0.021154656"
+   }
+  },
+  {
+   "id": "297",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024274,
+    "tx_hash": "4ohwtvji5sgNtxZKLbYehyz85iwKsVbVsqnG1ykXqF5z656RgdqaJL7CEfenXxMnt9Gy9H1wh6jjohaNEYgWar3S",
+    "tx_from_address": "4RjH4ZMTMR8dBEUKXsFysyGQ2gmSKfPr7A9sEDtj3xaH",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:15Z",
+    "volume_in_usd": "4.71940910496",
+    "price_from_in_usd": "0.000235245883551827",
+    "price_to_in_usd": "0.000235245883551827",
+    "to_token_amount": "20065.966822",
+    "from_token_amount": "0.043313226"
+   }
+  },
+  {
+   "id": "298",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024274,
+    "tx_hash": "2mCJuGod7XW6ybaiUeWKMT975PinLWW6kPtHK8DPs29pGLZcfNCC7fbgewP32jdRqG9BFERnuu2qkAwV2WHPYY8T",
+    "tx_from_address": "GgJxBSxcsS9FGfuUUjKLvGL7VAqFnoUFcNJRTz8ESq6Z",
+    "kind": "buy",
+    "block_timestamp": "2026-10-09T22:28:15Z",
+    "volume_in_usd": "134.94302621712",
+    "price_from_in_usd": "0.000235143624623679",
+    "price_to_in_usd": "0.000235143624623679",
+    "to_token_amount": "577468.390952",
+    "from_token_amount": "1.238463897"
+   }
+  },
+  {
+   "id": "299",
+   "type": "trade",
+   "attributes": {
+    "block_number": 455024274,
+    "tx_hash": "2RFmmgfXn1Emuw9ZxgAMDXx7PkQRvMHzFzLWWBAJ4ZnpwSayCicmNZvGKxRRz9EQiKiLpQiR8Y53RDbh5GVhhu4C",
+    "tx_from_address": "F6VYfrP7Zjub5gbmKiBqSjCDqWMjGu7SVKSQhbThsQxj",
+    "kind": "sell",
+    "block_timestamp": "2026-10-09T22:28:15Z",
+    "volume_in_usd": "2.54508746208",
+    "price_from_in_usd": "0.00023222910143938",
+    "price_to_in_usd": "0.00023222910143938",
+    "from_token_amount": "11085.563009",
+    "to_token_amount": "0.023357998"
+   }
+  }
+ ]
+}

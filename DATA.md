@@ -25,10 +25,11 @@ CoinData = {
   launch:   { source, curve, curveTx, slot, at, blockTx, launchSupply /* minted in the create tx */, supplyNow, launchSupplyFrom,
               signer /* create-tx signer (v1.2) */, wallets[{ wallet, boughtTokens, boughtPct /* of launch supply */, heldNowPct /* of supply now */, exitShare, firstExitSec, firstExitPct, firstExitSol,
                        traceCovered, locks[{ t, sig, tokens, pct, program, accounts }] /* transfers into a lock program */ }],
-              walletCount, boughtPct, stillHeldPct, dev /* create-tx buyer, + buySolEst */, largest /* biggest non-dev */ },   // Solana RPC, pump.fun coins
+              walletCount, boughtPct, stillHeldPct, dev /* create-tx signer if it got tokens, else first receiver; + buySolEst, burns[{t,sig,tokens,pct,late?}], soldTokens/soldPct/soldSol (within devSold.windowMin), sentTo, linked[{wallet,receivedPct,soldPct,soldSol}] (dev-linked sales, v1.5) */, largest /* biggest non-dev */,
+              createSlot: { wallets, pct } /* non-dev buyers in slot 0, curve + pool excluded */, first60: { wallets, pct /* NET of sells */, grossPct, txRead, txInWindow, partial } /* first 60 s, curve txs (max 100 read) */, createTxBuyers /* other receivers inside the create tx */ },   // Solana RPC, pump.fun coins. Unreadable curve => the call fails ("launch buyers unknown"), never 0%
   devLocks: [{ program: "Streamflow", contract, escrow, sender, recipient, deposited, withdrawn, escrowNow, start, cliff, end, cancelableBySender,
-              verified, why[] /* reasons it is NOT verified */ }],   // Solana RPC "dev locks" (phase 3): lock contracts read on-chain
-  devExit:  { covered, windowTx, checkedTx, events[{ t, sig, tokens, pct }], locked[{ t, sig, tokens, pct, program, accounts }], source /* RPC host */ },
+              verified /* escrow balance, cliff and withdrawn all read + checked */, probable /* decoded from account bytes, escrow not read: 'PROBABLE, not confirmed' */, why[] /* reasons it is NOT verified */ }],   // Solana RPC "dev locks" (phase 3): lock contracts read on-chain
+  devExit:  { covered, windowTx, checkedTx, events[{ t, sig, tokens, pct }], burned[{ t, sig, tokens, pct }] /* v1.5: not exits */, locked[{ t, sig, tokens, pct, program, accounts }], source /* RPC host */ },
   rugcheck: { detectedAt, score, scoreNormalised, risks[], copycat, rugged, launchpad },
   verification: { jupiterVerified, organicScore, jupTags[], coingeckoId },
   flow1h:  { buyUsd, sellUsd, buys, sells, traders },            // Jupiter
@@ -37,7 +38,7 @@ CoinData = {
   chart:   { tf, athUsd, drawdownPct, swingLowUsd, recentHighUsd, higherLows, falling, bounced, lastClose,
              // v1.3: peakUsd (since pair creation), priceRef, ddFromPeakPct, historyShort, historyFrom, swingLow2hUsd (last 2 h, launch 15 min left out),
              // floorBroken { lo, hi, at }, volNode { lo, hi, mid, volume } (12 log bins, price x1.02 .. peak), bouncedFromSwing },
-  sellQuote: { 50: { impactPct, outUsd, outSol, notionalUsd /* swapUsdValue */, route, routeHops }, 500: {...}, noRoute? },  // Jupiter; exit cost = worse of impact and output vs notional
+  sellQuote: { 50: { impactPct /* secondary note */, outSol, notionalUsd /* swapUsdValue */, sizeUsd /* input tokens x market price = what we sold */, route, routeHops }, 500: {...}, noRoute? },  // Jupiter; v1.5 exit cost = OUTPUT (outSol x solUsd) vs sizeUsd
   solUsd,                                                          // CoinGecko
   launchAt /* min(pairCreatedAt, rugcheck.detectedAt) */, pairAgeMin,
 }
@@ -55,3 +56,11 @@ CoinData = {
   - **1** needs only the mint.
   - **2** needs phase-1 data: GT token lookup, Jupiter quote, RugCheck graph, creator history.
   - **3** needs a pool address or the graph wallets: GT trades/OHLCV, insider balances.
+
+## v1.5 additions (10 Oct 2026)
+
+- **Dev-sold cap data:** `launch.dev.soldTokens/soldPct/soldSol` (sales with SOL back within 30 min of launch), `launch.dev.sentTo` (plain transfers out) and `launch.dev.linked[]` (what the recipients sold). `devSoldInfo()` adds them up; >= 3% of supply or > $5k = Skip + rating 2.5.
+- **Sniper check:** `launch.createSlot` and `launch.first60` are both shown; `g_bundle` reads the single largest non-dev wallet. The curve and AMM pool addresses are excluded from buyers.
+- **Never 0% when unreadable:** a failed "launch snipers" call leaves `launch` undefined; `launchUnreadable()` turns that into insiders >= half points, `g_bundle` unknown and LOW confidence.
+- **Tracker entries** (`store.importBatch`): `tracker = { addedAt, foundAt /* launch time */, dataAt /* scout data time, "data as of" */, foundBy, status, hand: { rating, risk, reward, verdict, grade?, note? }, cluster?, screened?, batch?, notes }`. Anything not in the batch file is left out and shown as "unknown".
+- **Batch file** `public/batches/2026-10-10.json`: a JSON array of `{ address, symbol?, name?, foundBy?, launchAt?, dataAt?, hand?, cluster?, screened? }` (built by `tests/fixtures/make_batch.py`). The app's own score appears only after you tap Check.

@@ -1,0 +1,43 @@
+{
+ "jsonrpc": "2.0",
+ "id": 1,
+ "result": {
+  "context": {
+   "slot": 1
+  },
+  "value": {
+   "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+   "lamports": 1,
+   "executable": false,
+   "data": {
+    "program": "spl-token-2022",
+    "parsed": {
+     "type": "mint",
+     "info": {
+      "decimals": 6,
+      "supply": "974599780328629",
+      "mintAuthority": null,
+      "freezeAuthority": null,
+      "isInitialized": true,
+      "extensions": [
+       {
+        "extension": "metadataPointer",
+        "state": {
+         "authority": null,
+         "metadataAddress": "Diqf6to3TbZzETu4a2v13hxAA4UFVRJbC3jawheApump"
+        }
+       },
+       {
+        "extension": "tokenMetadata",
+        "state": {
+         "name": "qLAB",
+         "symbol": "qLAB"
+        }
+       }
+      ]
+     }
+    }
+   }
+  }
+ }
+}

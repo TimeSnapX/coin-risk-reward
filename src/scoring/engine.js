@@ -1,6 +1,6 @@
 // Turns CoinData into scores, verdict and the always-shown outputs. Pure: (data, cfg) -> result.
 import { CONFIG, gradeFor, rewardBand, verdictFor } from "../config.js";
-import { HARD_FAILS, RISK_RULES, TEAM_EXIT, GATES, REWARD_RULES, fmtUsd, fmtPct, quoteCost } from "./rules.js";
+import { HARD_FAILS, RISK_RULES, TEAM_EXIT, GATES, REWARD_RULES, fmtUsd, fmtPct, quoteCost, devSoldInfo, launchUnreadable, trendUsable } from "./rules.js";
 
 const u = (v) => v === undefined || v === null || Number.isNaN(v);
 const r2 = (x) => Math.round(x * 100) / 100;
@@ -41,22 +41,25 @@ export function score(d, cfg = CONFIG, rules = { HARD_FAILS, RISK_RULES, TEAM_EX
   const uncapped = verdictFor(verdictScore);
   const skip = cfg.verdicts.find((v) => v.key === "skip");
   const verdictCapped = !avoid && capsHit.length > 0 && uncapped.key !== "skip";
-  const verdict = avoid ? cfg.avoid : capsHit.length ? skip : uncapped;
+  const devSold = devSoldInfo(d, cfg); // v1.5
+  const verdict = avoid ? cfg.avoid : capsHit.length || devSold.hit ? skip : uncapped;
 
   // ---- confidence
   const unknownCount = [...hard, ...risk, ...caps, ...gates, ...reward].filter((x) => x.score === null).length;
   const c = cfg.confidence, n = d.sourcesOk ?? 0, young = !u(d.pairAgeMin) && d.pairAgeMin < c.lowPairAgeMin;
-  const confidence = n < c.lowBelowSources || young ? "LOW" : n >= c.highFromSources && unknownCount <= c.highMaxUnknown ? "HIGH" : "MED";
-  const confidenceWhy = [`${n}/${d.sourcesTried ?? n} sources answered`, `${unknownCount} check(s) with no data`, young ? `pair only ${Math.round(d.pairAgeMin)} min old` : null].filter(Boolean).join(", ");
+  const unreadLaunch = launchUnreadable(d); // v1.5: launch buyers unreadable => LOW
+  const confidence = n < c.lowBelowSources || young || unreadLaunch ? "LOW" : n >= c.highFromSources && unknownCount <= c.highMaxUnknown ? "HIGH" : "MED";
+  const confidenceWhy = [`${n}/${d.sourcesTried ?? n} sources answered`, `${unknownCount} check(s) with no data`, young ? `pair only ${Math.round(d.pairAgeMin)} min old` : null, unreadLaunch ? "launch buyers unknown" : null].filter(Boolean).join(", ");
 
   // Rating out of 10 (SPEC v1.1): verdict score / 10 to 1 decimal, then the caps.
   const rt = cfg.rating, ratingRaw = r1(verdictScore / 10); let rating10 = ratingRaw; const ratingWhy = [`${verdictScore} / 10 = ${ratingRaw.toFixed(1)}`];
   if (avoid && rating10 > rt.avoidMax) { rating10 = rt.avoidMax; ratingWhy.push(`AVOID (${[...hardFailed, ...gatesHit].map((x) => x.id).join(", ")}) caps at ${rt.avoidMax.toFixed(1)}`); }
   if (verdict.key === "skip" && rating10 > rt.skipMax) { rating10 = rt.skipMax; ratingWhy.push(`SKIP${capsHit.length ? " (team-exit cap)" : ""} caps at ${rt.skipMax}`); }
+  if (devSold.hit && rating10 > cfg.devSold.ratingMax) { rating10 = cfg.devSold.ratingMax; ratingWhy.push(`DEV SOLD (${devSold.text}) caps at ${cfg.devSold.ratingMax}`); }
   if (confidence === "LOW" && rating10 > rt.lowConfidenceMax) { rating10 = rt.lowConfidenceMax; ratingWhy.push(`LOW confidence caps at ${rt.lowConfidenceMax.toFixed(1)}`); }
   const result = { riskScore, rating10, ratingRaw, ratingWhy: ratingWhy.join("; "), riskRaw: r2(riskRaw), grade: grade.grade, gradeColour: grade.colour, multiplier: grade.multiplier,
     rewardScore, rewardRaw: r2(rewardRaw), rewardBand: rewardBand(rewardScore), verdictScore, verdict: verdict.key, verdictLabel: verdict.label, verdictColour: verdict.colour,
-    verdictCapped, uncappedVerdict: uncapped.key, capsHit: capsHit.map((x) => x.id),
+    devSold, verdictCapped, uncappedVerdict: uncapped.key, capsHit: capsHit.map((x) => x.id),
     avoid, hardFailed: hardFailed.map((x) => x.id), gatesHit: gatesHit.map((x) => x.id), confidence, confidenceWhy, unknownCount,
     checks: { hard, risk, caps, gates, reward } };
   Object.assign(result, outputs(d, result, cfg));
@@ -81,8 +84,9 @@ export function breakEven(d, cfg = CONFIG, sizeUsd = cfg.costs.defaultTestSizeUs
   const q = d.sellQuote || {}, L = d.market?.liquidityUsd;
   let i, src;
   const c50 = quoteCost(q[50], d.solUsd, cfg), c500 = quoteCost(q[500], d.solUsd, cfg);
-  const i50 = c50?.worstPct, i500 = c500?.worstPct, disagree = !!(c50?.disagree || c500?.disagree);
-  if (!u(i50) && !u(i500)) { i = (sizeUsd <= 50 ? i50 : sizeUsd >= 500 ? i500 * (sizeUsd / 500) : i50 + ((sizeUsd - 50) / 450) * (i500 - i50)) / 100; src = `Jupiter quote, worse of impact / output${disagree ? "; impact and output disagree" : ""}`; }
+  const net = (c) => (c && !u(c.outPct) ? Math.max(0, c.outPct - cfg.costs.swapFeePct) : c?.worstPct); // the output cost already contains the pool fee: don't charge it twice
+  const i50 = net(c50), i500 = net(c500), disagree = !!(c50?.disagree || c500?.disagree);
+  if (!u(i50) && !u(i500)) { i = (sizeUsd <= 50 ? i50 : sizeUsd >= 500 ? i500 * (sizeUsd / 500) : i50 + ((sizeUsd - 50) / 450) * (i500 - i50)) / 100; src = `Jupiter quote output vs size${disagree ? " (the impact field is lower)" : ""}`; }
   else if (!u(i50)) { i = (i50 * sizeUsd / 50) / 100; src = "Jupiter quote"; }
   else if (!u(L) && L > 0) { i = sizeUsd / (L / 2 + sizeUsd); src = "constant-product estimate"; }
   else { i = 0; src = "impact unknown (not included)"; }
@@ -144,15 +148,16 @@ function outputs(d, res, cfg) {
   const inval = [];
   if (!u(L)) inval.push(`Liquidity falls below ${fmtUsd(Math.max(cfg.gates.liquidityMinUsd, L * 0.7))}`);
   if (rr.stop) inval.push(`Price closes below ${fmtUsd(rr.stop)} (${rr.stopSrc})`);
-  inval.push(d.dev?.holdsPct > 0 ? `Creator wallet sells any of its ${fmtPct(d.dev.holdsPct, 2)}` : "Creator wallet or fee-claim activity appears (check the creator on Solscan)");
+  inval.push(d.dev?.holdsPct >= 0.01 ? `Creator wallet sells any of its ${fmtPct(d.dev.holdsPct, 2)}` : "Sales from wallets linked to the creator (wallets it sent tokens to), or a liquidity / price break (check the creator and its recipients on Solscan)");
   if (d.insiders?.holdingPct > 0) inval.push(`Linked insider wallets (holding ${fmtPct(d.insiders.holdingPct)}) start selling`);
   if (d.pool?.onCurve) inval.push("Bonding curve stops filling / real SOL in the curve drops");
-  if (!u(d.holders?.change1hPct)) inval.push("Holder count turns down");
+  if (trendUsable(d) && !u(d.holders?.change1hPct)) inval.push("Holder count turns down");
 
   // amount you can lose (never an amount to buy)
   const bankroll = d.manual?.bankrollUsd;
   const lose = res.verdict === "watch" ? { maxPct: cfg.sizing.watch, minPct: 0 } : res.verdict === "lottery" ? { maxPct: cfg.sizing.lottery, minPct: cfg.sizing.lotteryLow } : { maxPct: 0, minPct: 0 };
-  lose.text = lose.maxPct === 0 ? "Nothing: the verdict is " + res.verdictLabel + "." : `At most ${lose.minPct ? `${lose.minPct}-` : ""}${lose.maxPct}% of your bankroll${bankroll ? ` = up to ${money((bankroll * lose.maxPct) / 100)} of ${money(bankroll)}` : " (set a bankroll in Settings to see dollars)"}. Only money you are fine losing completely.`;
+  lose.none = lose.maxPct === 0; // v1.5: Skip / Avoid = no position suggested (not "$0")
+  lose.text = lose.maxPct === 0 ? `No position suggested: the verdict is ${res.verdictLabel}.` : `At most ${lose.minPct ? `${lose.minPct}-` : ""}${lose.maxPct}% of your bankroll${bankroll ? ` = up to ${money((bankroll * lose.maxPct) / 100)} of ${money(bankroll)}` : " (set a bankroll in Settings to see dollars)"}. Only money you are fine losing completely.`;
 
   // ranges, not predictions
   const size = be.sizeUsd, keepExit = (1 - be.feePct / 100) * (1 - be.taxPct / 100) * (1 - be.impactPct / 100);

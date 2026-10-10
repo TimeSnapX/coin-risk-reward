@@ -43,33 +43,54 @@ eq(extractCandidates("https://pump.fun/coin/5s81GzJuCFsk4H8vJWxFfCM8n11qVSmVNBFK
 // coins with no saved Jupiter quote: the $15k pool gate no longer applies (ruling 4) and the curve sell-quote test is
 // unknown -> no Avoid; curve depth unknown; young/curve caps volume 60, room 80, narrative floor 20 (ruling 3).
 const EXPECT = {
-  CRAWL: { pts: { lp: 12, holders: 0, insiders: 6, dev: 7.5, liquidity: 4, priceAction: 3, organic: 3, socials: 3, age: 0 }, riskRaw: 56, risk: 56, grade: "D", caps: { te_dev: null, te_cluster: null }, rating: 2,
-    sig: { liquidityDepth: 90, volumeQuality: 55, buySell: 49, trend: 19, holderGrowth: 80, narrative: 30, room: 17 }, rewardRaw: 50.65, reward: 51, vscore: 20, verdict: "skip", conf: "MED", gates: [], hf: [], be: 2.23 },
-  Fux: { pts: { lp: 8, holders: 0, insiders: 2, dev: 7.5, liquidity: 8, priceAction: 4, organic: 3, socials: 6, age: 4 }, riskRaw: 60, risk: 60, grade: "D", caps: { te_dev: null, te_cluster: null }, rating: 1.4,
-    sig: { liquidityDepth: null, volumeQuality: 60, buySell: 56, trend: null, holderGrowth: 80, narrative: 20, room: 70 }, rewardRaw: 35.4, reward: 35, vscore: 14, verdict: "skip", conf: "LOW", gates: [], hf: [], be: 5.94 },
-  WILLY: { pts: { lp: 8, holders: 6, insiders: 6, dev: 7.5, liquidity: 8, priceAction: 4, organic: 3, socials: 6, age: 4 }, riskRaw: 70, risk: 70, grade: "D", caps: { te_dev: null, te_cluster: null }, rating: 1.3,
-    sig: { liquidityDepth: null, volumeQuality: 60, buySell: 51, trend: null, holderGrowth: 65, narrative: 20, room: 70 }, rewardRaw: 33.15, reward: 33, vscore: 13, verdict: "skip", conf: "LOW", gates: [], hf: [], be: 5.73 },
+  CRAWL: { pts: {lp: 12, holders: 0, insiders: 7.5, dev: 7.5, liquidity: 4, priceAction: 3, organic: 3, socials: 3, age: 0}, riskRaw: 57.5, risk: 58, grade: "D", caps: {te_dev: null, te_cluster: null}, rating: 2,
+    sig: {liquidityDepth: 90, volumeQuality: 55, buySell: 49, trend: 19, holderGrowth: 80, narrative: 30, room: 17}, rewardRaw: 50.65, reward: 51, vscore: 20, verdict: "skip", conf: "LOW", gates: [], hf: [], be: 2.23 },
+  Fux: { pts: {lp: 8, holders: 0, insiders: 7.5, dev: 7.5, liquidity: 8, priceAction: 4, organic: 3, socials: 6, age: 4}, riskRaw: 65.5, risk: 66, grade: "D", caps: {te_dev: null, te_cluster: null}, rating: 1.4,
+    sig: {liquidityDepth: null, volumeQuality: 60, buySell: 56, trend: null, holderGrowth: 80, narrative: 20, room: 70}, rewardRaw: 35.4, reward: 35, vscore: 14, verdict: "skip", conf: "LOW", gates: [], hf: [], be: 5.94 },
+  WILLY: { pts: {lp: 8, holders: 6, insiders: 7.5, dev: 7.5, liquidity: 8, priceAction: 4, organic: 3, socials: 6, age: 4}, riskRaw: 71.5, risk: 72, grade: "D", caps: {te_dev: null, te_cluster: null}, rating: 1.3,
+    sig: {liquidityDepth: null, volumeQuality: 60, buySell: 51, trend: null, holderGrowth: 65, narrative: 20, room: 70}, rewardRaw: 33.15, reward: 33, vscore: 13, verdict: "skip", conf: "LOW", gates: [], hf: [], be: 5.73 },
   Alias: { pts: { lp: 8, holders: 0, insiders: 12, dev: 15, liquidity: 10, priceAction: 5, organic: 3, socials: 6, age: 4 }, riskRaw: 80.5, risk: 81, grade: "D", caps: { te_dev: 1, te_cluster: null }, rating: 1.5,
     sig: { liquidityDepth: null, volumeQuality: 55, buySell: 39, trend: 31, holderGrowth: 80, narrative: 20, room: 70 }, rewardRaw: 36.75, reward: 37, vscore: 15, verdict: "skip", conf: "LOW", gates: [], hf: [], be: 146.28 },
   // QI fixture (Argus 22:33 data + live launch history/Jupiter, QI_CAPTURE.md): the APP'S numbers, not tuned; WORKED.md v1.4 QI FINAL: risk 34 B, reward ~56, 45 Skip, 4.5.
-  QI: { pts: { lp: 10.3, holders: 6, insiders: 6, dev: 3, liquidity: 4, priceAction: 0, organic: 0, socials: 3, age: 0 }, riskRaw: 34.3, risk: 34, grade: "B", caps: { te_dev: 0, te_cluster: 0 }, rating: 4.5,
-    sig: { liquidityDepth: 80, volumeQuality: 55, buySell: 61, trend: 57, holderGrowth: 75, narrative: 25, room: 30 }, rewardRaw: 56.2, reward: 56, vscore: 45, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 2.12 },
+  QI: { pts: {lp: 10.3, holders: 6, insiders: 6, dev: 3, liquidity: 4, priceAction: 0, organic: 0, socials: 3, age: 0}, riskRaw: 34.3, risk: 34, grade: "B", caps: {te_dev: 0, te_cluster: 0}, rating: 4.5,
+    sig: {liquidityDepth: 80, volumeQuality: 55, buySell: 61, trend: 57, holderGrowth: 75, narrative: 25, room: 30}, rewardRaw: 56.2, reward: 56, vscore: 45, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 21.17 },
   // Yana fixture (bonding curve, 6.8 min old, YANA_CAPTURE.md). App's numbers, not tuned.
-  Yana: { pts: { lp: 8, holders: 0, insiders: 12, dev: 15, liquidity: 8, priceAction: 0, organic: 0, socials: 6, age: 4 }, riskRaw: 55, risk: 55, grade: "C", caps: { te_dev: 1, te_cluster: 0 }, rating: 1,
-    sig: { liquidityDepth: 40, volumeQuality: 60, buySell: 51, trend: 60, holderGrowth: 80, narrative: 20, room: 70 }, rewardRaw: 51.65, reward: 52, vscore: 31, verdict: "avoid", conf: "LOW", gates: ["g_serial"], hf: [], be: 2.85 },
+  Yana: { pts: {lp: 8, holders: 0, insiders: 12, dev: 15, liquidity: 8, priceAction: 0, organic: 0, socials: 6, age: 4}, riskRaw: 55, risk: 100, grade: "D", caps: {te_dev: 1, te_cluster: 0}, rating: 1,
+    sig: {liquidityDepth: 0, volumeQuality: 60, buySell: 51, trend: 60, holderGrowth: 80, narrative: 20, room: 70}, rewardRaw: 43.65, reward: 44, vscore: 18, verdict: "avoid", conf: "LOW", gates: ["g_serial", "g_liq"], hf: ["hf_honeypot"], be: 1864.64 },
   // z0s fixture (bonding curve, 4.3 min old, Z0S_CAPTURE.md). App's numbers, not tuned (WORKED.md v1.3: 35 B, ~54, 43, 4.3).
-  z0s: { pts: { lp: 8, holders: 6, insiders: 2, dev: 4, liquidity: 8, priceAction: 0, organic: 0, socials: 3, age: 4 }, riskRaw: 37, risk: 37, grade: "B", caps: { te_dev: 0, te_cluster: 0 }, rating: 4.2,
-    sig: { liquidityDepth: 15, volumeQuality: 60, buySell: 75, trend: 60, holderGrowth: 75, narrative: 35, room: 70 }, rewardRaw: 52, reward: 52, vscore: 42, verdict: "skip", conf: "LOW", gates: [], hf: [], be: 6.4 },
-  SYNCLEAN: { pts: { lp: 0, holders: 0, insiders: 2, dev: 0, liquidity: 0, priceAction: 0, organic: 0, socials: 0, age: 0 }, riskRaw: 2, risk: 2, grade: "A", caps: { te_dev: 0, te_cluster: 0 }, rating: 7.1,
-    sig: { liquidityDepth: 85, volumeQuality: 100, buySell: 65, trend: 83, holderGrowth: 90, narrative: 35, room: 21 }, rewardRaw: 70.55, reward: 71, vscore: 71, verdict: "watch", conf: "HIGH", gates: [], hf: [], be: 2.35 },
-  SYNHARD: { riskRaw: 2, risk: 100, grade: "D", caps: { te_dev: 0, te_cluster: 0 }, rating: 1,
-    rewardRaw: 70.55, reward: 71, vscore: 28, verdict: "avoid", conf: "HIGH", gates: [], hf: ["hf_mint","hf_token2022"], be: 13.4 },
-  SYNMID: { pts: { lp: 5, holders: 13, insiders: 12, dev: 13, liquidity: 8, priceAction: 3, organic: 6, socials: 5, age: 0 }, riskRaw: 65, risk: 65, grade: "D", caps: { te_dev: 0, te_cluster: 0 }, rating: 1.4,
-    sig: { liquidityDepth: 15, volumeQuality: 72, buySell: 33, trend: 25, holderGrowth: 30, narrative: 35, room: 31 }, rewardRaw: 33.85, reward: 34, vscore: 14, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 3.18 },
-  SYNLOT: { pts: { lp: 0, holders: 13, insiders: 2, dev: 5, liquidity: 8, priceAction: 0, organic: 0, socials: 0, age: 0 }, riskRaw: 28, risk: 28, grade: "B", caps: { te_dev: 0, te_cluster: 0 }, rating: 4.3,
-    sig: { liquidityDepth: 21, volumeQuality: 100, buySell: 65, trend: 83, holderGrowth: 50, narrative: 35, room: 21 }, rewardRaw: 53.75, reward: 54, vscore: 43, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 2.35 },
-  SYNRUG: { pts: { lp: 0, holders: 0, insiders: 2, dev: 15, liquidity: 0, priceAction: 0, organic: 0, socials: 0, age: 0 }, riskRaw: 17, risk: 17, grade: "A", caps: { te_dev: 1, te_cluster: 0 }, rating: 4.9,
-    sig: { liquidityDepth: 85, volumeQuality: 100, buySell: 65, trend: 83, holderGrowth: 90, narrative: 35, room: 21 }, rewardRaw: 70.55, reward: 71, vscore: 71, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 2.35 },
+  z0s: { pts: {lp: 8, holders: 6, insiders: 2, dev: 4, liquidity: 8, priceAction: 0, organic: 3, socials: 3, age: 4}, riskRaw: 40, risk: 40, grade: "B", caps: {te_dev: 0, te_cluster: 0}, rating: 4.5,
+    sig: {liquidityDepth: 40, volumeQuality: 60, buySell: 75, trend: 60, holderGrowth: 65, narrative: 35, room: 70}, rewardRaw: 56, reward: 56, vscore: 45, verdict: "skip", conf: "LOW", gates: [], hf: [], be: 2.12 },
+  SYNCLEAN: { pts: {lp: 0, holders: 0, insiders: 2, dev: 0, liquidity: 0, priceAction: 0, organic: 0, socials: 0, age: 0}, riskRaw: 2, risk: 2, grade: "A", caps: {te_dev: 0, te_cluster: 0}, rating: 7.1,
+    sig: {liquidityDepth: 85, volumeQuality: 100, buySell: 65, trend: 83, holderGrowth: 90, narrative: 35, room: 21}, rewardRaw: 70.55, reward: 71, vscore: 71, verdict: "watch", conf: "HIGH", gates: [], hf: [], be: 2.15 },
+  SYNHARD: { pts: {lp: 0, holders: 0, insiders: 2, dev: 0, liquidity: 0, priceAction: 0, organic: 0, socials: 0, age: 0}, riskRaw: 2, risk: 100, grade: "D", caps: {te_dev: 0, te_cluster: 0}, rating: 1,
+    sig: {liquidityDepth: 85, volumeQuality: 100, buySell: 65, trend: 83, holderGrowth: 90, narrative: 35, room: 21}, rewardRaw: 70.55, reward: 71, vscore: 28, verdict: "avoid", conf: "HIGH", gates: [], hf: ["hf_mint", "hf_token2022"], be: 13.17 },
+  SYNMID: { pts: {lp: 5, holders: 13, insiders: 12, dev: 13, liquidity: 8, priceAction: 3, organic: 6, socials: 5, age: 0}, riskRaw: 65, risk: 65, grade: "D", caps: {te_dev: 0, te_cluster: 0}, rating: 1.4,
+    sig: {liquidityDepth: 15, volumeQuality: 72, buySell: 33, trend: 25, holderGrowth: 30, narrative: 35, room: 31}, rewardRaw: 33.85, reward: 34, vscore: 14, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 2.15 },
+  SYNLOT: { pts: {lp: 0, holders: 13, insiders: 2, dev: 5, liquidity: 8, priceAction: 0, organic: 0, socials: 0, age: 0}, riskRaw: 28, risk: 28, grade: "B", caps: {te_dev: 0, te_cluster: 0}, rating: 4.3,
+    sig: {liquidityDepth: 21, volumeQuality: 100, buySell: 65, trend: 83, holderGrowth: 50, narrative: 35, room: 21}, rewardRaw: 53.75, reward: 54, vscore: 43, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 2.15 },
+  SYNRUG: { pts: {lp: 0, holders: 0, insiders: 2, dev: 15, liquidity: 0, priceAction: 0, organic: 0, socials: 0, age: 0}, riskRaw: 17, risk: 17, grade: "A", caps: {te_dev: 1, te_cluster: 0}, rating: 4.9,
+    sig: {liquidityDepth: 85, volumeQuality: 100, buySell: 65, trend: 83, holderGrowth: 90, narrative: 35, room: 21}, rewardRaw: 70.55, reward: 71, vscore: 71, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 2.15 },
+  // v1.5 batch (10 Oct 2026): the APP'S numbers, never tuned to the hand scores (Mnemosyne, SCORES-2026-10-10.md; the per-coin deltas are in FORMULA.md 6d)
+  Circuit: { pts: {lp: 0, holders: 6, insiders: 2, dev: 0, liquidity: 4, priceAction: 5, organic: 0, socials: 3, age: 0}, riskRaw: 22, risk: 22, grade: "A", caps: {te_dev: 0, te_cluster: 0}, rating: 4.7,
+    sig: {liquidityDepth: 22, volumeQuality: 63, buySell: 50, trend: 42, holderGrowth: 75, narrative: 35, room: 67}, rewardRaw: 47.1, reward: 47, vscore: 47, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 22.3 },
+  SNOOP: { pts: {lp: 0, holders: 6, insiders: 2, dev: 4, liquidity: 4, priceAction: 5, organic: 6, socials: 3, age: 0}, riskRaw: 32, risk: 32, grade: "B", caps: {te_dev: 0, te_cluster: 0}, rating: 3.2,
+    sig: {liquidityDepth: 24, volumeQuality: 55, buySell: 37, trend: 30, holderGrowth: 55, narrative: 35, room: 65}, rewardRaw: 40.35, reward: 40, vscore: 32, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 4.88 },
+  PATCH: { pts: {lp: 0, holders: 13, insiders: 6, dev: 4, liquidity: 0, priceAction: 0, organic: 0, socials: 3, age: 0}, riskRaw: 28, risk: 28, grade: "B", caps: {te_dev: 0, te_cluster: 0}, rating: 4.7,
+    sig: {liquidityDepth: 43, volumeQuality: 97, buySell: 47, trend: 92, holderGrowth: 50, narrative: 35, room: 48}, rewardRaw: 59.05, reward: 59, vscore: 47, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 10.94 },
+  QCOIN: { pts: {lp: 0, holders: 0, insiders: 7.5, dev: 7.5, liquidity: 0, priceAction: 3, organic: 0, socials: 5, age: 0}, riskRaw: 25, risk: 25, grade: "A", caps: {te_dev: 0, te_cluster: 0}, rating: 5.3,
+    sig: {liquidityDepth: 55, volumeQuality: 68, buySell: 66, trend: 26, holderGrowth: 90, narrative: 35, room: 40}, rewardRaw: 53.25, reward: 53, vscore: 53, verdict: "lottery", conf: "HIGH", gates: [], hf: [], be: 2.12 },
+  GULCH: { pts: {lp: 0, holders: 13, insiders: 2, dev: 15, liquidity: 4, priceAction: 5, organic: 0, socials: 3, age: 0}, riskRaw: 44, risk: 44, grade: "C", caps: {te_dev: 1, te_cluster: 0}, rating: 2.5,
+    sig: {liquidityDepth: 10, volumeQuality: 87, buySell: 60, trend: 56, holderGrowth: 50, narrative: 35, room: 70}, rewardRaw: 49.7, reward: 50, vscore: 30, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 4.72 },
+  SW: { pts: {lp: 0, holders: 0, insiders: 7.5, dev: 15, liquidity: 0, priceAction: 0, organic: 0, socials: 5, age: 0}, riskRaw: 29.5, risk: 30, grade: "B", caps: {te_dev: 1, te_cluster: 0}, rating: 2.5,
+    sig: {liquidityDepth: 53, volumeQuality: 89, buySell: 58, trend: 70, holderGrowth: 90, narrative: 35, room: 41}, rewardRaw: 61.5, reward: 62, vscore: 50, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 3.35 },
+  qLAB: { pts: {lp: 0, holders: 6, insiders: 7.5, dev: 4, liquidity: 4, priceAction: 5, organic: 0, socials: 3, age: 0}, riskRaw: 29.5, risk: 30, grade: "B", caps: {te_dev: 0, te_cluster: 1}, rating: 1,
+    sig: {liquidityDepth: 19, volumeQuality: 65, buySell: 47, trend: 52, holderGrowth: 75, narrative: 35, room: 69}, rewardRaw: 48.05, reward: 48, vscore: 38, verdict: "avoid", conf: "HIGH", gates: ["g_bundle"], hf: [], be: 17.7 },
+  QM: { pts: {lp: 0, holders: 0, insiders: 7.5, dev: 7.5, liquidity: 0, priceAction: 0, organic: 6, socials: 5, age: 0}, riskRaw: 28, risk: 28, grade: "B", caps: {te_dev: 0, te_cluster: 0}, rating: 4.4,
+    sig: {liquidityDepth: 36, volumeQuality: 79, buySell: 50, trend: 70, holderGrowth: 70, narrative: 35, room: 53}, rewardRaw: 54.6, reward: 55, vscore: 44, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 2.12 },
+  "景涛": { pts: {lp: 0, holders: 6, insiders: 2, dev: 15, liquidity: 4, priceAction: 0, organic: 0, socials: 5, age: 0}, riskRaw: 32, risk: 32, grade: "B", caps: {te_dev: 1, te_cluster: 0}, rating: 4.6,
+    sig: {liquidityDepth: 4, volumeQuality: 100, buySell: 62, trend: 87, holderGrowth: 75, narrative: 30, room: 70}, rewardRaw: 57.15, reward: 57, vscore: 46, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 2.53 },
+  NOTHUMAN: { pts: {lp: 0, holders: 6, insiders: 2, dev: 15, liquidity: 4, priceAction: 0, organic: 0, socials: 3, age: 4}, riskRaw: 36, risk: 36, grade: "B", caps: {te_dev: 1, te_cluster: 0}, rating: 3.8,
+    sig: {liquidityDepth: 10, volumeQuality: 60, buySell: 50, trend: 60, holderGrowth: 75, narrative: 30, room: 70}, rewardRaw: 46.5, reward: 47, vscore: 38, verdict: "skip", conf: "LOW", gates: [], hf: [], be: 17.55 },
 };
 async function run(c, opts = {}) {
   clearCache(); _resetSolCache(); _resetGt(); state.fail = new Set(opts.fail || []);
@@ -132,7 +153,7 @@ for (const c of CASES) {
   const dp = r.checks.risk.find((x) => x.id === "dev"); eq(dp.points, 3, "v1.2 ruling 1: launchpad relayer, not a dev -> deployer +3 (no serial gate)");
   eq(r.checks.gates.find((x) => x.id === "g_serial").score, 0, "g_serial not tripped by the relayer's launch count");
   const hp = r.checks.hard.find((x) => x.id === "hf_honeypot");
-  ok(/single route \(Pump\.fun Amm\)/.test(hp.reason) && /\$500: 0\.79% \(impact 0\.79%, output vs notional 0\.00%\)/.test(hp.reason), "Jupiter sells on a single route; exit cost shows both impact and output-vs-notional, worst used", hp.reason);
+  ok(/single route \(Pump\.fun Amm\)/.test(hp.reason) && /\$500: 9\.97% \(quote output vs size; Jupiter impact field 0\.79%\)/.test(hp.reason), "v1.5: exit cost is the quote's OUTPUT vs the size sold (the saved quote is later than the saved price), the impact field 0.79% shown as a secondary note", hp.reason);
   // v1.3 ruling A: LP over every pool >= $5k (RugCheck markets, DexScreener USD)
   const lp = r.checks.risk.find((x) => x.id === "lp");
   ok(lp.points === 10.3 && /48\.5% of liquidity is locked\/burned: \$99\.4k of \$204\.8k across 3 pool/.test(lp.reason), "v1.4 LP: $99.4k locked of $204.8k in 3 pools >= $5k = 48.5% -> linear 10.3 (WORKED.md v1.4: ~10)", lp.reason);
@@ -157,7 +178,7 @@ for (const c of CASES) {
   // threshold check on the same coin: a 26% launch wallet that dumped -> Skip cap
   const d5 = structuredClone(d); Object.assign(d5.launch.wallets.find((w) => w.wallet === d5.launch.largest.wallet), { boughtPct: 26 }); d5.launch.largest.boughtPct = 26;
   const r5 = score(d5, { ...CONFIG, gates: { ...CONFIG.gates, serialLaunches: Infinity } });
-  eq(`${r5.checks.caps.find((x) => x.id === "te_cluster").score} ${r5.verdict} ${r5.rating10}`, "1 skip 4.5", "same sniper at 26% (>=25%) and dumped -> Skip cap (the cap replaces the +2; verdict 45 is Skip anyway)"); }
+  eq(`${r5.checks.caps.find((x) => x.id === "te_cluster").score} ${r5.verdict} ${r5.rating10}`, "1 avoid 1", "same sniper at 26% (>=25%) and dumped -> Skip cap (the cap replaces the +2) and, new in v1.5, the single-wallet launch gate g_bundle -> Avoid"); }
 { const c = CASES.find((x) => x.name === "Yana"); const { r, d } = await run(c);
   console.log("\n— Yana (The Mammoth): pre-graduation bonding-curve worked example");
   eq(d.pool.onCurve, true, "on the pump.fun bonding curve (not graduated)");
@@ -165,15 +186,19 @@ for (const c of CASES) {
   ok(/~7\d% of the graduation SOL/.test(r.checks.risk.find((x) => x.id === "lp").reason), "curve fill ~70% of the graduation SOL (Argus: about 70%)", r.checks.risk.find((x) => x.id === "lp").reason);
   eq(r.checks.gates.find((x) => x.id === "g_lp").score, 0, "LP gate exempt on the curve");
   eq(r.confidence, "LOW", "LOW confidence"); ok(/6\/6 sources answered/.test(r.confidenceWhy) && /pair only 7 min old/.test(r.confidenceWhy), "LOW comes from age < 30 min, not from missing sources", r.confidenceWhy);
+  // The saved Jupiter quote was taken ~9 min after the saved DexScreener price (the curve coin fell ~78% in between): v1.5 measures the exit cost as quote OUTPUT vs the size sold, so
+  // for the v1.2 gate/depth checks below the quote is restated at the saved price (output x sizeUsd / swapUsdValue). The un-restated 78% reading is pinned in the EXPECT table.
+  const dY = structuredClone(d); for (const k of [50, 500]) { const q = dY.sellQuote[k]; q.outSol *= q.sizeUsd / q.notionalUsd; } const rY = score(dY);
   const dv = r.checks.caps.find((x) => x.id === "te_dev");
   ok(dv.score === 1 && /signer 8inT…3Eeh bought 8\.25% at launch and SOLD 8\.25% 1 s after launch \(\+3\.216 SOL back\)/.test(dv.reason), "launch signer 8inT…3Eeh (not RugCheck creator 9AJG…) bought 8.25% in the create tx and sold it 1 s later -> Skip cap", dv.reason);
   eq(r.checks.risk.find((x) => x.id === "dev").points, 15, "v1.2 ruling 2: deployer points = worse of signer (sold: 15) and creator");
-  ok(r.checks.gates.find((x) => x.id === "g_liq").score === 0 && /\$50 sell quote works/.test(r.checks.gates.find((x) => x.id === "g_liq").reason), "v1.2 ruling 4: curve coin passes the liquidity gate on the $50 sell quote", r.checks.gates.find((x) => x.id === "g_liq").reason);
+  ok(rY.checks.gates.find((x) => x.id === "g_liq").score === 0 && /\$50 sell quote works/.test(rY.checks.gates.find((x) => x.id === "g_liq").reason), "v1.2 ruling 4: curve coin passes the liquidity gate on the $50 sell quote (quote restated at the saved price)", rY.checks.gates.find((x) => x.id === "g_liq").reason);
+  ok(r.checks.gates.find((x) => x.id === "g_liq").score === 1, "v1.5: un-restated, the quote output is 78% under the size sold -> the curve gate fails (exit cost from the OUTPUT)");
   ok(r.rr.stopSrc.includes("no swing low") && r.rr.plan.entry === d.market.priceUsd && /\+30%/.test(r.rr.text), "7-min-old coin: launch candles (< 15 min) are no swing low and the peak is < 30% above price -> -18% stop, +30% TP1 fallbacks", r.rr.text);
   eq(d.dev.address, "9AJGnixEBQgqXTfRPTBNHPWjh5vSRTruFkG3KS9KgUxH", "RugCheck's creator is the fee wallet 9AJG… (holds 0%)");
-  eq(`${r.verdict} ${r.rating10} ${r.gatesHit.join(",")}`, "avoid 1 g_serial", "WORKED.md v1.2: Avoid 1.0 (serial gate on the dev-acting signer + dev-sold cap)");
-  const rel = { ...CONFIG, gates: { ...CONFIG.gates, serialLaunches: Infinity } }, r2 = score(d, rel);
-  eq(`${r2.riskScore} ${r2.grade} ${r2.rewardScore} ${r2.verdictScore} ${r2.verdict} ${r2.rating10} ${r2.confidence}`, "55 C 52 31 skip 3.1 LOW", "without g_serial: risk 55 C, reward 52, 52x0.6=31, Skip (and capped), 3.1/10 LOW");
+  eq(`${rY.verdict} ${rY.rating10} ${rY.gatesHit.join(",")}`, "avoid 1 g_serial", "WORKED.md v1.2: Avoid 1.0 (serial gate on the dev-acting signer + dev-sold cap)");
+  const rel = { ...CONFIG, gates: { ...CONFIG.gates, serialLaunches: Infinity } }, r2 = score(dY, rel);
+  eq(`${r2.riskScore} ${r2.grade} ${r2.rewardScore} ${r2.verdictScore} ${r2.verdict} ${r2.rating10} ${r2.confidence}`, "55 C 52 31 skip 2.5 LOW", "without g_serial: risk 55 C, reward 52, 52x0.6=31, Skip (and capped), 2.5/10 LOW (v1.5: the signer sold 8.25% = dev-sold rating cap 2.5; was 3.1)");
   console.log(`  info  vs WORKED.md (Avoid 1.0): Avoid ${r.rating10}; without the gate risk ${r2.riskScore}, reward ${r2.rewardRaw}`);
   // LOW confidence never displays above 6.0: every case, forced young
   let worst = 0; for (const k of CASES) { const { d: dk } = await run(k); dk.pairAgeMin = 5; const rk = score(dk, { ...CONFIG, gates: { ...CONFIG.gates, serialLaunches: Infinity, liquidityMinUsd: 0 } }); worst = Math.max(worst, rk.rating10); ok(rk.confidence === "LOW" && rk.rating10 <= 6.0, `${k.name} at 5 min old: LOW, rating ${rk.rating10} <= 6.0`); }
@@ -187,12 +212,12 @@ for (const c of CASES) {
   eq(d.launch.dev.wallet, "Cobh71dEPrqCeVxnFy3znpHomepYzpQ6RpZsxXsRaPcC", "dev Cobh… is the create-tx signer/buyer"); near(d.launch.dev.boughtPct, 4.4, "dev bought 4.40% at launch");
   const dp = r.checks.risk.find((x) => x.id === "dev"), dv = r.checks.caps.find((x) => x.id === "te_dev");
   ok(dp.points === 4 && /verified Streamflow lock FmTC…WeMm/.test(dp.reason), "AFTER (verified lock): deployer 4, not an exit", dp.reason); eq(dv.score, 0, "no dev-sold cap with a verified lock");
-  eq(`${r.riskScore} ${r.grade} ${r.rewardScore} ${r.verdictScore} ${r.verdict} ${r.rating10} ${r.confidence}`, "37 B 52 42 skip 4.2 LOW", "z0s: risk 37 B, reward 52, 52x0.8=42 Skip, 4.2/10 LOW (WORKED.md v1.3: 35 B, ~54, 43, 4.3)");
+  eq(`${r.riskScore} ${r.grade} ${r.rewardScore} ${r.verdictScore} ${r.verdict} ${r.rating10} ${r.confidence}`, "40 B 56 45 skip 4.5 LOW", "z0s v1.5: risk 40 B, reward 56, 56x0.8=45 Skip, 4.5/10 LOW (v1.3: 37 B, 52, 42, 4.2; WORKED.md v1.3: 35 B, ~54, 43, 4.3). Moves: trend ignored under 2 h (+3 organic, -10 holders), exit cost from the output");
   console.log(`  info  vs WORKED.md v1.3 (35 B, ~54, 43, 4.3 LOW): risk +${r.riskScore - 35} (finished sniper exit te_cluster +2), reward ${r.rewardScore - 54} (depth 15 vs 30, volume 60 vs 55), score ${r.verdictScore - 43}, rating ${(r.rating10 - 4.3).toFixed(1)}`);
   // BEFORE: no lock data -> the launch buy moved out within a minute is an unresolved dev exit
   const d2 = structuredClone(d); delete d2.devLocks; const r2 = score(d2), dp2 = r2.checks.risk.find((x) => x.id === "dev");
   ok(dp2.points === 10 && /unresolved dev exit/.test(dp2.reason) && r2.checks.caps.find((x) => x.id === "te_dev").score === 1, "BEFORE (lock not verified): deployer 10 + dev-sold cap", dp2.reason);
-  eq(`${r2.riskScore} ${r2.grade} ${r2.verdict}`, "43 C skip", "before: risk 43 C, capped Skip");
+  eq(`${r2.riskScore} ${r2.grade} ${r2.verdict}`, "46 C skip", "before: risk 46 C, capped Skip");
   // a lock that fails verification (sender can cancel) is still unresolved
   const d3 = structuredClone(d); Object.assign(d3.devLocks[0], { verified: false, why: ["the sender can cancel it"] }); const dp3 = score(d3).checks.risk.find((x) => x.id === "dev");
   ok(dp3.points === 10 && /lock NOT verified \(the sender can cancel it\)/.test(dp3.reason), "unverified lock (cancellable) -> unresolved +10", dp3.reason);
@@ -274,6 +299,46 @@ for (const c of CASES) {
   await collect(c.mint, { now: c.now, fetchImpl: mockFetch }); const n1 = state.log.length;
   const d2 = await collect(c.mint, { now: c.now + 30000, fetchImpl: mockFetch }); eq(d2.fromCache, true, "re-check after 30 s is served from cache"); eq(state.log.length, n1, "no API calls inside the cache window");
   const d3 = await collect(c.mint, { now: c.now + CONFIG.cacheMs + 1000, fetchImpl: mockFetch }); eq(!!d3.fromCache, false, "re-check after 46 s fetches fresh"); }
+
+// ---------------- v1.5 (Mnemosyne 10 Oct 2026): dev-sold cap, bundle gate, burn = 0, trend gate, exit cost from the output, unknown launch buyers, labels
+{ const g = (r, id) => [...r.checks.risk, ...r.checks.caps, ...r.checks.gates, ...r.checks.reward, ...r.checks.hard].find((x) => x.id === id);
+  const C = (n) => CASES.find((x) => x.name === n);
+  console.log("\n— v1.5: dev-sold cap (GULCH via a dev-linked wallet, SW dev's own sells)");
+  { const { r } = await run(C("GULCH")); ok(r.devSold.hit && r.devSold.pct >= 3 && /dev-linked HXYP…3gNU \(got 6\.93% from the dev\) sold 6\.93%/.test(r.devSold.text), "GULCH: the creator moved 6.93% to a wallet that sold it all (SOL came back) -> dev-linked sale >= 3%", r.devSold.text);
+    eq(`${r.verdict} ${r.rating10}`, "skip 2.5", "GULCH: Skip, rating capped at 2.5 (the app showed 4.4 before)"); ok(/DEV SOLD/.test(r.ratingWhy), "the rating says why: DEV SOLD caps at 2.5", r.ratingWhy); }
+  { const { r } = await run(C("SW")); ok(r.devSold.hit && r.devSold.pct >= 3 && r.devSold.usd > 5000, "SW: the dev sold >= 3% of supply (and > $5k) within 30 min (read through its first sells, then stopped)", r.devSold.text); eq(`${r.verdict} ${r.rating10}`, "skip 2.5", "SW: Skip, rating capped at 2.5"); }
+  { const { r } = await run(C("景涛")); eq(r.devSold.hit, false, "景涛: the signer sold 3.6% but 38.6 min after launch: not 'early' (window 30 min) -> no dev-sold cap"); }
+  { const { r } = await run(C("SNOOP")); eq(r.devSold.hit, false, "SNOOP: the dev locked its buy, nobody sold -> no cap"); }
+  console.log("\n— v1.5: a burn is not an exit");
+  { const { r } = await run(C("Circuit")); const dv = g(r, "dev"); ok(dv.points === 0 && /burned 0\.60% \(a burn is not an exit: 0 risk\)/.test(dv.reason), "Circuit: the launcher bought 0.50% and burned it 2 h later (BURNow burn) -> deployer 0, not 15", dv.reason);
+    eq(g(r, "te_dev").score, 0, "Circuit: no Skip cap from the burned launch buy (was capped before)"); }
+  console.log("\n— v1.5: single launch wallet >= 25% (create slot + first 60 s, curve buys read) = Avoid");
+  { const { r } = await run(C("qLAB")); const gb = g(r, "g_bundle"); eq(gb.score, 1, "qLAB: one wallet bought >= 25% at launch -> Avoid gate");
+    ok(/Wallet 4VSA…obge bought 45\.00% of supply at launch/.test(gb.reason) && /create slot 53\.8% \/ first 60 s [\d.]+% of supply \(net of sells\)/.test(gb.reason) && /exit seen: now 0\.00%, first sale 1 s after launch/.test(gb.reason), "gate text shows BOTH shares (create slot / first 60 s) and says the exit was seen", gb.reason);
+    eq(`${r.verdict} ${r.rating10} ${r.gatesHit}`, "avoid 1 g_bundle", "qLAB: Avoid 1.0 (hand score: Avoid 1.0)"); }
+  { const { r } = await run(C("PATCH")); eq(g(r, "g_bundle").score, 0, "PATCH: largest wallet 24.0% (just under 25%) -> no gate"); ok(/create slot 36\.4% \/ first 60 s/.test(g(r, "te_cluster").reason), "the sniper row shows both the create-slot and the first-60-s share"); }
+  { const { d } = await run(C("qLAB")); const d2 = structuredClone(d); d2.launch.wallets.find((w) => w.boughtPct >= 25).firstExitSec = undefined; Object.assign(d2.launch.wallets.find((w) => w.boughtPct >= 25), { exitShare: 0, heldNowPct: 45 });
+    ok(/buy confirmed, exit trace pending/.test(g(score(d2), "g_bundle").reason), "gate label while the exit is not seen: 'buy confirmed, exit trace pending'"); }
+  console.log("\n— v1.5: launch buyers unknown, never 0% (half the insider points, LOW confidence)");
+  { const { d } = await run(C("SNOOP")); const d2 = structuredClone(d); delete d2.launch; d2.sources["solana-rpc"].calls.push({ part: "launch snipers", ok: false, error: "curve has 8 transaction(s) and the create tx could not be read" });
+    const r2 = score(d2); eq(g(r2, "insiders").points, 7.5, "insiders = half of 15 when the launch buyers are unreadable"); ok(/Launch buyers unknown/.test(g(r2, "insiders").reason), "says 'launch buyers unknown'");
+    ok(g(r2, "g_bundle").score === null && /launch buyers unknown/.test(g(r2, "g_bundle").reason), "the bundle gate is unknown, not clean"); eq(r2.confidence, "LOW", "confidence LOW"); ok(/launch buyers unknown/.test(r2.confidenceWhy), "confidence says why", r2.confidenceWhy); }
+  { const { r } = await run(C("QM")); ok(g(r, "insiders").points >= 7.5 && /probable bundle/.test(g(r, "insiders").reason), "QM: 79% of supply bought by 19 wallets in the create slot = probable bundle -> at least half the insider points", g(r, "insiders").reason);
+    ok(g(r, "dev").points === 7.5 && /dev's own buy can't be told apart/.test(g(r, "dev").reason), "QM: dust signer + a bundle inside the create tx -> dev unknown, half the dev points", g(r, "dev").reason); }
+  console.log("\n— v1.5: exit cost = the quote's OUTPUT vs the size sold; the impact field is secondary");
+  { const { r, d } = await run(C("SNOOP")); const q = d.sellQuote[50], out = (1 - (q.outSol * d.solUsd) / q.sizeUsd) * 100; near(g(r, "liquidityDepth").reason.match(/\$50: ([\d.]+)%/)[1] * 1, +out.toFixed(2), "SNOOP $50 exit cost = output vs size = " + out.toFixed(2) + "% (the old impact field said 0.48%... here " + (q.impactPct).toFixed(2) + "%)");
+    ok(out > 1.5 && out < 2.5, "SNOOP $50 exit loses 1.6-2.3% by the output amount (both scouts: about 1.6-2.3%)"); ok(/impact field/.test(g(r, "liquidityDepth").reason), "the impact field is shown as a secondary note"); }
+  console.log("\n— v1.5: holder trend ignored until 2 h old or > 500 holders; drawdown flag; labels");
+  { const { r, d } = await run(C("NOTHUMAN")); const d2 = structuredClone(d); d2.holders.count = 120; d2.holders.change1hPct = 1445; d2.fetchedAt = (d2.launch?.at ?? d2.launchAt) + 40 * 60000;
+    const r2 = score(d2); ok(/Holder-count trend ignored/.test(g(r2, "organic").reason) && g(r2, "organic").points === 3, "40 min old, 120 holders, +1,445%/h: trend ignored (organic flat 3)", g(r2, "organic").reason); ok(/holder trend ignored/.test(g(r2, "holderGrowth").reason) && !/\+1445|\+10\)/.test(g(r2, "holderGrowth").reason), "holder growth reward ignores it too", g(r2, "holderGrowth").reason);
+    const d3 = structuredClone(d2); d3.holders.count = 600; ok(/Holders \+1445/.test(g(score(d3), "organic").reason) || g(score(d3), "organic").points === 0, "over 500 holders: the trend counts again"); }
+  { const { r } = await run(C("GULCH")); ok(/FLAG drawdown may be understated/.test(g(r, "priceAction").reason), "GULCH: pair came long after the curve phase -> same flag (hand: -57% real vs -37% in the app)", g(r, "priceAction").reason);
+    const { r: r2 } = await run(C("Circuit")); ok(/FLAG drawdown may be understated/.test(g(r2, "priceAction").reason), "Circuit: pair created long after the curve phase -> 'drawdown may be understated' (the app can't read the pump.fun peak: CORS)", g(r2, "priceAction").reason); }
+  { const { r, d } = await run(C("SNOOP")); const gate = g(r, "g_bundle"); ok(gate.score === 0, "SNOOP: no single launch wallet >= 25%"); ok(d.devLocks?.[0]?.verified === true && /verified Streamflow lock/.test(g(r, "dev").reason), "SNOOP lock: escrow balance, cliff and withdrawn amount all read and checked -> 'verified'");
+    const d2 = structuredClone(d); d2.devLocks[0].verified = false; d2.devLocks[0].probable = true; const dv = g(score(d2), "dev"); ok(dv.points === 4 && /PROBABLE, not confirmed/.test(dv.reason), "escrow not read -> 'lock PROBABLE, not confirmed' (same 4 points)", dv.reason); }
+  console.log("\n— v1.5: Skip / Avoid = 'no position suggested'; creator holds 0% -> watch linked wallets");
+  { const { r } = await run(C("SNOOP")); ok(/^No position suggested/.test(r.loseAmount.text) && r.loseAmount.none === true, "Skip: 'No position suggested' (not 'amount you can lose: $0')", r.loseAmount.text); ok(!r.invalidation.some((x) => /sells any of its 0\.00%/.test(x)) && r.invalidation.some((x) => /Sales from wallets linked to the creator/.test(x)), "creator holds 0% -> the trigger watches linked wallets and liquidity / price breaks", r.invalidation.join(" | ")); }
+}
 
 // ---------------- break-even formula by hand
 { const be = breakEven({ extensions: { transferFeeBps: 0 }, sellQuote: { 50: { impactPct: 0.1 }, 500: { impactPct: 0.9 } }, solUsd: 150 }, CONFIG, 50);

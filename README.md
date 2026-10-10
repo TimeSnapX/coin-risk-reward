@@ -66,7 +66,7 @@ All are keyless and called from the browser. CORS was tested from https://timesn
 ## Tests
 
 ```
-node tests/unit.mjs     # 524 checks: hand-checked maths incl. QI, Yana and z0s worked examples (FORMULA.md 6a/6b), v1.3 reward formulas, locked-dev rule, R:R levels, failures, cache, ATA
+node tests/unit.mjs     # 916 checks: hand-checked maths incl. QI, Yana and z0s worked examples (FORMULA.md 6a/6b), v1.3 reward formulas, locked-dev rule, R:R levels, failures, cache, ATA
 node tests/e2e.mjs      # 412x915, every API mocked; screenshots -> test-results/e2e-*.png
 node tests/cors.mjs     # every source from a page on https://timesnapx.github.io (simulated)
 node tests/live.mjs     # real APIs through the UI; test-results/live-report.json + live-*.png
@@ -91,3 +91,7 @@ node /workspace/pwa-check/check.mjs <url>
 - **Not scored yet (SPEC v1.1 line 73):** SOL-paired pool.
 - **Fixtures**: QI, Yana and z0s mix Argus's saved data with live-captured parts (launch history, Jupiter); each fixture folder has a `*_CAPTURE.md` saying which is which.
 - **pump.fun API is CORS-blocked.** The curve fill comes from RugCheck instead.
+
+## v1.5 (10 Oct 2026)
+
+Dev-sold cap (2.5/10, Skip), burn = safe, holder trend ignored under 2 h / 500 holders, "no position suggested", sniper check = larger of create-slot and first-60 s (curve buys read, unreadable = unknown + half insider points + LOW), single-wallet launch gate, exit cost from the quote output, "probable, not confirmed" lock label, curve-peak flag, Tracker "added" / "data as of", **Import batch** (`public/batches/2026-10-10.json`), verdict-coloured quadrant with non-overlapping labels. Details and the SNOOP line-by-line reconciliation: FORMULA.md 6d.

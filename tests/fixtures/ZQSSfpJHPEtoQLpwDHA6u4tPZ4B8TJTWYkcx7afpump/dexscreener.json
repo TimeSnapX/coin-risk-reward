@@ -1,0 +1,77 @@
+{
+ "pairs": [
+  {
+   "chainId": "solana",
+   "dexId": "pumpswap",
+   "url": "https://dexscreener.com/solana/eecgjfsgrmfpx75fmxiftsmjxtyiwgmmd94lxjr1l7pj",
+   "pairAddress": "EECGjfsgRMfPX75fMXiFtsMjXtyiWgmmD94LXJR1L7pj",
+   "baseToken": {
+    "address": "ZQSSfpJHPEtoQLpwDHA6u4tPZ4B8TJTWYkcx7afpump",
+    "name": "Susan Dell is not human ",
+    "symbol": "NOTHUMAN"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.0000006679",
+   "priceUsd": "0.00007291",
+   "txns": {
+    "m5": {
+     "buys": 102,
+     "sells": 59
+    },
+    "h1": {
+     "buys": 754,
+     "sells": 561
+    },
+    "h6": {
+     "buys": 754,
+     "sells": 561
+    },
+    "h24": {
+     "buys": 754,
+     "sells": 561
+    }
+   },
+   "volume": {
+    "h24": 74291.11,
+    "h6": 74291.11,
+    "h1": 74291.11,
+    "m5": 27750.63
+   },
+   "priceChange": {
+    "m5": 27,
+    "h1": 50.61,
+    "h6": 50.61,
+    "h24": 50.61
+   },
+   "liquidity": {
+    "usd": 21860.86,
+    "base": 201175750,
+    "quote": 70.4568
+   },
+   "fdv": 72916,
+   "marketCap": 72916,
+   "pairCreatedAt": 1791585517000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/76bqRfacAZj0fQvr?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/7lDMuTZRYh5KCW_u?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/ZQSSfpJHPEtoQLpwDHA6u4tPZ4B8TJTWYkcx7afpump?timestamp=1791586200000",
+    "websites": [],
+    "socials": [
+     {
+      "url": "https://x.com/DissidentMedia/status/2107933149917540432?s=20",
+      "type": "twitter"
+     },
+     {
+      "url": "https://www.instagram.com/reel/DePooZ_OIkZ/?srtk=MXNrbnQ5eTBocHpsdw==",
+      "type": "instagram"
+     }
+    ]
+   },
+   "boosts": null
+  }
+ ]
+}

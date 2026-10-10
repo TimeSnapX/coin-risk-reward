@@ -10,7 +10,7 @@ const load = (mint, f) => { const p = path.join(FIX, mint, f); return existsSync
 const poolOwner = new Map(); // pool address -> mint
 const sigsOf = new Map(); // any address with saved history (creator, curve, sniper) -> { case, sigs }
 for (const c of CASES) {
-  for (const [a, l] of Object.entries(load(c.mint, "rpc_sigs.json") || {})) sigsOf.set(a, { c, sigs: l });
+  for (const [a, l] of Object.entries(load(c.mint, "rpc_sigs.json") || {})) { const o = sigsOf.get(a); sigsOf.set(a, o ? { c: o.c, sigs: [...o.sigs, ...l.filter((x) => !o.sigs.some((y) => y.signature === x.signature))].sort((x, y) => y.slot - x.slot) } : { c, sigs: l }); } // a wallet shared by two cases (Q-family) keeps both histories
   const ds = load(c.mint, "dexscreener.json"); for (const p of ds?.pairs || []) poolOwner.set(p.pairAddress, c.mint);
   const gt = load(c.mint, "gt_token.json"); for (const p of gt?.data?.relationships?.top_pools?.data || []) poolOwner.set(p.id.replace("solana_", ""), c.mint);
 }

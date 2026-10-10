@@ -107,5 +107,192 @@
   "history": "publicnode",
   "argus": "synthetic: SYNCLEAN numbers, but the dev sold 6% of supply 4 min after launch (clean-RugCheck cap)",
   "expected": "skip (capped)"
+ },
+ {
+  "mint": "EcZndAERfzNhLirHwfsy44dAyPSZazjDU83pa6RApump",
+  "name": "Circuit",
+  "now": 1791585900000,
+  "history": "publicnode",
+  "argus": "found by both; Mnemosyne hand score in SCORES-2026-10-10.md",
+  "expected": "skip",
+  "hand": {
+   "risk": 29,
+   "grade": "B",
+   "reward": 42,
+   "score": 34,
+   "verdict": "skip",
+   "rating": 3.4
+  },
+  "foundBy": "both",
+  "recordAccounts": true
+ },
+ {
+  "mint": "CMVdeRerz8fRT65jRJX5CP1CqTRVkZkuH3DZrA5Fpump",
+  "name": "SNOOP",
+  "now": 1791585900000,
+  "history": "publicnode",
+  "argus": "found by both; Mnemosyne hand score in SCORES-2026-10-10.md",
+  "expected": "skip",
+  "hand": {
+   "risk": 36,
+   "grade": "B",
+   "reward": 40,
+   "score": 32,
+   "verdict": "skip",
+   "rating": 3.2
+  },
+  "foundBy": "both",
+  "recordAccounts": true
+ },
+ {
+  "mint": "AEPBdj3RViMJKCHM1xiVaM1VNuP7VbZRSN68gu5xpump",
+  "name": "PATCH",
+  "now": 1791585900000,
+  "history": "publicnode",
+  "argus": "found by Hades; Mnemosyne hand score in SCORES-2026-10-10.md",
+  "expected": "skip",
+  "hand": {
+   "risk": 44,
+   "grade": "C",
+   "reward": 52,
+   "score": 31,
+   "verdict": "skip",
+   "rating": 3.1
+  },
+  "foundBy": "Hades",
+  "recordAccounts": true
+ },
+ {
+  "mint": "7SsZWPvLHpMizSGD8RByEbjUA8VatHWAts4UpjB4pump",
+  "name": "QCOIN",
+  "now": 1791585900000,
+  "history": "publicnode",
+  "argus": "found by Argus; Mnemosyne hand score in SCORES-2026-10-10.md",
+  "expected": "skip",
+  "hand": {
+   "risk": 34,
+   "grade": "B",
+   "reward": 39,
+   "score": 31,
+   "verdict": "skip",
+   "rating": 3.1,
+   "confidence": "LOW"
+  },
+  "foundBy": "Argus",
+  "recordAccounts": true
+ },
+ {
+  "mint": "HDiVMtmJpPYuNfs49CGQ5JxKHXcpXd6RQSmsZR6upump",
+  "name": "GULCH",
+  "now": 1791585900000,
+  "history": "publicnode",
+  "argus": "found by Hades; Mnemosyne hand score in SCORES-2026-10-10.md",
+  "expected": "skip",
+  "hand": {
+   "risk": 44,
+   "grade": "C",
+   "reward": 47,
+   "score": 28,
+   "verdict": "skip",
+   "rating": 2.5,
+   "cap": "dev-sold"
+  },
+  "foundBy": "Hades",
+  "recordAccounts": true
+ },
+ {
+  "mint": "5yuiTSNd32qxBM4rkuxqNd6gaSLBqCykJEaKwK4Jpump",
+  "name": "SW",
+  "now": 1791585900000,
+  "history": "publicnode",
+  "argus": "found by Argus; Mnemosyne hand score in SCORES-2026-10-10.md",
+  "expected": "skip",
+  "hand": {
+   "risk": 30,
+   "grade": "B",
+   "reward": 54,
+   "score": 43,
+   "verdict": "skip",
+   "rating": 2.5,
+   "cap": "dev-sold"
+  },
+  "foundBy": "Argus",
+  "recordAccounts": true
+ },
+ {
+  "mint": "Diqf6to3TbZzETu4a2v13hxAA4UFVRJbC3jawheApump",
+  "name": "qLAB",
+  "now": 1791585900000,
+  "history": "publicnode",
+  "argus": "found by both; Mnemosyne hand score in SCORES-2026-10-10.md",
+  "expected": "avoid",
+  "hand": {
+   "risk": 41,
+   "grade": "C",
+   "reward": 43,
+   "verdict": "avoid",
+   "rating": 1.0
+  },
+  "foundBy": "both",
+  "recordAccounts": true
+ },
+ {
+  "mint": "EGvw8HD3sMZM7LBArJ535kKWSZb99jnBLo8YZSPjpump",
+  "name": "QM",
+  "now": 1791586740000,
+  "history": "publicnode",
+  "argus": "found by Argus; Mnemosyne hand score in SCORES-2026-10-10.md",
+  "expected": "skip",
+  "hand": {
+   "risk": 32,
+   "grade": "B",
+   "reward": 44,
+   "score": 35,
+   "verdict": "skip",
+   "rating": 3.5,
+   "confidence": "LOW",
+   "pass2": true
+  },
+  "foundBy": "Argus",
+  "recordAccounts": true
+ },
+ {
+  "mint": "3jQGHGNyZk5V13AsfDm4dEgmY8x3NADGfc59zWnwpump",
+  "name": "\u666f\u6d9b",
+  "now": 1791586740000,
+  "history": "publicnode",
+  "argus": "found by Argus; Mnemosyne hand score in SCORES-2026-10-10.md",
+  "expected": "skip",
+  "hand": {
+   "risk": 32,
+   "grade": "B",
+   "reward": 50,
+   "score": 40,
+   "verdict": "skip",
+   "rating": 4.0,
+   "pass2": true
+  },
+  "foundBy": "Argus",
+  "recordAccounts": true
+ },
+ {
+  "mint": "ZQSSfpJHPEtoQLpwDHA6u4tPZ4B8TJTWYkcx7afpump",
+  "name": "NOTHUMAN",
+  "now": 1791586740000,
+  "history": "publicnode",
+  "argus": "found by Argus; Mnemosyne hand score in SCORES-2026-10-10.md",
+  "expected": "skip",
+  "hand": {
+   "risk": 29,
+   "grade": "B",
+   "reward": 47,
+   "score": 37,
+   "verdict": "skip",
+   "rating": 3.7,
+   "confidence": "LOW",
+   "pass2": true
+  },
+  "foundBy": "Argus",
+  "recordAccounts": true
  }
 ]

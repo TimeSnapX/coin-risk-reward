@@ -1,0 +1,216 @@
+{
+ "pairs": [
+  {
+   "chainId": "solana",
+   "dexId": "pumpfun",
+   "url": "https://dexscreener.com/solana/45fupuvcxhcx5vzvejzmuaqd1ujql4uzkttr8emgufad",
+   "pairAddress": "45fuPuVcxHCX5VZVejZmUaqd1UjQL4uZKTtr8EMgUFAD",
+   "baseToken": {
+    "address": "EcZndAERfzNhLirHwfsy44dAyPSZazjDU83pa6RApump",
+    "name": "Circuit",
+    "symbol": "Circuit"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.0000003986",
+   "priceUsd": "0.00004369",
+   "txns": {
+    "m5": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h1": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h6": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h24": {
+     "buys": 1011,
+     "sells": 853
+    }
+   },
+   "volume": {
+    "h24": 96661.16,
+    "h6": 0,
+    "h1": 0,
+    "m5": 0
+   },
+   "priceChange": {
+    "h24": 1315
+   },
+   "fdv": 43697.18,
+   "marketCap": 43697.18,
+   "pairCreatedAt": 1791559431000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/EZrHg_sdG56fjbqY?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/m783LGCXjFTbSfRz?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/EcZndAERfzNhLirHwfsy44dAyPSZazjDU83pa6RApump?timestamp=1791585600000",
+    "websites": [
+     {
+      "url": "https://circuitdev.fun/",
+      "label": "Website"
+     }
+    ],
+    "socials": [
+     {
+      "url": "https://x.com/circuitdevfun",
+      "type": "twitter"
+     }
+    ]
+   }
+  },
+  {
+   "chainId": "solana",
+   "dexId": "pumpswap",
+   "url": "https://dexscreener.com/solana/xyxuqk6dcnny5wmwxedj13kjjh8ug2dtjfx8npisy3p",
+   "pairAddress": "XYxUqk6dCnNy5wMwXeDj13KJjh8uG2dtJFx8NPiSy3P",
+   "baseToken": {
+    "address": "EcZndAERfzNhLirHwfsy44dAyPSZazjDU83pa6RApump",
+    "name": "Circuit",
+    "symbol": "Circuit"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.000001090",
+   "priceUsd": "0.0001190",
+   "txns": {
+    "m5": {
+     "buys": 9,
+     "sells": 11
+    },
+    "h1": {
+     "buys": 313,
+     "sells": 239
+    },
+    "h6": {
+     "buys": 4034,
+     "sells": 3149
+    },
+    "h24": {
+     "buys": 6299,
+     "sells": 4988
+    }
+   },
+   "volume": {
+    "h24": 763347.02,
+    "h6": 493713.42,
+    "h1": 40767.33,
+    "m5": 738.67
+   },
+   "priceChange": {
+    "m5": 1.74,
+    "h1": -22.15,
+    "h6": -52.04,
+    "h24": 174
+   },
+   "liquidity": {
+    "usd": 30084.76,
+    "base": 134520038,
+    "quote": 128.7651
+   },
+   "fdv": 112678,
+   "marketCap": 112678,
+   "pairCreatedAt": 1791561856000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/EZrHg_sdG56fjbqY?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/m783LGCXjFTbSfRz?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/EcZndAERfzNhLirHwfsy44dAyPSZazjDU83pa6RApump?timestamp=1791585600000",
+    "websites": [
+     {
+      "url": "https://circuitdev.fun/",
+      "label": "Website"
+     }
+    ],
+    "socials": [
+     {
+      "url": "https://x.com/circuitdevfun",
+      "type": "twitter"
+     }
+    ]
+   }
+  },
+  {
+   "chainId": "solana",
+   "dexId": "meteora",
+   "url": "https://dexscreener.com/solana/4ifpprsheyw8cygg2vyvh99w5hrepv6yuz52jdszznai",
+   "pairAddress": "4iFPPRSheyw8cYgg2VYVh99W5HRePv6yuZ52jDsZznai",
+   "labels": [
+    "DLMM"
+   ],
+   "baseToken": {
+    "address": "EcZndAERfzNhLirHwfsy44dAyPSZazjDU83pa6RApump",
+    "name": "Circuit",
+    "symbol": "Circuit"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.000000004992",
+   "priceUsd": "0.0000005464",
+   "txns": {
+    "m5": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h1": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h6": {
+     "buys": 19,
+     "sells": 22
+    },
+    "h24": {
+     "buys": 19,
+     "sells": 22
+    }
+   },
+   "volume": {
+    "h24": 29.65,
+    "h6": 29.65,
+    "h1": 0,
+    "m5": 0
+   },
+   "priceChange": {
+    "h6": -99.77,
+    "h24": -99.77
+   },
+   "liquidity": {
+    "usd": 6.18,
+    "base": 22846,
+    "quote": 0.05635
+   },
+   "fdv": 520,
+   "marketCap": 520,
+   "pairCreatedAt": 1791566172000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/EZrHg_sdG56fjbqY?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/m783LGCXjFTbSfRz?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/EcZndAERfzNhLirHwfsy44dAyPSZazjDU83pa6RApump?timestamp=1791585600000",
+    "websites": [
+     {
+      "url": "https://circuitdev.fun/",
+      "label": "Website"
+     }
+    ],
+    "socials": [
+     {
+      "url": "https://x.com/circuitdevfun",
+      "type": "twitter"
+     }
+    ]
+   }
+  }
+ ]
+}

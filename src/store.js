@@ -30,7 +30,7 @@ export function importJSON(text) {
 }
 
 // ---- Tracker: only coins the user explicitly adds. Never auto-filled, never invented.
-export const FOUND_BY = ["Argus", "Hades", "manual"];
+export const FOUND_BY = ["Argus", "Hades", "both", "manual"];
 export const STATUSES = ["watching", "bought elsewhere", "skipped"];
 export function setTracker(address, patch) {
   const w = loadWatch(); const c = w.coins[address]; if (!c) return null;
@@ -42,3 +42,25 @@ export function setTracker(address, patch) {
 }
 export function untrack(address) { const w = loadWatch(); if (w.coins[address]) { delete w.coins[address].tracker; saveWatch(w); } }
 export function trackerList() { return Object.values(loadWatch().coins).filter((c) => c.tracker).sort((a, b) => (b.tracker.foundAt || b.tracker.addedAt) - (a.tracker.foundAt || a.tracker.addedAt)); }
+
+// ---- Import batch: a JSON ARRAY of scout results (public/batches/<date>.json). Every field except `address` is optional and a missing
+// one stays "unknown" (never invented). Entries become tracker rows (added = now, data as of = the entry's dataAt); nothing is scored here,
+// so Mnemosyne's hand rating is shown as hers, next to the app's own score once the coin is checked.
+//   { address, symbol?, name?, foundBy?: "Argus"|"Hades"|"both", launchAt?: ms, dataAt?: ms, hand?: { rating, risk, reward, verdict, note? },
+//     cluster?: "Q-family", screened?: "reason" (screened out, thin data), notes? }
+export function importBatch(text) {
+  let j; try { j = typeof text === "string" ? JSON.parse(text) : text; } catch { throw new Error("Not valid JSON."); }
+  if (!Array.isArray(j)) throw new Error("A batch is a JSON array of coins.");
+  const w = loadWatch(); let added = 0, updated = 0, skipped = 0; const num = (v) => (Number.isFinite(v) ? v : undefined);
+  for (const e of j) {
+    if (!e || typeof e.address !== "string" || !ADDR.test(e.address)) { skipped++; continue; }
+    const cur = w.coins[e.address], old = cur?.tracker;
+    const hand = e.hand && typeof e.hand === "object" ? { rating: num(e.hand.rating), risk: num(e.hand.risk), reward: num(e.hand.reward), verdict: typeof e.hand.verdict === "string" ? e.hand.verdict.slice(0, 40) : undefined, grade: typeof e.hand.grade === "string" ? e.hand.grade.slice(0, 4) : undefined, note: typeof e.hand.note === "string" ? e.hand.note.slice(0, 600) : undefined } : undefined;
+    const t = { ...(old || {}), addedAt: old?.addedAt || Date.now(), status: e.screened ? "skipped" : old?.status || "watching", foundBy: FOUND_BY.includes(e.foundBy) ? e.foundBy : "manual",
+      foundAt: num(e.launchAt) ?? old?.foundAt, dataAt: num(e.dataAt) ?? old?.dataAt, hand, cluster: typeof e.cluster === "string" ? e.cluster.slice(0, 40) : undefined,
+      screened: typeof e.screened === "string" ? e.screened.slice(0, 200) : undefined, batch: typeof e.batch === "string" ? e.batch.slice(0, 20) : undefined, notes: String(e.notes ?? old?.notes ?? "").slice(0, 2000) };
+    w.coins[e.address] = { ...(cur || { address: e.address, chain: "solana", addedAt: Date.now() }), address: e.address, symbol: e.symbol || cur?.symbol, name: e.name || cur?.name, tracker: t };
+    cur ? updated++ : added++;
+  }
+  saveWatch(w); return { added, updated, skipped };
+}

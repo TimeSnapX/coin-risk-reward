@@ -1,0 +1,219 @@
+{
+ "pairs": [
+  {
+   "chainId": "solana",
+   "dexId": "pumpfun",
+   "url": "https://dexscreener.com/solana/3zpvugkeu6spcir5dok93qlunsx4zvnpy4rbxrexgsbw",
+   "pairAddress": "3ZpVUGkeu6SpciR5DoK93qLUNSx4zVnpY4rbXrexgSBw",
+   "baseToken": {
+    "address": "AEPBdj3RViMJKCHM1xiVaM1VNuP7VbZRSN68gu5xpump",
+    "name": "Patch",
+    "symbol": "PATCH"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.0000004105",
+   "priceUsd": "0.00004471",
+   "txns": {
+    "m5": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h1": {
+     "buys": 244,
+     "sells": 170
+    },
+    "h6": {
+     "buys": 244,
+     "sells": 170
+    },
+    "h24": {
+     "buys": 244,
+     "sells": 170
+    }
+   },
+   "volume": {
+    "h24": 32031.62,
+    "h6": 32031.62,
+    "h1": 32031.62,
+    "m5": 0
+   },
+   "priceChange": {
+    "h1": 1234,
+    "h6": 1234,
+    "h24": 1234
+   },
+   "fdv": 44711.56,
+   "marketCap": 44711.56,
+   "pairCreatedAt": 1791582749000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/NjWfNcZ1VSzjRXJ5?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/tAeoPUafAKBPAT9-?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/AEPBdj3RViMJKCHM1xiVaM1VNuP7VbZRSN68gu5xpump?timestamp=1791585600000",
+    "websites": [
+     {
+      "url": "https://www.usepatch.trade/",
+      "label": "Website"
+     }
+    ],
+    "socials": [
+     {
+      "url": "https://x.com/usePatchtrade",
+      "type": "twitter"
+     }
+    ]
+   }
+  },
+  {
+   "chainId": "solana",
+   "dexId": "pumpswap",
+   "url": "https://dexscreener.com/solana/fsqkux5e67mgmuegm35i1kku6asfguno9eh4g7hq5sqr",
+   "pairAddress": "FsqKUX5e67mgMuEGm35i1kku6asFgUno9Eh4g7hQ5Sqr",
+   "baseToken": {
+    "address": "AEPBdj3RViMJKCHM1xiVaM1VNuP7VbZRSN68gu5xpump",
+    "name": "Patch",
+    "symbol": "PATCH"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.000002441",
+   "priceUsd": "0.0002666",
+   "txns": {
+    "m5": {
+     "buys": 489,
+     "sells": 366
+    },
+    "h1": {
+     "buys": 4662,
+     "sells": 5933
+    },
+    "h6": {
+     "buys": 4662,
+     "sells": 5933
+    },
+    "h24": {
+     "buys": 4662,
+     "sells": 5933
+    }
+   },
+   "volume": {
+    "h24": 488714.49,
+    "h6": 488714.49,
+    "h1": 488714.49,
+    "m5": 74724.29
+   },
+   "priceChange": {
+    "m5": 81.85,
+    "h1": 491,
+    "h6": 491,
+    "h24": 491
+   },
+   "liquidity": {
+    "usd": 45286.63,
+    "base": 88318006,
+    "quote": 198.9488
+   },
+   "fdv": 257247,
+   "marketCap": 257247,
+   "pairCreatedAt": 1791582999000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/NjWfNcZ1VSzjRXJ5?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/tAeoPUafAKBPAT9-?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/AEPBdj3RViMJKCHM1xiVaM1VNuP7VbZRSN68gu5xpump?timestamp=1791585600000",
+    "websites": [
+     {
+      "url": "https://www.usepatch.trade/",
+      "label": "Website"
+     }
+    ],
+    "socials": [
+     {
+      "url": "https://x.com/usePatchtrade",
+      "type": "twitter"
+     }
+    ]
+   }
+  },
+  {
+   "chainId": "solana",
+   "dexId": "meteora",
+   "url": "https://dexscreener.com/solana/g98axmcftvwkzxwxtvpt8vg4nnjmfwsajuk5ko6a1j53",
+   "pairAddress": "G98AxMCFTVWkZXwXTVPT8VG4nNJmFWsaJUK5ko6A1J53",
+   "labels": [
+    "DLMM"
+   ],
+   "baseToken": {
+    "address": "AEPBdj3RViMJKCHM1xiVaM1VNuP7VbZRSN68gu5xpump",
+    "name": "Patch",
+    "symbol": "PATCH"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.0000007712",
+   "priceUsd": "0.00008403",
+   "txns": {
+    "m5": {
+     "buys": 0,
+     "sells": 0
+    },
+    "h1": {
+     "buys": 20,
+     "sells": 45
+    },
+    "h6": {
+     "buys": 20,
+     "sells": 45
+    },
+    "h24": {
+     "buys": 20,
+     "sells": 45
+    }
+   },
+   "volume": {
+    "h24": 155.3,
+    "h6": 155.3,
+    "h1": 155.3,
+    "m5": 0
+   },
+   "priceChange": {
+    "h1": -10.47,
+    "h6": -10.47,
+    "h24": -10.47
+   },
+   "liquidity": {
+    "usd": 27.43,
+    "base": 264809,
+    "quote": 0.04759
+   },
+   "fdv": 82858,
+   "marketCap": 82858,
+   "pairCreatedAt": 1791583180000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/NjWfNcZ1VSzjRXJ5?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/tAeoPUafAKBPAT9-?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/AEPBdj3RViMJKCHM1xiVaM1VNuP7VbZRSN68gu5xpump?timestamp=1791585600000",
+    "websites": [
+     {
+      "url": "https://www.usepatch.trade/",
+      "label": "Website"
+     }
+    ],
+    "socials": [
+     {
+      "url": "https://x.com/usePatchtrade",
+      "type": "twitter"
+     }
+    ]
+   }
+  }
+ ]
+}

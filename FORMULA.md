@@ -1,7 +1,7 @@
 # Coin Risk vs Reward: formula and worked examples
 
 Source of truth: `/workspace/coin-checker/SPEC.md` (v1 plus the v1.1 additions agreed on 9 Oct 2026) and the v1.2 rulings in `/workspace/coin-checker/WORKED.md` (section 6a).
-All numbers live in `src/config.js`. The examples below are checked by `tests/unit.mjs`, which has 502 checks and recomputes every line from the mocked API responses.
+All numbers live in `src/config.js`. The examples below are checked by `tests/unit.mjs`, which has 916 checks and recomputes every line from the mocked API responses.
 
 Reviewers: **Hades** (reward side and the clean-RugCheck rule), **Argus** (risk side), **Mnemosyne** (SPEC owner).
 
@@ -437,6 +437,72 @@ Verdict 56 × 0.8 = 45 vs ~45, rating 4.5 vs 4.5. R:R unchanged: now 0.85:1 (TP2
 | z0s, Yana, Fux, WILLY, Alias, SYNCLEAN/HARD/LOT/RUG | see 6b | unchanged | no pool-lock data or curve coins; LP unchanged |
 | z0s vs WORKED v1.3 | | 37 B, 52.0, 42 Skip, 4.2 (WORKED 35 B, ~54, 43, 4.3) | within 2: +2 sniper-exit row, depth 15 vs 30 (23:46 quote), volume 60 vs 55 |
 | Yana vs WORKED | | Avoid 1.0 | matches |
+
+## 6d. WORKED.md v1.5 (Mnemosyne, 10 Oct 2026): what changed, the 10-coin batch, and the SNOOP reconciliation (not tuned)
+
+Everything below is a **rule from Mnemosyne's rulings of 10 Oct**; none of it was tuned to make a coin match its hand score. Where the app and her hand score differ, both are printed.
+
+### The v1.5 rules
+
+| # | Rule | Where |
+|---|---|---|
+| 1 | **Dev-sold cap.** The dev, or a wallet the dev sent tokens to ("dev-linked"), sold >= 3% of supply or > $5k **within 30 min of launch** (real SOL came back; a plain transfer or a burn is not a sale) -> verdict capped at **Skip**, rating capped at **2.5/10**. The dev is always traced first (before the big snipers); the trace reads up to 130 of its transactions and stops once 3% is reached; up to 3 recipients are traced (30 tx each). | `config.devSold`, `devSoldInfo()` (rules.js), `launchSnipers` (fetchers.js), engine.js |
+| 2 | **"Main pool unlocked"** (the v1.4 `g_lp` gate) = RugCheck's main-pool lock under 1%, with the "< 25% of total liquidity locked" gate on top. Unchanged, now documented. | `g_lp` |
+| 3 | **A burn is not an exit.** SPL `burn` / `burnChecked` instructions are taken out of the dev's drop before anything is called a sale (GULCH's transfer carried a 0.1% burn). A dev that burns its launch buy scores 0. The trace looks up to 6 transactions past the 60-min window for a late burn when the buy is gone with no sale seen (Circuit: BURNow burn 2 h after launch). | `burnOf()`, `devAssess` |
+| 4 | **Holder-count trend ignored** until the coin is >= 2 h old (from the curve launch) **or** has > 500 holders: organic = flat 3, no +/-10 in holder growth, no "bounce with holders rising" bonus, no "holder count turns down" trigger. | `trendUsable()` |
+| 5 | **"No position suggested"** for Skip / Avoid (never "amount you can lose: $0"). When the creator holds 0% the invalidation trigger watches sales from wallets linked to the creator and liquidity / price breaks, not "creator sells any of its 0.00%". | engine.js `outputs` |
+| 6 | **Sniper check = the LARGER of the create-slot share and the first-60-seconds share, both shown.** Curve-phase buys are read from the curve's own transactions (client-side RPC works): the first 100 curve transactions in the window, net of sells; "partial" is said when more existed. The curve and the AMM pool(s) are never counted as buyers (a coin that graduates in its launch slot puts ~20% in the pool). The dev = the create-tx signer when it received tokens, else the first receiver. | `launchSnipers`, te_cluster text |
+| 7 | **Launch bundle gate `g_bundle`: ONE non-dev wallet bought >= 25% of the launch supply** (create slot + first 60 s, curve buys included) = **Avoid**. The text says "exit seen" or "buy confirmed, exit trace pending". Only qLAB trips it (4VSAxM… 45.00%; Argus counted 46.17% (23.11 SOL), the app 45.00% of the 1,000,000,000 minted). PATCH's largest wallet (24.0%) is just under. | `g_bundle` |
+| 8 | **Many wallets in the create slot** (>= 40% of supply, >= 3 wallets) = probable bundle, funder link not traced = UNKNOWN: at least **half the insider points (7.5 of 15)**. QM 79%, QCOIN 81%, SW 75%. Likewise a dust signer whose buy is gone while >= 3 other wallets bought inside the create transaction itself: the dev's own buy can't be told apart = half the dev points (7.5), no cap (QM, QCOIN). | `insiders`, `devAssess` |
+| 9 | **Launch buyers unreadable** (the curve's create tx cannot be read, e.g. it graduated in seconds): shown as **"unknown", never 0%**; insiders >= half (7.5), `g_bundle` unknown, **confidence LOW**. (Live RPC could read QM's launch, so in the app QM shows 79% in the create slot and HIGH; Argus's read of QM saw only 8 curve transactions.) | `launchUnreadable()` |
+| 10 | **Exit cost = the quote's OUTPUT** (`outAmount` x SOL/USD) against the size we asked to sell (input tokens x the market price the app sized them with = $50 / $500). It contains the pool fee and the real impact. Jupiter's `priceImpactPct` is shown as a secondary note and is only used when no output can be computed. Applies everywhere: honeypot hard fail, curve gate, depth, break-even (break-even subtracts the pool fee once so it is not charged twice). Caveat: if DexScreener's price lags the quote, the cost reads high (QI, Yana, z0s: the saved quotes are later than the saved prices). | `quoteCost()` |
+| 11 | **Dev lock label.** A Streamflow lock is "verified" only if the escrow account balance, the cliff and the withdrawn amount were all read and checked (and the sender can't cancel). Read from the contract bytes without the escrow balance: **"lock PROBABLE, not confirmed"** (same 4 points). SNOOP's lock passes all three checks in the app, so the app says "verified"; the scouts read only the bytes ("likely"). | `devLocks.normalize`, `lockState` |
+| 12 | **Peak price.** The app cannot read pump.fun's own peak (CORS). When the AMM candles start >= 30 s after the curve launch the priceAction line says **"FLAG drawdown may be understated"** (hand: GULCH -57% real, Circuit -65%). | `curvePhaseMissing()` |
+| 13 | UI: quadrant dot labels are placed on the first free spot (never overlapping), dots are coloured by verdict (Watch mint, Lottery amber, **Skip blue**, Avoid red), the Tracker shows "launched", "added" and "data as of", and **Import batch** loads a JSON array (`public/batches/2026-10-10.json`; any field missing = "unknown"; QPAWS, Q/ACC, MATE as "screened out, thin data"; Q-family chips on QCOIN, qLAB, QM, QPAWS, Q/ACC). | chart.js, store.js `importBatch`, app.js |
+
+### The 10-coin batch, app vs Mnemosyne's hand scores (fixtures = the scouts' 08:45 / 08:59 AEST data + live RPC history)
+
+| Coin | App risk / reward / score / verdict / rating | Hand (Mnemosyne) | Rating delta | Notes (biggest line deltas) |
+|---|---|---|---|---|
+| 景涛 | 32 B / 57 / 46 Skip / 4.6 | 32 B / 50 / 40 Skip / 4.0 | +0.6 | reward +7 (line-by-line not reconciled); dev 15 (signer sold 3.6% at 38.6 min: Skip cap, but not "early" so no 2.5 cap) vs hand 8 |
+| NOTHUMAN | 36 B / 47 / 38 Skip / 3.8 LOW | 29 B / 47 / 37 Skip / 3.7 LOW | +0.1 | risk +7: the signer's 6.6% buy is gone (first exit 40 min after launch) -> dev 15 + Skip cap vs hand 8 |
+| QM | 28 B / 55 / 44 Skip / 4.4 | 32 B / 44 / 35 Skip / 3.5 LOW | +0.9 | reward +11; app reads the launch (79% in create slot, no wallet >= 25%) -> HIGH; hand LOW (Argus could not read it) |
+| Circuit | 22 A / 47 / 47 Skip / 4.7 | 29 B / 42 / 34 Skip / 3.4 | +1.3 | dev 0 (burn) vs hand 4; insiders 4 vs 6; risk grade A vs B |
+| SNOOP | 32 B / 40 / 32 Skip / 3.2 | 36 B / 40 / 32 Skip / 3.2 | 0.0 | see the line-by-line table below |
+| PATCH | 28 B / 59 / 47 Skip / 4.7 | 44 C / 52 / 31 Skip / 3.1 | **+1.6** | the app finds the dev's 5.00% in a verified Streamflow lock (dev 4) where the hand score has "5% stash unlocked + 3 prior dead mints" (13): -9; holders 13 in both |
+| QCOIN | 25 A / 53 / 53 **Lottery** / 5.3 | 34 B / 39 / 31 Skip / 3.1 LOW | **+2.2** (verdict differs) | reward +14 (depth 55 / volume 68 / holders 90 vs hand 55 / 45 / 40); risk grade A by 0 points (25); no cluster / bot-tape / "Q-family" signal exists in the data the app reads |
+| GULCH | 44 C / 50 / 30 Skip / 2.5 | 44 C / 47 / 28 Skip / 2.5 | 0.0 | dev-sold cap via the dev-linked wallet (6.93%, ~$3.8k, 34.6 SOL) |
+| SW | 30 B / 62 / 50 Skip / 2.5 | 30 B / 54 / 43 Skip / 2.5 | 0.0 | dev sold 3.02% (~$6.3k) in the first sells read; hand: ~5.1% (56 sells) |
+| qLAB | 30 B / 48 / 38 **Avoid** / 1.0 | 41 C / 43 / Avoid / 1.0 | 0.0 | `g_bundle`: 4VSAxM… 45.00% in the create slot, sold within 1 s (exit seen); risk -11 (dev 4: H76G… locked 2.00%; hand counts 15) |
+
+Deltas > 2 on the rating: **QCOIN (+2.2)** only. Verdict differs only on QCOIN (Lottery vs Skip). Not tuned.
+
+### SNOOP (CMVdeR…5Fpump): the app line by line next to Mnemosyne's (hers: risk 36 B / reward 40 / 32 Skip / 3.2)
+
+"Before" = the live app Hades ran at 08:51 AEST (24 / 48 / 4.8). "After" = v1.5 on the 08:45 data Mnemosyne scored (tape and prices differ by 6 minutes, which moves price action, organic, buy/sell and structure).
+
+| Line | Before (08:51 live) | After (v1.5) | Mnemosyne | After - hers |
+|---|---|---|---|---|
+| LP | 0 | 0 | 0 | 0 |
+| Holders (top 10 17.8% RugCheck; hers 18-22% depending on the pool) | 6 | 6 | 6 | 0 |
+| Insiders (RugCheck 0 + funder trace +2, plus the sniper row +2) | 2 + 2 | 2 + 2 | 8 (16.7% still held by early wallets, trace not done) | **-4** |
+| Deployer (5.26% Streamflow lock to 30 Dec 2026) | 4 | 4 | 4 (revised from 6) | 0 |
+| Liquidity vs mcap | 4 | 4 | 4 (depth) | 0 |
+| Price action (70% below the peak, still falling, sells > 2x buys +2) | 3 | 5 | 5 | 0 |
+| Organic (one wallet = 47% of the last 300 trades) | 0 | 6 | 6 (micro-bots) | 0 |
+| Socials | 3 | 3 | 3 | 0 |
+| **Risk** | **24 A** | **32 B** | **36 B** | **-4** |
+| Liquidity depth (exit cost $50 **2.33%** by output; $500 4.84%) | 26 (0.48%) | 24 | 24 | 0 |
+| Volume quality (34x, churn capped 55) | 55 | 55 | 50 | +5 |
+| Buy / sell (0.56x) | 64 | 37 | 47 | -10 |
+| Trend / structure (70% below the peak) | 38 | 30 | 15 | +15 |
+| Holder growth (top 10 17.8% = 65, holders -2.39%/h = -10) | 75 | 55 | 65 | -10 |
+| Narrative | 35 | 35 | 35 | 0 |
+| Room | 63 | 65 | 65 | 0 |
+| **Reward** | **48** | **40.35** | **40** | +0.35 |
+| Verdict score (x0.8 for B) / rating | 48 / 4.8 | 32 / 3.2 | 32 / 3.2 | 0 |
+
+The three known gaps, after the rulings: (1) **the lock** - the app reads the escrow balance, the cliff and the withdrawn amount on-chain, so it says "verified"; with the escrow unread it would say "PROBABLE, not confirmed"; points 4 either way (0 delta). (2) **the sniper check** - before: "8 wallets bought 17.71%" (first 3 slots); now "create slot 3.1% / first 60 s 45.3% (net of sells)", largest single wallet 9.25%, no wallet >= 25% so no gate; it adds no risk points beyond the +2 row. (3) **the $50 exit cost** - 0.48% (impact field) -> 2.33% (output), inside Mnemosyne's 1.6-2.3%; it moves depth 26 -> 24 (= hers). Remaining line deltas: insiders -4, volume +5, buy/sell -10, structure +15, holder growth -10; they net to about zero on reward and -4 on risk.
 
 ## 7. Worked examples, every case
 

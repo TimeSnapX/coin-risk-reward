@@ -1,0 +1,84 @@
+{
+ "pairs": [
+  {
+   "chainId": "solana",
+   "dexId": "pumpswap",
+   "url": "https://dexscreener.com/solana/5z9aftfvdeeszhie6ftbmx3uxcyw1f1sejhzxh34jqgz",
+   "pairAddress": "5z9aftfvDEeSzHie6fTbMx3UXCYW1f1SEjhzXH34jqgZ",
+   "baseToken": {
+    "address": "EGvw8HD3sMZM7LBArJ535kKWSZb99jnBLo8YZSPjpump",
+    "name": "Quantum Money",
+    "symbol": "QM"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.000001964",
+   "priceUsd": "0.0002144",
+   "txns": {
+    "m5": {
+     "buys": 1417,
+     "sells": 575
+    },
+    "h1": {
+     "buys": 13820,
+     "sells": 5960
+    },
+    "h6": {
+     "buys": 13820,
+     "sells": 5960
+    },
+    "h24": {
+     "buys": 13820,
+     "sells": 5960
+    }
+   },
+   "volume": {
+    "h24": 618110,
+    "h6": 618110,
+    "h1": 618110,
+    "m5": 25936.71
+   },
+   "priceChange": {
+    "m5": -10.51,
+    "h1": 53.66,
+    "h6": 53.66,
+    "h24": 53.66
+   },
+   "liquidity": {
+    "usd": 40001.26,
+    "base": 97710400,
+    "quote": 173.9522
+   },
+   "fdv": 210143,
+   "marketCap": 210143,
+   "pairCreatedAt": 1791583254000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/dZfzimZM6tN1aBvN?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/U7n0S7Ebha3BBzgx?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/EGvw8HD3sMZM7LBArJ535kKWSZb99jnBLo8YZSPjpump?timestamp=1791586200000",
+    "websites": [
+     {
+      "url": "https://quantummoney.site",
+      "label": "Website"
+     }
+    ],
+    "socials": [
+     {
+      "url": "https://x.com/QuantumMoneyX",
+      "type": "twitter"
+     },
+     {
+      "url": "https://t.me/QuantumMoneyPortal",
+      "type": "telegram"
+     }
+    ]
+   },
+   "boosts": {
+    "active": 30
+   }
+  }
+ ]
+}

@@ -1,0 +1,28 @@
+{
+ "50": {
+  "outAmount": "456666972",
+  "priceImpactPct": "8.999999999999999e-05",
+  "swapUsdValue": "50",
+  "routePlan": [
+   {
+    "swapInfo": {
+     "label": "Pump.fun Amm"
+    },
+    "percent": 100
+   }
+  ]
+ },
+ "500": {
+  "outAmount": "4466001647",
+  "priceImpactPct": "0.000169",
+  "swapUsdValue": "500",
+  "routePlan": [
+   {
+    "swapInfo": {
+     "label": "Pump.fun Amm"
+    },
+    "percent": 100
+   }
+  ]
+ }
+}

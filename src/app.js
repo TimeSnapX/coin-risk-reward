@@ -96,6 +96,8 @@ function homeHTML() {
       <button class="btn" id="refresh-all" data-busy ${coins.length ? "" : "disabled"}>Refresh all</button>
       <button class="btn" id="export" ${coins.length ? "" : "disabled"}>Export JSON</button>
       <label class="btn" for="import">Import JSON</label><input type="file" id="import" accept="application/json,.json" hidden>
+      <label class="btn" for="import-batch">Import batch</label><input type="file" id="import-batch" accept="application/json,.json" hidden>
+      <button class="btn" id="load-batch" data-busy>Load 2026-10-10 batch</button>
     </div>
     <ul class="watch">${coins.map((c) => { const r = c.result; return `<li data-coin="${esc(c.address)}">
       <a class="wl-main" href="#/coin/${esc(c.address)}"><b>${esc(c.symbol || short(c.address))}</b> <span class="muted small">${esc(short(c.address))}</span><br>
@@ -115,10 +117,12 @@ const toLocalInput = (t) => { const d = new Date(t - new Date(t).getTimezoneOffs
 function trackerHTML() {
   const items = store.trackerList();
   return `<section class="card" id="tracker"><div class="row between"><h2>Tracker</h2><span class="muted small">${items.length} tracked</span></div>
-    ${items.length ? `<ul class="tracker">${items.map((c) => { const r = c.data ? rescore(c) : c.result, t = c.tracker; return `<li data-track="${esc(c.address)}">
+    ${items.length ? `<ul class="tracker">${items.map((c) => { const r = c.data ? rescore(c) : c.result, t = c.tracker; return `<li data-track="${esc(c.address)}"${t.screened ? ' class="screened"' : ""}>
       <div class="row between"><a href="#/coin/${esc(c.address)}"><b>${esc(c.symbol || short(c.address))}</b></a>${r ? pill(r) : ""}</div>
       <div class="small">${r ? `${rate(r, 'data-t="rating10"')} <span class="muted">risk ${r.riskScore} · reward ${r.rewardScore}</span>` : "Not scored"}</div>
-      <div class="small muted">Found by <b>${esc(t.foundBy)}</b> · ${esc(when(t.foundAt || t.addedAt))} · data as of ${esc(when(c.lastChecked))}</div>
+      <div class="small muted">Found by <b>${esc(t.foundBy)}</b> · launched ${t.foundAt ? esc(when(t.foundAt)) : "unknown"} · added ${esc(when(t.addedAt))} · data as of ${esc(t.dataAt || c.lastChecked ? when(c.lastChecked || t.dataAt) : "unknown")}${t.dataAt && c.lastChecked && c.lastChecked !== t.dataAt ? ` (scout data ${esc(when(t.dataAt))})` : ""}</div>
+      ${t.hand ? `<div class="hand">Mnemosyne (hand): ${t.hand.rating !== undefined ? `${t.hand.rating.toFixed(1)}/10` : "unknown"} · risk ${t.hand.risk ?? "unknown"}${t.hand.grade ? " " + esc(t.hand.grade) : ""} · reward ${t.hand.reward ?? "unknown"} · ${esc(t.hand.verdict || "unknown")}${t.hand.note ? ` <span class="muted">${esc(t.hand.note)}</span>` : ""}</div>` : ""}
+      ${t.cluster || t.screened ? `<div class="row wrap">${t.cluster ? `<span class="chip fam">${esc(t.cluster)} cluster</span>` : ""}${t.screened ? `<span class="chip bad">screened out · ${esc(t.screened)}</span>` : ""}</div>` : ""}
       <div class="row wrap tr-edit"><select data-tr="status" aria-label="Status">${store.STATUSES.map((x) => `<option ${t.status === x ? "selected" : ""}>${x}</option>`).join("")}</select>
       <select data-tr="foundBy" aria-label="Found by">${store.FOUND_BY.map((x) => `<option ${t.foundBy === x ? "selected" : ""}>${x}</option>`).join("")}</select></div>
       <textarea data-tr="notes" rows="2" placeholder="Notes" aria-label="Notes">${esc(t.notes)}</textarea></li>`; }).join("")}</ul>`
@@ -203,7 +207,7 @@ function detailHTML(entry) {
     <div><h3>3 biggest red flags</h3><ul class="flags" data-k="redflags">${r.redFlags.map(flagLi).join("") || "<li class='muted'>None found.</li>"}</ul></div></div>
     <div class="facts">
       <div><span>Break-even</span><b data-k="breakeven">+${be.pct.toFixed(2)}%</b><small>$${be.sizeUsd} round trip: ${be.feePct}% swap fee ×2, tax ${be.taxPct}%${be.taxKnown ? "" : " (unknown)"}, impact ${be.impactPct}% ×2 (${esc(be.impactSource)}), priority fees ${be.prioPct}%${be.solKnown ? "" : " (SOL price unknown)"}</small></div>
-      <div><span>Amount you can lose</span><b data-k="lose">${r.loseAmount.maxPct ? `≤${r.loseAmount.maxPct}%` : "$0"}</b><small>${esc(r.loseAmount.text)}</small></div>
+      <div><span>${r.loseAmount.maxPct ? "Amount you can lose" : "Position"}</span><b data-k="lose">${r.loseAmount.maxPct ? `≤${r.loseAmount.maxPct}%` : "No position suggested"}</b><small>${esc(r.loseAmount.text)}</small></div>
     </div>
     <h3>Invalidation triggers</h3><ul class="plain" data-k="invalidation">${r.invalidation.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
     <h3>Flip / hold</h3><p data-k="flip">${esc(r.flipNote)}</p><p>${esc(r.holdNote)}</p>
@@ -265,6 +269,7 @@ view.addEventListener("click", async (ev) => {
   if (t.dataset.remove) { store.remove(t.dataset.remove); return render(); }
   if (t.dataset.trackAdd) { const at = Date.parse($("#tr-foundAt").value); store.setTracker(t.dataset.trackAdd, { foundBy: $("#tr-foundBy").value, foundAt: Number.isFinite(at) ? at : Date.now(), notes: $("#tr-notes").value, status: "watching" }); return render(); }
   if (t.dataset.untrack) { store.untrack(t.dataset.untrack); return render(); }
+  if (t.id === "load-batch") { try { const res = await fetch(new URL("public/batches/2026-10-10.json", document.baseURI)); if (!res.ok) throw new Error(`Batch file not found (${res.status}).`); const r = store.importBatch(await res.text()); render(); notice(`2026-10-10 batch: ${r.added} new, ${r.updated} updated, ${r.skipped} skipped.`, "ok"); } catch (e) { notice(esc(e.message), "bad"); } return; }
   if (t.id === "refresh-all") { await runChecks(store.list().filter((c) => c.chain === "solana").map((c) => c.address)); return render(); }
   if (t.id === "export") {
     const blob = new Blob([store.exportJSON()], { type: "application/json" }), url = URL.createObjectURL(blob);
@@ -278,6 +283,7 @@ view.addEventListener("input", (ev) => {
 view.addEventListener("keydown", (ev) => { if (ev.target.id === "ca" && ev.key === "Enter" && (ev.ctrlKey || ev.metaKey)) onCheck(); });
 view.addEventListener("change", async (ev) => {
   const t = ev.target;
+  if (t.id === "import-batch" && t.files?.[0]) { try { const r = store.importBatch(await t.files[0].text()); render(); notice(`Batch imported: ${r.added} new, ${r.updated} updated, ${r.skipped} skipped. Open a coin and tap Check to score it with the app.`, "ok"); } catch (e) { notice(esc(e.message), "bad"); } }
   if (t.id === "import" && t.files?.[0]) { try { const r = store.importJSON(await t.files[0].text()); render(); notice(`Imported: ${r.added} new, ${r.updated} updated, ${r.skipped} skipped.`, "ok"); } catch (e) { notice(esc(e.message), "bad"); } }
   if (t.dataset.tr) { const li = t.closest("[data-track]"); store.setTracker(li.dataset.track, { [t.dataset.tr]: t.value }); if (t.dataset.tr !== "notes") render(); return; }
   if (t.id === "devlock") { store.setManual(t.dataset.addr, { devLockVerified: t.checked || undefined }); render(); }

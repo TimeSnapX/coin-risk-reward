@@ -65,7 +65,7 @@ await shot("03-evm-coming-later");
 
 // ---- 4. Argus cases one by one, hand-checked numbers (FORMULA.md)
 // v1.2: no launch data -> deployer "signer unknown" +7.5; curve coins without a saved Jupiter quote -> curve liquidity gate unknown (no Avoid)
-const EXP = { CRAWL: ["56", "51", "20", "Skip", "MED", "+2.23%", "2.0"], Fux: ["60", "35", "14", "Skip", "LOW", "+5.94%", "1.4"], WILLY: ["70", "33", "13", "Skip", "LOW", "+5.73%", "1.3"], Alias: ["81", "37", "15", "Skip", "LOW", "+146.28%", "1.5"] };
+const EXP = { CRAWL: ["58", "51", "20", "Skip", "LOW", "+2.23%", "2.0"], Fux: ["66", "35", "14", "Skip", "LOW", "+5.94%", "1.4"], WILLY: ["72", "33", "13", "Skip", "LOW", "+5.73%", "1.3"], Alias: ["81", "37", "15", "Skip", "LOW", "+146.28%", "1.5"] };
 for (const [name, [risk, reward, vs, verdict, conf, be, rating]] of Object.entries(EXP)) {
   await checkCoin(C[name]);
   const got = [await txt('[data-k="risk"]'), await txt('[data-k="reward"]'), await txt('[data-k="vscore"]'), await txt('[data-k="verdict"]'), (await txt(".conf")).split(" ")[0], await txt('[data-k="breakeven"]')];
@@ -81,7 +81,7 @@ await page.evaluate(() => window.scrollTo(0, 99999)); await shot("04-Alias-check
 // QI worked example (fixture: Argus 22:33 data + live-captured launch history / Jupiter; see tests/fixtures/8TiMkg…/QI_CAPTURE.md)
 await checkCoin(C.QI);
 { const got = [await txt('[data-k="risk"]'), await txt('[data-k="reward"]'), await txt('[data-k="vscore"]'), await txt('[data-k="verdict"]'), (await txt(".conf")).split(" ")[0], await txt('[data-k="breakeven"]'), await txt('[data-k="rating10"]')];
-  ok(JSON.stringify(got) === JSON.stringify(["34", "56", "45", "Skip", "HIGH", "+2.12%", "4.5"]), "QI (v1.4): risk 34 B · reward 56 · 45 Skip · HIGH · BE +2.12% · 4.5/10 (= WORKED.md v1.4 QI FINAL)", JSON.stringify(got));
+  ok(JSON.stringify(got) === JSON.stringify(["34", "56", "45", "Skip", "HIGH", "+21.17%", "4.5"]), "QI (v1.5): risk 34 B · reward 56 · 45 Skip · HIGH · 4.5/10 (= WORKED.md v1.4 QI FINAL); BE +21.17% now that the exit cost is the quote OUTPUT vs the size (the saved quote is later than the saved price)", JSON.stringify(got));
   ok((await txt('[data-rule="te_cluster"] [data-val]')) === "+2" && /largest sniper 11\.36%.*exit completed: Y after 6 s/.test(await txt('[data-rule="te_cluster"]')), "QI: 11.36% sniper exit = yellow +2, no cap", await txt('[data-rule="te_cluster"]'));
   ok(/2sRs…wdR8/.test(await txt('[data-rule="g_serial"]')) && /acts as a launchpad launcher.*not a gate, \+3 deployer points/.test(await txt('[data-rule="g_serial"]')), "QI: launch wallet 2sRs… is a launchpad relayer -> no serial gate", await txt('[data-rule="g_serial"]'));
   ok(/R:R now 0\.8:1 \/ TP2 1\.7:1 ⚠ under 1:1.*plan entry \$0\.000948 \(zone \$0\.000927-\$0\.000968\): 2\.0:1 \/ TP2 3\.3:1 \(needs 2:1 ✗\).*Stop \$0\.000782 \(3% under the 2 h swing low \$0\.000806\) · TP1 \$0\.00127 · TP2 \$0\.00149/.test(await txt('[data-k="rr"]')), "QI: R:R now and at the plan entry, zone, stop/TP1/TP2 (ruling G)", await txt('[data-k="rr"]'));
@@ -92,7 +92,7 @@ await page.goto(BASE + `#/coin/${C.CRAWL.mint}`); await page.waitForSelector("[d
 // Yana: bonding-curve coin, 6.8 min old (fixture: Argus 22:57 data + live-captured launch/candles/Jupiter; YANA_CAPTURE.md)
 await checkCoin(C.Yana);
 { const got = [await txt('[data-k="risk"]'), await txt('[data-k="reward"]'), await txt('[data-k="vscore"]'), await txt('[data-k="verdict"]'), (await txt(".conf")).split(" ")[0], await txt('[data-k="rating10"]'), await txt(".ratingbar .conf")];
-  ok(JSON.stringify(got) === JSON.stringify(["55", "52", "—", "Avoid", "LOW", "1.0", "LOW"]), "Yana (v1.3): risk 55 C · reward 52 · Avoid · LOW badge · 1.0/10 LOW (WORKED.md Avoid 1.0)", JSON.stringify(got));
+  ok(JSON.stringify(got) === JSON.stringify(["100", "44", "—", "Avoid", "LOW", "1.0", "LOW"]), "Yana (v1.5): Avoid 1.0 LOW (WORKED.md Avoid 1.0); risk 100 D because the saved quote output is 78% under the size sold -> honeypot hard fail (v1.3 numbers: 55 C / 52)", JSON.stringify(got));
   ok((await txt('[data-k="liqkind"]')) === "curve" && /real SOL in the pump\.fun bonding curve, not a pool/.test(await txt('[data-k="liq"]')), "Yana: liquidity shown as 'curve', not a pool", await txt('[data-k="liq"]'));
   ok(/pair only 7 min old/.test(await txt(".coin .small.muted")), "Yana: LOW confidence explained by age < 30 min");
   ok(/8inT…3Eeh bought 8\.25% at launch and SOLD 8\.25% 1 s after launch/.test(await txt('[data-rule="te_dev"]')), "Yana: launch signer's 1 s dump shown in team-exit checks", await txt('[data-rule="te_dev"]'));
@@ -112,7 +112,7 @@ await checkCoin(C.Yana);
 // z0s: dev's launch buy moved into a Streamflow time-lock 43 s after launch (fixture: Argus 23:08 + live capture; Z0S_CAPTURE.md)
 await checkCoin(C.z0s);
 { const got = [await txt('[data-k="risk"]'), await txt('[data-k="reward"]'), await txt('[data-k="vscore"]'), await txt('[data-k="verdict"]'), (await txt(".conf")).split(" ")[0], await txt('[data-k="rating10"]')];
-  ok(JSON.stringify(got) === JSON.stringify(["37", "52", "42", "Skip", "LOW", "4.2"]), "z0s: risk 37 B · reward 52 · 42 Skip · LOW · 4.2/10 (WORKED.md v1.3 35 / ~54 / 43 / 4.3)", JSON.stringify(got));
+  ok(JSON.stringify(got) === JSON.stringify(["40", "56", "45", "Skip", "LOW", "4.5"]), "z0s (v1.5): risk 40 B · reward 56 · 45 Skip · LOW · 4.5/10 (v1.3: 37 / 52 / 42 / 4.2; WORKED.md v1.3 35 / ~54 / 43 / 4.3)", JSON.stringify(got));
   ok(/verified Streamflow lock FmTC…WeMm/.test(await txt('[data-rule="dev"]')) && (await txt('[data-rule="dev"] [data-val]')).startsWith("4"), "z0s: deployer 4 with the verified Streamflow lock", await txt('[data-rule="dev"]'));
   ok(/verified on-chain.*Streamflow FmTC…, cliff 2027-04-07, 0 withdrawn/.test(await txt('[data-k="devlock"]')), "z0s: lock shown as verified on-chain (no manual input needed)", await txt('[data-k="devlock"]'));
   ok(await page.$("#devlock") === null, "z0s: manual lock box hidden when the lock is verified on-chain");
@@ -165,11 +165,11 @@ await page.goto(BASE + `#/coin/${C.SYNLOT.mint}`); await page.waitForSelector("[
 ok(/up to \$20 of \$1,000/.test(await txt('[data-k="lose"] + small')), "lose at most 1-2% = up to $20 of $1000", await txt('[data-k="lose"] + small'));
 await shot("07-lottery-detail");
 await page.goto(BASE + `#/coin/${C.SYNHARD.mint}`); await page.waitForSelector("[data-coin-detail]");
-ok(/Mint authority NOT revoked/.test(await txt(".gate")) && (await txt('[data-k="lose"]')) === "$0", "SYNHARD: hard-fail gate shown, amount you can lose $0");
+ok(/Mint authority NOT revoked/.test(await txt(".gate")) && (await txt('[data-k="lose"]')) === "No position suggested", "SYNHARD: hard-fail gate shown, 'No position suggested' (not $0)");
 await shot("07-hardfail-detail");
 await page.goto(BASE + `#/coin/${C.SYNRUG.mint}`); await page.waitForSelector("[data-coin-detail]");
-ok(/Capped at Skip \(would have been Watch closely \/ small flip\).*bought 6\.00% at launch and moved \(unlocked\) 6\.00% 4\.0 min after launch/.test(await txt('[data-k="capped"]')) && (await txt('[data-k="rating10"]')) === "4.9" && (await txt('[data-k="lose"]')) === "$0",
-  "SYNRUG: capped at Skip (would be Watch), rating 4.9, lose $0", await txt('[data-k="capped"]'));
+ok(/Capped at Skip \(would have been Watch closely \/ small flip\).*bought 6\.00% at launch and moved \(unlocked\) 6\.00% 4\.0 min after launch/.test(await txt('[data-k="capped"]')) && (await txt('[data-k="rating10"]')) === "4.9" && (await txt('[data-k="lose"]')) === "No position suggested",
+  "SYNRUG: capped at Skip (would be Watch), rating 4.9, no position suggested", await txt('[data-k="capped"]'));
 ok(/71 \/ 10 = 7\.1; SKIP \(team-exit cap\) caps at 4\.9/.test(await txt('[data-k="ratingwhy"]')), "rating explains 71/10 = 7.1 -> Skip cap 4.9", await txt('[data-k="ratingwhy"]'));
 await shot("07-teamexit-capped");
 
@@ -233,6 +233,33 @@ const sw = await page.evaluate(() => document.documentElement.scrollWidth); ok(s
 await page.evaluate(async () => { await navigator.serviceWorker.ready; }); await page.reload(); await ctx.setOffline(true);
 await page.reload(); await page.goto(BASE + "#/"); await page.waitForSelector(".watch li");
 ok((await page.$$(".watch li")).length === 12, "offline: app reopens from the service worker with saved results"); await ctx.setOffline(false);
+
+// ---- 9. v1.5: Import batch (public/batches/2026-10-10.json), tracker times, quadrant labels + colours by verdict
+await ctx.setOffline(false); await page.evaluate(() => localStorage.clear()); await page.goto(BASE + "#/"); await page.reload(); await page.waitForSelector("#tracker");
+await page.click("#load-batch"); await page.waitForSelector("[data-track]");
+{ const rows = await page.$$("[data-track]"); ok(rows.length === 13, "Load batch: 13 tracker rows (10 scored + 3 screened out)", rows.length);
+  const tt = (await txt("#tracker")).replace(/\s+/g, " ");
+  ok(/景涛/.test(tt) && /Mnemosyne \(hand\): 4\.0\/10 · risk 32 B · reward 50 · Skip \(score 40\)/.test(tt), "batch row shows Mnemosyne's hand score for 景涛 (4.0/10)", tt.slice(0, 300));
+  ok(/Found by Argus · launched [^·]+ · added [^·]+ · data as of [^·]+/.test(tt) && !/data as of unknown/.test(tt.split("Mnemosyne")[0]), "tracker shows the time added AND the data time ('data as of')", tt.slice(0, 260));
+  const scr = await page.$$eval("[data-track].screened", (e) => e.map((x) => x.innerText.replace(/\s+/g, " ")));
+  ok(scr.length === 3 && scr.every((x) => /screened out · screened out, thin data/.test(x) && /Q-family cluster|MATE/.test(x)) && scr.some((x) => /QPAWS/.test(x)) && scr.some((x) => /Q\/ACC/.test(x)) && scr.some((x) => /MATE/.test(x)), "QPAWS, Q/ACC, MATE are listed as 'screened out, thin data'", scr.join(" || ").slice(0, 300));
+  ok((tt.match(/Q-family cluster/g) || []).length === 5, "Q-family cluster chip on QCOIN, qLAB, QM, QPAWS, Q/ACC", (tt.match(/Q-family cluster/g) || []).length);
+  ok(/Not scored/.test(tt) && !/risk \d+ · reward \d+/.test(tt.replace(/Mnemosyne[^·]*· risk \d+/g, "")), "no invented scores: the app's own score only appears after a check"); }
+{ const raw = await readFile(path.join(here, "..", "public", "batches", "2026-10-10.json"), "utf8");
+  await page.setInputFiles("#import-batch", { name: "b.json", mimeType: "application/json", buffer: Buffer.from(raw) }); await page.waitForSelector("#msg:not([hidden])");
+  ok(/Batch imported: 0 new, 13 updated, 0 skipped/.test(await txt("#msg")) && (await page.$$("[data-track]")).length === 13, "Import batch (file): idempotent, 13 updated, still 13 rows", await txt("#msg"));
+  await page.setInputFiles("#import-batch", { name: "bad.json", mimeType: "application/json", buffer: Buffer.from('[{"address":"nope"},{"x":1}]') }); await page.waitForSelector("#msg:not([hidden])");
+  ok(/0 new, 0 updated, 2 skipped/.test(await txt("#msg")), "invalid entries are skipped, not invented", await txt("#msg")); }
+for (const n of ["SNOOP", "Circuit", "PATCH", "QCOIN", "GULCH", "SW", "qLAB", "QM", "景涛", "NOTHUMAN"]) { await checkCoin(C[n]); }
+await page.goto(BASE + "#/"); await page.waitForSelector("[data-dot]");
+{ const dots = await page.$$("[data-dot]"); ok(dots.length === 10, "quadrant shows the 10 checked batch coins", dots.length);
+  const fills = await page.$$eval("[data-dot] circle[fill]:not([fill='transparent'])", (c) => c.map((x) => x.getAttribute("fill"))); const kinds = new Set(fills);
+  ok(kinds.has("var(--skip)") && kinds.has("var(--down)") && !kinds.has("var(--muted)"), "dots are coloured by verdict (Skip blue, Avoid red), none grey", [...kinds].join(","));
+  const boxes = await page.$$eval(".quad .lbl", (l) => l.map((x) => { const b = x.getBoundingClientRect(); return { t: x.textContent, x0: b.left, x1: b.right, y0: b.top, y1: b.bottom }; }));
+  let overlaps = []; for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) { const a = boxes[i], b = boxes[j]; if (a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1) overlaps.push(a.t + "/" + b.t); }
+  ok(boxes.length === 10 && overlaps.length === 0, "dot labels do not overlap each other", overlaps.join(","));
+  await page.$eval(".quad", (e) => e.scrollIntoView()); await shot("09-quadrant-batch"); await page.$eval("#tracker", (e) => e.scrollIntoView()); await shot("09-tracker-batch");
+  const trk = (await txt(`[data-track="${C.SNOOP.mint}"]`)).replace(/\s+/g, " "); ok(/Mnemosyne \(hand\): 3\.2\/10/.test(trk) && /3\.2\/10/.test(trk.replace(/Mnemosyne[^·]*/, "")) && /data as of/.test(trk), "tracker row after a check: the app's 3.2/10 next to Mnemosyne's 3.2/10", trk.slice(0, 300)); }
 
 ok(unmocked.size === 0, "no unmocked hosts called", [...unmocked].join(","));
 ok(appErrors.length === 0, "no app console errors / page errors", appErrors.join(" | "));

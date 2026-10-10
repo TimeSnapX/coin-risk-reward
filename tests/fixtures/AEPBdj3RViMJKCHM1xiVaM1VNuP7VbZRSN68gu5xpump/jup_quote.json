@@ -1,0 +1,32 @@
+{
+ "50": {
+  "inAmount": "187546886721",
+  "outAmount": "434426337",
+  "priceImpactPct": "0.012296126884316149",
+  "swapUsdValue": "47.4609075677988695425827",
+  "routePlan": [
+   {
+    "swapInfo": {
+     "ammKey": "FsqKUX5e67mgMuEGm35i1kku6asFgUno9Eh4g7hQ5Sqr",
+     "label": "Pump.fun Amm"
+    },
+    "percent": 100
+   }
+  ]
+ },
+ "500": {
+  "inAmount": "1875468867216",
+  "outAmount": "4309860988",
+  "priceImpactPct": "0.03338618188311548",
+  "swapUsdValue": "470.8382910557134875275868",
+  "routePlan": [
+   {
+    "swapInfo": {
+     "ammKey": "FsqKUX5e67mgMuEGm35i1kku6asFgUno9Eh4g7hQ5Sqr",
+     "label": "Pump.fun Amm"
+    },
+    "percent": 100
+   }
+  ]
+ }
+}

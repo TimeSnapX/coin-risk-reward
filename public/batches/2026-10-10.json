@@ -1,0 +1,221 @@
+[
+ {
+  "address": "3jQGHGNyZk5V13AsfDm4dEgmY8x3NADGfc59zWnwpump",
+  "symbol": "景涛",
+  "name": "Golden Jingtao",
+  "foundBy": "Argus",
+  "launchAt": 1791537378000,
+  "dataAt": 1791586740000,
+  "batch": "2026-10-10",
+  "hand": {
+   "rating": 4.0,
+   "verdict": "Skip (score 40)",
+   "risk": 32,
+   "grade": "B",
+   "reward": 50,
+   "note": "token created Fri 19:16, pair Sat 01:07; signer bought 3.65% now 0% (exit not traced); volume-bot buys; paid boosts"
+  }
+ },
+ {
+  "address": "ZQSSfpJHPEtoQLpwDHA6u4tPZ4B8TJTWYkcx7afpump",
+  "symbol": "NOTHUMAN",
+  "name": "NOTHUMAN",
+  "foundBy": "Argus",
+  "launchAt": 1791560698000,
+  "dataAt": 1791586740000,
+  "batch": "2026-10-10",
+  "hand": {
+   "rating": 3.7,
+   "verdict": "Skip (score 37), LOW confidence",
+   "risk": 29,
+   "grade": "B",
+   "reward": 47,
+   "note": "pair under 30 min old at scan; signer bought 6.95% now 0% (untraced); first-minute buyers ~19.7% exited"
+  }
+ },
+ {
+  "address": "EGvw8HD3sMZM7LBArJ535kKWSZb99jnBLo8YZSPjpump",
+  "symbol": "QM",
+  "name": "Quantum Money",
+  "foundBy": "Argus",
+  "launchAt": 1791583254000,
+  "dataAt": 1791586740000,
+  "batch": "2026-10-10",
+  "hand": {
+   "rating": 3.5,
+   "verdict": "Skip (score 35), LOW confidence",
+   "risk": 32,
+   "grade": "B",
+   "reward": 44,
+   "note": "one-slot launch, curve had only 8 transactions so launch buyers unreadable; uniform 0.12% holders; 30 paid boosts"
+  },
+  "cluster": "Q-family"
+ },
+ {
+  "address": "EcZndAERfzNhLirHwfsy44dAyPSZazjDU83pa6RApump",
+  "symbol": "Circuit",
+  "name": "Circuit",
+  "foundBy": "both",
+  "launchAt": 1791559431000,
+  "dataAt": 1791585900000,
+  "batch": "2026-10-10",
+  "hand": {
+   "rating": 3.4,
+   "verdict": "Skip (score 34)",
+   "risk": 29,
+   "grade": "B",
+   "reward": 42
+  }
+ },
+ {
+  "address": "CMVdeRerz8fRT65jRJX5CP1CqTRVkZkuH3DZrA5Fpump",
+  "symbol": "SNOOP",
+  "name": "Snoop",
+  "foundBy": "both",
+  "launchAt": 1791561655000,
+  "dataAt": 1791585900000,
+  "batch": "2026-10-10",
+  "hand": {
+   "rating": 3.2,
+   "verdict": "Skip (score 32)",
+   "risk": 36,
+   "grade": "B",
+   "reward": 40,
+   "note": "top-10 share 18-22% (Argus 17.8% incl. the 5.23% locker, Hades 21.9% excl. the pool); dev 5.26% Streamflow lock to ~31 Dec 2026 is PROBABLE (read from account bytes), not confirmed"
+  }
+ },
+ {
+  "address": "AEPBdj3RViMJKCHM1xiVaM1VNuP7VbZRSN68gu5xpump",
+  "symbol": "PATCH",
+  "name": "PATCH",
+  "foundBy": "Hades",
+  "launchAt": 1791582749000,
+  "dataAt": 1791585900000,
+  "batch": "2026-10-10",
+  "hand": {
+   "rating": 3.1,
+   "verdict": "Skip (score 31)",
+   "risk": 44,
+   "grade": "C",
+   "reward": 52,
+   "note": "5% dev stash unlocked + 3 prior dead mints"
+  }
+ },
+ {
+  "address": "7SsZWPvLHpMizSGD8RByEbjUA8VatHWAts4UpjB4pump",
+  "symbol": "QCOIN",
+  "name": "Quantum Coin",
+  "foundBy": "Argus",
+  "launchAt": 1791559797000,
+  "dataAt": 1791585900000,
+  "batch": "2026-10-10",
+  "hand": {
+   "rating": 3.1,
+   "verdict": "Skip (score 31), LOW confidence",
+   "risk": 34,
+   "grade": "B",
+   "reward": 39,
+   "note": "bot tape, uniform 0.32% holder wallets, 100 paid boosts, dev unknown (half points)"
+  },
+  "cluster": "Q-family"
+ },
+ {
+  "address": "HDiVMtmJpPYuNfs49CGQ5JxKHXcpXd6RQSmsZR6upump",
+  "symbol": "GULCH",
+  "name": "Sundown Gulch",
+  "foundBy": "Hades",
+  "launchAt": 1791562571000,
+  "dataAt": 1791585900000,
+  "batch": "2026-10-10",
+  "hand": {
+   "rating": 2.5,
+   "verdict": "Skip, dev-sold cap (score 28)",
+   "risk": 44,
+   "grade": "C",
+   "reward": 47,
+   "note": "creator moved 6.93% to a wallet that sold it all"
+  }
+ },
+ {
+  "address": "5yuiTSNd32qxBM4rkuxqNd6gaSLBqCykJEaKwK4Jpump",
+  "symbol": "SW",
+  "name": "Super Whale",
+  "foundBy": "Argus",
+  "launchAt": 1791571624000,
+  "dataAt": 1791585900000,
+  "batch": "2026-10-10",
+  "hand": {
+   "rating": 2.5,
+   "verdict": "Skip, dev-sold cap (score 43)",
+   "risk": 30,
+   "grade": "B",
+   "reward": 54,
+   "note": "dev sold ~5.1% (56 sells, ~99.6 SOL) 9-20 min after launch"
+  }
+ },
+ {
+  "address": "Diqf6to3TbZzETu4a2v13hxAA4UFVRJbC3jawheApump",
+  "symbol": "qLAB",
+  "name": "qLAB",
+  "foundBy": "both",
+  "launchAt": 1791570615000,
+  "dataAt": 1791585900000,
+  "batch": "2026-10-10",
+  "hand": {
+   "rating": 1.0,
+   "verdict": "AVOID (gate confirmed)",
+   "risk": 41,
+   "grade": "C",
+   "reward": 43,
+   "note": "wallet 4VSAxMCKoP bought 46.17% in the create slot (04:30:15) and sold it all on the curve within 3 s"
+  },
+  "cluster": "Q-family"
+ },
+ {
+  "address": "2fDAjAjyvCFATm5ERrJnyqqcqiZ9akV9vEFZLLGfpump",
+  "symbol": "QPAWS",
+  "name": "Q Paws",
+  "foundBy": "Argus",
+  "launchAt": 1791576624000,
+  "dataAt": 1791585900000,
+  "batch": "2026-10-10",
+  "hand": {
+   "rating": 1.0,
+   "verdict": "AVOID (unverified gate)",
+   "note": "launch-slot wallets 30.9% / 16.0% / 9.3% + dev 3.5%, uniform 0.14% holders; not fully scored"
+  },
+  "screened": "screened out, thin data",
+  "cluster": "Q-family"
+ },
+ {
+  "address": "7mS3UP5vh4GD5jA3XjCZyT2KVwBhLNanjRn17Wfpump",
+  "symbol": "Q/ACC",
+  "name": "Q/ACC",
+  "foundBy": "Argus",
+  "launchAt": 1791580249000,
+  "dataAt": 1791585900000,
+  "batch": "2026-10-10",
+  "hand": {
+   "rating": 1.0,
+   "verdict": "AVOID (unverified gate)",
+   "note": "~53% bundled in the launch slot, 100 boosts; not fully scored"
+  },
+  "screened": "screened out, thin data",
+  "cluster": "Q-family"
+ },
+ {
+  "address": "AVJk6piE392EvzCnP8SXTbq158ALSfUUeY3wKEsNpump",
+  "symbol": "MATE",
+  "name": "MATE",
+  "foundBy": "Hades",
+  "launchAt": 1791583578000,
+  "dataAt": 1791585900000,
+  "batch": "2026-10-10",
+  "hand": {
+   "rating": 1.0,
+   "verdict": "AVOID (unverified gate)",
+   "note": "dev sold ~$21k at +2 min, 117 insider wallets; not fully scored"
+  },
+  "screened": "screened out, thin data"
+ }
+]

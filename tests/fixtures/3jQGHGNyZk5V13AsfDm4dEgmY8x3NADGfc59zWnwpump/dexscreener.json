@@ -1,0 +1,83 @@
+{
+ "pairs": [
+  {
+   "chainId": "solana",
+   "dexId": "pumpswap",
+   "url": "https://dexscreener.com/solana/cdij74r4wtcz12qxe6flkhchk9itp1otunzpnpxqkr7o",
+   "pairAddress": "CdiJ74r4wtcz12QxE6fLkhchk9itp1oTuNZPNpxQkr7o",
+   "baseToken": {
+    "address": "3jQGHGNyZk5V13AsfDm4dEgmY8x3NADGfc59zWnwpump",
+    "name": "Golden Jingtao",
+    "symbol": "\u666f\u6d9b"
+   },
+   "quoteToken": {
+    "address": "So11111111111111111111111111111111111111112",
+    "name": "Wrapped SOL",
+    "symbol": "SOL"
+   },
+   "priceNative": "0.0000004698",
+   "priceUsd": "0.00005129",
+   "txns": {
+    "m5": {
+     "buys": 34,
+     "sells": 36
+    },
+    "h1": {
+     "buys": 81,
+     "sells": 75
+    },
+    "h6": {
+     "buys": 301,
+     "sells": 294
+    },
+    "h24": {
+     "buys": 1275,
+     "sells": 1193
+    }
+   },
+   "volume": {
+    "h24": 148101.66,
+    "h6": 36261.81,
+    "h1": 8460.17,
+    "m5": 996.95
+   },
+   "priceChange": {
+    "m5": 12.45,
+    "h1": 139,
+    "h6": 90.63,
+    "h24": 11.61
+   },
+   "liquidity": {
+    "usd": 18048.75,
+    "base": 197849920,
+    "quote": 72.6157
+   },
+   "fdv": 48179,
+   "marketCap": 48179,
+   "pairCreatedAt": 1791558475000,
+   "info": {
+    "imageUrl": "https://cdn.dexscreener.com/cms/images/W01QDQcvA-3tqYFU?width=800&height=800&quality=95&format=auto",
+    "header": "https://cdn.dexscreener.com/cms/images/V9BUWCUN2Tv3UYk6?width=1500&height=500&quality=95&format=auto",
+    "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/3jQGHGNyZk5V13AsfDm4dEgmY8x3NADGfc59zWnwpump?timestamp=1791586200000",
+    "websites": [],
+    "socials": [
+     {
+      "url": "https://x.com/GOLDENJINGTAO",
+      "type": "twitter"
+     },
+     {
+      "url": "https://www.tiktok.com/@goldenjingtao",
+      "type": "tiktok"
+     },
+     {
+      "url": "https://www.instagram.com/goldenjingtao/",
+      "type": "instagram"
+     }
+    ]
+   },
+   "boosts": {
+    "active": 30
+   }
+  }
+ ]
+}
