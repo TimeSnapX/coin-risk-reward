@@ -259,7 +259,21 @@ await page.goto(BASE + "#/"); await page.waitForSelector("[data-dot]");
   let overlaps = []; for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) { const a = boxes[i], b = boxes[j]; if (a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1) overlaps.push(a.t + "/" + b.t); }
   ok(boxes.length === 10 && overlaps.length === 0, "dot labels do not overlap each other", overlaps.join(","));
   await page.$eval(".quad", (e) => e.scrollIntoView()); await shot("09-quadrant-batch"); await page.$eval("#tracker", (e) => e.scrollIntoView()); await shot("09-tracker-batch");
-  const trk = (await txt(`[data-track="${C.SNOOP.mint}"]`)).replace(/\s+/g, " "); ok(/Mnemosyne \(hand\): 3\.2\/10/.test(trk) && /3\.2\/10/.test(trk.replace(/Mnemosyne[^·]*/, "")) && /data as of/.test(trk), "tracker row after a check: the app's 3.2/10 next to Mnemosyne's 3.2/10", trk.slice(0, 300)); }
+  const trk = (await txt(`[data-track="${C.SNOOP.mint}"]`)).replace(/\s+/g, " "); ok(/Mnemosyne \(hand\): 3\.2\/10/.test(trk) && /3\.1\/10/.test(trk.replace(/Mnemosyne[^·]*/, "")) && /data as of/.test(trk), "tracker row after a check: the app's 3.1/10 next to Mnemosyne's 3.2/10", trk.slice(0, 300)); }
+
+// ---- v1.6: cluster pass (tracker chips), QM launch buyers + cluster-exit Avoid, QCOIN cloned / bot / boosts flags
+{ await page.goto(BASE + "#/"); await page.waitForSelector("#tracker");
+  const members = await page.$$eval("[data-cluster-member]", (e) => e.map((x) => x.closest("[data-track]").getAttribute("data-track")));
+  ok(members.length === 3 && [C.QCOIN, C.QM, C.SW].every((c) => members.includes(c.mint)), "tracker: cluster chip on exactly QCOIN, QM and SW (3 coins share bundle + cloned + boosts)", members.join(","));
+  await page.goto(BASE + "#/coin/" + C.QM.mint); await page.waitForSelector(`[data-coin-detail="${C.QM.mint}"]`);
+  const rows = (await page.$$('[data-k="launchers"] tbody tr')).length, sum = await txt('[data-k="launchers"] summary');
+  ok(rows === 12 && /12 wallets, 79\.3% of supply, 0\.00% held now/.test(sum) && /8 transactions/.test(sum), "QM detail lists the 12 launch buyers (79.3% of supply, 0.00% held now, curve had 8 transactions)", `${rows} | ${sum}`);
+  ok((await txt('[data-k="verdict"]')).includes("Avoid") && /Cluster: 3 coins/.test(await txt('[data-k="v16"]')) && /Cloned holder wallets/.test(await txt('[data-k="v16"]')), "QM: Avoid, flags show 'Cloned holder wallets' and 'Cluster: 3 coins'", await txt('[data-k="v16"]'));
+  ok(/^MED confidence/.test(await txt(".coin .conf")), "QM: confidence MEDIUM", await txt(".coin .conf"));
+  await shot("10-qm-launch-buyers");
+  await page.goto(BASE + "#/coin/" + C.QCOIN.mint); await page.waitForSelector(`[data-coin-detail="${C.QCOIN.mint}"]`);
+  const q = await txt('[data-k="v16"]'); ok(/Cloned holder wallets/.test(q) && /Bot trading/.test(q) && /100 paid DexScreener boosts/.test(q) && /Cluster: 3 coins/.test(q), "QCOIN: cloned holders, bot trading, 100 boosts and the cluster are all shown", q.slice(0, 300));
+  ok((await txt('[data-k="verdict"]')).includes("Skip"), "QCOIN: Skip", await txt('[data-k="verdict"]')); await shot("10-qcoin-flags"); }
 
 ok(unmocked.size === 0, "no unmocked hosts called", [...unmocked].join(","));
 ok(appErrors.length === 0, "no app console errors / page errors", appErrors.join(" | "));

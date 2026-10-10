@@ -86,7 +86,7 @@ export const rugcheck = {
       authorities: { mint: r.token ? r.token.mintAuthority ?? null : undefined, freeze: r.token ? r.token.freezeAuthority ?? null : undefined },
       extensions: { transferFeeBps: tfBps, transferHookProgram: ext.transferHook ? (ext.transferHook.programId ?? ext.transferHook.program_id ?? null) : (r.token_extensions ? null : undefined), permanentDelegate: r.token_extensions ? (ext.permanentDelegate?.delegate ?? null) : undefined },
       pool: poolPatch,
-      holders: { count: num(r.totalHolders), top10PctExPools: holders.length ? sum(top10) : undefined, largestPctExPools: holders.length ? top10[0] : undefined, top10Pcts: holders.length ? top10 : undefined },
+      holders: { count: num(r.totalHolders), top10PctExPools: holders.length ? sum(top10) : undefined, largestPctExPools: holders.length ? top10[0] : undefined, top10Pcts: holders.length ? top10 : undefined, topPcts: holders.length ? holders.slice(0, CONFIG.cloned.topN).map((h) => num(h.pct) || 0) : undefined },
       insiders: { graphChecked: num(r.graphInsidersDetected) !== undefined, detected: num(r.graphInsidersDetected) ?? 0, networks: nets.length, linkedGroups: nets.filter((n) => (n.size || 0) >= 2).length,
         holdingPct: pctOfSupply(sum(nets.map((n) => num(n.currentHolding) || 0))) ?? (nets.length ? undefined : 0),
         dumpedPct: pctOfSupply(sum(nets.map((n) => Math.max(0, (num(n.tokenAmount) || 0) - (num(n.currentHolding) || 0))))) ?? (nets.length ? undefined : 0),
@@ -230,6 +230,7 @@ export const pumpfun = {
   normalize(r) { return { pool: { graduated: r?.complete === true ? true : r?.complete === false ? false : undefined }, market: { pumpReplies: num(r?.reply_count) } }; },
 };
 
+const median = (a) => { const s = [...a].sort((x, y) => x - y), m = s.length >> 1; return s.length ? (s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2) : undefined; };
 // ------------------------------------------------------------------ GeckoTerminal trades + OHLCV (phase 2)
 const poolOf = (d) => d.market?.pairAddress || d.market?.gtTopPool;
 export const geckoTrades = {
@@ -250,7 +251,8 @@ export const geckoTrades = {
       buyUsd: sum(buys.map(usd)), sellUsd: sum(sells.map(usd)),
       uniqueBuyers: new Set(buys.map((t) => t.tx_from_address)).size, uniqueSellers: new Set(sells.map((t) => t.tx_from_address)).size,
       last5mBuyUsd: sum(recent.filter((t) => t.kind === "buy").map(usd)), last5mSellUsd: sum(recent.filter((t) => t.kind === "sell").map(usd)), last5mCount: recent.length,
-      topWalletShare: top / list.length,
+      topWalletShare: top / list.length, medianUsd: median(list.map(usd)),
+      botTrades: list.filter((t) => ctx.cfg.bot.wallets.includes(t.tx_from_address)).length,
       oldest: Math.min(...ts), ...teamExitFromTrades(list, ctx),
     } };
   },

@@ -87,3 +87,5 @@ label { display: block; font-size: 0.85rem; color: var(--muted); margin: 8px 0; 
 label.manual > span { display: flex; gap: 8px; align-items: center; } label.manual > span input[type=checkbox] { width: 20px; height: 20px; margin: 0; }
 
 .chip.fam { color: var(--skip); border-color: rgba(122, 168, 255, 0.4); } .tracker .hand { font-size: 0.8rem; color: var(--amber-2); } .tracker li.screened { opacity: 0.75; }
+.launchers { margin: .6rem 0; } .launchers summary { cursor: pointer; font-size: .85rem; color: var(--amber-2); } .launchers table { width: 100%; border-collapse: collapse; margin-top: .4rem; }
+.launchers th, .launchers td { text-align: left; padding: .2rem .4rem; border-bottom: 1px solid rgba(255,255,255,.08); vertical-align: top; } .launchers th { color: var(--muted); font-weight: 500; }

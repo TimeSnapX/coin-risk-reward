@@ -185,7 +185,11 @@
    "note": "launch-slot wallets 30.9% / 16.0% / 9.3% + dev 3.5%, uniform 0.14% holders; not fully scored"
   },
   "screened": "screened out, thin data",
-  "cluster": "Q-family"
+  "cluster": "Q-family",
+  "signals": {
+   "bundle": true,
+   "cloned": true
+  }
  },
  {
   "address": "7mS3UP5vh4GD5jA3XjCZyT2KVwBhLNanjRn17Wfpump",
@@ -201,7 +205,11 @@
    "note": "~53% bundled in the launch slot, 100 boosts; not fully scored"
   },
   "screened": "screened out, thin data",
-  "cluster": "Q-family"
+  "cluster": "Q-family",
+  "signals": {
+   "bundle": true,
+   "boosts": true
+  }
  },
  {
   "address": "AVJk6piE392EvzCnP8SXTbq158ALSfUUeY3wKEsNpump",

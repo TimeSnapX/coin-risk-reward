@@ -38,6 +38,9 @@ for sym, m, name, fb, note, cl in [
     e = {"address": m, "symbol": sym, "name": name, "foundBy": "Argus" if "Argus" in fb else "Hades", "launchAt": launch(m) if os.path.exists(f"{S}/tr/{m}.json") else None, "dataAt": T1, "batch": "2026-10-10",
          "hand": hand(1.0, "AVOID (unverified gate)", note=note + "; not fully scored"), "screened": "screened out, thin data"}
     if cl: e["cluster"] = cl
+    # v1.6: only the cluster signals the scouts STATED (Argus 0816 scan); anything not stated stays unknown, so these coins do not count towards the 3-coin cluster rule
+    sg = {"QPAWS": {"bundle": True, "cloned": True}, "Q/ACC": {"bundle": True, "boosts": True}}.get(sym)
+    if sg: e["signals"] = sg
     out.append({k: v for k, v in e.items() if v is not None})
 json.dump(out, open("../../public/batches/2026-10-10.json", "w"), ensure_ascii=False, indent=1)
 print(len(out), "entries")

@@ -66,7 +66,7 @@ All are keyless and called from the browser. CORS was tested from https://timesn
 ## Tests
 
 ```
-node tests/unit.mjs     # 916 checks: hand-checked maths incl. QI, Yana and z0s worked examples (FORMULA.md 6a/6b), v1.3 reward formulas, locked-dev rule, R:R levels, failures, cache, ATA
+node tests/unit.mjs     # 977 checks: hand-checked maths incl. QI, Yana and z0s worked examples (FORMULA.md 6a/6b), v1.3 reward formulas, locked-dev rule, R:R levels, failures, cache, ATA
 node tests/e2e.mjs      # 412x915, every API mocked; screenshots -> test-results/e2e-*.png
 node tests/cors.mjs     # every source from a page on https://timesnapx.github.io (simulated)
 node tests/live.mjs     # real APIs through the UI; test-results/live-report.json + live-*.png
@@ -95,3 +95,7 @@ node /workspace/pwa-check/check.mjs <url>
 ## v1.5 (10 Oct 2026)
 
 Dev-sold cap (2.5/10, Skip), burn = safe, holder trend ignored under 2 h / 500 holders, "no position suggested", sniper check = larger of create-slot and first-60 s (curve buys read, unreadable = unknown + half insider points + LOW), single-wallet launch gate, exit cost from the quote output, "probable, not confirmed" lock label, curve-peak flag, Tracker "added" / "data as of", **Import batch** (`public/batches/2026-10-10.json`), verdict-coloured quadrant with non-overlapping labels. Details and the SNOOP line-by-line reconciliation: FORMULA.md 6d.
+
+## v1.6 (10 Oct 2026)
+
+Cloned holder wallets (holders +6, organic +6, holder reward -40, confidence at most MEDIUM), bot trading (median trade < $1 or the shared bot wallets: organic +6, volume and buy/sell reward capped at 45), paid boosts >= 30 (narrative capped at 25), the **cluster pass** over the watchlist / batch (3+ coins with launch bundle + cloned holders + boosts: +4 insider points each), the QM cluster-exit **Avoid** gate, and a "Launch buyers the app read" list. FORMULA.md 6e has the rules, QCOIN / QM results and the Circuit and PATCH line-by-line tables.

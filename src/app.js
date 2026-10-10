@@ -3,6 +3,7 @@ import { CONFIG } from "./config.js";
 import { detectChain, extractCandidates, secretReason } from "./chain.js";
 import { collect } from "./data/collect.js";
 import { score, rrCalc } from "./scoring/engine.js";
+import { clusterPass, withCluster } from "./scoring/cluster.js";
 import { devLockEvents } from "./data/fetchers.js";
 import { fmtUsd, fmtPct } from "./scoring/rules.js";
 import * as store from "./store.js";
@@ -19,13 +20,16 @@ let busy = false;
 
 // ------------------------------------------------------------------ checking
 function manualFor(address) { const s = store.loadSettings(), e = store.loadWatch().coins[address]; return { ...(e?.manual || {}), bankrollUsd: s.bankrollUsd || undefined, testSizeUsd: s.testSizeUsd || CONFIG.costs.defaultTestSizeUsd }; }
-export function rescore(entry) { const data = { ...entry.data, manual: manualFor(entry.address) }; return score(data); }
+// v1.6: the cluster rule (>= 3 coins sharing a launch bundle + cloned holders + paid boosts) is a pass over ALL stored coins, so every score goes through it
+export const clusterNow = () => clusterPass(store.list());
+export function rescore(entry, pass = clusterNow()) { const data = withCluster({ ...entry.data, manual: manualFor(entry.address) }, entry.address, pass); return score(data); }
 
 async function checkOne(address, force = false) {
   const data = await collect(address, { force, manual: manualFor(address) });
-  const result = score(data);
   const t = data.token || {};
-  store.upsert({ address, chain: "solana", symbol: t.symbol, name: t.name, lastChecked: data.fetchedAt, data: { ...data, manual: undefined, fromCache: undefined }, result: slim(result) });
+  const entry = store.upsert({ address, chain: "solana", symbol: t.symbol, name: t.name, lastChecked: data.fetchedAt, data: { ...data, manual: undefined, fromCache: undefined } });
+  const result = rescore(entry); // after the upsert: the cluster pass needs this coin in the store
+  store.upsert({ address, result: slim(result) });
   return { data, result };
 }
 const slim = (r) => ({ ...r }); // full result is small (no raw API payloads)
@@ -73,7 +77,7 @@ function renderDetect(text) {
 }
 
 function homeHTML() {
-  const coins = store.list().map((c) => ({ ...c, result: c.data ? rescore(c) : c.result }));
+  const pass = clusterNow(), coins = store.list().map((c) => ({ ...c, result: c.data ? rescore(c, pass) : c.result }));
   const s = store.loadSettings();
   return `
   <section class="card">
@@ -115,14 +119,14 @@ function homeHTML() {
 
 const toLocalInput = (t) => { const d = new Date(t - new Date(t).getTimezoneOffset() * 60000); return d.toISOString().slice(0, 16); };
 function trackerHTML() {
-  const items = store.trackerList();
+  const items = store.trackerList(), pass = clusterNow();
   return `<section class="card" id="tracker"><div class="row between"><h2>Tracker</h2><span class="muted small">${items.length} tracked</span></div>
-    ${items.length ? `<ul class="tracker">${items.map((c) => { const r = c.data ? rescore(c) : c.result, t = c.tracker; return `<li data-track="${esc(c.address)}"${t.screened ? ' class="screened"' : ""}>
+    ${items.length ? `<ul class="tracker">${items.map((c) => { const r = c.data ? rescore(c, pass) : c.result, t = c.tracker; return `<li data-track="${esc(c.address)}"${t.screened ? ' class="screened"' : ""}>
       <div class="row between"><a href="#/coin/${esc(c.address)}"><b>${esc(c.symbol || short(c.address))}</b></a>${r ? pill(r) : ""}</div>
       <div class="small">${r ? `${rate(r, 'data-t="rating10"')} <span class="muted">risk ${r.riskScore} · reward ${r.rewardScore}</span>` : "Not scored"}</div>
       <div class="small muted">Found by <b>${esc(t.foundBy)}</b> · launched ${t.foundAt ? esc(when(t.foundAt)) : "unknown"} · added ${esc(when(t.addedAt))} · data as of ${esc(t.dataAt || c.lastChecked ? when(c.lastChecked || t.dataAt) : "unknown")}${t.dataAt && c.lastChecked && c.lastChecked !== t.dataAt ? ` (scout data ${esc(when(t.dataAt))})` : ""}</div>
       ${t.hand ? `<div class="hand">Mnemosyne (hand): ${t.hand.rating !== undefined ? `${t.hand.rating.toFixed(1)}/10` : "unknown"} · risk ${t.hand.risk ?? "unknown"}${t.hand.grade ? " " + esc(t.hand.grade) : ""} · reward ${t.hand.reward ?? "unknown"} · ${esc(t.hand.verdict || "unknown")}${t.hand.note ? ` <span class="muted">${esc(t.hand.note)}</span>` : ""}</div>` : ""}
-      ${t.cluster || t.screened ? `<div class="row wrap">${t.cluster ? `<span class="chip fam">${esc(t.cluster)} cluster</span>` : ""}${t.screened ? `<span class="chip bad">screened out · ${esc(t.screened)}</span>` : ""}</div>` : ""}
+      ${t.cluster || t.screened || pass.members.includes(c.address) ? `<div class="row wrap">${t.cluster ? `<span class="chip fam">${esc(t.cluster)} cluster</span>` : ""}${pass.members.includes(c.address) ? `<span class="chip fam" data-cluster-member>cluster: ${pass.size} coins share bundle + cloned + boosts (+${CONFIG.cluster.insiderPts} insider pts)</span>` : ""}${t.screened ? `<span class="chip bad">screened out · ${esc(t.screened)}</span>` : ""}</div>` : ""}
       <div class="row wrap tr-edit"><select data-tr="status" aria-label="Status">${store.STATUSES.map((x) => `<option ${t.status === x ? "selected" : ""}>${x}</option>`).join("")}</select>
       <select data-tr="foundBy" aria-label="Found by">${store.FOUND_BY.map((x) => `<option ${t.foundBy === x ? "selected" : ""}>${x}</option>`).join("")}</select></div>
       <textarea data-tr="notes" rows="2" placeholder="Notes" aria-label="Notes">${esc(t.notes)}</textarea></li>`; }).join("")}</ul>`
@@ -182,6 +186,20 @@ function rrLine(r) {
   const f = (v) => (v == null ? "n/a" : `${v.toFixed(1)}:1`);
   return `<p class="small${x.warnCurrent ? " warn" : ""}" data-k="rr">R:R now <b data-k="rrnow">${f(x.current.tp1)}</b>${x.target2 ? ` / TP2 ${f(x.current.tp2)}` : ""}${x.warnCurrent ? " ⚠ under 1:1 at the current price" : ""} · plan entry ${fmtUsd(x.plan.entry)}${x.plan.zone && x.plan.zone[0] !== x.plan.zone[1] ? ` (zone ${fmtUsd(x.plan.zone[0])}-${fmtUsd(x.plan.zone[1])})` : ""}: <b data-k="rrplan">${f(x.plan.tp1)}</b>${x.target2 ? ` / TP2 ${f(x.plan.tp2)}` : ""} (needs ${x.min}:1 ${x.meets ? "✓" : "✗"}).<br><span data-k="rrlevels">Stop ${fmtUsd(x.stop)} (${esc(x.stopSrc || "")}) · TP1 ${fmtUsd(x.target)}${x.target2 ? ` · TP2 ${fmtUsd(x.target2)}` : ""}</span></p>`;
 }
+
+// v1.6: who bought at launch (read from the curve's own transactions) and what they hold now; plus the cloned-holder / bot / cluster flags
+function launchBuyersHTML(d, r) {
+  const L = d.launch, flags = [];
+  if (r.cloned?.hit) flags.push(`<li class="f-red"><i>●</i><div><b>Cloned holder wallets</b><span>${esc(`${r.cloned.count} of the top ${r.cloned.n} holders sit within ${CONFIG.cloned.tolerance * 100}% of the same balance (${fmtPct(r.cloned.min, 3)}-${fmtPct(r.cloned.max, 3)}): holders +${CONFIG.cloned.holderPts} risk, organic +${CONFIG.cloned.organicPts}, holder reward -${CONFIG.cloned.rewardCut}, confidence at most MEDIUM.`)}</span></div></li>`);
+  if (r.bot?.hit) flags.push(`<li class="f-red"><i>●</i><div><b>Bot trading</b><span>${esc(`${r.bot.why}: organic +${CONFIG.bot.organicPts}, volume and buy/sell reward capped at ${CONFIG.bot.rewardCap}.`)}</span></div></li>`);
+  if (d.market?.boostsActive >= CONFIG.bot.boostsMin) flags.push(`<li class="f-amber"><i>●</i><div><b>${d.market.boostsActive} paid DexScreener boosts</b><span>Narrative score capped at ${CONFIG.bot.narrativeCap}.</span></div></li>`);
+  if (r.cluster?.member) flags.push(`<li class="f-red"><i>●</i><div><b>Cluster: ${r.cluster.size} coins</b><span>${esc(r.cluster.names.join(", "))} each show a launch bundle + cloned holders + paid boosts: +${CONFIG.cluster.insiderPts} insider points each.</span></div></li>`);
+  const buyers = L?.wallets?.length ? (() => { const ws = [...L.wallets].sort((x, y) => y.boughtPct - x.boughtPct), tot = ws.reduce((t, w) => t + w.boughtPct, 0), now = ws.reduce((t, w) => t + w.heldNowPct, 0);
+    return `<details class="launchers" data-k="launchers"><summary>Launch buyers the app read: ${ws.length} wallets, ${fmtPct(tot, 1)} of supply, ${fmtPct(now, 2)} held now${L.curveTx ? ` (the curve had ${L.curveTx} transactions)` : ""}</summary>
+      <table class="small"><thead><tr><th>#</th><th>Wallet</th><th>Bought</th><th>Slot</th><th>Held now</th><th>First sale</th></tr></thead><tbody>${ws.map((w, i) => `<tr><td>${i + 1}</td><td class="mono"><a href="https://solscan.io/account/${esc(w.wallet)}" target="_blank" rel="noopener noreferrer">${esc(short(w.wallet))}</a>${w.wallet === L.dev?.wallet ? " (dev)" : ""}</td><td>${fmtPct(w.boughtPct, 2)}</td><td>${w.slot}</td><td>${fmtPct(w.heldNowPct, 2)}</td><td>${w.traceCovered ? (u2(w.firstExitSec) ? "none seen" : `${w.firstExitSec}s, ${fmtPct(w.firstExitPct * 100, 0)} of its buy${w.firstExitSol > 0 ? `, ${w.firstExitSol.toFixed(2)} SOL` : ""}`) : "not traced"}</td></tr>`).join("")}</tbody></table></details>`; })() : "";
+  return flags.length || buyers ? `<div data-k="v16">${flags.length ? `<ul class="flags">${flags.join("")}</ul>` : ""}${buyers}</div>` : "";
+}
+const u2 = (v) => v === undefined || v === null || Number.isNaN(v);
 function detailHTML(entry) {
   const d = entry.data, r = rescore(entry), m = d.market || {}, p = d.pool || {}, a = entry.address;
   const age = (Date.now() - d.fetchedAt) / 1000;
@@ -203,6 +221,7 @@ function detailHTML(entry) {
     <div class="ratingbar"><span>Risk vs reward rating</span>${rate(r)}<small data-k="ratingwhy">${esc(r.ratingWhy)}</small></div>
     ${r.capsHit.length ? `<p class="gate" data-k="capped">${r.avoid ? "Team exit (also)" : `Capped at Skip${r.verdictCapped ? ` (would have been ${esc(CONFIG.verdicts.find((v) => v.key === r.uncappedVerdict).label)})` : ""}`}: ${esc(r.checks.caps.filter((x) => x.score === 1).map((x) => x.reason).join(" "))} A clean RugCheck score never lifts a coin on its own.</p>` : ""}
     ${r.avoid ? `<p class="gate">Gate failed: ${esc([...r.checks.hard.filter((x) => x.score === 100), ...r.checks.gates.filter((x) => x.score === 1)].map((x) => x.reason).join(" "))} Any gate = Avoid, whatever the reward.</p>` : ""}
+    ${launchBuyersHTML(d, r)}
     <div class="two"><div><h3>3 strongest positives</h3><ul class="flags" data-k="positives">${r.positives.map(flagLi).join("") || "<li class='muted'>None found.</li>"}</ul></div>
     <div><h3>3 biggest red flags</h3><ul class="flags" data-k="redflags">${r.redFlags.map(flagLi).join("") || "<li class='muted'>None found.</li>"}</ul></div></div>
     <div class="facts">

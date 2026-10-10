@@ -6,6 +6,8 @@ import { detectChain, secretReason, extractCandidates } from "../src/chain.js";
 import { collect, clearCache } from "../src/data/collect.js";
 import { _resetSolCache, _resetGt } from "../src/data/fetchers.js";
 import { score, breakEven } from "../src/scoring/engine.js";
+import { clusterPass, withCluster } from "../src/scoring/cluster.js";
+import { clonedHolders, botTape, familySignals, clusterExit } from "../src/scoring/rules.js";
 import { CONFIG } from "../src/config.js";
 import { CASES, mockFetch, setSol, state } from "./mock.mjs";
 
@@ -73,22 +75,22 @@ const EXPECT = {
   // v1.5 batch (10 Oct 2026): the APP'S numbers, never tuned to the hand scores (Mnemosyne, SCORES-2026-10-10.md; the per-coin deltas are in FORMULA.md 6d)
   Circuit: { pts: {lp: 0, holders: 6, insiders: 2, dev: 0, liquidity: 4, priceAction: 5, organic: 0, socials: 3, age: 0}, riskRaw: 22, risk: 22, grade: "A", caps: {te_dev: 0, te_cluster: 0}, rating: 4.7,
     sig: {liquidityDepth: 22, volumeQuality: 63, buySell: 50, trend: 42, holderGrowth: 75, narrative: 35, room: 67}, rewardRaw: 47.1, reward: 47, vscore: 47, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 22.3 },
-  SNOOP: { pts: {lp: 0, holders: 6, insiders: 2, dev: 4, liquidity: 4, priceAction: 5, organic: 6, socials: 3, age: 0}, riskRaw: 32, risk: 32, grade: "B", caps: {te_dev: 0, te_cluster: 0}, rating: 3.2,
-    sig: {liquidityDepth: 24, volumeQuality: 55, buySell: 37, trend: 30, holderGrowth: 55, narrative: 35, room: 65}, rewardRaw: 40.35, reward: 40, vscore: 32, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 4.88 },
+  SNOOP: { pts: {lp: 0, holders: 6, insiders: 2, dev: 4, liquidity: 4, priceAction: 5, organic: 6, socials: 3, age: 0}, riskRaw: 32, risk: 32, grade: "B", caps: {te_dev: 0, te_cluster: 0}, rating: 3.1,
+    sig: {liquidityDepth: 24, volumeQuality: 45, buySell: 37, trend: 30, holderGrowth: 55, narrative: 35, room: 65}, rewardRaw: 38.85, reward: 39, vscore: 31, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 4.88 },
   PATCH: { pts: {lp: 0, holders: 13, insiders: 6, dev: 4, liquidity: 0, priceAction: 0, organic: 0, socials: 3, age: 0}, riskRaw: 28, risk: 28, grade: "B", caps: {te_dev: 0, te_cluster: 0}, rating: 4.7,
     sig: {liquidityDepth: 43, volumeQuality: 97, buySell: 47, trend: 92, holderGrowth: 50, narrative: 35, room: 48}, rewardRaw: 59.05, reward: 59, vscore: 47, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 10.94 },
-  QCOIN: { pts: {lp: 0, holders: 0, insiders: 7.5, dev: 7.5, liquidity: 0, priceAction: 3, organic: 0, socials: 5, age: 0}, riskRaw: 25, risk: 25, grade: "A", caps: {te_dev: 0, te_cluster: 0}, rating: 5.3,
-    sig: {liquidityDepth: 55, volumeQuality: 68, buySell: 66, trend: 26, holderGrowth: 90, narrative: 35, room: 40}, rewardRaw: 53.25, reward: 53, vscore: 53, verdict: "lottery", conf: "HIGH", gates: [], hf: [], be: 2.12 },
+  QCOIN: { pts: {lp: 0, holders: 6, insiders: 11.5, dev: 7.5, liquidity: 0, priceAction: 3, organic: 6, socials: 5, age: 0}, riskRaw: 41, risk: 41, grade: "C", caps: {te_dev: 0, te_cluster: 0}, rating: 2.5,
+    sig: {liquidityDepth: 55, volumeQuality: 45, buySell: 45, trend: 26, holderGrowth: 50, narrative: 25, room: 40}, rewardRaw: 41.15, reward: 41, vscore: 25, verdict: "skip", conf: "MED", gates: [], hf: [], be: 2.12 },
   GULCH: { pts: {lp: 0, holders: 13, insiders: 2, dev: 15, liquidity: 4, priceAction: 5, organic: 0, socials: 3, age: 0}, riskRaw: 44, risk: 44, grade: "C", caps: {te_dev: 1, te_cluster: 0}, rating: 2.5,
     sig: {liquidityDepth: 10, volumeQuality: 87, buySell: 60, trend: 56, holderGrowth: 50, narrative: 35, room: 70}, rewardRaw: 49.7, reward: 50, vscore: 30, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 4.72 },
-  SW: { pts: {lp: 0, holders: 0, insiders: 7.5, dev: 15, liquidity: 0, priceAction: 0, organic: 0, socials: 5, age: 0}, riskRaw: 29.5, risk: 30, grade: "B", caps: {te_dev: 1, te_cluster: 0}, rating: 2.5,
-    sig: {liquidityDepth: 53, volumeQuality: 89, buySell: 58, trend: 70, holderGrowth: 90, narrative: 35, room: 41}, rewardRaw: 61.5, reward: 62, vscore: 50, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 3.35 },
+  SW: { pts: {lp: 0, holders: 6, insiders: 11.5, dev: 15, liquidity: 0, priceAction: 0, organic: 6, socials: 5, age: 0}, riskRaw: 45.5, risk: 46, grade: "C", caps: {te_dev: 1, te_cluster: 0}, rating: 2.5,
+    sig: {liquidityDepth: 53, volumeQuality: 89, buySell: 58, trend: 70, holderGrowth: 50, narrative: 25, room: 41}, rewardRaw: 56, reward: 56, vscore: 34, verdict: "skip", conf: "MED", gates: [], hf: [], be: 3.35 },
   qLAB: { pts: {lp: 0, holders: 6, insiders: 7.5, dev: 4, liquidity: 4, priceAction: 5, organic: 0, socials: 3, age: 0}, riskRaw: 29.5, risk: 30, grade: "B", caps: {te_dev: 0, te_cluster: 1}, rating: 1,
     sig: {liquidityDepth: 19, volumeQuality: 65, buySell: 47, trend: 52, holderGrowth: 75, narrative: 35, room: 69}, rewardRaw: 48.05, reward: 48, vscore: 38, verdict: "avoid", conf: "HIGH", gates: ["g_bundle"], hf: [], be: 17.7 },
-  QM: { pts: {lp: 0, holders: 0, insiders: 7.5, dev: 7.5, liquidity: 0, priceAction: 0, organic: 6, socials: 5, age: 0}, riskRaw: 28, risk: 28, grade: "B", caps: {te_dev: 0, te_cluster: 0}, rating: 4.4,
-    sig: {liquidityDepth: 36, volumeQuality: 79, buySell: 50, trend: 70, holderGrowth: 70, narrative: 35, room: 53}, rewardRaw: 54.6, reward: 55, vscore: 44, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 2.12 },
-  "景涛": { pts: {lp: 0, holders: 6, insiders: 2, dev: 15, liquidity: 4, priceAction: 0, organic: 0, socials: 5, age: 0}, riskRaw: 32, risk: 32, grade: "B", caps: {te_dev: 1, te_cluster: 0}, rating: 4.6,
-    sig: {liquidityDepth: 4, volumeQuality: 100, buySell: 62, trend: 87, holderGrowth: 75, narrative: 30, room: 70}, rewardRaw: 57.15, reward: 57, vscore: 46, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 2.53 },
+  QM: { pts: {lp: 0, holders: 6, insiders: 11.5, dev: 7.5, liquidity: 0, priceAction: 0, organic: 6, socials: 5, age: 0}, riskRaw: 38, risk: 38, grade: "B", caps: {te_dev: 0, te_cluster: 0}, rating: 1,
+    sig: {liquidityDepth: 36, volumeQuality: 79, buySell: 50, trend: 70, holderGrowth: 30, narrative: 25, room: 53}, rewardRaw: 49.1, reward: 49, vscore: 39, verdict: "avoid", conf: "MED", gates: ["g_cluster"], hf: [], be: 2.12 },
+  "景涛": { pts: {lp: 0, holders: 6, insiders: 2, dev: 15, liquidity: 4, priceAction: 0, organic: 0, socials: 5, age: 0}, riskRaw: 32, risk: 32, grade: "B", caps: {te_dev: 1, te_cluster: 0}, rating: 4.5,
+    sig: {liquidityDepth: 4, volumeQuality: 100, buySell: 62, trend: 87, holderGrowth: 75, narrative: 25, room: 70}, rewardRaw: 56.4, reward: 56, vscore: 45, verdict: "skip", conf: "HIGH", gates: [], hf: [], be: 2.53 },
   NOTHUMAN: { pts: {lp: 0, holders: 6, insiders: 2, dev: 15, liquidity: 4, priceAction: 0, organic: 0, socials: 3, age: 4}, riskRaw: 36, risk: 36, grade: "B", caps: {te_dev: 1, te_cluster: 0}, rating: 3.8,
     sig: {liquidityDepth: 10, volumeQuality: 60, buySell: 50, trend: 60, holderGrowth: 75, narrative: 30, room: 70}, rewardRaw: 46.5, reward: 47, vscore: 38, verdict: "skip", conf: "LOW", gates: [], hf: [], be: 17.55 },
 };
@@ -96,8 +98,12 @@ async function run(c, opts = {}) {
   clearCache(); _resetSolCache(); _resetGt(); state.fail = new Set(opts.fail || []);
   setSol(JSON.parse(readFileSync(new URL(`./fixtures/${c.mint}/coingecko.json`, import.meta.url))).solana.usd);
   const d = await collect(c.mint, { now: c.now, fetchImpl: mockFetch, manual: opts.manual }); state.fail = new Set();
-  return { d, r: score(d) };
+  return { d, r: score(c.hand ? withCluster(d, c.mint, await batchPass()) : d) };
 }
+// v1.6 rule 3 is a pass over a whole batch: the 10 hand-scored coins are collected once and the cluster pass decides who is a member
+let _pass; async function batchPass() { if (_pass) return _pass; const D = [];
+  for (const c of CASES.filter((x) => x.hand)) { clearCache(); _resetSolCache(); _resetGt(); setSol(JSON.parse(readFileSync(new URL(`./fixtures/${c.mint}/coingecko.json`, import.meta.url))).solana.usd); D.push({ address: c.mint, symbol: c.name, data: await collect(c.mint, { now: c.now, fetchImpl: mockFetch }) }); }
+  return (_pass = clusterPass(D)); }
 for (const c of CASES) {
   const e = EXPECT[c.name]; if (!e) continue;
   const { r } = await run(c);
@@ -338,6 +344,51 @@ for (const c of CASES) {
     const d2 = structuredClone(d); d2.devLocks[0].verified = false; d2.devLocks[0].probable = true; const dv = g(score(d2), "dev"); ok(dv.points === 4 && /PROBABLE, not confirmed/.test(dv.reason), "escrow not read -> 'lock PROBABLE, not confirmed' (same 4 points)", dv.reason); }
   console.log("\n— v1.5: Skip / Avoid = 'no position suggested'; creator holds 0% -> watch linked wallets");
   { const { r } = await run(C("SNOOP")); ok(/^No position suggested/.test(r.loseAmount.text) && r.loseAmount.none === true, "Skip: 'No position suggested' (not 'amount you can lose: $0')", r.loseAmount.text); ok(!r.invalidation.some((x) => /sells any of its 0\.00%/.test(x)) && r.invalidation.some((x) => /Sales from wallets linked to the creator/.test(x)), "creator holds 0% -> the trigger watches linked wallets and liquidity / price breaks", r.invalidation.join(" | ")); }
+}
+
+
+// ---------------- v1.6 (Mnemosyne, 10 Oct 2026): cloned holders, bot trading + boosts, the Q-family cluster, the QM cluster-exit gate
+{ const g = (r, id) => [...r.checks.risk, ...r.checks.caps, ...r.checks.gates, ...r.checks.reward, ...r.checks.hard].find((x) => x.id === id);
+  const C = (n) => CASES.find((x) => x.name === n);
+  console.log("\n— v1.6 rule 1: cloned holder wallets (5+ of the top 20 within 10% of the same balance)");
+  for (const n of ["QCOIN", "QM", "SW"]) { const { d } = await run(C(n)); const k = clonedHolders(d); ok(k.hit && k.count >= 15, `${n}: ${k.count} of ${k.n} top holders are cloned wallets (0.32% / 0.12% / 0.55%)`, k); }
+  for (const n of ["Circuit", "GULCH", "SNOOP", "PATCH", "CRAWL", "Yana", "景涛", "NOTHUMAN"]) { const { d } = await run(C(n)); ok(!clonedHolders(d).hit, `${n}: ordinary long-tail holders are not flagged`, clonedHolders(d)); }
+  { const mk = (p, extra = {}) => ({ holders: { topPcts: p }, ...extra });
+    ok(clonedHolders(mk([5, 3, 0.3, 0.31, 0.32, 0.33, 0.305, 0.1, 0.05])).hit, "synthetic: exactly 5 wallets inside a 10% band (0.30-0.33) = cloned");
+    ok(!clonedHolders(mk([5, 3, 0.3, 0.31, 0.32, 0.33, 0.1, 0.05])).hit, "synthetic: only 4 inside the band = not cloned");
+    ok(!clonedHolders(mk([5, 3, 0.3, 0.34, 0.38, 0.42, 0.46, 0.5])).hit, "synthetic: a smooth 0.30-0.50 ramp (not within 10% of one balance) = not cloned");
+    ok(!clonedHolders(mk([2.0, 2.05, 2.1, 2.12, 2.15, 1])).hit && clonedHolders(mk([2.0, 2.05, 2.1, 2.12, 2.15, 1]), { ...CONFIG, cloned: { ...CONFIG.cloned, maxBalancePct: null } }).hit, "5 equal wallets at 2% each: not dust, so not flagged by default; flagged under the literal rule (cloned.maxBalancePct = null)"); }
+  { const { d, r } = await run(C("QCOIN")); const d2 = structuredClone(d); d2.holders.topPcts = d.holders.topPcts.map((x, i) => (i === 0 ? x : 0.1 + i * 0.07)); // same coin, ordinary tail
+    const r2 = score(d2); ok(!r2.cloned.hit, "control: QCOIN with an ordinary tail is not cloned");
+    eq(g(r, "holders").points - g(r2, "holders").points, 6, "cloned: holder risk +6"); eq(g(r, "organic").points, 6, "cloned: organic risk +6 (the line is capped at its weight, 6)");
+    eq(g(r2, "holderGrowth").score - g(r, "holderGrowth").score, 40, "cloned: reward holder score -40"); ok(/CLONED HOLDERS/.test(g(r, "holders").reason), "holder line names the cloned wallets"); }
+  { const { r } = await run(C("QM")); eq(r.confidence, "MED", "QM: confidence MEDIUM when the holder data is cloned wallets (was HIGH)"); ok(/holder data is cloned wallets/.test(r.confidenceWhy), "the confidence line says why"); }
+  console.log("\n— v1.6 rule 2: bot trading (median trade < $1, or the shared bot wallets) and paid boosts");
+  { const { d, r } = await run(C("QCOIN")); ok(d.trades.medianUsd < 1, `QCOIN: median trade ${d.trades.medianUsd.toFixed(2)} < $1 = bot tape`, d.trades.medianUsd);
+    eq(g(r, "volumeQuality").score, 45, "bot tape: volume reward capped at 45 (was 68)"); eq(g(r, "buySell").score, 45, "bot tape: buy/sell reward capped at 45 (was 66)"); ok(/bot trading/i.test(g(r, "organic").reason), "organic line says bot trading", g(r, "organic").reason); }
+  { const { d } = await run(C("Circuit")); const d2 = structuredClone(d); ok(!botTape(d2).hit, "Circuit: no bot tape"); d2.trades.botTrades = Math.ceil(d2.trades.n * 0.10);
+    const r2 = score(d2); ok(botTape(d2).hit && botTape(d2).shared, "10% of the tape by the shared bot wallets = bot tape"); ok(g(r2, "organic").points >= 6 && g(r2, "volumeQuality").score <= 45 && g(r2, "buySell").score <= 45, "…organic 6, volume and buy/sell capped at 45");
+    d2.trades.botTrades = 5; ok(!botTape(d2).hit, "5 bot trades of 300 = not enough"); d2.trades.botTrades = 0; d2.trades.medianUsd = 0.5; ok(botTape(d2).lowMedian, "median $0.50 = bot tape");
+    ok(CONFIG.bot.wallets.length === 3 && CONFIG.bot.wallets.every((w) => w.length >= 43), "the three shared bot wallets are full addresses (FHpcNSe6…, 2tgUbS9U…, F6pq4Unx…)"); }
+  { const { d } = await run(C("QM")); eq(d.market.boostsActive, 30, "QM: 30 paid boosts"); const r = score(d); eq(g(r, "narrative").score, 25, "30 boosts cap the narrative at 25 (was 35)");
+    const d2 = structuredClone(d); d2.market.boostsActive = 29; eq(g(score(d2), "narrative").score, 35, "29 boosts: no cap"); d2.market.boostsActive = 100; d2.manual = { narrative: 90 }; eq(g(score(d2), "narrative").score, 25, "100 boosts cap even a manual narrative at 25"); }
+  console.log("\n— v1.6 rule 3: Q-family cluster = 3+ coins that each show a launch bundle + cloned holders + paid boosts (a pass over the batch)");
+  { const ds = {}; for (const n of ["Circuit", "SNOOP", "PATCH", "QCOIN", "GULCH", "SW", "qLAB", "QM", "景涛", "NOTHUMAN"]) ds[n] = (await run(C(n))).d;
+    const ent = (n) => ({ address: C(n).mint, symbol: n, data: ds[n] }), pass = clusterPass(Object.keys(ds).map(ent));
+    eq(pass.names.join(","), "QCOIN,SW,QM", "the batch cluster = QCOIN, SW, QM (all three signals); qLAB has the bundle only, 景涛 boosts only");
+    const f = (n) => familySignals(ds[n]); ok(f("qLAB").bundle === true && f("qLAB").cloned === false && f("qLAB").boosts === false, "qLAB: bundle yes, cloned no, boosts no (not in the cluster by the app's data)", f("qLAB"));
+    for (const n of ["QCOIN", "QM", "SW"]) { const r = score(withCluster(ds[n], C(n).mint, pass)), r0 = score(ds[n]); eq(g(r, "insiders").points - g(r0, "insiders").points, 4, `${n}: +4 insider points as a cluster member`); ok(/CLUSTER: 3 coins/.test(g(r, "insiders").reason), `${n}: insider line names the cluster`); }
+    const rc = score(withCluster(ds.Circuit, C("Circuit").mint, pass)); eq(g(rc, "insiders").points, g(score(ds.Circuit), "insiders").points, "Circuit: not a member, no change");
+    const two = clusterPass([ent("QCOIN"), ent("QM"), ent("Circuit")]); ok(!two.ok && two.members.length === 0, "only 2 coins show all three signals: no cluster, no points");
+    const withTracker = clusterPass([ent("QCOIN"), ent("QM"), { address: "X".repeat(44), symbol: "Qx", tracker: { signals: { bundle: true, cloned: true, boosts: true } } }]); ok(withTracker.ok && withTracker.names.includes("Qx"), "a coin only in the tracker counts with the signals the scouts stated (all three)");
+    const partial = clusterPass([ent("QCOIN"), ent("QM"), { address: "Y".repeat(44), symbol: "QPAWS", tracker: { signals: { bundle: true, cloned: true } } }]); ok(!partial.ok, "QPAWS: boosts not stated = unknown = does not count");
+    const noData = clusterPass([ent("QCOIN"), ent("QM"), { address: "Z".repeat(44), symbol: "MATE", tracker: {} }]); ok(!noData.ok, "no stated signals = does not count"); }
+  console.log("\n— v1.6 QM: launch buyers listed; a group >= 25% of supply that now holds ~0 and was seen selling = Avoid; QCOIN stays Skip");
+  { const { d, r } = await run(C("QM")); const L = d.launch; ok(L.wallets.length === 12 && L.curveTx === 8, "QM: the app reads 12 launch buyers (Argus: 8 curve transactions)", [L.wallets.length, L.curveTx]);
+    const c = clusterExit(d); ok(c.hit && c.pct > 25 && c.now <= 1 && c.sold >= 3, `QM: ${c.wallets} create-slot wallets took ${c.pct.toFixed(1)}%, hold ${c.now.toFixed(2)}%, ${c.sold} seen selling >= 25% for ${c.soldSol.toFixed(1)} SOL`, c);
+    eq(r.verdict, "avoid", "QM: Avoid"); eq(r.gatesHit.join(","), "g_cluster", "…by the cluster-exit gate"); eq(r.rating10, 1, "…rating 1.0"); }
+  for (const n of ["QCOIN", "PATCH", "SW", "qLAB", "Circuit"]) { const { d } = await run(C(n)); ok(!clusterExit(d).hit, `${n}: no coordinated-exit cluster (sells not seen / not enough)`, clusterExit(d)); }
+  { const { r } = await run(C("QCOIN")); eq(r.verdict, "skip", "QCOIN: Skip"); ok(r.rating10 >= 2.5 && r.rating10 <= 3.3, `QCOIN: rating ${r.rating10} (hers 3.1)`, r.rating10); }
 }
 
 // ---------------- break-even formula by hand

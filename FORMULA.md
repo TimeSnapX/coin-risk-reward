@@ -1,7 +1,7 @@
 # Coin Risk vs Reward: formula and worked examples
 
 Source of truth: `/workspace/coin-checker/SPEC.md` (v1 plus the v1.1 additions agreed on 9 Oct 2026) and the v1.2 rulings in `/workspace/coin-checker/WORKED.md` (section 6a).
-All numbers live in `src/config.js`. The examples below are checked by `tests/unit.mjs`, which has 916 checks and recomputes every line from the mocked API responses.
+All numbers live in `src/config.js`. The examples below are checked by `tests/unit.mjs`, which has 977 checks and recomputes every line from the mocked API responses.
 
 Reviewers: **Hades** (reward side and the clean-RugCheck rule), **Argus** (risk side), **Mnemosyne** (SPEC owner).
 
@@ -503,6 +503,114 @@ Deltas > 2 on the rating: **QCOIN (+2.2)** only. Verdict differs only on QCOIN (
 | Verdict score (x0.8 for B) / rating | 48 / 4.8 | 32 / 3.2 | 32 / 3.2 | 0 |
 
 The three known gaps, after the rulings: (1) **the lock** - the app reads the escrow balance, the cliff and the withdrawn amount on-chain, so it says "verified"; with the escrow unread it would say "PROBABLE, not confirmed"; points 4 either way (0 delta). (2) **the sniper check** - before: "8 wallets bought 17.71%" (first 3 slots); now "create slot 3.1% / first 60 s 45.3% (net of sells)", largest single wallet 9.25%, no wallet >= 25% so no gate; it adds no risk points beyond the +2 row. (3) **the $50 exit cost** - 0.48% (impact field) -> 2.33% (output), inside Mnemosyne's 1.6-2.3%; it moves depth 26 -> 24 (= hers). Remaining line deltas: insiders -4, volume +5, buy/sell -10, structure +15, holder growth -10; they net to about zero on reward and -4 on risk.
+
+## 6e. WORKED.md v1.6 (Mnemosyne, 10 Oct 2026, after v1.5): cloned holders, bot trading, boosts, the Q-family cluster, the QM cluster-exit gate; Circuit and PATCH line by line
+
+### The three rulings
+
+| # | Rule | Effect | Where |
+|---|---|---|---|
+| 1 | **Cloned holder wallets**: 5 or more of the top 20 holders (ex pools) sit inside one 10% band of the same balance (highest <= 1.1 x lowest). QCOIN 0.32% (19 of 19), SW 0.55% (19 of 19), QM 0.12% (15 of 19). | holders risk **+6**, organic risk **+6**, reward holder score **-40**, confidence at most **MEDIUM** (HIGH -> MED; LOW stays LOW) | `clonedHolders()`, `cloned` in config.js |
+| 2 | **Bot trading**: the median trade of the last-300 tape is under **$1**, or the shared bot wallets (`FHpcNSe6tb2n15bAdq4BkeYWGyZKFD7yLYrH92ng7wCT`, `2tgUbS9UMoQD6GkDZBiqKYCURnGrSb6ocYwRABrSJUvY`, `F6pq4UnxJVGfNiFdW9YJG1QPppvNuCdFWTNqdWqpeiCZ`, from Argus's 08:16 / 08:53 scans and Hades's scan; they trade in 11 of the fixture coins' last-300 tapes) made **>= 10%** of the tape. | organic risk **+6**; volume and buy/sell reward **capped at 45** | `botTape()`, `bot` in config.js |
+| 2b | **Paid boosts** of **30 or more** (DexScreener `boosts.active`: QM 30, 景涛 30, SW 30, QCOIN 100). | narrative reward **capped at 25** (also a manual narrative) | `boostCap()` |
+| 3 | **Cluster** (Q-family): 3 or more coins that each show **a launch bundle** (>= 40% of supply by >= 3 wallets in the create slot, or one wallet >= 25%) **and cloned holders and paid boosts**. A pass over the whole watchlist / batch (`src/scoring/cluster.js`, `clusterPass()`): the app counts every stored coin on every render. A coin that has not been checked counts only with the signals the scouts stated in the batch file (`signals`); an unstated signal is unknown and does not count. | **+4 insider points** for each member | `familySignals()`, `clusterPass()`, `withCluster()` |
+| 4 | **QM-style cluster exit gate** (`g_cluster`, Avoid): a group of >= 3 create-slot wallets took >= **25%** of supply, now holds <= **1%** of it, and >= **3** of them were SEEN selling >= 25% of their own buy for >= 1 SOL each. | Avoid, rating 1.0 | `clusterExit()`, `clusterExit` in config.js |
+
+How my reading differs from or adds to the words of the ruling (each is one number in `src/config.js`):
+
+* **Organic is capped at its weight (6).** "Add 6 to organic risk" twice (cloned + bot) still leaves 6: every hand score has organic <= 6 (QM 6, SNOOP 6, QCOIN: one 6 line).
+* **"Within 10% of the same balance"** is a band (highest <= 1.1 x lowest). **`cloned.maxBalancePct = 0.6`** is mine: the literal rule (null) is also a normal long tail. With null it flags Circuit (6 wallets between 1.2% and 1.3%), GULCH (6), 景涛 (5), NOTHUMAN (5) and, among the older fixtures, CRAWL, Fux, Yana and z0s. I limited the band to dust balances (her three examples are all under 0.6% each). **Literal reading, 10-coin batch:** Circuit 3.4 (hers 3.4, exactly), GULCH 1.8 (hers 2.5 cap), 景涛 3.1 (hers 4.0), NOTHUMAN 2.6 (3.7); the others do not change. If she means the literal rule, set `maxBalancePct: null` (three tests then need new numbers).
+* **Bot share 10%** is mine. Her "shared bot wallets show up in many coins" has no number; 5 trades flagged 景涛, NOTHUMAN, GULCH and qLAB, which she scored with organic 3 (景涛 has 19 bot buys). Only the median rule fires in the batch (QCOIN, SNOOP). The wallet list is fixed (the three full addresses); the app does not yet discover new shared bot wallets across coins.
+* **The cluster pass is generic**: it finds QCOIN, **SW** and QM (SW has the same three signals: 75% in the create slot, 0.55% clones, 30 boosts). qLAB has the bundle only (45% by one wallet; no cloned top 20, no boosts in the data), 景涛 has boosts only. The Q-family chip from the batch file stays a label for the six coins she named (QCOIN, qLAB, QM, QPAWS, Q/ACC, QI); the +4 follows the signals. QPAWS (bundle, 0.14% clones, boosts not stated) and Q/ACC (bundle, 100 boosts, holders not stated) do not count until the missing signal is known.
+* **The QM gate needs seen sales.** QM's 11 create-slot wallets took 79.3% of supply in slot 0 and now hold 0.00%, and 5 traced wallets sold 35-39% of their buy within 20-134 s for 4.5-4.9 SOL each (23.9 SOL in total: the same size and pace = one operator). QCOIN's 19 create-slot wallets (81.4%) also hold 0.00%, but their traced sales were 1% for 0.1 SOL each: the tokens went to the 19 cloned holder wallets, not to the market, so this gate does not fire (QCOIN stays Skip). PATCH's 6 create-slot wallets (36.4%): only 1 wallet seen selling for SOL. SW's wallets still hold 6.4%. **If she wants any create-slot group >= 25% with ~0 left to be Avoid regardless of seen sales, QCOIN (81%) and PATCH (36%) become Avoid as well.**
+
+### QM: the launch buyers the app reads (Argus saw 8 curve transactions; the create transaction itself holds 3 more buyers; shown in the app under "Launch buyers the app read")
+
+| # | Wallet | Bought | Slot | Held now | First sale seen |
+|---|---|---|---|---|---|
+| 1 | `8hstXFpfdKN7ZWgBpobxtG5GuLobcvZ2ELw11E9TZogE` | 13.75% | 0 | 0.00% | 20 s, 37% of its buy, 4.72 SOL |
+| 2 | `J8XzzEaz7YMchsxt76WMQn69USzKue4GMw5X49RexZAx` | 13.16% | 0 | 0.00% | 26 s, 39% of its buy, 4.87 SOL |
+| 3 | `GCJV1GQMPe1ruVj4bLVcujeCWtWJzM41vwu9wh9sNDvZ` | 12.76% | 0 | 0.00% | 35 s, 36% of its buy, 4.55 SOL |
+| 4 | `HFbm6LhdBektoCyHDkiPfPqaxm6oacvu9UfR4PJuD4Xp` | 10.82% | 0 | 0.00% | 75 s, 36% of its buy, 4.87 SOL |
+| 5 | `9T4ZYPtUf7oRvbeifKDmgYrmwNx7JqYeffWULBDX6LSS` | 8.05% | 0 | 0.00% | 134 s, 35% of its buy, 4.90 SOL |
+| 6 | `2H4uCXZo8vwtAsP4d1oNiEssYPGwtJXegYG6CmPJSNf6` | 6.22% | 0 | 0.00% | not traced |
+| 7 | `5atDHKBgcfVHeKSGJxbV1Payixe7Zce1Xx4gERqXc3Qx` | 4.19% | 0 | 0.00% | not traced |
+| 8 | `FVqjBbneCqWJMRjy7CQp164PX8v7ZMLbr27TDHxCgdJU` | 3.42% | 0 | 0.00% | not traced |
+| 9 | `E1gZxAB1TJZ7go1QtqrLUYZyaRio6sKufY1AJYxyZ13w` | 3.38% | 0 | 0.00% | not traced |
+| 10 | `DdGQvYRhYPfx7h7fYZDcE7dqX2bPWXeh3gfa6kwxakqt` | 2.78% | 0 | 0.00% | not traced |
+| 11 | `3ZX81H7nyTEZcZFRK5Bb6E5vAQ52xUuc43wGediUfakD` | 0.75% | 0 | 0.00% | not traced |
+| 12 | `4vcYP2ZxJf52uQXLm4xkpJYA6HGjMuConJcqHtP943Jc` (dev, signer) | 0.04% | 0 | 0.00% | none seen |
+
+Total 79.31% of supply, 0.00% held now. The signer `4vcYP2Zx…` bought a dust 0.035% (0.0099 SOL): not a team position.
+
+### Results of the 10-coin batch, v1.6, app vs Mnemosyne's hand scores
+
+| Coin | App: risk grade / reward / verdict score / verdict / rating (confidence) | Hand | Rating delta | v1.6 effect |
+|---|---|---|---|---|
+| 景涛 | B 32 / 56 / 45 / Skip / **4.5** (HIGH) | B 32 / 50 / 40 / Skip / 4.0 | +0.5 | narrative 30 -> 25 (30 boosts); was 4.6 |
+| NOTHUMAN | B 36 / 47 / 38 / Skip / **3.8** (LOW) | B 29 / 47 / 37 / Skip / 3.7 | +0.1 | none |
+| QM | B 38 / 49 / 39 / **Avoid** (g_cluster) / **1.0** (MEDIUM) | B 32 / 44 / 35 / Skip / 3.5 (LOW) | -2.5 | cloned (holders +6, holder reward -40), cluster +4, narrative 25, **cluster-exit gate** |
+| Circuit | A 22 / 47 / 47 / Skip / **4.7** (HIGH) | B 29 / 42 / 34 / Skip / 3.4 | +1.3 | none (table below) |
+| SNOOP | B 32 / 39 / 31 / Skip / **3.1** (HIGH) | B 36 / 40 / 32 / Skip / 3.2 | -0.1 | median trade under $1 = bot tape: volume 55 -> 45; was 3.2 |
+| PATCH | B 28 / 59 / 47 / Skip / **4.7** (HIGH) | C 44 / 52 / 31 / Skip / 3.1 | +1.6 | none (table below) |
+| QCOIN | C 41 / 41 / 25 / **Skip** / **2.5** (MEDIUM) | B 34 / 39 / 31 / Skip / 3.1 (LOW) | -0.6 | cloned, bot tape, 100 boosts, cluster +4; was Lottery 5.3 |
+| GULCH | C 44 / 50 / 30 / Skip / **2.5** (HIGH) | C 44 / 47 / 28 / Skip / 2.5 | 0.0 | none |
+| SW | C 46 / 56 / 34 / Skip / **2.5** (MEDIUM) | B 30 / 54 / 43 / Skip / 2.5 | 0.0 | cloned, cluster +4, narrative 25; risk 30 -> 46 (grade B -> C), rating stays at the dev-sold cap |
+| qLAB | B 30 / 48 / 38 / **Avoid** (g_bundle) / **1.0** (HIGH) | C 41 / 43 / - / Avoid / 1.0 | 0.0 | none |
+
+**QCOIN lands at Skip 2.5, not 3.1.** The risk line is 41 = holders 6 (cloned) + insiders 11.5 (7.5 launch bundle unknown + 4 cluster) + dev 7.5 (unknown) + price 3 + organic 6 + socials 5 (3 + 2 boosts) + 2 (finished sniper exit); one point over the B/C line (40), so the verdict score is 41.15 x 0.6 = 25. At risk 40 it would be 41.15 x 0.8 = 33 = 3.3. Her hand risk is 34; the 7-point gap is spread over insiders (hers has no +4 and no +2 sniper line) and organic. Reward 41 vs her 39 (depth 55 vs 55, volume 45, buy/sell 45 vs 40, structure 26 vs 21, holders 50 vs 40, narrative 25, room 40 vs 40). Not tuned.
+**QM becomes Avoid (1.0)**, not her hand Skip 3.5: she set the condition, the app's own trace meets it (see the gate above), and confidence is MEDIUM because the holders are cloned wallets. The launch buyers are listed in the UI.
+Residual deltas over 2 on the rating: QM (-2.5, the Avoid). None other.
+
+### Circuit (CA `EcZndAER…Apump`), the app's lines next to Mnemosyne's (hers: risk 29 B / reward 42 / 34 Skip / 3.4)
+
+| Line | App | Hers | App - hers | Likely cause |
+|---|---|---|---|---|
+| LP | 0 | 0 | 0 | |
+| Holders (top 10 21.1%, largest 3.9%) | 6 | 6 | 0 | |
+| Insiders | 2 | 6 | **-4** | RugCheck found no insider network (0) + 2 for no funder trace; she gave 6 (likely for the launch-slot snipers). The 12.00% / 5.88% / 5.86% ... launch snipers (8 wallets, 42% bought, all exited within seconds) add the +2 sniper line below, but no insider points |
+| Sniper (finished exit < 25%) | +2 | - | +2 | |
+| Deployer | 0 | 4 | **-4** | the dev's launch buy (0.50%) was BURNED (0.60% burned: a burn is zero risk, v1.5 ruling); she gave 4 |
+| Liquidity / depth | 4 | 4 | 0 | |
+| Price action (63% below the peak, falling) | 5 | 3 | +2 | the pump.fun peak is not visible (flag "drawdown may be understated": hers -65% vs the app's -63%); the app adds +2 for sells > 2x buys in the last 5 min |
+| Organic (holders +5.4%/h) | 0 | 3 | -3 | she scored 3; the app reads rising holders = 0 |
+| Socials | 3 | 3 | 0 | |
+| **Risk** | **22 A** | **29 B** | **-7** | grade A vs B: x1.0 vs x0.8 |
+| Depth (exit cost $50 9.63% by quote output; impact field 1.71%) | 22 | 21 | +1 | |
+| Volume (25.4x, hot) | 63 | 61 | +2 | |
+| Buy / sell (1.18x, 1h -22%: -5) | 50 | 47 | +3 | |
+| Structure (63% below the peak) | 42 | 20 | **+22** | she gave 20 (peak is -65% and still falling); the app adds +5 for a >= 10% bounce off the 2 h low with holders rising |
+| Holder growth (top 10 21.1% = 65, holders +5.38%/h = +10) | 75 | 65 | +10 | the trend is usable (> 500 holders); she gave no +10 |
+| Narrative | 35 | 35 | 0 | |
+| Room | 67 | 68 | -1 | |
+| **Reward** | **47** | **42** | **+5** | |
+| Verdict score / rating | 47 / 4.7 | 34 / 3.4 | +13 / **+1.3** | risk grade (A x1.0 vs B x0.8) plus structure and holder growth |
+
+### PATCH (CA `AEPBdj3R…Gpump`), the app's lines next to Mnemosyne's (hers: risk 44 C / reward 52 / 31 Skip / 3.1; sell cost 5-6%)
+
+| Line | App | Hers | App - hers | Likely cause |
+|---|---|---|---|---|
+| LP | 0 | 0 | 0 | |
+| Holders (top 10 25.3%, largest 3.5%) | 13 | 13 | 0 | (top 10 29.2% in her read; same band, 25-40%) |
+| Insiders | 6 | 12 | **-6** | RugCheck sees 4 insider wallets in 1 linked group holding 0.5% (+4 linked, +2 no funder trace). Hers has 12: probably the 16 launch wallets that took 72.9% in the first slots (the 24.00% wallet exited in 1 s) are in it |
+| Sniper (finished exit < 25%) | +2 | - | +2 | 7 snipers 24.00% / 13.17% / 10.39% ... all exited within 1-2 s |
+| Deployer | 4 | 13 | **-9** | **the 5.00% dev stash**: the app finds the signer's 5.00% buy moved 17 s after launch into a Streamflow escrow it reads and verifies on-chain (49,751,244 tokens, cliff 7 Jan 2027, 0 withdrawn, not cancellable by the sender) = locked, 4 points. Hers: "5% dev stash unlocked" + 3 prior dead mints = 13. **The app also sees only 1 prior mint** (Jupiter's lifetime mint count for the signer: 1), not the 3 dead earlier coins, so the serial/repeat-launcher points (8) never apply |
+| Liquidity / depth | 0 | 0 | 0 | |
+| Price action (13% below the peak) | 0 | 0 | 0 | |
+| Organic (holders +62.5%/h) | 0 | 3 | -3 | |
+| Socials | 3 | 3 | 0 | |
+| **Risk** | **28 B** | **44 C** | **-16** | grade B x0.8 vs C x0.6 |
+| Depth (exit cost $50 5.06% by quote output) | 43 | 43 | 0 | |
+| Volume (10.8x) | 97 | 75 | +22 | |
+| Buy / sell (0.89x) | 47 | 53 | -6 | |
+| Structure (13% below the peak, bounce +5) | 92 | 70 | +22 | |
+| Holder growth (top 10 25.3% = 40, holders +62.5%/h = +10) | 50 | 40 | +10 | |
+| Narrative | 35 | 30 | +5 | |
+| Room | 48 | 49 | -1 | |
+| **Reward** | **59** | **52** | **+7** | |
+| Verdict score / rating | 47 / 4.7 | 31 / 3.1 | +16 / **+1.6** | the deployer line alone is -9 risk points, the grade (B vs C) is x0.8 vs x0.6 |
+
+The two coins' risk gaps are the deployer line (PATCH -9: the app verifies the lock the hand score did not trust, and cannot see the 3 dead earlier coins), the insiders line (-4 and -6) and the sniper line (+2 in the app, absent from her breakdown). Neither was tuned; the likeliest rules to revisit are (1) whether a verified lock should count as 4 when the dev ran earlier dead mints, (2) whether the launch-slot wallets that exited belong in the insiders line, and (3) the burn rule (Circuit's burned launch buy = 0 risk).
 
 ## 7. Worked examples, every case
 

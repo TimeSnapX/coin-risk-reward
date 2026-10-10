@@ -64,3 +64,13 @@ CoinData = {
 - **Never 0% when unreadable:** a failed "launch snipers" call leaves `launch` undefined; `launchUnreadable()` turns that into insiders >= half points, `g_bundle` unknown and LOW confidence.
 - **Tracker entries** (`store.importBatch`): `tracker = { addedAt, foundAt /* launch time */, dataAt /* scout data time, "data as of" */, foundBy, status, hand: { rating, risk, reward, verdict, grade?, note? }, cluster?, screened?, batch?, notes }`. Anything not in the batch file is left out and shown as "unknown".
 - **Batch file** `public/batches/2026-10-10.json`: a JSON array of `{ address, symbol?, name?, foundBy?, launchAt?, dataAt?, hand?, cluster?, screened? }` (built by `tests/fixtures/make_batch.py`). The app's own score appears only after you tap Check.
+
+## v1.6 additions (10 Oct 2026)
+
+- `holders.topPcts`: up to 20 holder balances (% of supply, ex pools / curve / lockers), RugCheck order. `clonedHolders(d)` looks for >= 5 of them inside one 10% band (highest <= 1.1 x lowest), each under `cloned.maxBalancePct` (0.6%). Old saved coins without `topPcts` fall back to `top10Pcts` (10 values).
+- `trades.medianUsd`: median USD size of the last <= 300 trades (GeckoTerminal). `trades.botTrades`: how many of them were made by the shared bot wallets in `config.bot.wallets` (3 full addresses from the scouts' scans). `botTape(d)` = median < $1, or botTrades / n >= 10%.
+- `market.boostsActive` (DexScreener `boosts.active`, already stored): >= 30 caps the narrative score at 25.
+- `launch.wallets[]` (v1.5) is now listed in the UI ("Launch buyers the app read": wallet, bought %, slot, held now, first sale). `clusterExit(d)` = the create-slot (slot 0, non-dev) group: `wallets`, `pct` bought, `now` held, `sold` = traced wallets whose first sale was >= 25% of their buy for >= 1 SOL, `soldSol`.
+- `cluster` (NOT fetched: added at score time by `withCluster(data, address, pass)` from `clusterPass(entries)` in `src/scoring/cluster.js`): `{ member: true, size, names[] }` on a coin that is one of >= 3 stored coins showing a launch bundle + cloned holders + paid boosts. Every score (check, refresh, list, tracker, detail) goes through the pass in `app.js` `rescore()`.
+- Tracker entry `signals: { bundle?, cloned?, boosts? }` (batch file, only what the scouts stated): lets a coin that has not been checked take part in the cluster pass; an unstated signal = unknown = not counted.
+- Result: `cloned`, `bot`, `family` (the three cluster signals), `clusterExit`, `cluster`.

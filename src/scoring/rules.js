@@ -78,6 +78,41 @@ const trendIgnored = (d) => !u(d.holders?.change1hPct) && !trendUsable(d);
 export const launchUnreadable = (d) => !d.launch && !!d.sources?.["solana-rpc"]?.calls?.some((c) => c.part === "launch snipers" && !c.ok);
 // the pump.fun curve-phase peak is not visible client-side: when the pair came later than the launch the candle peak may be below the real peak
 export const curvePhaseMissing = (d) => { const t0 = d.launch?.at ?? d.launchAt, t1 = d.chart?.historyFrom ?? d.market?.pairCreatedAt; return !u(t0) && !u(t1) && t1 - t0 >= 30000; };
+
+// ---------------- v1.6 (Mnemosyne, 10 Oct 2026)
+// 1. cloned holder wallets: >= 5 of the top 20 holders (ex pools) within 10% of the same balance
+export function clonedHolders(d, cfg = CONFIG) {
+  const k = cfg.cloned, p = (d.holders?.topPcts || d.holders?.top10Pcts || []).slice(0, k.topN).filter((x) => x > 0 && (k.maxBalancePct == null || x < k.maxBalancePct));
+  const n = (d.holders?.topPcts || d.holders?.top10Pcts || []).slice(0, k.topN).length;
+  if (!n) return { known: false, hit: false, n: 0 };
+  let best = { count: 0 };
+  for (const a of p) { const g = p.filter((x) => x >= a && x <= a * (1 + k.tolerance)); if (g.length > best.count) best = { count: g.length, centre: a, min: Math.min(...g), max: Math.max(...g) }; }
+  return { known: true, hit: best.count >= k.minGroup, n, ...best };
+}
+const clonedWhy = (c) => `${c.count} of the top ${c.n} holders sit within ${CONFIG.cloned.tolerance * 100}% of the same balance (${fmtPct(c.min, 3)}-${fmtPct(c.max, 3)}): cloned wallets, not real holders`;
+// 2. bot trading: median trade under $1, or the shared bot wallets (listed in config from the scouts' scans) made >= 10% of the trades
+export function botTape(d, cfg = CONFIG) {
+  const t = d.trades, b = cfg.bot; if (!t) return { known: false, hit: false };
+  const lowMedian = !u(t.medianUsd) && t.medianUsd < b.medianUsd, shared = t.n > 0 && (t.botTrades || 0) / t.n >= b.minShare;
+  const why = [lowMedian ? `median trade ${fmtUsd(t.medianUsd)} (under ${fmtUsd(b.medianUsd)})` : null, shared ? `${t.botTrades} of the last ${t.n} trades (${fmtPct(100 * t.botTrades / t.n, 0)}) by the shared bot wallets (${b.wallets.map((w) => w.slice(0, 8) + "…").join(", ")})` : null].filter(Boolean);
+  return { known: true, hit: lowMedian || shared, lowMedian, shared, why: why.join("; ") };
+}
+export const boostsHit = (d, cfg = CONFIG) => (d.market?.boostsActive || 0) >= cfg.bot.boostsMin;
+// 3. the three signals one coin must show to belong to a cluster: a launch bundle, cloned holders, paid boosts. Pure per coin; the BATCH pass (cluster.js) counts coins.
+export function familySignals(d, cfg = CONFIG) {
+  const cs = d.launch?.createSlot, big = d.launch?.wallets?.filter((w) => w.wallet !== d.launch?.dev?.wallet).sort((a, b) => b.boughtPct - a.boughtPct)[0];
+  const bundle = d.launch ? !!((cs && cs.pct >= cfg.gates.bundleCreateSlotPct && cs.wallets >= 3) || (big && big.boughtPct >= cfg.gates.bundleWalletPct)) : undefined;
+  const cl = clonedHolders(d, cfg), cloned = cl.known ? cl.hit : undefined, boosts = d.market ? boostsHit(d, cfg) : undefined;
+  return { bundle, cloned, boosts, all: bundle === true && cloned === true && boosts === true };
+}
+// gate: a create-slot group that took >= 25% of supply, holds ~0 now, and was seen selling in coordination (QM)
+export function clusterExit(d, cfg = CONFIG) {
+  const L = d.launch, g = cfg.clusterExit; if (!L?.wallets) return { known: false, hit: false };
+  const ws = L.wallets.filter((w) => w.slot === 0 && w.wallet !== L.dev?.wallet), pct = sumv(ws.map((w) => w.boughtPct)), now = sumv(ws.map((w) => w.heldNowPct));
+  const sold = ws.filter((w) => w.traceCovered && w.firstExitPct >= g.sellPct / 100 && w.firstExitPct <= 1 && w.firstExitSol >= g.minSol);
+  const hit = ws.length >= g.minWallets && pct >= g.supplyPct && now <= g.nowPct && sold.length >= g.exitWallets;
+  return { known: true, hit, wallets: ws.length, pct, now, sold: sold.length, soldSol: sumv(sold.map((w) => w.firstExitSol)) };
+}
 const band = (h) => (h <= 3 ? 0 : h <= 10 ? 5 : h <= 20 ? 10 : 15);
 const day = (ms) => new Date(ms).toISOString().slice(0, 10);
 export function devAssess(d, cfg = CONFIG) {
@@ -198,12 +233,13 @@ export const RISK_RULES = [
       const v = pl.sharePct, s = Math.round(lerp(v, [[0, 20], [50, 10], [90, 0]]) * 10) / 10;
       return pts(s, W.lp, `${fmtPct(v, 1)} of liquidity is locked/burned: ${fmtUsd(pl.lockedUsd)} of ${fmtUsd(pl.totalUsd)} across ${pl.pools.length} pool(s) >= ${fmtUsd(cfg.lp.minPoolUsd)} (${pl.pools.map((x) => `${x.type} ${fmtUsd(x.usd)} ${x.locked ? `${fmtPct(x.lockedPct, 0)} locked` : "withdrawable"}`).join(", ")}).${v < 50 ? ` ${fmtPct(100 - v, 0)} of it can be pulled.` : ""}`); } },
   { id: "holders", label: "Holder concentration (top 10 ex-pools)", category: "risk", type: "points", weight: W.holders, sources: ["rugcheck", "jupiter"],
-    evaluate(d) { const h = d.holders || {}; let t = h.top10PctExPools, src = "RugCheck";
+    evaluate(d, cfg) { const h = d.holders || {}; let t = h.top10PctExPools, src = "RugCheck";
       if (u(t) && !u(h.jupTop10Pct)) { t = h.jupTop10Pct; src = "Jupiter"; }
       if (u(t)) return unknown("no holder list (RugCheck failed)");
       let s = t <= 15 ? 0 : t <= 25 ? 6 : t <= 40 ? 13 : 20;
       const big = h.largestPctExPools; if (big > 10) s += 5;
-      return pts(s, W.holders, `Top 10 wallets (ex-pools) hold ${fmtPct(t)} (${src})${u(big) ? "" : `; largest ${fmtPct(big)}${big > 10 ? " (>10%, +5)" : ""}`}.`); } },
+      const cl = clonedHolders(d, cfg); if (cl.hit) s += cfg.cloned.holderPts;
+      return pts(s, W.holders, `Top 10 wallets (ex-pools) hold ${fmtPct(t)} (${src})${u(big) ? "" : `; largest ${fmtPct(big)}${big > 10 ? " (>10%, +5)" : ""}`}.${cl.hit ? ` CLONED HOLDERS: ${clonedWhy(cl)} (+${cfg.cloned.holderPts}).` : ""}`); } },
   { id: "insiders", label: "Insider / bundle / sniper clusters", category: "risk", type: "points", weight: W.insiders, sources: ["rugcheck"],
     evaluate(d, cfg) { const i = d.insiders; if (!i || u(i.holdingPct)) return unknown("RugCheck insider graph failed");
       let s = i.holdingPct <= 2 ? 0 : i.holdingPct <= 8 ? 6 : i.holdingPct <= 20 ? 11 : 15;
@@ -216,7 +252,8 @@ export const RISK_RULES = [
       // v1.5: >= 40% of the launch supply bought by (many) wallets in the create slot = a probable bundle. Whether they are linked needs a funder trace
       // (not done): UNKNOWN, so at least half the insider points (QM 79%, QCOIN 91%, SW 75%; qLAB's single 46% wallet is the g_bundle gate).
       const cs = d.launch?.createSlot, bundle = cs && cs.pct >= cfg.gates.bundleCreateSlotPct && cs.wallets >= 3; if (bundle) s = Math.max(s, W.insiders * cfg.unknownRiskFactor);
-      return pts(s, W.insiders, (unread ? `Launch buyers unknown (curve transactions unreadable): at least half the insider points (${W.insiders * cfg.unknownRiskFactor}). ` : "") + (bundle ? `${cs.wallets} wallets bought ${fmtPct(cs.pct, 1)} of supply in the create slot: probable bundle, funder link not traced (unknown): at least half the insider points (${W.insiders * cfg.unknownRiskFactor}). ` : "") + `${i.networks ? `${i.detected} insider wallets in ${i.networks} linked group(s) hold ${fmtPct(i.holdingPct)}${i.linkedGroups ? " (+4 linked groups)" : ""}.` : "RugCheck found no insider networks."}${noTrace ? " Top-10 funder trace not done (the app does not trace who funded the top 10) (+2)." : ""}`); } },
+      const cm = d.cluster?.member; if (cm) s += cfg.cluster.insiderPts;
+      return pts(s, W.insiders, (cm ? `CLUSTER: ${d.cluster.size} coins share a launch bundle + cloned holders + paid boosts (${d.cluster.names.join(", ")}): +${cfg.cluster.insiderPts} insider points. ` : "") + (unread ? `Launch buyers unknown (curve transactions unreadable): at least half the insider points (${W.insiders * cfg.unknownRiskFactor}). ` : "") + (bundle ? `${cs.wallets} wallets bought ${fmtPct(cs.pct, 1)} of supply in the create slot: probable bundle, funder link not traced (unknown): at least half the insider points (${W.insiders * cfg.unknownRiskFactor}). ` : "") + `${i.networks ? `${i.detected} insider wallets in ${i.networks} linked group(s) hold ${fmtPct(i.holdingPct)}${i.linkedGroups ? " (+4 linked groups)" : ""}.` : "RugCheck found no insider networks."}${noTrace ? " Top-10 funder trace not done (the app does not trace who funded the top 10) (+2)." : ""}`); } },
   { id: "dev", label: "Deployer / dev", category: "risk", type: "points", weight: W.dev, sources: ["solana-rpc", "rugcheck", "jupiter"],
     evaluate(d, cfg) { if (!d.launch && !d.dev?.address) return unknown("no launch data and no creator wallet");
       const a = devAssess(d, cfg);
@@ -236,12 +273,14 @@ export const RISK_RULES = [
       if (t && t.last5mSellUsd > 2 * t.last5mBuyUsd && t.last5mSellUsd > 0) { s += 2; extra = `; last 5m sells ${fmtUsd(t.last5mSellUsd)} vs buys ${fmtUsd(t.last5mBuyUsd)} (+2)`; }
       return pts(s, W.priceAction, `${fmtPct(dd, 0)} below the peak ${fmtUsd(c.peakUsd ?? c.athUsd)} (${c.tf} candles since ${c.historyShort ? "after pair creation: peak may be understated" : "pair creation"}; DexScreener ATH not available from its API)${curvePhaseMissing(d) ? "; FLAG drawdown may be understated: the pump.fun curve-phase peak is not visible client-side" : ""}${c.falling ? ", still falling" : ""}${extra}.`); } },
   { id: "organic", label: "Organic activity", category: "risk", type: "points", weight: W.organic, sources: ["jupiter", "geckoterminal"],
-    evaluate(d) { const ch = holderTrend(d), t = d.trades;
-      if (t && t.topWalletShare > 0.25) return pts(6, W.organic, `One wallet made ${fmtPct(t.topWalletShare * 100, 0)} of the last ${t.n} trades (bot inflating activity).`);
-      if (trendIgnored(d)) return pts(3, W.organic, `Holder-count trend ignored: the coin is under 2 h old with ${d.holders?.count ?? "?"} holders (flat, 3).`);
-      if (u(ch)) return unknown("holder trend unknown (Jupiter failed)");
+    evaluate(d, cfg) { const ch = holderTrend(d), t = d.trades, cl = clonedHolders(d, cfg), bot = botTape(d, cfg);
+      // v1.6: cloned holder wallets +6, bot trading +6; the line is capped at its weight (6), as in every hand score
+      const add = (cl.hit ? cfg.cloned.organicPts : 0) + (bot.hit ? cfg.bot.organicPts : 0), extra = `${cl.hit ? ` Cloned holders (+${cfg.cloned.organicPts}).` : ""}${bot.hit ? ` Bot trading: ${bot.why} (+${cfg.bot.organicPts}).` : ""}`;
+      if (t && t.topWalletShare > 0.25) return pts(6, W.organic, `One wallet made ${fmtPct(t.topWalletShare * 100, 0)} of the last ${t.n} trades (bot inflating activity).${extra}`);
+      if (trendIgnored(d)) return pts(3 + add, W.organic, `Holder-count trend ignored: the coin is under 2 h old with ${d.holders?.count ?? "?"} holders (flat, 3).${extra}`);
+      if (u(ch)) return add ? pts(add, W.organic, `Holder trend unknown (Jupiter failed).${extra}`) : unknown("holder trend unknown (Jupiter failed)");
       const s = ch > 1 ? 0 : ch < -1 ? 6 : 3;
-      return pts(s, W.organic, `Holders ${ch >= 0 ? "+" : ""}${ch.toFixed(2)}% in the last hour (${s === 0 ? "rising" : s === 6 ? "falling" : "flat"}).`); } },
+      return pts(s + add, W.organic, `Holders ${ch >= 0 ? "+" : ""}${ch.toFixed(2)}% in the last hour (${s === 0 ? "rising" : s === 6 ? "falling" : "flat"}).${extra}`); } },
   { id: "socials", label: "Socials / verification", category: "risk", type: "points", weight: W.socials, sources: ["dexscreener", "jupiter", "geckoterminal"],
     evaluate(d) { const m = d.market || {}; if (u(m.hasProfile) && !d.sources?.dexscreener?.ok) return unknown("DexScreener failed");
       // v1.3 ruling C: own site/X with age + engagement = 0 (the app can't read X: Jupiter-verified / CoinGecko-listed stands in);
@@ -347,6 +386,11 @@ export const GATES = [
         const exit = !u(big.firstExitSec) || big.exitShare >= cfg.teamExit.dumpShare ? `exit seen: now ${fmtPct(big.heldNowPct, 2)}${u(big.firstExitSec) ? "" : `, first sale ${secs(big.firstExitSec)} after launch`}` : "buy confirmed, exit trace pending";
         return { score: 1, flag: "red", reason: `Wallet ${short(big.wallet)} bought ${fmtPct(big.boughtPct, 2)} of supply at launch (gate: one wallet >= ${min}%; ${both}); ${exit}.` }; }
       return { score: 0, flag: "green", reason: `Largest launch wallet ${big ? `${short(big.wallet)} ${fmtPct(big.boughtPct, 2)}` : "none"} (gate: >= ${min}%); ${both}.` }; } },
+  { id: "g_cluster", label: "No launch cluster (>= 25% of supply) that took its money and left", category: "risk", type: "gate", weight: 0,
+    evaluate(d, cfg) { const g = cfg.clusterExit; if (!d.launch) return unknown("launch buyers unknown");
+      const c = clusterExit(d, cfg);
+      return c.hit ? { score: 1, flag: "red", reason: `${c.wallets} create-slot wallets took ${fmtPct(c.pct, 1)} of supply and now hold ${fmtPct(c.now, 2)}; ${c.sold} of them were SEEN selling >= ${g.sellPct}% of their buy for ${fmtUsd(c.soldSol * (d.solUsd || 0))} (${c.soldSol.toFixed(1)} SOL) in total: a coordinated exit (gate: group >= ${g.supplyPct}% of supply, now <= ${g.nowPct}%, >= ${g.exitWallets} wallets seen selling).` }
+        : { score: 0, flag: "green", reason: `Create-slot group: ${c.wallets} wallets, ${fmtPct(c.pct, 1)} of supply, now ${fmtPct(c.now, 2)}; ${c.sold} wallet(s) seen selling >= ${g.sellPct}% for >= ${g.minSol} SOL (gate needs >= ${g.exitWallets}, group >= ${g.supplyPct}%, now <= ${g.nowPct}%).` }; } },
   { id: "g_dump", label: "Insider clusters have not dumped >15% of supply", category: "risk", type: "gate", weight: 0,
     evaluate(d, cfg) { const v = d.insiders?.dumpedPct; if (u(v)) return unknown("insider data missing");
       return v > cfg.gates.insiderDumpedPct ? { score: 1, flag: "red", reason: `Linked insider wallets already sold ${fmtPct(v)} of supply.` } : { score: 0, flag: "green", reason: `Insider clusters sold ${fmtPct(v)} of supply.` }; } },
@@ -371,6 +415,9 @@ export const GATES = [
 const sig = (score, reason) => ({ score: Math.round(clamp(score)), flag: score >= 60 ? "green" : score >= 40 ? "amber" : "red", reason });
 // v1.2 ruling 3: caps for young (< 30 min) or bonding-curve coins
 export const youngOrCurve = (d) => d.pool?.onCurve === true || (!u(d.pairAgeMin) && d.pairAgeMin < 30);
+// v1.6: bot trading caps volume + buy/sell at 45; paid boosts >= 30 cap the narrative at 25
+const botCap = (d, cfg, r) => { const b = botTape(d, cfg); return b.hit && r.score !== null && r.score > cfg.bot.rewardCap ? { ...sig(cfg.bot.rewardCap, `${r.reason} Capped at ${cfg.bot.rewardCap} (bot trading: ${b.why}).`) } : r; };
+const boostCap = (d, cfg, r) => boostsHit(d, cfg) && r.score !== null && r.score > cfg.bot.narrativeCap ? { ...sig(cfg.bot.narrativeCap, `${r.reason} Capped at ${cfg.bot.narrativeCap} (${d.market.boostsActive} paid DexScreener boosts, >= ${cfg.bot.boostsMin}).`) } : r;
 const capYC = (d, max, r, label = "young/curve coin") => (r.score !== null && youngOrCurve(d) && r.score > max ? { ...sig(max, `${r.reason} Capped at ${max} (${label}).`) } : r);
 // v1.3: Mnemosyne's reward formulas (WORKED.md "REWARD signal formulas"), as written.
 export const REWARD_RULES = [
@@ -388,14 +435,14 @@ export const REWARD_RULES = [
       const q = d.sellQuote || {}; const imp = (usd) => { const c = quoteCost(q[usd], d.solUsd); return c ? `${fmtPct(c.worstPct, 2)} (quote output${u(c.outPct) ? " n/a: impact field" : `; impact field ${fmtPct(c.fieldPct, 2)}`})` : "n/a"; };
       return sig(s, `Effective depth ${fmtUsd(eff)} (${how})${eff <= 15000 ? ": can't exit" : ""}. Exit cost $50: ${imp(50)}, $500: ${imp(500)}.`); } },
   { id: "volumeQuality", label: "Volume quality (main pool 24h vol / liquidity)", category: "reward", type: "signal", weight: RW.volumeQuality, sources: ["dexscreener"],
-    evaluate(d) { const m = d.market || {}, main = !u(m.mainVolumeH24) && m.mainLiquidityUsd > 0;
+    evaluate(d, cfg) { const m = d.market || {}, main = !u(m.mainVolumeH24) && m.mainLiquidityUsd > 0;
       const V = main ? m.mainVolumeH24 : m.volumeUsd?.h24, L = main ? m.mainLiquidityUsd : m.liquidityUsd; if (u(V) || u(L) || L <= 0) return unknown("No data");
       // <1x = 10; ramp to 60 at 2x; to 100 at 5-10x; 15x = 80; 55 at 30x; >30x capped 55 (churn); young cap 60
       const r = V / L, s = r < 1 ? 10 : lerp(r, [[1, 10], [2, 60], [5, 100], [10, 100], [15, 80], [30, 55]]);
       const why = r < 1 ? "dead (<1x)" : r < 2 ? "thin (1-2x)" : r <= 10 ? "healthy" : r <= 30 ? "hot" : "churn (>30x, capped 55)";
-      return capYC(d, 60, sig(s, `${main ? "Main pool" : "All pools"} 24h volume ${fmtUsd(V)} = ${r.toFixed(1)}x ${d.pool?.onCurve ? "curve liquidity" : "its liquidity"}: ${why}.`)); } },
+      return botCap(d, cfg, capYC(d, 60, sig(s, `${main ? "Main pool" : "All pools"} 24h volume ${fmtUsd(V)} = ${r.toFixed(1)}x ${d.pool?.onCurve ? "curve liquidity" : "its liquidity"}: ${why}.`))); } },
   { id: "buySell", label: "Buy/sell pressure (by USD)", category: "reward", type: "signal", weight: RW.buySell, sources: ["geckoterminal", "jupiter", "dexscreener"],
-    evaluate(d) { let b, s, src;
+    evaluate(d, cfg) { let b, s, src;
       if (d.trades && d.trades.buyUsd + d.trades.sellUsd > 0) { b = d.trades.buyUsd; s = d.trades.sellUsd; src = `last ${d.trades.n} trades, GeckoTerminal`; }
       else if (d.flow1h && d.flow1h.buyUsd + d.flow1h.sellUsd > 0) { b = d.flow1h.buyUsd; s = d.flow1h.sellUsd; src = "last 1h, Jupiter"; }
       else if (d.market?.txns?.h1 && d.market.txns.h1.buys + d.market.txns.h1.sells > 0) { b = d.market.txns.h1.buys; s = d.market.txns.h1.sells; src = "1h COUNTS only, DexScreener (lower quality)"; }
@@ -403,7 +450,7 @@ export const REWARD_RULES = [
       // r = buy / sell; clamp(50 + 30 (r - 1)); -5 if the 1h price change < -20%
       const r = s > 0 ? b / s : Infinity, h1 = d.market?.priceChangePct?.h1, pen = h1 < -20 ? 5 : 0;
       const c = (x) => (src.includes("COUNTS") ? x : fmtUsd(x));
-      return sig(50 + 30 * (Math.min(r, 10) - 1) - pen, `Buys ${c(b)} vs sells ${c(s)} = ${Number.isFinite(r) ? r.toFixed(2) : "∞"}x (${src})${pen ? `; 1h ${h1}% (-5)` : ""}.`); } },
+      return botCap(d, cfg, sig(50 + 30 * (Math.min(r, 10) - 1) - pen, `Buys ${c(b)} vs sells ${c(s)} = ${Number.isFinite(r) ? r.toFixed(2) : "∞"}x (${src})${pen ? `; 1h ${h1}% (-5)` : ""}.`)); } },
   { id: "trend", label: "Trend / structure", category: "reward", type: "signal", weight: RW.trend, sources: ["geckoterminal", "dexscreener"],
     evaluate(d) { const c = d.chart; if (!c) return unknown("No data");
       // 100 - drawdown% from the peak; -15 if the support floor broke in the last 2 h; +5 on a bounce with rising holders; young cap 60
@@ -413,14 +460,16 @@ export const REWARD_RULES = [
       const r = sig(s, why.join("; ") + ".");
       return !u(d.pairAgeMin) && d.pairAgeMin < 30 && r.score > 60 ? sig(60, `${r.reason} Capped at 60 (under 30 min old: no history).`) : r; } },
   { id: "holderGrowth", label: "Holder growth & distribution", category: "reward", type: "signal", weight: RW.holderGrowth, sources: ["jupiter", "rugcheck"],
-    evaluate(d) { const h = d.holders || {}, ch = holderTrend(d), t = !u(h.top10PctExPools) ? h.top10PctExPools : h.jupTop10Pct;
+    evaluate(d, cfg) { const h = d.holders || {}, ch = holderTrend(d), t = !u(h.top10PctExPools) ? h.top10PctExPools : h.jupTop10Pct;
       if (u(t)) return unknown("No data (no holder list)");
       // top10 ex-pool <=15% = 80; 15-25% = 65; 25-40% = 40; >40% = 15; +10 holders rising; -10 falling; young max 80
       let s = t <= 15 ? 80 : t <= 25 ? 65 : t <= 40 ? 40 : 15; const why = [`top10 ${fmtPct(t)} (${s})`];
       if (!u(ch) && ch > 0) { s += 10; why.push(`holders +${ch.toFixed(2)}%/h (+10)`); } else if (!u(ch) && ch < 0) { s -= 10; why.push(`holders ${ch.toFixed(2)}%/h (-10)`); } else if (trendIgnored(d)) why.push("holder trend ignored (under 2 h old and <= 500 holders)"); else if (u(ch)) why.push("holder trend unknown");
+      const cl = clonedHolders(d, cfg); if (cl.hit) { s = Math.max(0, s - cfg.cloned.rewardCut); why.push(`cloned holder wallets (${cl.count} within ${cfg.cloned.tolerance * 100}% of ${fmtPct(cl.centre, 3)}): -${cfg.cloned.rewardCut}`); }
       return capYC(d, 80, sig(s, why.join("; ") + ".")); } },
   { id: "narrative", label: "Narrative / social traction", category: "reward", type: "signal", weight: RW.narrative, sources: ["dexscreener", "manual"],
-    evaluate(d, cfg) { const man = d.manual?.narrative;
+    evaluate(d, cfg) { return boostCap(d, cfg, this.base(d, cfg)); },
+    base(d, cfg) { const man = d.manual?.narrative;
       if (!u(man)) return youngOrCurve(d) && man > 60 ? sig(60, `Manual input ${man}, capped at 60 (young/curve coin: official site + X with real engagement = up to 60).`) : sig(man, `Manual input: ${man}/100 (your read of X engagement / catalyst).`);
       if (!d.sources?.dexscreener?.ok) return unknown("No data");
       // no own socials = 20; caller tweet / someone else's page only = 25-35 by reach (reach unknown: 25); own site or X = 30;

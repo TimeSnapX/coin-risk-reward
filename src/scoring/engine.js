@@ -1,6 +1,6 @@
 // Turns CoinData into scores, verdict and the always-shown outputs. Pure: (data, cfg) -> result.
 import { CONFIG, gradeFor, rewardBand, verdictFor } from "../config.js";
-import { HARD_FAILS, RISK_RULES, TEAM_EXIT, GATES, REWARD_RULES, fmtUsd, fmtPct, quoteCost, devSoldInfo, launchUnreadable, trendUsable } from "./rules.js";
+import { HARD_FAILS, RISK_RULES, TEAM_EXIT, GATES, REWARD_RULES, fmtUsd, fmtPct, quoteCost, devSoldInfo, launchUnreadable, trendUsable, clonedHolders, botTape, familySignals, clusterExit } from "./rules.js";
 
 const u = (v) => v === undefined || v === null || Number.isNaN(v);
 const r2 = (x) => Math.round(x * 100) / 100;
@@ -48,8 +48,10 @@ export function score(d, cfg = CONFIG, rules = { HARD_FAILS, RISK_RULES, TEAM_EX
   const unknownCount = [...hard, ...risk, ...caps, ...gates, ...reward].filter((x) => x.score === null).length;
   const c = cfg.confidence, n = d.sourcesOk ?? 0, young = !u(d.pairAgeMin) && d.pairAgeMin < c.lowPairAgeMin;
   const unreadLaunch = launchUnreadable(d); // v1.5: launch buyers unreadable => LOW
-  const confidence = n < c.lowBelowSources || young || unreadLaunch ? "LOW" : n >= c.highFromSources && unknownCount <= c.highMaxUnknown ? "HIGH" : "MED";
-  const confidenceWhy = [`${n}/${d.sourcesTried ?? n} sources answered`, `${unknownCount} check(s) with no data`, young ? `pair only ${Math.round(d.pairAgeMin)} min old` : null, unreadLaunch ? "launch buyers unknown" : null].filter(Boolean).join(", ");
+  const cloned = clonedHolders(d, cfg); // v1.6: holder data made of cloned wallets is not real holder data: at most MEDIUM
+  let confidence = n < c.lowBelowSources || young || unreadLaunch ? "LOW" : n >= c.highFromSources && unknownCount <= c.highMaxUnknown ? "HIGH" : "MED";
+  if (cloned.hit && confidence === "HIGH") confidence = c.clonedMax;
+  const confidenceWhy = [`${n}/${d.sourcesTried ?? n} sources answered`, `${unknownCount} check(s) with no data`, young ? `pair only ${Math.round(d.pairAgeMin)} min old` : null, unreadLaunch ? "launch buyers unknown" : null, cloned.hit ? "holder data is cloned wallets" : null].filter(Boolean).join(", ");
 
   // Rating out of 10 (SPEC v1.1): verdict score / 10 to 1 decimal, then the caps.
   const rt = cfg.rating, ratingRaw = r1(verdictScore / 10); let rating10 = ratingRaw; const ratingWhy = [`${verdictScore} / 10 = ${ratingRaw.toFixed(1)}`];
@@ -59,6 +61,7 @@ export function score(d, cfg = CONFIG, rules = { HARD_FAILS, RISK_RULES, TEAM_EX
   if (confidence === "LOW" && rating10 > rt.lowConfidenceMax) { rating10 = rt.lowConfidenceMax; ratingWhy.push(`LOW confidence caps at ${rt.lowConfidenceMax.toFixed(1)}`); }
   const result = { riskScore, rating10, ratingRaw, ratingWhy: ratingWhy.join("; "), riskRaw: r2(riskRaw), grade: grade.grade, gradeColour: grade.colour, multiplier: grade.multiplier,
     rewardScore, rewardRaw: r2(rewardRaw), rewardBand: rewardBand(rewardScore), verdictScore, verdict: verdict.key, verdictLabel: verdict.label, verdictColour: verdict.colour,
+    cloned, bot: botTape(d, cfg), family: familySignals(d, cfg), clusterExit: clusterExit(d, cfg), cluster: d.cluster || null,
     devSold, verdictCapped, uncappedVerdict: uncapped.key, capsHit: capsHit.map((x) => x.id),
     avoid, hardFailed: hardFailed.map((x) => x.id), gatesHit: gatesHit.map((x) => x.id), confidence, confidenceWhy, unknownCount,
     checks: { hard, risk, caps, gates, reward } };

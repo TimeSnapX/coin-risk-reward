@@ -2,7 +2,7 @@
 // Source of truth: /workspace/coin-checker/SPEC.md v1 (Argus = risk, Hades = reward).
 // All weights are the spec's "starting guesses to tune". Change numbers here, not in the rules.
 export const CONFIG = {
-  version: "spec-v1.1",
+  version: "spec-v1.6",
 
   // ---- fetching ----
   timeoutMs: 7000,            // spec: 5-8 s per source
@@ -75,6 +75,20 @@ export const CONFIG = {
     // moving tokens INTO a lock/vesting program is not an exit (Streamflow, Jupiter Lock)
     lockPrograms: ["strmRqUCoQUgGUan5YhzUZa6KqdzwX5L6FpUxfmKg5m", "LocpQgucEQHbqNABEYvBvwoxCPsSbG91A1QaQhQQqjn"] },
   // v1.5 (WORKED.md, 10 Oct 2026): the dev or a dev-linked wallet sold >= 3% of supply or > $5k early => verdict SKIP and rating <= 2.5
+  // ---- v1.6 (Mnemosyne, 10 Oct 2026) ----
+  // 1. cloned holder wallets: >= minGroup of the top topN holders (ex pools) within tolerance of the SAME balance (QCOIN 0.32%, QM 0.12%, SW 0.55%)
+  // The group is a BAND: highest balance <= (1 + tolerance) x lowest. maxBalancePct = my reading of her three examples (0.32%, 0.12%, 0.55%: all under 0.6%, sybil/airdrop dust): a band of
+  // ordinary holders (0.7-3% each: the CRAWL, Fux and Yana fixtures have 5-7 within 10% at 0.7-0.95%) is how every long-tail top 20 looks. null = the literal rule (fires on most coins, see FORMULA.md 6e).
+  cloned: { topN: 20, minGroup: 5, tolerance: 0.10, maxBalancePct: 0.6, holderPts: 6, organicPts: 6, rewardCut: 40 },
+  // 2. bot trading: median trade under medianUsd, or the known shared bot wallets (full addresses from Argus's and Hades's scans) made >= minShare
+  //    of the last-300-trade tape (my threshold: she gave none; 5 trades flagged 5 coins she scored as not bot-driven, e.g. 景涛 with 19 bot buys = 3 organic); organic +organicPts, volume and buy/sell reward capped at rewardCap. Paid boosts >= boostsMin cap the narrative score at narrativeCap.
+  bot: { medianUsd: 1, minShare: 0.10, organicPts: 6, rewardCap: 45, boostsMin: 30, narrativeCap: 25,
+    wallets: ["FHpcNSe6tb2n15bAdq4BkeYWGyZKFD7yLYrH92ng7wCT", "2tgUbS9UMoQD6GkDZBiqKYCURnGrSb6ocYwRABrSJUvY", "F6pq4UnxJVGfNiFdW9YJG1QPppvNuCdFWTNqdWqpeiCZ"] },
+  // 3. cluster: >= minCoins coins that each show a launch bundle + cloned holders + paid boosts = one cluster, +insiderPts insider points each (batch / tracker level pass)
+  cluster: { minCoins: 3, insiderPts: 4 },
+  // gate (Avoid): a group of >= minWallets create-slot wallets took >= supplyPct of supply, now holds <= nowPct of it, and >= exitWallets of them were SEEN selling
+  // >= sellPct of their buy for >= minSol SOL each (coordinated exit; QM). A distribution to many wallets (QCOIN) or a group with no seen exit is not this gate.
+  clusterExit: { minWallets: 3, supplyPct: 25, nowPct: 1, exitWallets: 3, sellPct: 25, minSol: 1 },
   devSold: { minPct: 3, minUsd: 5000, ratingMax: 2.5, windowMin: 30 }, // "early" = within 30 min of launch
   // Exit cost (SPEC v1.1): compare Jupiter's priceImpactPct with the quote's actual output vs notional and use the worse.
   exitCostDisagreePts: 1,
@@ -84,7 +98,7 @@ export const CONFIG = {
   rating: { avoidMax: 1.0, skipMax: 4.9, lowConfidenceMax: 6.0 },
 
   // ---- confidence ----
-  confidence: { lowBelowSources: 3, lowPairAgeMin: 30, highFromSources: 5, highMaxUnknown: 1 },
+  confidence: { clonedMax: "MED", lowBelowSources: 3, lowPairAgeMin: 30, highFromSources: 5, highMaxUnknown: 1 },
 
   // ---- costs, sizing, ranges (education only) ----
   costs: { swapFeePct: 1, priorityFeeSol: 0.0002, defaultTestSizeUsd: 50, quoteSizesUsd: [50, 500] },
